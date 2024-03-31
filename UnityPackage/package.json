@@ -1,0 +1,18 @@
+{
+  "name": "com.scottdoxey.rhythm-game-utilities",
+  "displayName": "Rhythm Game Utilities",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "description": "Utilities for building rhythm games like Guitar Hero or Rock Band in Unity.",
+  "license": "MIT",
+  "dependencies": {},
+  "keywords": [
+    "music",
+    "notes"
+  ],
+  "homepage": "https://github.com/neogeek/rhythm-game-utilities",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:neogeek/rhythm-game-utilities.git"
+  }
+}

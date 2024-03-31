@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.1</TargetFrameworks>
+        <AssemblyVersion>1.0.0</AssemblyVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+        <DefineConstants>$(DefineConstants);WINDOWS_BUILD</DefineConstants>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+        <DefineConstants>$(DefineConstants);MACOS_BUILD</DefineConstants>
+    </PropertyGroup>
+
+    <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+        <None Include="./Libs/Windows/libRhythmGameUtilities.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
+        <None Include="./Libs/macOS/libRhythmGameUtilities.dylib">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+</Project>

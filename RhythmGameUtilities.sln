@@ -1,0 +1,27 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmGameUtilities", "RhythmGameUtilities\RhythmGameUtilities.csproj", "{43A53E61-FA39-49F8-8D12-AA316DA0D67C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RhythmGameUtilities.Tests", "RhythmGameUtilities.Tests\RhythmGameUtilities.Tests.csproj", "{DEA78A7D-A2E3-4718-850C-93A12479ADB8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43A53E61-FA39-49F8-8D12-AA316DA0D67C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43A53E61-FA39-49F8-8D12-AA316DA0D67C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43A53E61-FA39-49F8-8D12-AA316DA0D67C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43A53E61-FA39-49F8-8D12-AA316DA0D67C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEA78A7D-A2E3-4718-850C-93A12479ADB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEA78A7D-A2E3-4718-850C-93A12479ADB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEA78A7D-A2E3-4718-850C-93A12479ADB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEA78A7D-A2E3-4718-850C-93A12479ADB8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

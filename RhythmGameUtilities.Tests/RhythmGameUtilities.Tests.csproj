@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <IsPackable>false</IsPackable>
+        <RootNamespace>RhythmGameUtilities.Tests</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+        <PlatformTarget>x64</PlatformTarget>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="nunit" Version="4.1.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+        <None Include="../RhythmGameUtilities/Libs/Windows/libRhythmGameUtilities.dll">
+            <Link>libRhythmGameUtilities.dll</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>true</Visible>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
+        <None Include="../RhythmGameUtilities/Libs/macOS/libRhythmGameUtilities.dylib">
+            <Link>libRhythmGameUtilities.dylib</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>true</Visible>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../RhythmGameUtilities/RhythmGameUtilities.csproj" />
+    </ItemGroup>
+</Project>

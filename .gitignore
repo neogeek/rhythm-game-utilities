@@ -1,0 +1,10 @@
+RhythmGameUtilities/bin
+RhythmGameUtilities/obj
+RhythmGameUtilities.Tests/bin
+RhythmGameUtilities.Tests/obj
+
+RhythmGameUtilities.sln.DotSettings.user
+
+build/
+
+.idea/
