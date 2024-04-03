@@ -1,7 +1,7 @@
 help:
 	@fgrep -h "##" $(MAKEFILE_LIST) | sed -e 's/##//' | tail -n +2
 
-build:
+build: ## Build libraries
 	./bin/build.sh
 
 debug: build ## Build debug

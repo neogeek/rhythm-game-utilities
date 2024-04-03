@@ -1,0 +1,7 @@
+version: '3.9'
+services:
+  handcrank:
+    container_name: rhythm-game-utilities
+    build: .
+    volumes:
+      - ./build:/usr/src/app/build
