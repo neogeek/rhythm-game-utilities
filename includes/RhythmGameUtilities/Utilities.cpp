@@ -64,8 +64,8 @@ std::vector<std::string> Split(const char *contents, const char delimiter)
 std::vector<std::string> FindAllMatches(const char *contents,
                                         std::regex pattern)
 {
-    auto currentMatch = std::cregex_iterator(
-        contents, contents + std::strlen(contents), pattern);
+    auto currentMatch =
+        std::cregex_iterator(contents, contents + strlen(contents), pattern);
     auto lastMatch = std::cregex_iterator();
 
     auto matches = std::vector<std::string>();
@@ -85,8 +85,8 @@ std::vector<std::string> FindAllMatches(const char *contents,
 std::vector<std::string> FindMatchGroups(const char *contents,
                                          std::regex pattern)
 {
-    auto currentMatch = std::cregex_iterator(
-        contents, contents + std::strlen(contents), pattern);
+    auto currentMatch =
+        std::cregex_iterator(contents, contents + strlen(contents), pattern);
 
     auto matches = std::vector<std::string>();
 
