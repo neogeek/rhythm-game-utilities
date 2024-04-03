@@ -13,6 +13,10 @@
         <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
 
+    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+        <PlatformTarget>AnyCPU</PlatformTarget>
+    </PropertyGroup>
+
     <ItemGroup>
         <PackageReference Include="nunit" Version="4.1.0" />
         <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
@@ -30,6 +34,14 @@
     <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
         <None Include="../RhythmGameUtilities/Libs/macOS/libRhythmGameUtilities.dylib">
             <Link>libRhythmGameUtilities.dylib</Link>
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Visible>true</Visible>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+        <None Include="../RhythmGameUtilities/Libs/Linux/libRhythmGameUtilities.so">
+            <Link>libRhythmGameUtilities.so</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <Visible>true</Visible>
         </None>

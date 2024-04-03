@@ -10,6 +10,9 @@
     <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
         <DefineConstants>$(DefineConstants);MACOS_BUILD</DefineConstants>
     </PropertyGroup>
+    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+        <DefineConstants>$(DefineConstants);LINUX_BUILD</DefineConstants>
+    </PropertyGroup>
 
     <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
         <None Include="./Libs/Windows/libRhythmGameUtilities.dll">
@@ -19,6 +22,12 @@
 
     <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
         <None Include="./Libs/macOS/libRhythmGameUtilities.dylib">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
+        <None Include="./Libs/Linux/libRhythmGameUtilities.so">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>

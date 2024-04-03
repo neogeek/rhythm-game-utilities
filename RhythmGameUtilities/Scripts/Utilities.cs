@@ -8,43 +8,55 @@ namespace RhythmGameUtilities
 
 #if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#else
+#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
+#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern float ConvertTicksToSeconds(float tick, int resolution, int bpm);
 
 #if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#else
+#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
+#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern int ConvertSecondsToTicks(double seconds, int resolution, int bpm);
 
 #if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#else
+#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
+#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern float CalculateNoteHitAccuracy(ref Note note, float buffer, int currentTick);
 
 #if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#else
+#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
+#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern float CalculateScale(float baseBpm, float actualBpm, float speed);
 
 #if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#else
+#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
+#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern float Lerp(float a, float b, float t);
 
 #if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#else
+#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
+#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern float InverseLerp(float a, float b, float v);
 

@@ -26,4 +26,16 @@ COLOROFF=$(tput sgr0)
 
     printf "%sDONE%s\n" "${GREENON}" "${COLOROFF}"
 
+    printf "Building Linux libraries ... "
+
+    docker-compose up --no-deps --build &>/dev/null
+
+    mkdir -p UnityPackage/Libs/Linux
+    mkdir -p RhythmGameUtilities/Libs/Linux
+
+    cp build/libRhythmGameUtilities.so UnityPackage/Libs/Linux
+    cp build/libRhythmGameUtilities.so RhythmGameUtilities/Libs/Linux
+
+    printf "%sDONE%s\n" "${GREENON}" "${COLOROFF}"
+
 )
