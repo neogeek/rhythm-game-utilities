@@ -5,11 +5,11 @@
         <RootNamespace>RhythmGameUtilities.Tests</RootNamespace>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
         <PlatformTarget>x64</PlatformTarget>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
         <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
 
@@ -19,7 +19,7 @@
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     </ItemGroup>
 
-    <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
         <None Include="../RhythmGameUtilities/Libs/Windows/libRhythmGameUtilities.dll">
             <Link>libRhythmGameUtilities.dll</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -27,7 +27,7 @@
         </None>
     </ItemGroup>
 
-    <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
+    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
         <None Include="../RhythmGameUtilities/Libs/macOS/libRhythmGameUtilities.dylib">
             <Link>libRhythmGameUtilities.dylib</Link>
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
