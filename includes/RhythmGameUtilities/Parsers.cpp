@@ -3,7 +3,7 @@
 #include <iterator>
 #include <map>
 #include <regex>
-#include <string>
+#include <string.h>
 #include <vector>
 
 #include "Parsers.h"
