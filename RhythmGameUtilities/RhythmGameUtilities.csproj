@@ -4,20 +4,20 @@
         <AssemblyVersion>1.0.0</AssemblyVersion>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
         <DefineConstants>$(DefineConstants);WINDOWS_BUILD</DefineConstants>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
         <DefineConstants>$(DefineConstants);MACOS_BUILD</DefineConstants>
     </PropertyGroup>
 
-    <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
         <None Include="./Libs/Windows/libRhythmGameUtilities.dll">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
-    <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
+    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
         <None Include="./Libs/macOS/libRhythmGameUtilities.dylib">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
