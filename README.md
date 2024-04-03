@@ -10,7 +10,7 @@ _Prototype game built using these utilities._
 
 ### Unity
 
-Add package via git URL `https://github.com/neogeek/unity-rhythm-game-utilities.git?path=/UnityPackage`.
+Add package via git URL `https://github.com/neogeek/rhythm-game-utilities.git?path=/UnityPackage`.
 
 ## Usage
 
