@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace RhythmGameUtilities
 {
@@ -74,45 +75,48 @@ namespace RhythmGameUtilities
 
         public Dictionary<int, int> BPM;
 
-        public Song(string contents)
+        public static Song FromChartFile(string input)
         {
-            var sections = Parsers.ParseSectionsFromChart(contents);
 
-            var song = sections[NamedSection.Song]
+            var sections = Parsers.ParseSectionsFromChart(input);
+
+            var data = sections[NamedSection.Song]
                 .ToDictionary(item => item.Key, x => x.Value);
 
-            Name = song.TryGetValue("Name", out var nameValue) ? nameValue[0] : null;
-            Artist = song.TryGetValue("Artist", out var artistValue) ? artistValue[0] : null;
-            Album = song.TryGetValue("Album", out var albumValue) ? albumValue[0] : null;
-            Genre = song.TryGetValue("Genre", out var genreValue) ? genreValue[0] : null;
-            Year = song.TryGetValue("Year", out var yearValue) ? yearValue[0] : null;
-            Charter = song.TryGetValue("Charter", out var charterValue) ? charterValue[0] : null;
-
-            int.TryParse(song["Resolution"][0], out Resolution);
-            int.TryParse(song["Difficulty"][0], out Difficulty);
-
-            float.TryParse(song["Offset"][0], out Offset);
-            float.TryParse(song["PreviewStart"][0], out PreviewStart);
-
-            float.TryParse(song["PreviewEnd"][0], out PreviewEnd);
-
-            MusicStream = song.TryGetValue("MusicStream", out var musicStreamValue) ? musicStreamValue[0] : null;
-
-            Lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.SyncTrack]);
-
-            Difficulties = new Dictionary<Difficulty, Note[]>();
-
-            Difficulties = new Dictionary<Difficulty, Note[]>();
-
-            foreach (var difficulty in Enum.GetValues(typeof(Difficulty)).Cast<Difficulty>()
-                         .Where(difficulty =>
-                             sections.ToDictionary(item => item.Key, x => x.Value).ContainsKey($"{difficulty}Single")))
+            var song = new Song
             {
-                Difficulties.Add(difficulty, Parsers.ParseNotesFromChartSection(sections[$"{difficulty}Single"]));
-            }
+                Name = data.TryGetValue("Name", out var nameValue) ? nameValue[0] : null,
+                Artist = data.TryGetValue("Artist", out var artistValue) ? artistValue[0] : null,
+                Album = data.TryGetValue("Album", out var albumValue) ? albumValue[0] : null,
+                Genre = data.TryGetValue("Genre", out var genreValue) ? genreValue[0] : null,
+                Year = data.TryGetValue("Year", out var yearValue) ? yearValue[0] : null,
+                Charter = data.TryGetValue("Charter", out var charterValue) ? charterValue[0] : null,
+                Resolution = int.TryParse(data["Resolution"][0], out var resolutionValue) ? resolutionValue : 0,
+                Difficulty = int.TryParse(data["Difficulty"][0], out var difficultyValue) ? difficultyValue : 0,
+                PreviewEnd = float.TryParse(data["PreviewEnd"][0], out var previewEndValue) ? previewEndValue : 0,
+                MusicStream =
+                    data.TryGetValue("MusicStream", out var musicStreamValue) ? musicStreamValue[0] : null,
+                Lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.SyncTrack]),
+                Difficulties = Enum.GetValues(typeof(Difficulty))
+                    .Cast<Difficulty>()
+                    .Where(difficulty => sections.ToDictionary(item => item.Key, x => x.Value)
+                        .ContainsKey($"{difficulty}Single"))
+                    .ToDictionary(difficulty => difficulty,
+                        difficulty => Parsers.ParseNotesFromChartSection(sections[$"{difficulty}Single"])),
+                BPM = Parsers.ParseBpmFromChartChartSection(sections[NamedSection.SyncTrack])
+            };
 
-            BPM = Parsers.ParseBpmFromChartChartSection(sections[NamedSection.SyncTrack]);
+            return song;
+        }
 
+        public string ToJSON()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
+        public static Song FromJSON(string input)
+        {
+            return JsonConvert.DeserializeObject<Song>(input);
         }
 
     }
