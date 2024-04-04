@@ -21,6 +21,7 @@ This library aims to offer support for multiple platforms through a single codeb
 | [Godot 4](https://godotengine.org/)                                   | Windows  |   -    |
 | [Godot 4](https://godotengine.org/)                                   | WebGL    |   -    |
 | [HandcrankEngine](https://github.com/HandcrankEngine/HandcrankEngine) | macOS    |   -    |
+| [HandcrankEngine](https://github.com/HandcrankEngine/HandcrankEngine) | Windows  |   -    |
 
 ## Install
 
