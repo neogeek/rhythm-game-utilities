@@ -34,8 +34,10 @@ namespace RhythmGameUtilities
 
 #if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#else
+#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
         [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
+#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern IntPtr ParseSectionsFromChart(string contents, out int size);
 
