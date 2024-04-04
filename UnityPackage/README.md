@@ -6,6 +6,21 @@
 ![](screenshot.png)
 _Prototype game built using these utilities._
 
+## Platforms
+
+This library aims to offer support for multiple platforms through a single codebase. This is highly ambitious, so if you run into an issue with your platform of choice during development, please leave a detailed bug report with as much information as possible. Also, as this library is relatively new, mobile platforms will be fully supported after all other platforms are complete.
+
+| Engine  | Platform | Tested |
+| ------- | -------- | :----: |
+| Unity   | macOS    |   ✅   |
+| Unity   | Windows  |   ✅   |
+| Unity   | WebGL    |   ❌   |
+| Unreal  | macOS    |   -    |
+| Unreal  | Windows  |   -    |
+| Godot 4 | macOS    |   -    |
+| Godot 4 | Windows  |   -    |
+| Godot 4 | WebGL    |   -    |
+
 ## Install
 
 ### Unity
@@ -167,7 +182,7 @@ var percentage = Utilities.InverseLerp(0, 10, 5);
 
 ## Build
 
-### macOS
+### macOS / Linux
 
 > [!IMPORTANT]
 > When developing for macOS, make sure that **Mac** is selected in the bottom right-hand corner of Visual Studio Code or C++ Intellisense will not work.
