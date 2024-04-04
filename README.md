@@ -10,17 +10,17 @@ _Prototype game built using these utilities._
 
 This library aims to offer support for multiple platforms through a single codebase. This is highly ambitious, so if you run into an issue with your platform of choice during development, please leave a detailed bug report with as much information as possible. Also, as this library is relatively new, mobile platforms will be fully supported after all other platforms are complete.
 
-| Engine                                                          | Platform | Tested |
-| --------------------------------------------------------------- | -------- | :----: |
-| [Unity](https://unity.com/)                                     | macOS    |   ✅   |
-| [Unity](https://unity.com/)                                     | Windows  |   ✅   |
-| [Unity](https://unity.com/)                                     | WebGL    |   ❌   |
-| [Unreal](https://www.unrealengine.com/)                         | macOS    |   -    |
-| [Unreal](https://www.unrealengine.com/)                         | Windows  |   -    |
-| [Godot 4](https://godotengine.org/)                             | macOS    |   -    |
-| [Godot 4](https://godotengine.org/)                             | Windows  |   -    |
-| [Godot 4](https://godotengine.org/)                             | WebGL    |   -    |
-| [Handcrank](https://github.com/HandcrankEngine/HandcrankEngine) | macOS    |   -    |
+| Engine                                                                | Platform | Tested |
+| --------------------------------------------------------------------- | -------- | :----: |
+| [Unity](https://unity.com/)                                           | macOS    |   ✅   |
+| [Unity](https://unity.com/)                                           | Windows  |   ✅   |
+| [Unity](https://unity.com/)                                           | WebGL    |   ❌   |
+| [Unreal](https://www.unrealengine.com/)                               | macOS    |   -    |
+| [Unreal](https://www.unrealengine.com/)                               | Windows  |   -    |
+| [Godot 4](https://godotengine.org/)                                   | macOS    |   -    |
+| [Godot 4](https://godotengine.org/)                                   | Windows  |   -    |
+| [Godot 4](https://godotengine.org/)                                   | WebGL    |   -    |
+| [HandcrankEngine](https://github.com/HandcrankEngine/HandcrankEngine) | macOS    |   -    |
 
 ## Install
 
