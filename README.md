@@ -3,6 +3,8 @@
 
 # Rhythm Game Utilities
 
+This library is a collection of utilities for creating rhythm games like Tap Tap Revenge, Guitar Hero, and Rock Band. It is meant to be used within any game engine that supports loading C++ libraries, such as Unity, Unreal, and Godot.
+
 ![](screenshot.png)
 _Prototype game built using these utilities._
 
