@@ -98,13 +98,13 @@ void testParseValuesFromChartSections()
     assert(sections[0].lineCount == 12);
 
     assert(strcmp(sections[0].lines[0].key, "Name") == 0);
-    assert(strcmp(sections[0].lines[0].value, "\"Example Song\"") == 0);
+    assert(strcmp(sections[0].lines[0].values[0], "Example Song") == 0);
 
     assert(strcmp(sections[0].lines[6].key, "Resolution") == 0);
-    assert(strcmp(sections[0].lines[6].value, "192") == 0);
+    assert(strcmp(sections[0].lines[6].values[0], "192") == 0);
 
     assert(strcmp(sections[0].lines[11].key, "MusicStream") == 0);
-    assert(strcmp(sections[0].lines[11].value, "\"Example Song.ogg\"") == 0);
+    assert(strcmp(sections[0].lines[11].values[0], "Example Song.ogg") == 0);
 
     std::cout << ".";
 }

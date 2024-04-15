@@ -14,6 +14,8 @@ std::regex CHART_SECTION_PATTERN("\\[([a-z]+)\\]\\s*\\{([^\\}]+)\\}",
 
 std::regex CHART_SECTION_LINE_PATTERN("([^=]+)\\s*=([^\\r\\n]+)");
 
+std::regex JSON_VALUE_PATTERN("(\"[^\"]+\"|\\S+)");
+
 ChartSection *ParseSectionsFromChart(const char *contents, int *outSize)
 {
     auto matches = FindAllMatches(contents, CHART_SECTION_PATTERN);
@@ -59,9 +61,19 @@ ChartSection *ParseSectionsFromChart(const char *contents, int *outSize)
             sections[i].lines[j].key = (char *)malloc(strlen(key.c_str()) + 1);
             strcpy(sections[i].lines[j].key, key.c_str());
 
-            sections[i].lines[j].value =
-                (char *)malloc(strlen(value.c_str()) + 1);
-            strcpy(sections[i].lines[j].value, value.c_str());
+            auto values = FindAllMatches(value.c_str(), JSON_VALUE_PATTERN);
+
+            for (auto k = 0; k < values.size(); k += 1)
+            {
+                auto valuePart =
+                    std::regex_replace(values[k], std::regex("^\"|\"$"), "");
+
+                sections[i].lines[j].values[k] =
+                    (char *)malloc(strlen(valuePart.c_str()) + 1);
+                strcpy(sections[i].lines[j].values[k], valuePart.c_str());
+            }
+
+            sections[i].lines[j].valueCount = values.size();
         }
     }
 

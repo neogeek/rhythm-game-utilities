@@ -13,7 +13,10 @@ namespace RhythmGameUtilities
 
         public IntPtr key;
 
-        public IntPtr value;
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 10)]
+        public IntPtr[] values;
+
+        public int valuesCount;
 
     }
 
@@ -78,15 +81,18 @@ namespace RhythmGameUtilities
                     var keyValuePair = Marshal.PtrToStructure<KeyValuePair>(keyValuePairPtr);
 
                     var key = Marshal.PtrToStringAnsi(keyValuePair.key);
-                    var value = Marshal.PtrToStringAnsi(keyValuePair.value);
+                    var values = new string[keyValuePair.valuesCount];
 
-                    // TODO: Move this logic into C++
-                    lines.Add(new KeyValuePair<string, string[]>(key, JSON_VALUE_PATTERN
-                        .Matches(value).Select(part => part.Value.Trim('"'))
-                        .ToArray()));
+                    for (var k = 0; k < keyValuePair.valuesCount; k += 1)
+                    {
+                        values[k] = Marshal.PtrToStringAnsi(keyValuePair.values[k]);
+
+                        Marshal.FreeHGlobal(keyValuePair.values[k]);
+                    }
 
                     Marshal.FreeHGlobal(keyValuePair.key);
-                    Marshal.FreeHGlobal(keyValuePair.value);
+
+                    lines.Add(new KeyValuePair<string, string[]>(key, values));
                 }
 
                 if (name != null)
@@ -111,7 +117,9 @@ namespace RhythmGameUtilities
                 .Where(item => item.Value[0] == typeCode)
                 .Select(item => new TrackEvent
                 {
-                    Position = int.Parse(item.Key), TypeCode = item.Value[0], Values = item.Value.Skip(1).ToArray()
+                    Position = int.Parse(item.Key),
+                    TypeCode = item.Value[0],
+                    Values = item.Value.Skip(1).ToArray()
                 }).ToArray();
         }
 
