@@ -8,6 +8,7 @@
 
 #include "Parsers.h"
 #include "Utilities.h"
+#include <iostream>
 
 std::regex CHART_SECTION_PATTERN("\\[([a-z]+)\\]\\s*\\{([^\\}]+)\\}",
                                  std::regex_constants::icase);
@@ -20,31 +21,25 @@ ChartSection *ParseSectionsFromChart(const char *contents, int *outSize)
 {
     auto matches = FindAllMatches(contents, CHART_SECTION_PATTERN);
 
-    auto sectionsInternal = std::vector<std::vector<std::string>>();
+    *outSize = matches.size();
+
+    auto sections =
+        (ChartSection *)malloc(matches.size() * sizeof(ChartSection));
 
     for (auto i = 0; i < matches.size(); i += 1)
     {
         auto parts = FindMatchGroups(matches[i].c_str(), CHART_SECTION_PATTERN);
 
-        if (parts.size() >= 3)
+        if (parts.size() < 3)
         {
-            sectionsInternal.push_back({parts[1], parts[2]});
+            continue;
         }
-    }
 
-    *outSize = sectionsInternal.size();
+        sections[i].name = (char *)malloc(strlen(parts[1].c_str()) + 1);
+        strcpy(sections[i].name, parts[1].c_str());
 
-    auto sections =
-        (ChartSection *)malloc(sectionsInternal.size() * sizeof(ChartSection));
-
-    for (auto i = 0; i < sectionsInternal.size(); i += 1)
-    {
-        sections[i].name =
-            (char *)malloc(strlen(sectionsInternal[i][0].c_str()) + 1);
-        strcpy(sections[i].name, sectionsInternal[i][0].c_str());
-
-        auto linesInternal = FindAllMatches(sectionsInternal[i][1].c_str(),
-                                            CHART_SECTION_LINE_PATTERN);
+        auto linesInternal =
+            FindAllMatches(parts[2].c_str(), CHART_SECTION_LINE_PATTERN);
 
         sections[i].lines =
             (KeyValuePair *)malloc(linesInternal.size() * sizeof(KeyValuePair));
