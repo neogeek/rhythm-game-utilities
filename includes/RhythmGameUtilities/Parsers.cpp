@@ -38,17 +38,17 @@ ChartSection *ParseSectionsFromChart(const char *contents, int *outSize)
         sections[i].name = (char *)malloc(strlen(parts[1].c_str()) + 1);
         strcpy(sections[i].name, parts[1].c_str());
 
-        auto linesInternal =
+        auto lines =
             FindAllMatches(parts[2].c_str(), CHART_SECTION_LINE_PATTERN);
 
         sections[i].lines =
-            (KeyValuePair *)malloc(linesInternal.size() * sizeof(KeyValuePair));
+            (KeyValuePair *)malloc(lines.size() * sizeof(KeyValuePair));
 
-        sections[i].lineCount = linesInternal.size();
+        sections[i].lineCount = lines.size();
 
-        for (auto j = 0; j < linesInternal.size(); j += 1)
+        for (auto j = 0; j < lines.size(); j += 1)
         {
-            auto parts = Split(linesInternal[j].c_str(), '=');
+            auto parts = Split(lines[j].c_str(), '=');
 
             auto key = Trim(parts[0].c_str());
             auto value = Trim(parts[1].c_str());
