@@ -9,10 +9,10 @@
 #include "Parsers.h"
 #include "Utilities.h"
 
-std::regex CHART_SECTION_PATTERN("\\[([a-z]+)\\]\\r?\\n\\{([^\\}]+)\\}",
+std::regex CHART_SECTION_PATTERN("\\[([a-z]+)\\]\\s*\\{([^\\}]+)\\}",
                                  std::regex_constants::icase);
 
-std::regex CHART_SECTION_LINE_PATTERN("\\s+([^=]+)\\s*=([^\\r\\n]+)");
+std::regex CHART_SECTION_LINE_PATTERN("([^=]+)\\s*=([^\\r\\n]+)");
 
 ChartSection *ParseSectionsFromChart(const char *contents, int *outSize)
 {
