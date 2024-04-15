@@ -48,12 +48,12 @@ namespace RhythmGameUtilities
 
         private static readonly Regex JSON_VALUE_PATTERN = new Regex(@"(""[^""]+""|\S+)");
 
-        public static Dictionary<string, IEnumerable<KeyValuePair<string, string[]>>> ParseSectionsFromChart(
+        public static Dictionary<string, KeyValuePair<string, string[]>[]> ParseSectionsFromChart(
             string contents)
         {
             var ptrArray = ParsersInternal.ParseSectionsFromChart(contents, out var size);
 
-            var sections = new Dictionary<string, IEnumerable<KeyValuePair<string, string[]>>>();
+            var sections = new Dictionary<string, KeyValuePair<string, string[]>[]>();
 
             if (ptrArray == IntPtr.Zero)
             {
@@ -91,7 +91,7 @@ namespace RhythmGameUtilities
 
                 if (name != null)
                 {
-                    sections.TryAdd(name, lines);
+                    sections.TryAdd(name, lines.ToArray());
                 }
 
                 Marshal.FreeHGlobal(chartSection.name);
@@ -104,28 +104,26 @@ namespace RhythmGameUtilities
         }
 
         public static IEnumerable<TrackEvent> ParseTrackEventsFromChartSection(
-            IEnumerable<KeyValuePair<string, string[]>> section,
+            KeyValuePair<string, string[]>[] section,
             string typeCode)
         {
             return section
                 .Where(item => item.Value[0] == typeCode)
                 .Select(item => new TrackEvent
                 {
-                    Position = int.Parse(item.Key),
-                    TypeCode = item.Value[0],
-                    Values = item.Value.Skip(1).ToArray()
+                    Position = int.Parse(item.Key), TypeCode = item.Value[0], Values = item.Value.Skip(1).ToArray()
                 }).ToArray();
         }
 
         public static Dictionary<int, int> ParseBpmFromChartChartSection(
-            IEnumerable<KeyValuePair<string, string[]>> section)
+            KeyValuePair<string, string[]>[] section)
         {
             return ParseTrackEventsFromChartSection(section, TypeCode.BPM)
                 .Select(trackEvent => new KeyValuePair<int, int>(trackEvent.Position, int.Parse(trackEvent.Values[0])))
                 .ToDictionary(item => item.Key, x => x.Value);
         }
 
-        public static Note[] ParseNotesFromChartSection(IEnumerable<KeyValuePair<string, string[]>> section)
+        public static Note[] ParseNotesFromChartSection(KeyValuePair<string, string[]>[] section)
         {
             return ParseTrackEventsFromChartSection(section, TypeCode.Note)
                 .Where(trackEvent => trackEvent.Values.Length == 2).Select(
@@ -138,7 +136,7 @@ namespace RhythmGameUtilities
         }
 
         public static Dictionary<int, string> ParseLyricsFromChartSection(
-            IEnumerable<KeyValuePair<string, string[]>> section)
+            KeyValuePair<string, string[]>[] section)
         {
             return ParseTrackEventsFromChartSection(section, TypeCode.Event)
                 .Select(
