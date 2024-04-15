@@ -11,7 +11,8 @@
 typedef struct
 {
     char *key;
-    char *value;
+    char *values[10];
+    int valueCount;
 } KeyValuePair;
 
 typedef struct
