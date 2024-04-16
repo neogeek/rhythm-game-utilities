@@ -20,17 +20,12 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y g++
-
       - name: Build Release
         run: |
           mkdir -p build
           g++ -std=c++17 -shared -fPIC -o build/libRhythmGameUtilities.so includes/RhythmGameUtilities/RhythmGameUtilities.cpp
 
-      - name: Copy Release to Unity Package
+      - name: Copy Release
         run: |
           cp build/libRhythmGameUtilities.so UnityPackage/Libs/Linux
           cp build/libRhythmGameUtilities.so RhythmGameUtilities/Libs/Linux
@@ -67,7 +62,7 @@ jobs:
           link /DLL /MACHINE:X64 /OUT:build\libRhythmGameUtilities.dll /IMPLIB:build\libRhythmGameUtilities.lib build\RhythmGameUtilities.obj
           del build\RhythmGameUtilities.obj
 
-      - name: Copy Release to Unity Package
+      - name: Copy Release
         shell: cmd
         run: |
           cp build/libRhythmGameUtilities.dll UnityPackage/Libs/Windows
