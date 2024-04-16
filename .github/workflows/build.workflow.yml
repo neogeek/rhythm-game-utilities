@@ -46,3 +46,43 @@ jobs:
           git add RhythmGameUtilities/Libs/Linux/libRhythmGameUtilities.so
           git commit -m "Updated libRhythmGameUtilities.so [skip ci]" || exit 0
           git push
+  build-windows:
+    runs-on: windows-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Build Release
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          mkdir -p build
+          cl /EHsc /std:c++17 /c includes/RhythmGameUtilities/RhythmGameUtilities.cpp /Fo:build\RhythmGameUtilities.obj
+          link /DLL /MACHINE:X64 /OUT:build\libRhythmGameUtilities.dll /IMPLIB:build\libRhythmGameUtilities.lib build\RhythmGameUtilities.obj
+          del build\RhythmGameUtilities.obj
+
+      - name: Copy Release to Unity Package
+        shell: cmd
+        run: |
+          cp build/libRhythmGameUtilities.dll UnityPackage/Libs/Windows
+          cp build/libRhythmGameUtilities.dll RhythmGameUtilities/Libs/Windows
+
+      - name: Setup git
+        shell: cmd
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Git commit changes
+        shell: cmd
+        run: |
+          git add UnityPackage/Libs/Windows/libRhythmGameUtilities.dll
+          git add RhythmGameUtilities/Libs/Windows/libRhythmGameUtilities.dll
+          git commit -m "Updated libRhythmGameUtilities.dll [skip ci]" || exit 0
+          git push
