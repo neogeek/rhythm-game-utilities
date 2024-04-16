@@ -1,7 +1,0 @@
-services:
-  build:
-    container_name: rhythm-game-utilities
-    build: .
-    platform: 'linux/amd64'
-    volumes:
-      - ./build:/usr/src/app/build
