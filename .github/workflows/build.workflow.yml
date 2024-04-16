@@ -42,6 +42,7 @@ jobs:
 
       - name: Git commit changes
         run: |
+          git pull
           git add UnityPackage/Libs/Linux/libRhythmGameUtilities.so
           git add RhythmGameUtilities/Libs/Linux/libRhythmGameUtilities.so
           git commit -m "Updated libRhythmGameUtilities.so [skip ci]" || exit 0
@@ -78,6 +79,7 @@ jobs:
 
       - name: Git commit changes
         run: |
+          git pull
           git add UnityPackage/Libs/macOS/libRhythmGameUtilities.dylib
           git add RhythmGameUtilities/Libs/macOS/libRhythmGameUtilities.dylib
           git commit -m "Updated libRhythmGameUtilities.dylib [skip ci]" || exit 0
@@ -118,6 +120,7 @@ jobs:
       - name: Git commit changes
         shell: cmd
         run: |
+          git pull
           git add UnityPackage/Libs/Windows/libRhythmGameUtilities.dll
           git add RhythmGameUtilities/Libs/Windows/libRhythmGameUtilities.dll
           git commit -m "Updated libRhythmGameUtilities.dll [skip ci]" || exit 0
