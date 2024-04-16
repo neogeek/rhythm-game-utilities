@@ -1,6 +1,11 @@
 name: Build
 
 on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'includes/**/*'
   workflow_dispatch:
 
 concurrency:
