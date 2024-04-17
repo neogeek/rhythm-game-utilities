@@ -13,7 +13,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  tests-cpp:
+  test-cpp:
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
 
@@ -23,7 +23,7 @@ jobs:
 
       - name: Run tests
         run: ./bin/test.sh
-  tests-csharp:
+  test-csharp:
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
 
