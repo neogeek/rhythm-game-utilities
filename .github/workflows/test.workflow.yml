@@ -4,8 +4,11 @@ on:
   push:
     branches:
       - main
-    paths-ignore:
-      - '*.md'
+    paths:
+      - 'includes/**/*'
+      - 'tests/**/*'
+      - 'RhythmGameUtilities/**/*'
+      - 'RhythmGameUtilities.Tests/**/*'
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
     branches:
