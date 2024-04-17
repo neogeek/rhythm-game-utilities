@@ -14,14 +14,14 @@ test: build ## Run tests
 	dotnet test RhythmGameUtilities.Tests/*.csproj
 
 copy: ## Copy files from project to UnityPackage
-	rsync -avm --exclude='obj/' --exclude='bin/' --include='*.cs' --include='*/' --exclude='*' ./RhythmGameUtilities/ ./UnityPackage/
+	(cd RhythmGameUtilities && find . -type f -name "*.cs" -not -path '*/obj/*' -not -path '*/bin/*' -exec cp {} ../UnityPackage/{} \;)
+	(cd RhythmGameUtilities.Tests && find . -type f -name "*.cs" -not -path '*/obj/*' -not -path '*/bin/*' -exec cp {} ../UnityPackage/Editor/Tests/{} \;)
 	cp LICENSE ./UnityPackage/
 	cp README.md ./UnityPackage/
 	cp screenshot.png ./UnityPackage/
-	rsync -avm --exclude='obj/' --exclude='bin/' --include='*.cs' --include='*/' --exclude='*' ./RhythmGameUtilities.Tests/ ./UnityPackage/Editor/Tests
 
 rcopy: ## Copy files from UnityPackage back to project
-	rsync -avm --exclude='Editor/' --include='*.cs' --include='*/' --exclude='*' ./UnityPackage/ ./RhythmGameUtilities
+	(cd UnityPackage && find . -type f -name "*.cs" -not -path '*/Editor/*' -exec cp {} ../RhythmGameUtilities/{} \;)
 
 clean: ## Clean project
 	git clean -xdf

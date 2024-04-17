@@ -51,3 +51,21 @@ jobs:
 
       - name: Test
         run: dotnet test RhythmGameUtilities.Tests/*.csproj
+  test-copy:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Copy files from project to UnityPackage
+        run: |
+          (cd RhythmGameUtilities && find . -type f -name "*.cs" -not -path '*/obj/*' -not -path '*/bin/*' -exec cp {} ../UnityPackage/{} \;)
+          (cd RhythmGameUtilities.Tests && find . -type f -name "*.cs" -not -path '*/obj/*' -not -path '*/bin/*' -exec cp {} ../UnityPackage/Editor/Tests/{} \;)
+          cp LICENSE ./UnityPackage/
+          cp README.md ./UnityPackage/
+          cp screenshot.png ./UnityPackage/
+
+      - name: Check for changes
+        run: git diff --exit-code
