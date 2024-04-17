@@ -3,6 +3,9 @@
 
 # Rhythm Game Utilities
 
+[![Tests](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/test.workflow.yml/badge.svg)](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/test.workflow.yml)
+[![Build](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/build.workflow.yml/badge.svg)](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/build.workflow.yml)
+
 This library is a collection of utilities for creating rhythm games like Tap Tap Revenge, Guitar Hero, and Rock Band. It is meant to be used within any game engine that supports loading C++ libraries, such as Unity, Unreal, and Godot.
 
 ![](screenshot.png)
@@ -38,6 +41,8 @@ Add package via git URL `https://github.com/neogeek/rhythm-game-utilities.git?pa
 #### `Audio.ConvertSamplesToWaveform`
 
 ```csharp
+using RhythmGameUtilities;
+
 var samples = new float[_audioSource.clip.samples * _audioSource.clip.channels];
 
 _audioSource.clip.GetData(samples, 0);
@@ -134,6 +139,8 @@ var lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.Events]);
 #### `Utilities.ConvertTicksToSeconds`
 
 ```csharp
+using RhythmGameUtilities;
+
 const int tick = 2784;
 const int resolution = 192;
 const int bpm = 124;
@@ -144,6 +151,8 @@ var seconds = Utilities.ConvertTicksToSeconds(tick, resolution, bpm);
 #### `Utilities.ConvertSecondsToTicks`
 
 ```csharp
+using RhythmGameUtilities;
+
 const float seconds = 7.01f;
 const int resolution = 192;
 const int bpm = 124;
@@ -154,6 +163,8 @@ var ticks = Utilities.ConvertSecondsToTicks(seconds, resolution, bpm);
 #### `Utilities.CalculateNoteHitAccuracy`
 
 ```csharp
+using RhythmGameUtilities;
+
 var note = new Note { Position = 2884 };
 
 const int buffer = 60;
@@ -166,6 +177,8 @@ var score = Mathf.CeilToInt(Mathf.Lerp(0, 100, accuracy));
 #### `Utilities.CalculateScale`
 
 ```csharp
+using RhythmGameUtilities;
+
 const int baseBpm = 160;
 const float speed = 5;
 
@@ -175,21 +188,25 @@ var scale = Utilities.CalculateScale(baseBpm, 120, speed);
 #### `Utilities.Lerp`
 
 ```csharp
+using RhythmGameUtilities;
+
 var position = Utilities.Lerp(0, 10, 0.5f);
 ```
 
 #### `Utilities.InverseLerp`
 
 ```csharp
+using RhythmGameUtilities;
+
 var percentage = Utilities.InverseLerp(0, 10, 5);
 ```
 
-## Build
+## Build Locally
 
-### macOS / Linux
+### macOS
 
 > [!IMPORTANT]
-> When developing for macOS, make sure that **Mac** is selected in the bottom right-hand corner of Visual Studio Code or C++ Intellisense will not work.
+> When developing on macOS, make sure that **Mac** is selected in the bottom right-hand corner of Visual Studio Code or C++ Intellisense will not work.
 
 ```bash
 ./bin/build.sh
@@ -198,7 +215,7 @@ var percentage = Utilities.InverseLerp(0, 10, 5);
 ### Windows
 
 > [!IMPORTANT]
-> When developing for Windows, make sure that **Win32** is selected in the bottom right-hand corner of Visual Studio Code or C++ Intellisense will not work.
+> When developing on Windows, make sure that **Win32** is selected in the bottom right-hand corner of Visual Studio Code or C++ Intellisense will not work.
 
 Run from **x64 Native Tools Command Prompt for VS**:
 
