@@ -235,6 +235,12 @@ Add tests to your project by adding the following to your `Packages/manifest.jso
 }
 ```
 
+## Git Hooks
+
+```bash
+$ git config --local core.hooksPath .githooks/
+```
+
 ## Architecture
 
 ```mermaid
