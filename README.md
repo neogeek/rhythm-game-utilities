@@ -201,12 +201,12 @@ using RhythmGameUtilities;
 var percentage = Utilities.InverseLerp(0, 10, 5);
 ```
 
-## Build
+## Build Locally
 
-### macOS / Linux
+### macOS
 
 > [!IMPORTANT]
-> When developing for macOS, make sure that **Mac** is selected in the bottom right-hand corner of Visual Studio Code or C++ Intellisense will not work.
+> When developing on macOS, make sure that **Mac** is selected in the bottom right-hand corner of Visual Studio Code or C++ Intellisense will not work.
 
 ```bash
 ./bin/build.sh
@@ -215,7 +215,7 @@ var percentage = Utilities.InverseLerp(0, 10, 5);
 ### Windows
 
 > [!IMPORTANT]
-> When developing for Windows, make sure that **Win32** is selected in the bottom right-hand corner of Visual Studio Code or C++ Intellisense will not work.
+> When developing on Windows, make sure that **Win32** is selected in the bottom right-hand corner of Visual Studio Code or C++ Intellisense will not work.
 
 Run from **x64 Native Tools Command Prompt for VS**:
 
