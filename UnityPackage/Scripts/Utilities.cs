@@ -49,6 +49,15 @@ namespace RhythmGameUtilities
 #elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
         [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
+        public static extern bool IsOnTheBeat(float bpm, float currentTime);
+
+#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
+#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
+#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern float Lerp(float a, float b, float t);
 
 #if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
@@ -83,6 +92,11 @@ namespace RhythmGameUtilities
         public static float CalculateScale(float baseBpm, float actualBpm, float speed)
         {
             return UtilitiesInternal.CalculateScale(baseBpm, actualBpm, speed);
+        }
+
+        public static bool IsOnTheBeat(float bpm, float currentTime)
+        {
+            return UtilitiesInternal.IsOnTheBeat(bpm, currentTime);
         }
 
         public static float Lerp(float a, float b, float t)

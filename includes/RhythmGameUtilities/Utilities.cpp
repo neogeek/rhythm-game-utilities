@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 #include <regex>
 #include <sstream>
 #include <string>
@@ -10,17 +11,36 @@
 
 float ConvertTicksToSeconds(float tick, int resolution, int bpm)
 {
-    return tick / (resolution * bpm) * 60.0f;
+    auto result = tick / (resolution * bpm) * 60.0f;
+
+    return result;
 }
 
 int ConvertSecondsToTicks(double seconds, int resolution, int bpm)
 {
-    return (int)(seconds / 60.0f * (resolution * bpm));
+    auto result = (int)(seconds / 60.0f * (resolution * bpm));
+
+    return result;
 }
 
 float CalculateScale(float baseBpm, float actualBpm, float speed)
 {
-    return actualBpm / baseBpm * speed;
+    auto result = actualBpm / baseBpm * speed;
+
+    return result;
+}
+
+bool IsOnTheBeat(float bpm, float currentTime)
+{
+    auto beatInterval = 60.0f / bpm;
+
+    auto beatFraction = currentTime / beatInterval;
+
+    auto difference = std::abs(beatFraction - std::round(beatFraction));
+
+    auto result = difference < 0.05f;
+
+    return result;
 }
 
 float Lerp(float a, float b, float t) { return (1 - t) * a + b * t; }
@@ -35,9 +55,9 @@ float CalculateNoteHitAccuracy(Note *note, float buffer, int currentTick)
     auto hit = InverseLerp(note->Position - buffer, note->Position + buffer,
                            (float)currentTick);
 
-    auto accuracy = InverseLerp(0.5f, 0.0f, fabs(hit - 0.5f));
+    auto result = InverseLerp(0.5f, 0.0f, fabs(hit - 0.5f));
 
-    return accuracy;
+    return result;
 }
 
 std::string Trim(const char *contents)

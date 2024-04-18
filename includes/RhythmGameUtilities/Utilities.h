@@ -23,6 +23,8 @@ extern "C"
     PACKAGE_API float CalculateScale(float baseBpm, float actualBpm,
                                      float speed);
 
+    PACKAGE_API bool IsOnTheBeat(float bpm, float currentTime);
+
     PACKAGE_API float Lerp(float a, float b, float t);
 
     PACKAGE_API float InverseLerp(float a, float b, float v);
