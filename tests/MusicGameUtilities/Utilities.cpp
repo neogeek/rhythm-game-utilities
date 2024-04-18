@@ -39,6 +39,15 @@ void testCalculateScale()
     std::cout << ".";
 }
 
+void testIsOnTheBeat()
+{
+    assert(true == IsOnTheBeat(120, 10));
+    assert(true == IsOnTheBeat(60, 1));
+    assert(false == IsOnTheBeat(60, 1.5f));
+
+    std::cout << ".";
+}
+
 void testLerp()
 {
     assert(0 == Lerp(0, 10, 0));
@@ -123,6 +132,7 @@ int main()
     testConvertTicksToSeconds();
     testConvertSecondsToTicks();
     testCalculateScale();
+    testIsOnTheBeat();
     testLerp();
     testInverseLerp();
     testCalculateNoteHitAccuracy();

@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cmath>
 #include <regex>
 #include <sstream>
 #include <string>
@@ -21,6 +22,17 @@ int ConvertSecondsToTicks(double seconds, int resolution, int bpm)
 float CalculateScale(float baseBpm, float actualBpm, float speed)
 {
     return actualBpm / baseBpm * speed;
+}
+
+bool IsOnTheBeat(float bpm, float currentTime)
+{
+    auto beatInterval = 60.0f / bpm;
+
+    auto beatFraction = currentTime / beatInterval;
+
+    auto difference = std::abs(beatFraction - std::round(beatFraction));
+
+    return difference < 0.05f;
 }
 
 float Lerp(float a, float b, float t) { return (1 - t) * a + b * t; }
