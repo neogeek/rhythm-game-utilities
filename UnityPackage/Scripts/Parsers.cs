@@ -109,49 +109,37 @@ namespace RhythmGameUtilities
             return sections;
         }
 
-        public static IEnumerable<TrackEvent> ParseTrackEventsFromChartSection(
-            KeyValuePair<string, string[]>[] section,
-            string typeCode)
-        {
-            return section
-                .Where(item => item.Value[0] == typeCode)
-                .Select(item => new TrackEvent
-                {
-                    Position = int.Parse(item.Key),
-                    TypeCode = item.Value[0],
-                    Values = item.Value.Skip(1).ToArray()
-                }).ToArray();
-        }
-
         public static Dictionary<int, int> ParseBpmFromChartChartSection(
             KeyValuePair<string, string[]>[] section)
         {
-            return ParseTrackEventsFromChartSection(section, TypeCode.BPM)
-                .Select(trackEvent => new KeyValuePair<int, int>(trackEvent.Position, int.Parse(trackEvent.Values[0])))
+            return section
+                .Where(item => item.Value[0] == TypeCode.BPM)
+                .Select(item => new KeyValuePair<int, int>(int.Parse(item.Key), int.Parse(item.Value.Skip(1).First())))
                 .ToDictionary(item => item.Key, x => x.Value);
         }
 
         public static Note[] ParseNotesFromChartSection(KeyValuePair<string, string[]>[] section)
         {
-            return ParseTrackEventsFromChartSection(section, TypeCode.Note)
-                .Where(trackEvent => trackEvent.Values.Length == 2).Select(
-                    trackEvent => new Note
+            return section
+                .Where(item => item.Value.Length == 3 && item.Value.First() == TypeCode.Note).Select(
+                    item => new Note
                     {
-                        Position = trackEvent.Position,
-                        HandPosition = int.Parse(trackEvent.Values[0]),
-                        Length = int.Parse(trackEvent.Values[1])
+                        Position = int.Parse(item.Key),
+                        HandPosition = int.Parse(item.Value.Skip(1).First()),
+                        Length = int.Parse(item.Value.Skip(2).First())
                     }).ToArray();
         }
 
         public static Dictionary<int, string> ParseLyricsFromChartSection(
             KeyValuePair<string, string[]>[] section)
         {
-            return ParseTrackEventsFromChartSection(section, TypeCode.Event)
+            return section
+                .Where(item => item.Value.First() == TypeCode.Event)
                 .Select(
-                    trackEvent => new KeyValuePair<int, string>(trackEvent.Position,
-                        JSON_VALUE_PATTERN.Matches(trackEvent.Values[0]).Select(part => part.Value.Trim('"'))
+                    item => new KeyValuePair<int, string>(int.Parse(item.Key),
+                        JSON_VALUE_PATTERN.Matches(item.Value.Skip(1).First()).Select(part => part.Value.Trim('"'))
                             .First()))
-                .Where(trackEvent => trackEvent.Value.StartsWith("lyric"))
+                .Where(item => item.Value.StartsWith("lyric"))
                 .ToDictionary(item => item.Key, x => x.Value);
         }
 
