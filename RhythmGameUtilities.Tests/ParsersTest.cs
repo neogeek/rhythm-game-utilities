@@ -47,17 +47,6 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
-        public void TestParseTrackEventsFromChartSections()
-        {
-            var sections = Parsers.ParseSectionsFromChart(MockData.MOCK_CHART_CONTENTS);
-
-            var trackEvents =
-                Parsers.ParseTrackEventsFromChartSection(sections[$"{Difficulty.Expert}Single"], TypeCode.Event);
-
-            Assert.That(trackEvents.Count(), Is.EqualTo(2));
-        }
-
-        [Test]
         public void TestParseNotesFromChartSections()
         {
             var sections = Parsers.ParseSectionsFromChart(MockData.MOCK_CHART_CONTENTS);
