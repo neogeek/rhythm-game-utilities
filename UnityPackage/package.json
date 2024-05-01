@@ -12,6 +12,11 @@
     "music",
     "notes"
   ],
+  "author": {
+    "name": "Scott Doxey",
+    "email": "hello@scottdoxey.com",
+    "homepage": "http://scottdoxey.com/"
+  },
   "homepage": "https://github.com/neogeek/rhythm-game-utilities",
   "repository": {
     "type": "git",
