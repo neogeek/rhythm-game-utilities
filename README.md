@@ -5,11 +5,50 @@
 
 [![Tests](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/test.workflow.yml/badge.svg)](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/test.workflow.yml)
 [![Build](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/build.workflow.yml/badge.svg)](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/build.workflow.yml)
+[![Join the chat at https://discord.gg/nNtFsfd](https://img.shields.io/badge/discord-join%20chat-7289DA.svg)](https://discord.gg/nNtFsfd)
 
 This library is a collection of utilities for creating rhythm games like Tap Tap Revenge, Guitar Hero, and Rock Band. It is meant to be used within any game engine that supports loading C++ libraries, such as Unity, Unreal, and Godot.
 
 ![](screenshot.png)
 _Prototype game built using these utilities._
+
+## Social
+
+- Star [this repo on GitHub](https://github.com/neogeek/rhythm-game-utilities) for updates
+- Follow me on [Bluesky](https://bsky.app/profile/scottdoxey.com) or [Twitter](https://twitter.com/neogeek)
+- Join the [Discord](https://discord.gg/nNtFsfd)
+- Follow me on [GitHub](https://github.com/neogeek/)
+
+## Table of Contents
+
+- [Install](#install)
+- [Platforms](#platforms)
+- [Usage](#usage)
+- [Architecture](#architecture)
+- [Git Hooks](#git-hooks)
+- [Testing](#testing)
+- [Build](#build)
+- [Contributing](#contributing)
+- [Community Roadmap](#community-roadmap)
+- [License](#license)
+
+## Install
+
+### Unity
+
+Add package via git URL `https://github.com/neogeek/rhythm-game-utilities.git?path=/UnityPackage`.
+
+### Unreal
+
+Coming soon.
+
+### Godot
+
+Coming soon.
+
+### HandcrankEngine
+
+Coming soon.
 
 ## Platforms
 
@@ -27,12 +66,6 @@ This library aims to offer support for multiple platforms through a single codeb
 | [Godot 4](https://godotengine.org/)                                   | WebGL    |   -    |
 | [HandcrankEngine](https://github.com/HandcrankEngine/HandcrankEngine) | macOS    |   -    |
 | [HandcrankEngine](https://github.com/HandcrankEngine/HandcrankEngine) | Windows  |   -    |
-
-## Install
-
-### Unity
-
-Add package via git URL `https://github.com/neogeek/rhythm-game-utilities.git?path=/UnityPackage`.
 
 ## Usage
 
@@ -63,7 +96,9 @@ for (var x = 0; x < waveform.Length; x += 1)
 _texture2D.Apply();
 ```
 
-### `Song.FromChartFile`
+### `Song`
+
+#### `Song.FromChartFile`
 
 ```csharp
 using RhythmGameUtilities;
@@ -72,7 +107,7 @@ var contents = File.ReadAllText("notes.chart", Encoding.UTF8);
 var song = RhythmGameUtilities.Song.FromChartFile(contents);
 ```
 
-### `Song.FromJSON`
+#### `Song.FromJSON`
 
 ```csharp
 using RhythmGameUtilities;
@@ -201,46 +236,6 @@ using RhythmGameUtilities;
 var percentage = Utilities.InverseLerp(0, 10, 5);
 ```
 
-## Build Locally
-
-### macOS
-
-> [!IMPORTANT]
-> When developing on macOS, make sure that **Mac** is selected in the bottom right-hand corner of Visual Studio Code or C++ Intellisense will not work.
-
-```bash
-./bin/build.sh
-```
-
-### Windows
-
-> [!IMPORTANT]
-> When developing on Windows, make sure that **Win32** is selected in the bottom right-hand corner of Visual Studio Code or C++ Intellisense will not work.
-
-Run from **x64 Native Tools Command Prompt for VS**:
-
-```cmd
-call "./bin/build.bat"
-```
-
-## Test
-
-Add tests to your project by adding the following to your `Packages/manifest.json` file:
-
-```json
-{
-...
-    "testables": ["com.scottdoxey.rhythm-game-utilities"]
-...
-}
-```
-
-## Git Hooks
-
-```bash
-$ git config --local core.hooksPath .githooks/
-```
-
 ## Architecture
 
 ```mermaid
@@ -292,3 +287,67 @@ graph LR;
     userInput-->userInputCheck
     chartFileParserCsharp-->userInputCheck
 ```
+
+## Git Hooks
+
+The git hooks that run are quick file comparisons to ensure the files in the dotnet project and the UnityProject are the same and that the build files haven't changed.
+
+```bash
+$ git config --local core.hooksPath .githooks/
+```
+
+## Testing
+
+Run all tests via `make test`.
+
+- Tests for the C++ library are authored using the C++ native library `cassert`.
+- Tests are run automatically via GitHub Actions on each new PR.
+- For you add a new feature or fix a bug, please include the benchmark output in the PR along with your device stats.
+
+If you want to test the projecet from within Unity, add the test namespace to your project by adding the following to your `Packages/manifest.json` file:
+
+```json
+{
+...
+    "testables": ["com.scottdoxey.rhythm-game-utilities"]
+...
+}
+```
+
+## Build
+
+> [!WARNING]
+> Do not commit any build changes to the repo. The build files are automatically generated via GitHub Actions.
+
+### macOS
+
+When developing on macOS, make sure that **Mac** is selected in the bottom right-hand corner of Visual Studio Code or C++ Intellisense will not work.
+
+```bash
+./bin/build.sh
+```
+
+### Windows
+
+When developing on Windows, make sure that **Win32** is selected in the bottom right-hand corner of Visual Studio Code or C++ Intellisense will not work.
+
+Run from **x64 Native Tools Command Prompt for VS**:
+
+```cmd
+call "./bin/build.bat"
+```
+
+## Contributing
+
+Be sure to review the [Contributing Guidelines](./CONTRIBUTING.md) before logging an issue or making a pull request.
+
+## Community Roadmap
+
+This project aims to help you build your rhythm game as fast as possible without needing to learn the complexities of a new library. Instead, you can utilize comprehensive examples and simple code recipes If you have feature requests or bugs, please create an issue and tag them with the appropriate tag. If an issue already exists, vote for it with 👍.
+
+- [Feature Requests](https://github.com/neogeek/rhythm-game-utilities/labels/enhancement)
+- [Bugs](https://github.com/neogeek/rhythm-game-utilities/labels/bug)
+
+## License
+
+[The MIT License (MIT)](./LICENSE)
