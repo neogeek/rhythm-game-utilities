@@ -11,6 +11,7 @@ release: build ## Build release
 	dotnet build RhythmGameUtilities/*.csproj --configuration Release
 
 test: build ## Run tests
+	./bin/test.sh
 	dotnet test RhythmGameUtilities.Tests/*.csproj
 
 copy: ## Copy files from project to UnityPackage
