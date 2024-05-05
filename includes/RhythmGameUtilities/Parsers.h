@@ -13,17 +13,25 @@ typedef struct
     char *key;
     char *values[10];
     int valueCount;
-} KeyValuePair;
+} KeyValuePairInternal;
 
 typedef struct
 {
     char *name;
-    KeyValuePair *lines;
+    KeyValuePairInternal *lines;
     int lineCount;
+} ChartSectionInternal;
+
+typedef struct
+{
+    std::string name;
+    std::vector<std::pair<std::string, std::vector<std::string>>> lines;
 } ChartSection;
+
+std::vector<ChartSection> ParseSectionsFromChart(const char *contents);
 
 extern "C"
 {
-    PACKAGE_API ChartSection *ParseSectionsFromChart(const char *contents,
-                                                     int *outSize);
+    PACKAGE_API ChartSectionInternal *
+    ParseSectionsFromChartInternal(const char *contents, int *outSize);
 }

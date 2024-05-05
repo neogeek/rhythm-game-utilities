@@ -8,7 +8,7 @@ namespace RhythmGameUtilities
 {
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct KeyValuePair
+    internal struct KeyValuePairInternal
     {
 
         public IntPtr key;
@@ -21,7 +21,7 @@ namespace RhythmGameUtilities
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct ChartSection
+    internal struct ChartSectionInternal
     {
 
         public IntPtr name;
@@ -42,7 +42,7 @@ namespace RhythmGameUtilities
 #elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
         [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
-        public static extern IntPtr ParseSectionsFromChart(string contents, out int size);
+        public static extern IntPtr ParseSectionsFromChartInternal(string contents, out int size);
 
     }
 
@@ -54,7 +54,7 @@ namespace RhythmGameUtilities
         public static Dictionary<string, KeyValuePair<string, string[]>[]> ParseSectionsFromChart(
             string contents)
         {
-            var ptrArray = ParsersInternal.ParseSectionsFromChart(contents, out var size);
+            var ptrArray = ParsersInternal.ParseSectionsFromChartInternal(contents, out var size);
 
             var sections = new Dictionary<string, KeyValuePair<string, string[]>[]>();
 
@@ -63,13 +63,13 @@ namespace RhythmGameUtilities
                 return sections;
             }
 
-            var chartSectionSize = Marshal.SizeOf(typeof(ChartSection));
-            var keyValuePairSize = Marshal.SizeOf(typeof(KeyValuePair));
+            var chartSectionSize = Marshal.SizeOf(typeof(ChartSectionInternal));
+            var keyValuePairSize = Marshal.SizeOf(typeof(KeyValuePairInternal));
 
             for (var i = 0; i < size; i += 1)
             {
                 var chartSectionSizePtr = new IntPtr(ptrArray.ToInt64() + chartSectionSize * i);
-                var chartSection = Marshal.PtrToStructure<ChartSection>(chartSectionSizePtr);
+                var chartSection = Marshal.PtrToStructure<ChartSectionInternal>(chartSectionSizePtr);
 
                 var name = Marshal.PtrToStringAnsi(chartSection.name);
 
@@ -78,7 +78,7 @@ namespace RhythmGameUtilities
                 for (var j = 0; j < chartSection.lineCount; j += 1)
                 {
                     var keyValuePairPtr = new IntPtr(chartSection.lines.ToInt64() + keyValuePairSize * j);
-                    var keyValuePair = Marshal.PtrToStructure<KeyValuePair>(keyValuePairPtr);
+                    var keyValuePair = Marshal.PtrToStructure<KeyValuePairInternal>(keyValuePairPtr);
 
                     var key = Marshal.PtrToStringAnsi(keyValuePair.key);
                     var values = new string[keyValuePair.valuesCount];
