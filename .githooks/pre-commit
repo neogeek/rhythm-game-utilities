@@ -25,24 +25,22 @@ done
 
 cd RhythmGameUtilities
 
-find . -type f -name "*.cs" -not -path '*/obj/*' -not -path '*/bin/*' -print0 |
-    while IFS= read -r -d '' FILE; do
-        if ! cmp -s "${FILE}" "../UnityPackage/${FILE}"; then
-            echo "${FILE} needs to be synced to the UnityPackage folder!"
-            exit 1
-        fi
-    done
+while IFS= read -r -d '' FILE; do
+    if ! cmp -s "${FILE}" "../UnityPackage/${FILE}"; then
+        echo "${FILE} needs to be synced to the UnityPackage folder!"
+        exit 1
+    fi
+done < <(find . -type f -name "*.cs" -not -path '*/obj/*' -not -path '*/bin/*' -print0)
 
 cd "${CWD}"
 
 cd RhythmGameUtilities.Tests
 
-find . -type f -name "*.cs" -not -path '*/obj/*' -not -path '*/bin/*' -print0 |
-    while IFS= read -r -d '' FILE; do
-        if ! cmp -s "${FILE}" "../UnityPackage/Editor/Tests/${FILE}"; then
-            echo "${FILE} needs to be synced to the UnityPackage/Editor/Tests folder!"
-            exit 1
-        fi
-    done
+while IFS= read -r -d '' FILE; do
+    if ! cmp -s "${FILE}" "../UnityPackage/Editor/Tests/${FILE}"; then
+        echo "${FILE} needs to be synced to the UnityPackage/Editor/Tests folder!"
+        exit 1
+    fi
+done < <(find . -type f -name "*.cs" -not -path '*/obj/*' -not -path '*/bin/*' -print0)
 
 cd "${CWD}"
