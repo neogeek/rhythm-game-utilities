@@ -69,9 +69,44 @@ auto contents = R"([Song]
 
 void testParseSectionsFromChart()
 {
+    auto sections = ParseSectionsFromChart(contents);
+
+    assert(sections.size() == 4);
+
+    assert(sections.at(0).name == "Song");
+    assert(sections.at(1).name == "SyncTrack");
+    assert(sections.at(2).name == "Events");
+    assert(sections.at(3).name == "ExpertSingle");
+
+    std::cout << ".";
+}
+
+void testParseValuesFromChartSections()
+{
+    auto sections = ParseSectionsFromChart(contents);
+
+    assert(sections.size() == 4);
+
+    assert(sections.at(0).name == "Song");
+    assert(sections.at(0).lines.size() == 12);
+
+    assert(sections.at(0).lines[0].first == "Name");
+    assert(sections.at(0).lines[0].second[0] == "Example Song");
+
+    assert(sections.at(0).lines[6].first == "Resolution");
+    assert(sections.at(0).lines[6].second[0] == "192");
+
+    assert(sections.at(0).lines[11].first == "MusicStream");
+    assert(sections.at(0).lines[11].second[0] == "Example Song.ogg");
+
+    std::cout << ".";
+}
+
+void testParseSectionsFromChartInternal()
+{
     int size = 0;
 
-    auto sections = ParseSectionsFromChart(contents, &size);
+    auto sections = ParseSectionsFromChartInternal(contents, &size);
 
     assert(size == 4);
 
@@ -87,11 +122,11 @@ void testParseSectionsFromChart()
     std::cout << ".";
 }
 
-void testParseValuesFromChartSections()
+void testParseValuesFromChartSectionsInternal()
 {
     int size = 0;
 
-    auto sections = ParseSectionsFromChart(contents, &size);
+    auto sections = ParseSectionsFromChartInternal(contents, &size);
 
     assert(size == 4);
 
@@ -113,6 +148,8 @@ int main()
 {
     testParseSectionsFromChart();
     testParseValuesFromChartSections();
+    testParseSectionsFromChartInternal();
+    testParseValuesFromChartSectionsInternal();
 
     return 0;
 }
