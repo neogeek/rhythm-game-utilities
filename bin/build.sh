@@ -35,4 +35,18 @@ COLOROFF=$(tput sgr0)
 
     printf "%sDONE%s\n" "${GREENON}" "${COLOROFF}"
 
+    printf "Building WebGL libraries ... "
+
+    emcc -std=c++17 includes/RhythmGameUtilities/RhythmGameUtilities.cpp -o build/libRhythmGameUtilities.js
+
+    mkdir -p UnityPackage/Libs/WebGL
+    mkdir -p RhythmGameUtilities/Libs/WebGL
+
+    cp build/libRhythmGameUtilities.js UnityPackage/Libs/WebGL
+    cp build/libRhythmGameUtilities.wasm UnityPackage/Libs/WebGL
+    cp build/libRhythmGameUtilities.js RhythmGameUtilities/Libs/WebGL
+    cp build/libRhythmGameUtilities.wasm RhythmGameUtilities/Libs/WebGL
+
+    printf "%sDONE%s\n" "${GREENON}" "${COLOROFF}"
+
 )
