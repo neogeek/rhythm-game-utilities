@@ -124,6 +124,11 @@ namespace RhythmGameUtilities
             return JsonConvert.DeserializeObject<Song>(input);
         }
 
+        public int GetCurrentBPM(Note note)
+        {
+            return BPM.First(item => item.Key <= note.Position).Value / 1000;
+        }
+
     }
 
 }
