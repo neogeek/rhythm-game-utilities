@@ -19,6 +19,10 @@ COLOROFF=$(tput sgr0)
     g++ -std=c++17 -shared -fPIC -arch arm64 -o build/libRhythmGameUtilities-arm64.dylib includes/RhythmGameUtilities/RhythmGameUtilities.cpp
     g++ -std=c++17 -shared -fPIC -arch x86_64 -o build/libRhythmGameUtilities-x86_64.dylib includes/RhythmGameUtilities/RhythmGameUtilities.cpp
 
+    if [[ ! -f build/libRhythmGameUtilities-arm64.dylib || ! -f build/libRhythmGameUtilities-x86_64.dylib ]]; then
+        exit 1
+    fi
+
     lipo -create -output build/libRhythmGameUtilities.dylib build/libRhythmGameUtilities-arm64.dylib build/libRhythmGameUtilities-x86_64.dylib
 
     lipo -info build/libRhythmGameUtilities.dylib
