@@ -30,7 +30,7 @@ namespace RhythmGameUtilities
         public string Genre;
 
         /// <summary>
-        /// Year of the song’s release.<br>Typically preceded by a comma and space, for example `, 2002`, to make importing into GHTCP quicker.
+        /// Year of the song’s release.<br/>Typically preceded by a comma and space, for example `, 2002`, to make importing into GHTCP quicker.
         /// </summary>
         public string Year;
 
@@ -50,7 +50,7 @@ namespace RhythmGameUtilities
         public int Difficulty;
 
         /// <summary>
-        /// Start time of the audio, in seconds.<br>A higher value makes the audio start sooner.
+        /// Start time of the audio, in seconds.<br/>A higher value makes the audio start sooner.
         /// </summary>
         public double Offset;
 
@@ -65,7 +65,7 @@ namespace RhythmGameUtilities
         public double PreviewEnd;
 
         /// <summary>
-        /// The main audio stream.<br>When other audio stems are present, this is background audio not in the other tracks and/or instruments not charted.
+        /// The main audio stream.<br/>When other audio stems are present, this is background audio not in the other tracks and/or instruments not charted.
         /// </summary>
         public string MusicStream;
 
