@@ -52,17 +52,17 @@ namespace RhythmGameUtilities
         /// <summary>
         /// Start time of the audio, in seconds.<br>A higher value makes the audio start sooner.
         /// </summary>
-        public float Offset;
+        public double Offset;
 
         /// <summary>
         /// Time of the song, in seconds, where the song preview should start.
         /// </summary>
-        public float PreviewStart;
+        public double PreviewStart;
 
         /// <summary>
         /// Time of the song, in seconds, where the song preview should end.
         /// </summary>
-        public float PreviewEnd;
+        public double PreviewEnd;
 
         /// <summary>
         /// The main audio stream.<br>When other audio stems are present, this is background audio not in the other tracks and/or instruments not charted.
@@ -97,7 +97,11 @@ namespace RhythmGameUtilities
                 Charter = data.TryGetValue("Charter", out var charterValue) ? charterValue[0] : null,
                 Resolution = int.TryParse(data["Resolution"][0], out var resolutionValue) ? resolutionValue : 0,
                 Difficulty = int.TryParse(data["Difficulty"][0], out var difficultyValue) ? difficultyValue : 0,
-                PreviewEnd = float.TryParse(data["PreviewEnd"][0], out var previewEndValue) ? previewEndValue : 0,
+                Offset =
+                    double.TryParse(data["Offset"][0], out var offsetValue) ? offsetValue : 0,
+                PreviewStart =
+                    double.TryParse(data["PreviewStart"][0], out var previewStartValue) ? previewStartValue : 0,
+                PreviewEnd = double.TryParse(data["PreviewEnd"][0], out var previewEndValue) ? previewEndValue : 0,
                 MusicStream =
                     data.TryGetValue("MusicStream", out var musicStreamValue) ? musicStreamValue[0] : null,
                 Lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.SyncTrack]),
