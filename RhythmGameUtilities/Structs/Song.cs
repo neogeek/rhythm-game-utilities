@@ -12,70 +12,86 @@ namespace RhythmGameUtilities
         /// <summary>
         /// Title of the song.
         /// </summary>
-        public string Name;
+        [JsonProperty]
+        public string Name { get; internal set; }
 
         /// <summary>
         /// Artist(s) or band(s) behind the song.
         /// </summary>
-        public string Artist;
+        [JsonProperty]
+        public string Artist { get; internal set; }
 
         /// <summary>
         /// Title of the album the song is featured in.
         /// </summary>
-        public string Album;
+        [JsonProperty]
+        public string Album { get; internal set; }
 
         /// <summary>
         /// Genre of the song.
         /// </summary>
-        public string Genre;
+        [JsonProperty]
+        public string Genre { get; internal set; }
 
         /// <summary>
         /// Year of the song’s release.<br/>Typically preceded by a comma and space, for example `, 2002`, to make importing into GHTCP quicker.
         /// </summary>
-        public string Year;
+        [JsonProperty]
+        public string Year { get; internal set; }
 
         /// <summary>
         /// Community member who charted the song.
         /// </summary>
-        public string Charter;
+        [JsonProperty]
+        public string Charter { get; internal set; }
 
         /// <summary>
         /// (Required) Number of positional ticks between each 1/4th note in the chart.
         /// </summary>
-        public int Resolution;
+        [JsonProperty]
+        public int Resolution { get; internal set; }
 
         /// <summary>
         /// Estimated difficulty of the song.
         /// </summary>
-        public int Difficulty;
+        [JsonProperty]
+        public int Difficulty { get; internal set; }
 
         /// <summary>
         /// Start time of the audio, in seconds.<br/>A higher value makes the audio start sooner.
         /// </summary>
-        public double Offset;
+        [JsonProperty]
+        public double Offset { get; internal set; }
 
         /// <summary>
         /// Time of the song, in seconds, where the song preview should start.
         /// </summary>
-        public double PreviewStart;
+        [JsonProperty]
+        public double PreviewStart { get; internal set; }
 
         /// <summary>
         /// Time of the song, in seconds, where the song preview should end.
         /// </summary>
-        public double PreviewEnd;
+        [JsonProperty]
+        public double PreviewEnd { get; internal set; }
 
         /// <summary>
         /// The main audio stream.<br/>When other audio stems are present, this is background audio not in the other tracks and/or instruments not charted.
         /// </summary>
-        public string MusicStream;
+        [JsonProperty]
+        public string MusicStream { get; internal set; }
 
-        public Dictionary<int, string> Lyrics;
+        [JsonProperty]
+        public Dictionary<int, string> Lyrics { get; internal set; }
 
-        public Dictionary<Difficulty, Note[]> Difficulties;
+        [JsonProperty]
+        public Dictionary<Difficulty, Note[]> Difficulties { get; internal set; }
 
-        public Dictionary<int, int> BPM;
+        [JsonProperty]
+        public Dictionary<int, int> BPM { get; internal set; }
 
-        public int BaseBPM;
+        [JsonProperty]
+        public int BaseBPM { get; internal set; }
 
         public static Song FromChartFile(string input)
         {
