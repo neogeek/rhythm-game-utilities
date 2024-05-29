@@ -146,7 +146,7 @@ namespace RhythmGameUtilities
 
         public int GetCurrentBPM(Note note)
         {
-            return BPM.First(item => item.Key <= note.Position).Value / 1000;
+            return BPM.Last(item => item.Key <= note.Position).Value / 1000;
         }
 
     }
