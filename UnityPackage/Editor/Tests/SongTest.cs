@@ -62,6 +62,19 @@ namespace RhythmGameUtilities.Tests
             Assert.That(song.BaseBPM, Is.EqualTo(88));
         }
 
+        [Test]
+        public void TestCurrentBPM()
+        {
+            var song = Song.FromChartFile(MockData.MOCK_CHART_CONTENTS);
+
+            Assert.That(song.GetCurrentBPM(new Note { Position = 0 }), Is.EqualTo(88));
+            Assert.That(song.GetCurrentBPM(new Note { Position = 3840 }), Is.EqualTo(112));
+            Assert.That(song.GetCurrentBPM(new Note { Position = 9984 }), Is.EqualTo(89));
+            Assert.That(song.GetCurrentBPM(new Note { Position = 22272 }), Is.EqualTo(112));
+            Assert.That(song.GetCurrentBPM(new Note { Position = 33792 }), Is.EqualTo(111));
+            Assert.That(song.GetCurrentBPM(new Note { Position = 34560 }), Is.EqualTo(112));
+        }
+
     }
 
 }
