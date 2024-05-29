@@ -9,16 +9,18 @@
 
 #include "Structs/Note.h"
 
+const float SECONDS_PER_MINUTE = 60.0f;
+
 float ConvertTicksToSeconds(float tick, int resolution, int bpm)
 {
-    auto result = tick / (resolution * bpm) * 60.0f;
+    auto result = tick / resolution * SECONDS_PER_MINUTE / bpm;
 
     return result;
 }
 
 int ConvertSecondsToTicks(double seconds, int resolution, int bpm)
 {
-    auto result = (int)(seconds / 60.0f * (resolution * bpm));
+    auto result = (int)(seconds * bpm / SECONDS_PER_MINUTE * resolution);
 
     return result;
 }
@@ -32,7 +34,7 @@ float CalculateScale(float baseBpm, float actualBpm, float speed)
 
 bool IsOnTheBeat(float bpm, float currentTime)
 {
-    auto beatInterval = 60.0f / bpm;
+    auto beatInterval = SECONDS_PER_MINUTE / bpm;
 
     auto beatFraction = currentTime / beatInterval;
 
