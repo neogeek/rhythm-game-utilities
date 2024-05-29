@@ -74,6 +74,8 @@ namespace RhythmGameUtilities
     public static class Utilities
     {
 
+        public const float SECONDS_PER_MINUTE = 60.0f;
+
         public static float ConvertTicksToSeconds(float tick, int resolution, int bpm)
         {
             return UtilitiesInternal.ConvertTicksToSeconds(tick, resolution, bpm);
