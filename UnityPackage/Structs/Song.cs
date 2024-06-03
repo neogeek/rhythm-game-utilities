@@ -98,8 +98,6 @@ namespace RhythmGameUtilities
             var data = sections[NamedSection.Song]
                 .ToDictionary(item => item.Key, x => x.Value);
 
-            var bpm = Parsers.ParseBpmFromChartChartSection(sections[NamedSection.SyncTrack]);
-
             var song = new Song
             {
                 Name = data.TryGetValue("Name", out var nameValue) ? nameValue[0] : null,
@@ -124,7 +122,7 @@ namespace RhythmGameUtilities
                         .ContainsKey($"{difficulty}Single"))
                     .ToDictionary(difficulty => difficulty,
                         difficulty => Parsers.ParseNotesFromChartSection(sections[$"{difficulty}Single"])),
-                BPM = bpm
+                BPM = Parsers.ParseBpmFromChartChartSection(sections[NamedSection.SyncTrack])
             };
 
             return song;
