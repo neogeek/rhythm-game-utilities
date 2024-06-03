@@ -27,7 +27,6 @@ namespace RhythmGameUtilities.Tests
             Assert.That(song.Difficulties.ContainsKey(Difficulty.Expert), Is.True);
             Assert.That(song.Difficulties[Difficulty.Expert].Length, Is.EqualTo(8));
             Assert.That(song.BPM.Count, Is.EqualTo(7));
-            Assert.That(song.BaseBPM, Is.EqualTo(88));
         }
 
         [Test]
@@ -59,7 +58,6 @@ namespace RhythmGameUtilities.Tests
             Assert.That(song.Difficulties.ContainsKey(Difficulty.Expert), Is.True);
             Assert.That(song.Difficulties[Difficulty.Expert].Length, Is.EqualTo(8));
             Assert.That(song.BPM.Count, Is.EqualTo(7));
-            Assert.That(song.BaseBPM, Is.EqualTo(88));
         }
 
         [Test]
@@ -67,6 +65,7 @@ namespace RhythmGameUtilities.Tests
         {
             var song = Song.FromChartFile(MockData.MOCK_CHART_CONTENTS);
 
+            Assert.That(song.GetCurrentBPM(), Is.EqualTo(88));
             Assert.That(song.GetCurrentBPM(new Note { Position = 0 }), Is.EqualTo(88));
             Assert.That(song.GetCurrentBPM(new Note { Position = 3840 }), Is.EqualTo(112));
             Assert.That(song.GetCurrentBPM(new Note { Position = 9984 }), Is.EqualTo(89));
