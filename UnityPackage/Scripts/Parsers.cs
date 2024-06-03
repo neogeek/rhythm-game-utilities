@@ -109,7 +109,7 @@ namespace RhythmGameUtilities
             return sections;
         }
 
-        public static Dictionary<int, int> ParseBpmFromChartChartSection(
+        public static Dictionary<int, int> ParseBpmFromChartSection(
             KeyValuePair<string, string[]>[] section)
         {
             return section

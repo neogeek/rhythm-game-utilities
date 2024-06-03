@@ -37,11 +37,11 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
-        public void TestParseBpmFromChartChartSections()
+        public void TestParseBpmFromChartSections()
         {
             var sections = Parsers.ParseSectionsFromChart(MockData.MOCK_CHART_CONTENTS);
 
-            var bpm = Parsers.ParseBpmFromChartChartSection(sections[NamedSection.SyncTrack]);
+            var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
 
             Assert.That(bpm.Count, Is.EqualTo(7));
         }
