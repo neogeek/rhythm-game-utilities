@@ -12,6 +12,11 @@ typedef std::string Type;
 Type BPM = "B";
 
 /// <summary>
+/// Time Signature Marker
+/// </summary>
+Type TimeSignature = "TS";
+
+/// <summary>
 /// Note Marker
 /// </summary>
 Type Note = "N";
