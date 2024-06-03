@@ -128,14 +128,14 @@ using RhythmGameUtilities;
 var sections = Parsers.ParseSectionsFromChart(contents);
 ```
 
-#### `Parsers.ParseBpmFromChartChartSection`
+#### `Parsers.ParseBpmFromChartSection`
 
 ```csharp
 using RhythmGameUtilities;
 
 var sections = Parsers.ParseSectionsFromChart(contents);
 
-var bpm = Parsers.ParseBpmFromChartChartSection(sections[NamedSection.SyncTrack]);
+var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
 ```
 
 #### `Parsers.ParseTrackEventsFromChartSection`

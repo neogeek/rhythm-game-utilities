@@ -122,7 +122,7 @@ namespace RhythmGameUtilities
                         .ContainsKey($"{difficulty}Single"))
                     .ToDictionary(difficulty => difficulty,
                         difficulty => Parsers.ParseNotesFromChartSection(sections[$"{difficulty}Single"])),
-                BPM = Parsers.ParseBpmFromChartChartSection(sections[NamedSection.SyncTrack])
+                BPM = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack])
             };
 
             return song;
