@@ -90,9 +90,6 @@ namespace RhythmGameUtilities
         [JsonProperty]
         public Dictionary<int, int> BPM { get; internal set; }
 
-        [JsonProperty]
-        public int BaseBPM { get; internal set; }
-
         public static Song FromChartFile(string input)
         {
 
@@ -127,8 +124,7 @@ namespace RhythmGameUtilities
                         .ContainsKey($"{difficulty}Single"))
                     .ToDictionary(difficulty => difficulty,
                         difficulty => Parsers.ParseNotesFromChartSection(sections[$"{difficulty}Single"])),
-                BPM = bpm,
-                BaseBPM = bpm.First().Value / 1000
+                BPM = bpm
             };
 
             return song;
@@ -142,6 +138,11 @@ namespace RhythmGameUtilities
         public static Song FromJSON(string input)
         {
             return JsonConvert.DeserializeObject<Song>(input);
+        }
+
+        public int GetCurrentBPM()
+        {
+            return BPM.First().Value / 1000;
         }
 
         public int GetCurrentBPM(Note note)
