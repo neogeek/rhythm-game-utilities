@@ -1,4 +1,3 @@
-using System.Linq;
 using NUnit.Framework;
 
 namespace RhythmGameUtilities.Tests
@@ -10,7 +9,7 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestParseSectionsFromChart()
         {
-            var sections = Parsers.ParseSectionsFromChart(MockData.MOCK_CHART_CONTENTS);
+            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
 
             Assert.That(sections.ContainsKey(NamedSection.Song), Is.True);
             Assert.That(sections["Song"].Length, Is.EqualTo(12));
@@ -25,7 +24,7 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestParseValuesFromChartSections()
         {
-            var sections = Parsers.ParseSectionsFromChart(MockData.MOCK_CHART_CONTENTS);
+            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
 
             Assert.That(sections.ContainsKey(NamedSection.Song), Is.True);
             Assert.That(sections[NamedSection.Song][0].Key, Is.EqualTo("Name"));
@@ -39,7 +38,7 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestParseBpmFromChartSections()
         {
-            var sections = Parsers.ParseSectionsFromChart(MockData.MOCK_CHART_CONTENTS);
+            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
 
             var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
 
@@ -49,7 +48,7 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestParseNotesFromChartSections()
         {
-            var sections = Parsers.ParseSectionsFromChart(MockData.MOCK_CHART_CONTENTS);
+            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
 
             var notes = Parsers.ParseNotesFromChartSection(sections[$"{Difficulty.Expert}Single"]);
 
@@ -59,7 +58,7 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestParseLyricsFromChartSections()
         {
-            var sections = Parsers.ParseSectionsFromChart(MockData.MOCK_CHART_CONTENTS);
+            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
 
             var lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.Events]);
 

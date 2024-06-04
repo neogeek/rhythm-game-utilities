@@ -9,7 +9,7 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestSongFromChartFile()
         {
-            var song = Song.FromChartFile(MockData.MOCK_CHART_CONTENTS);
+            var song = Song.FromChartFile(Mocks.SONG_CHART);
 
             Assert.That(song.Name, Is.EqualTo("Example Song"));
             Assert.That(song.Artist, Is.EqualTo("Example Artist"));
@@ -32,15 +32,15 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestSongToJSON()
         {
-            var song = Song.FromChartFile(MockData.MOCK_CHART_CONTENTS);
+            var song = Song.FromChartFile(Mocks.SONG_CHART);
 
-            Assert.That(song.ToJSON(), Is.EqualTo(MockData.MOCK_JSON_CONTENTS));
+            Assert.That(song.ToJSON(), Is.EqualTo(Mocks.SONG_JSON));
         }
 
         [Test]
         public void TestSongFromJSON()
         {
-            var song = Song.FromJSON(MockData.MOCK_JSON_CONTENTS);
+            var song = Song.FromJSON(Mocks.SONG_JSON);
 
             Assert.That(song.Name, Is.EqualTo("Example Song"));
             Assert.That(song.Artist, Is.EqualTo("Example Artist"));
@@ -63,7 +63,7 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestCurrentBPM()
         {
-            var song = Song.FromChartFile(MockData.MOCK_CHART_CONTENTS);
+            var song = Song.FromChartFile(Mocks.SONG_CHART);
 
             Assert.That(song.GetCurrentBPM(), Is.EqualTo(88));
             Assert.That(song.GetCurrentBPM(new Note { Position = 0 }), Is.EqualTo(88));
