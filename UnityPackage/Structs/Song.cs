@@ -90,6 +90,9 @@ namespace RhythmGameUtilities
         [JsonProperty]
         public Dictionary<int, int> BPM { get; internal set; }
 
+        [JsonProperty]
+        public Dictionary<int, int[]> TimeSignatures { get; internal set; }
+
         public static Song FromChartFile(string input)
         {
 
@@ -122,7 +125,8 @@ namespace RhythmGameUtilities
                         .ContainsKey($"{difficulty}Single"))
                     .ToDictionary(difficulty => difficulty,
                         difficulty => Parsers.ParseNotesFromChartSection(sections[$"{difficulty}Single"])),
-                BPM = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack])
+                BPM = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]),
+                TimeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack])
             };
 
             return song;
@@ -146,6 +150,16 @@ namespace RhythmGameUtilities
         public int GetCurrentBPM(Note note)
         {
             return BPM.Last(item => item.Key <= note.Position).Value / 1000;
+        }
+
+        public int[] GetCurrentTimeSignature()
+        {
+            return TimeSignatures.First().Value;
+        }
+
+        public int[] GetCurrentTimeSignature(Note note)
+        {
+            return TimeSignatures.Last(item => item.Key <= note.Position).Value;
         }
 
     }

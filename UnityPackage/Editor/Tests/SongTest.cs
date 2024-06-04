@@ -74,6 +74,17 @@ namespace RhythmGameUtilities.Tests
             Assert.That(song.GetCurrentBPM(new Note { Position = 34560 }), Is.EqualTo(112));
         }
 
+        [Test]
+        public void TestCurrentTimeStamps()
+        {
+            var song = Song.FromChartFile(Mocks.SONG_CHART);
+
+            Assert.That(song.GetCurrentTimeSignature(), Is.EqualTo(new[] { 4 }));
+
+            Assert.That(song.GetCurrentTimeSignature(new Note { Position = 9984 }),
+                Is.EqualTo(new[] { 2, 1 }));
+        }
+
     }
 
 }
