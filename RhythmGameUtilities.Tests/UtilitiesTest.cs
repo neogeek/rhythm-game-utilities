@@ -17,13 +17,25 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
+        public void TestConvertTickToPosition()
+        {
+            const int tick = 42240;
+            const int resolution = 192;
+
+            Assert.That(Utilities.ConvertTickToPosition(tick, resolution), Is.EqualTo(220.0f));
+        }
+
+        [Test]
         public void TestConvertSecondsToTicks()
         {
+            var song = Song.FromChartFile(Mocks.SONG_CHART);
+
             const float seconds = 7.01f;
-            const int resolution = 192;
             const int bpm = 124;
 
-            Assert.That(Utilities.ConvertSecondsToTicks(seconds, resolution, bpm), Is.EqualTo(2781));
+            Assert.That(Utilities.ConvertSecondsToTicks(seconds, song.Resolution, bpm), Is.EqualTo(2781));
+
+            Assert.That(Utilities.ConvertSecondsToTicks(seconds, song.Resolution, song.BPM), Is.EqualTo(1974));
         }
 
         [Test]

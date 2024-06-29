@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace RhythmGameUtilities
@@ -84,6 +87,61 @@ namespace RhythmGameUtilities
         public static int ConvertSecondsToTicks(double seconds, int resolution, int bpm)
         {
             return UtilitiesInternal.ConvertSecondsToTicks(seconds, resolution, bpm);
+        }
+
+        public static float ConvertTickToPosition(float tick, int resolution)
+        {
+            return tick / resolution;
+        }
+
+        public static int ConvertSecondsToTicks(float seconds, int resolution, Dictionary<int, int> bpmChanges)
+        {
+            var totalTicks = 0;
+            var remainingSeconds = seconds;
+            var previousTick = 0;
+            var previousBPM = bpmChanges.First().Value / 1000;
+
+            foreach (var (currentTick, value) in bpmChanges)
+            {
+                var timeForSegment = (currentTick - previousTick) / (resolution * previousBPM / SECONDS_PER_MINUTE);
+
+                if (remainingSeconds <= timeForSegment)
+                {
+                    totalTicks += (int)(remainingSeconds * previousBPM / SECONDS_PER_MINUTE * resolution);
+
+                    return totalTicks;
+                }
+
+                totalTicks += currentTick - previousTick;
+                remainingSeconds -= timeForSegment;
+                previousTick = currentTick;
+                previousBPM = value / 1000;
+            }
+
+            totalTicks += (int)(remainingSeconds * previousBPM / SECONDS_PER_MINUTE * resolution);
+
+            return totalTicks;
+        }
+
+        public static List<int[]> GenerateAdjacentKeyPairs<T>(Dictionary<int, T> dictionary)
+        {
+            var keys = dictionary.Keys.ToList();
+
+            keys.Sort();
+
+            var adjacentKeyPairs = new List<int[]>();
+
+            for (var i = 0; i < keys.Count - 1; i += 1)
+            {
+                adjacentKeyPairs.Add(new[] { keys[i], keys[i + 1] });
+            }
+
+            return adjacentKeyPairs;
+        }
+
+        public static int RoundUpToTheNearestMultiplier(int value, int multiplier)
+        {
+            return (int)Math.Ceiling((float)value / multiplier) * multiplier;
         }
 
         public static float CalculateNoteHitAccuracy(ref Note note, float buffer, int currentTick)
