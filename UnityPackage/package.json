@@ -6,6 +6,7 @@
   "description": "Utilities for building rhythm games like Guitar Hero or Rock Band in Unity.",
   "documentationUrl": "https://github.com/neogeek/rhythm-game-utilities",
   "changelogUrl": "https://github.com/neogeek/rhythm-game-utilities/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/neogeek/rhythm-game-utilities/blob/main/LICENSE",
   "license": "MIT",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.1"
