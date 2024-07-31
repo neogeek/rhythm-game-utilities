@@ -14,23 +14,15 @@
 
 extern "C"
 {
-    PACKAGE_API float ConvertTicksToSeconds(float tick, int resolution,
-                                            int bpm);
-
-    PACKAGE_API int ConvertSecondsToTicks(double seconds, int resolution,
-                                          int bpm);
-
-    PACKAGE_API float CalculateScale(float baseBpm, float actualBpm,
-                                     float speed);
+    PACKAGE_API float ConvertTickToPosition(float tick, int resolution);
 
     PACKAGE_API bool IsOnTheBeat(float bpm, float currentTime);
+
+    PACKAGE_API int RoundUpToTheNearestMultiplier(int value, int multiplier);
 
     PACKAGE_API float Lerp(float a, float b, float t);
 
     PACKAGE_API float InverseLerp(float a, float b, float v);
-
-    PACKAGE_API float CalculateNoteHitAccuracy(Note *note, float buffer,
-                                               int currentTick);
 }
 
 std::string Trim(const char *contents);

@@ -4,14 +4,14 @@ namespace RhythmGameUtilities
 {
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct TrackEvent
+    public struct BeatBar
     {
 
         public int Position;
 
-        public string TypeCode;
+        public int BPM;
 
-        public string[] Values;
+        public int[] TimeSignature;
 
     }
 

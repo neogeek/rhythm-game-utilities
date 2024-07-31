@@ -4,37 +4,9 @@
 
 #include "RhythmGameUtilities/Utilities.h"
 
-void testConvertTicksToSeconds()
+void testConvertTickToPosition()
 {
-    const int tick = 2784;
-    const int resolution = 192;
-    const int bpm = 124;
-
-    float seconds = ConvertTicksToSeconds(tick, resolution, bpm);
-
-    assert(fabs(7.01f - seconds) < 0.01f);
-
-    std::cout << ".";
-}
-
-void testConvertSecondsToTicks()
-{
-    const float seconds = 7.01f;
-    const int resolution = 192;
-    const int bpm = 124;
-
-    assert(2781 == ConvertSecondsToTicks(seconds, resolution, bpm));
-
-    std::cout << ".";
-}
-
-void testCalculateScale()
-{
-    const int baseBpm = 160;
-    const float speed = 5;
-
-    assert(5.0f == CalculateScale(baseBpm, 160, speed));
-    assert(3.75f == CalculateScale(baseBpm, 120, speed));
+    assert(4 == ConvertTickToPosition(768, 192));
 
     std::cout << ".";
 }
@@ -66,23 +38,9 @@ void testInverseLerp()
     std::cout << ".";
 }
 
-void testCalculateNoteHitAccuracy()
+void testRoundUpToTheNearestMultiplier()
 {
-    auto *note = new Note();
-
-    note->Position = 2884;
-
-    const int buffer = 60;
-
-    assert(1 == CalculateNoteHitAccuracy(note, buffer, note->Position));
-    assert(0 ==
-           CalculateNoteHitAccuracy(note, buffer, note->Position - buffer));
-    assert(0.5f ==
-           CalculateNoteHitAccuracy(note, buffer, note->Position - buffer / 2));
-    assert(0 ==
-           CalculateNoteHitAccuracy(note, buffer, note->Position + buffer));
-    assert(0.5f ==
-           CalculateNoteHitAccuracy(note, buffer, note->Position + buffer / 2));
+    assert(20 == RoundUpToTheNearestMultiplier(12, 10));
 
     std::cout << ".";
 }
@@ -129,13 +87,11 @@ void testFindMatchGroups()
 
 int main()
 {
-    testConvertTicksToSeconds();
-    testConvertSecondsToTicks();
-    testCalculateScale();
+    testConvertTickToPosition();
     testIsOnTheBeat();
     testLerp();
     testInverseLerp();
-    testCalculateNoteHitAccuracy();
+    testRoundUpToTheNearestMultiplier();
 
     testTrim();
     testSplit();

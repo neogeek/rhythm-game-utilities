@@ -5,22 +5,22 @@ namespace RhythmGameUtilities
     {
 
         /// <summary>
-        /// BPM Marker
+        ///     BPM Marker
         /// </summary>
         public const string BPM = "B";
 
         /// <summary>
-        /// Time Signature Marker
+        ///     Time Signature Marker
         /// </summary>
         public const string TimeSignature = "TS";
 
         /// <summary>
-        /// Note Marker
+        ///     Note Marker
         /// </summary>
         public const string Note = "N";
 
         /// <summary>
-        /// Event Marker
+        ///     Event Marker
         /// </summary>
         public const string Event = "E";
 

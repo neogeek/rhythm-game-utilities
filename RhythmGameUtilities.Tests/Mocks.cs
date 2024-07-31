@@ -3,7 +3,7 @@ using System.IO;
 namespace RhythmGameUtilities.Tests
 {
 
-    public class Mocks
+    public static class Mocks
     {
 
         public static string ROOT_DIR => Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.FullName;

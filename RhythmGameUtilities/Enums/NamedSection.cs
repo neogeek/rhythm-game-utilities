@@ -5,17 +5,17 @@ namespace RhythmGameUtilities
     {
 
         /// <summary>
-        /// Song information
+        ///     Song information
         /// </summary>
         public const string Song = "Song";
 
         /// <summary>
-        /// Track information used for syncing with music and notes like BPM
+        ///     Track information used for syncing with music and notes like BPM
         /// </summary>
         public const string SyncTrack = "SyncTrack";
 
         /// <summary>
-        /// Track events
+        ///     Track events
         /// </summary>
         public const string Events = "Events";
 

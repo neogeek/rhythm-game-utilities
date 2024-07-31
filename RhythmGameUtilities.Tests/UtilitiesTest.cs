@@ -7,55 +7,12 @@ namespace RhythmGameUtilities.Tests
     {
 
         [Test]
-        public void TestConvertTicksToSeconds()
+        public void TestConvertTickToPosition()
         {
-            const int tick = 2784;
+            const int tick = 1056;
             const int resolution = 192;
-            const int bpm = 124;
 
-            Assert.That(Utilities.ConvertTicksToSeconds(tick, resolution, bpm), Is.EqualTo(7.01f).Within(0.01f));
-        }
-
-        [Test]
-        public void TestConvertSecondsToTicks()
-        {
-            const float seconds = 7.01f;
-            const int resolution = 192;
-            const int bpm = 124;
-
-            Assert.That(Utilities.ConvertSecondsToTicks(seconds, resolution, bpm), Is.EqualTo(2781));
-        }
-
-        [Test]
-        public void TestCalculateNoteHitAccuracy()
-        {
-            var note = new Note { Position = 2884 };
-
-            const int buffer = 60;
-
-            Assert.That(Utilities.CalculateNoteHitAccuracy(ref note, buffer, note.Position - buffer),
-                Is.EqualTo(0));
-
-            Assert.That(Utilities.CalculateNoteHitAccuracy(ref note, buffer, note.Position - buffer / 2),
-                Is.EqualTo(0.5f));
-
-            Assert.That(Utilities.CalculateNoteHitAccuracy(ref note, buffer, note.Position + buffer),
-                Is.EqualTo(0));
-
-            Assert.That(Utilities.CalculateNoteHitAccuracy(ref note, buffer, note.Position + buffer / 2),
-                Is.EqualTo(0.5f));
-
-            Assert.That(Utilities.CalculateNoteHitAccuracy(ref note, buffer, note.Position), Is.EqualTo(1));
-        }
-
-        [Test]
-        public void TestCalculateScale()
-        {
-            const int baseBpm = 160;
-            const float speed = 5;
-
-            Assert.That(Utilities.CalculateScale(baseBpm, 160, speed), Is.EqualTo(5.0f));
-            Assert.That(Utilities.CalculateScale(baseBpm, 120, speed), Is.EqualTo(3.75f));
+            Assert.That(Utilities.ConvertTickToPosition(tick, resolution), Is.EqualTo(5.5f));
         }
 
         [Test]

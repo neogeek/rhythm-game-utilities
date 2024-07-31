@@ -49,7 +49,7 @@ namespace RhythmGameUtilities
     public static class Parsers
     {
 
-        private static readonly Regex JSON_VALUE_PATTERN = new Regex(@"(""[^""]+""|\S+)");
+        private static readonly Regex JSON_VALUE_PATTERN = new(@"(""[^""]+""|\S+)");
 
         public static Dictionary<string, KeyValuePair<string, string[]>[]> ParseSectionsFromChart(
             string contents)

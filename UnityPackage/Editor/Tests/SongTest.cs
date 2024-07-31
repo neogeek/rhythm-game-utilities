@@ -7,7 +7,7 @@ namespace RhythmGameUtilities.Tests
     {
 
         [Test]
-        public void TestSongFromChartFile()
+        public void SongFromChartFileTest()
         {
             var song = Song.FromChartFile(Mocks.SONG_CHART);
 
@@ -27,18 +27,12 @@ namespace RhythmGameUtilities.Tests
             Assert.That(song.Difficulties.ContainsKey(Difficulty.Expert), Is.True);
             Assert.That(song.Difficulties[Difficulty.Expert].Length, Is.EqualTo(8));
             Assert.That(song.BPM.Count, Is.EqualTo(7));
-        }
-
-        [Test]
-        public void TestSongToJSON()
-        {
-            var song = Song.FromChartFile(Mocks.SONG_CHART);
 
             Assert.That(song.ToJSON(), Is.EqualTo(Mocks.SONG_JSON));
         }
 
         [Test]
-        public void TestSongFromJSON()
+        public void SongFromJSONTest()
         {
             var song = Song.FromJSON(Mocks.SONG_JSON);
 
@@ -61,7 +55,7 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
-        public void TestCurrentBPM()
+        public void GetCurrentBPMTest()
         {
             var song = Song.FromChartFile(Mocks.SONG_CHART);
 
@@ -75,7 +69,7 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
-        public void TestCurrentTimeStamps()
+        public void GetCurrentTimeSignatureTest()
         {
             var song = Song.FromChartFile(Mocks.SONG_CHART);
 
