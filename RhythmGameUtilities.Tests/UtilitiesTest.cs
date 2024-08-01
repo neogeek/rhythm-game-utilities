@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace RhythmGameUtilities.Tests
@@ -13,6 +14,26 @@ namespace RhythmGameUtilities.Tests
             const int resolution = 192;
 
             Assert.That(Utilities.ConvertTickToPosition(tick, resolution), Is.EqualTo(5.5f));
+        }
+
+        [Test]
+        public void TestConvertSecondsToTicks()
+        {
+            const int seconds = 5;
+            const int resolution = 192;
+
+            Assert.That(
+                Utilities.ConvertSecondsToTicks(seconds, resolution,
+                    new Dictionary<int, int>
+                    {
+                        { 0, 88000 },
+                        { 3840, 112000 },
+                        { 9984, 89600 },
+                        { 22272, 112000 },
+                        { 33792, 111500 },
+                        { 34560, 112000 },
+                        { 42240, 111980 }
+                    }), Is.EqualTo(1408));
         }
 
         [Test]

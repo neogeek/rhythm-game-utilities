@@ -24,6 +24,16 @@ namespace RhythmGameUtilities
 #elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
         [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
+        public static extern int ConvertSecondsToTicksInternal(float seconds, int resolution, int[] bpmChangesKeys,
+            int[] bpmChangesValues, int bpmChangesSize);
+
+#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
+#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
+#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern bool IsOnTheBeat(float bpm, float currentTime);
 
 #if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
@@ -65,33 +75,10 @@ namespace RhythmGameUtilities
             return UtilitiesInternal.ConvertTickToPosition(tick, resolution);
         }
 
-        public static int ConvertSecondToTicks(float seconds, int resolution, Dictionary<int, int> bpmChanges)
+        public static int ConvertSecondsToTicks(float seconds, int resolution, Dictionary<int, int> bpmChanges)
         {
-            var totalTicks = 0;
-            var remainingSeconds = seconds;
-            var previousTick = 0;
-            var previousBPM = bpmChanges.FirstValue() / 1000;
-
-            foreach (var (currentTick, value) in bpmChanges)
-            {
-                var timeForSegment = (currentTick - previousTick) / (resolution * previousBPM / SECONDS_PER_MINUTE);
-
-                if (remainingSeconds <= timeForSegment)
-                {
-                    totalTicks += (int)(remainingSeconds * previousBPM / SECONDS_PER_MINUTE * resolution);
-
-                    return totalTicks;
-                }
-
-                totalTicks += currentTick - previousTick;
-                remainingSeconds -= timeForSegment;
-                previousTick = currentTick;
-                previousBPM = value / 1000;
-            }
-
-            totalTicks += (int)(remainingSeconds * previousBPM / SECONDS_PER_MINUTE * resolution);
-
-            return totalTicks;
+            return UtilitiesInternal.ConvertSecondsToTicksInternal(seconds, resolution, bpmChanges.Keys.ToArray(),
+                bpmChanges.Values.ToArray(), bpmChanges.Count);
         }
 
         public static bool IsOnTheBeat(float bpm, float currentTime)

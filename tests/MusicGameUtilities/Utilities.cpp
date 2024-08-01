@@ -11,6 +11,17 @@ void testConvertTickToPosition()
     std::cout << ".";
 }
 
+void testConvertSecondsToTicks()
+{
+    std::map<int, int> bpmChanges = {
+        {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
+        {33792, 111500}, {34560, 112000}, {42240, 111980}};
+
+    assert(1408 == ConvertSecondsToTicks(5, 192, bpmChanges));
+
+    std::cout << ".";
+}
+
 void testIsOnTheBeat()
 {
     assert(true == IsOnTheBeat(120, 10));
@@ -88,6 +99,7 @@ void testFindMatchGroups()
 int main()
 {
     testConvertTickToPosition();
+    testConvertSecondsToTicks();
     testIsOnTheBeat();
     testLerp();
     testInverseLerp();

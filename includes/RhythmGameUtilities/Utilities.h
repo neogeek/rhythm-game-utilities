@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <regex>
 #include <string>
 #include <vector>
@@ -16,6 +17,11 @@ extern "C"
 {
     PACKAGE_API float ConvertTickToPosition(float tick, int resolution);
 
+    PACKAGE_API int ConvertSecondsToTicksInternal(float seconds, int resolution,
+                                                  int *bpmChangesKeys,
+                                                  int *bpmChangesValues,
+                                                  int bpmChangesSize);
+
     PACKAGE_API bool IsOnTheBeat(float bpm, float currentTime);
 
     PACKAGE_API int RoundUpToTheNearestMultiplier(int value, int multiplier);
@@ -24,6 +30,9 @@ extern "C"
 
     PACKAGE_API float InverseLerp(float a, float b, float v);
 }
+
+int ConvertSecondsToTicks(float seconds, int resolution,
+                          std::map<int, int> bpmChanges);
 
 std::string Trim(const char *contents);
 

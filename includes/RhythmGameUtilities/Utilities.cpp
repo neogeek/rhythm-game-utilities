@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <map>
 #include <regex>
 #include <sstream>
 #include <string>
@@ -14,6 +15,53 @@ const float SECONDS_PER_MINUTE = 60.0f;
 float ConvertTickToPosition(float tick, int resolution)
 {
     return tick / resolution;
+}
+
+int ConvertSecondsToTicks(float seconds, int resolution,
+                          std::map<int, int> bpmChanges)
+{
+    auto totalTicks = 0;
+    auto remainingSeconds = seconds;
+    auto previousTick = 0;
+    auto previousBPM = bpmChanges.begin()->second / 1000;
+
+    for (auto const &[currentTick, value] : bpmChanges)
+    {
+        auto timeForSegment = (currentTick - previousTick) /
+                              (resolution * previousBPM / SECONDS_PER_MINUTE);
+
+        if (remainingSeconds <= timeForSegment)
+        {
+            totalTicks += (int)(remainingSeconds * previousBPM /
+                                SECONDS_PER_MINUTE * resolution);
+
+            return totalTicks;
+        }
+
+        totalTicks += currentTick - previousTick;
+        remainingSeconds -= timeForSegment;
+        previousTick = currentTick;
+        previousBPM = value / 1000;
+    }
+
+    totalTicks +=
+        (int)(remainingSeconds * previousBPM / SECONDS_PER_MINUTE * resolution);
+
+    return totalTicks;
+}
+
+int ConvertSecondsToTicksInternal(float seconds, int resolution,
+                                  int *bpmChangesKeys, int *bpmChangesValues,
+                                  int bpmChangesSize)
+{
+    std::map<int, int> bpmChanges;
+
+    for (auto i = 0; i < bpmChangesSize; i += 1)
+    {
+        bpmChanges[bpmChangesKeys[i]] = bpmChangesValues[i];
+    }
+
+    return ConvertSecondsToTicks(seconds, resolution, bpmChanges);
 }
 
 bool IsOnTheBeat(float bpm, float currentTime)
