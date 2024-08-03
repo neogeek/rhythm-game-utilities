@@ -128,6 +128,16 @@ using RhythmGameUtilities;
 var sections = Parsers.ParseSectionsFromChart(contents);
 ```
 
+#### `Parsers.ParseTimeSignaturesFromChartSection`
+
+```csharp
+using RhythmGameUtilities;
+
+var sections = Parsers.ParseSectionsFromChart(contents);
+
+var timeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
+```
+
 #### `Parsers.ParseBpmFromChartSection`
 
 ```csharp
@@ -136,17 +146,6 @@ using RhythmGameUtilities;
 var sections = Parsers.ParseSectionsFromChart(contents);
 
 var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
-```
-
-#### `Parsers.ParseTrackEventsFromChartSection`
-
-```csharp
-using RhythmGameUtilities;
-
-var sections = Parsers.ParseSectionsFromChart(contents);
-
-var trackEvents =
-    Parsers.ParseTrackEventsFromChartSection(sections[$"{Difficulty.Expert}Single"], TypeCode.Event);
 ```
 
 #### `Parsers.ParseNotesFromChartSection`
@@ -171,16 +170,15 @@ var lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.Events]);
 
 ### Utilities
 
-#### `Utilities.ConvertTicksToSeconds`
+#### `Utilities.ConvertTickToPosition`
 
 ```csharp
 using RhythmGameUtilities;
 
 const int tick = 2784;
 const int resolution = 192;
-const int bpm = 124;
 
-var seconds = Utilities.ConvertTicksToSeconds(tick, resolution, bpm);
+var position = Utilities.ConvertTickToPosition(tick, resolution);
 ```
 
 #### `Utilities.ConvertSecondsToTicks`
@@ -188,36 +186,33 @@ var seconds = Utilities.ConvertTicksToSeconds(tick, resolution, bpm);
 ```csharp
 using RhythmGameUtilities;
 
-const float seconds = 7.01f;
+const int tick = 2784;
 const int resolution = 192;
-const int bpm = 124;
+const bpmChanges = new Dictionary<int, int>();
 
-var ticks = Utilities.ConvertSecondsToTicks(seconds, resolution, bpm);
+var position = Utilities.ConvertSecondsToTicks(tick, resolution, bpmChanges);
 ```
 
-#### `Utilities.CalculateNoteHitAccuracy`
+#### `Utilities.IsOnTheBeat`
 
 ```csharp
 using RhythmGameUtilities;
 
-var note = new Note { Position = 2884 };
+const int bpm = 120;
+const int currentTime = 10;
 
-const int buffer = 60;
+if (Utilities.IsOnTheBeat(bpm, currentTime))
+{
 
-var accuracy = Utilities.CalculateNoteHitAccuracy(ref note, buffer, currentTick);
-
-var score = Mathf.CeilToInt(Mathf.Lerp(0, 100, accuracy));
+}
 ```
 
-#### `Utilities.CalculateScale`
+#### `Utilities.RoundUpToTheNearestMultiplier`
 
 ```csharp
 using RhythmGameUtilities;
 
-const int baseBpm = 160;
-const float speed = 5;
-
-var scale = Utilities.CalculateScale(baseBpm, 120, speed);
+var position = Utilities.RoundUpToTheNearestMultiplier(12, 10);
 ```
 
 #### `Utilities.Lerp`
