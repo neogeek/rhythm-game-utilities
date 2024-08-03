@@ -45,6 +45,12 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
+        public void TestRoundUpToTheNearestMultiplier()
+        {
+            Assert.That(Utilities.RoundUpToTheNearestMultiplier(12, 10), Is.EqualTo(20));
+        }
+
+        [Test]
         public void TestLerp()
         {
             Assert.That(Utilities.Lerp(0, 10, 0), Is.EqualTo(0));
