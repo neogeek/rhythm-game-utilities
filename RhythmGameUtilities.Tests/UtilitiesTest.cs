@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace RhythmGameUtilities.Tests
@@ -7,55 +8,32 @@ namespace RhythmGameUtilities.Tests
     {
 
         [Test]
-        public void TestConvertTicksToSeconds()
+        public void TestConvertTickToPosition()
         {
-            const int tick = 2784;
+            const int tick = 1056;
             const int resolution = 192;
-            const int bpm = 124;
 
-            Assert.That(Utilities.ConvertTicksToSeconds(tick, resolution, bpm), Is.EqualTo(7.01f).Within(0.01f));
+            Assert.That(Utilities.ConvertTickToPosition(tick, resolution), Is.EqualTo(5.5f));
         }
 
         [Test]
         public void TestConvertSecondsToTicks()
         {
-            const float seconds = 7.01f;
+            const int seconds = 5;
             const int resolution = 192;
-            const int bpm = 124;
 
-            Assert.That(Utilities.ConvertSecondsToTicks(seconds, resolution, bpm), Is.EqualTo(2781));
-        }
-
-        [Test]
-        public void TestCalculateNoteHitAccuracy()
-        {
-            var note = new Note { Position = 2884 };
-
-            const int buffer = 60;
-
-            Assert.That(Utilities.CalculateNoteHitAccuracy(ref note, buffer, note.Position - buffer),
-                Is.EqualTo(0));
-
-            Assert.That(Utilities.CalculateNoteHitAccuracy(ref note, buffer, note.Position - buffer / 2),
-                Is.EqualTo(0.5f));
-
-            Assert.That(Utilities.CalculateNoteHitAccuracy(ref note, buffer, note.Position + buffer),
-                Is.EqualTo(0));
-
-            Assert.That(Utilities.CalculateNoteHitAccuracy(ref note, buffer, note.Position + buffer / 2),
-                Is.EqualTo(0.5f));
-
-            Assert.That(Utilities.CalculateNoteHitAccuracy(ref note, buffer, note.Position), Is.EqualTo(1));
-        }
-
-        [Test]
-        public void TestCalculateScale()
-        {
-            const int baseBpm = 160;
-            const float speed = 5;
-
-            Assert.That(Utilities.CalculateScale(baseBpm, 160, speed), Is.EqualTo(5.0f));
-            Assert.That(Utilities.CalculateScale(baseBpm, 120, speed), Is.EqualTo(3.75f));
+            Assert.That(
+                Utilities.ConvertSecondsToTicks(seconds, resolution,
+                    new Dictionary<int, int>
+                    {
+                        { 0, 88000 },
+                        { 3840, 112000 },
+                        { 9984, 89600 },
+                        { 22272, 112000 },
+                        { 33792, 111500 },
+                        { 34560, 112000 },
+                        { 42240, 111980 }
+                    }), Is.EqualTo(1408));
         }
 
         [Test]

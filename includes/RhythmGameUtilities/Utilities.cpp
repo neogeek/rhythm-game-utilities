@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cmath>
+#include <map>
 #include <regex>
 #include <sstream>
 #include <string>
@@ -11,25 +12,56 @@
 
 const float SECONDS_PER_MINUTE = 60.0f;
 
-float ConvertTicksToSeconds(float tick, int resolution, int bpm)
+float ConvertTickToPosition(float tick, int resolution)
 {
-    auto result = tick / resolution * SECONDS_PER_MINUTE / bpm;
-
-    return result;
+    return tick / resolution;
 }
 
-int ConvertSecondsToTicks(double seconds, int resolution, int bpm)
+int ConvertSecondsToTicks(float seconds, int resolution,
+                          std::map<int, int> bpmChanges)
 {
-    auto result = (int)(seconds * bpm / SECONDS_PER_MINUTE * resolution);
+    auto totalTicks = 0;
+    auto remainingSeconds = seconds;
+    auto previousTick = 0;
+    auto previousBPM = bpmChanges.begin()->second / 1000;
 
-    return result;
+    for (auto const &[currentTick, value] : bpmChanges)
+    {
+        auto timeForSegment = (currentTick - previousTick) /
+                              (resolution * previousBPM / SECONDS_PER_MINUTE);
+
+        if (remainingSeconds <= timeForSegment)
+        {
+            totalTicks += (int)(remainingSeconds * previousBPM /
+                                SECONDS_PER_MINUTE * resolution);
+
+            return totalTicks;
+        }
+
+        totalTicks += currentTick - previousTick;
+        remainingSeconds -= timeForSegment;
+        previousTick = currentTick;
+        previousBPM = value / 1000;
+    }
+
+    totalTicks +=
+        (int)(remainingSeconds * previousBPM / SECONDS_PER_MINUTE * resolution);
+
+    return totalTicks;
 }
 
-float CalculateScale(float baseBpm, float actualBpm, float speed)
+int ConvertSecondsToTicksInternal(float seconds, int resolution,
+                                  int *bpmChangesKeys, int *bpmChangesValues,
+                                  int bpmChangesSize)
 {
-    auto result = actualBpm / baseBpm * speed;
+    std::map<int, int> bpmChanges;
 
-    return result;
+    for (auto i = 0; i < bpmChangesSize; i += 1)
+    {
+        bpmChanges[bpmChangesKeys[i]] = bpmChangesValues[i];
+    }
+
+    return ConvertSecondsToTicks(seconds, resolution, bpmChanges);
 }
 
 bool IsOnTheBeat(float bpm, float currentTime)
@@ -45,21 +77,16 @@ bool IsOnTheBeat(float bpm, float currentTime)
     return result;
 }
 
+int RoundUpToTheNearestMultiplier(int value, int multiplier)
+{
+    return (int)ceil((float)value / multiplier) * multiplier;
+}
+
 float Lerp(float a, float b, float t) { return (1 - t) * a + b * t; }
 
 float InverseLerp(float a, float b, float v)
 {
     return std::clamp(((v - a) / (b - a)), 0.0f, 1.0f);
-}
-
-float CalculateNoteHitAccuracy(Note *note, float buffer, int currentTick)
-{
-    auto hit = InverseLerp(note->Position - buffer, note->Position + buffer,
-                           (float)currentTick);
-
-    auto result = InverseLerp(0.5f, 0.0f, fabs(hit - 0.5f));
-
-    return result;
 }
 
 std::string Trim(const char *contents)

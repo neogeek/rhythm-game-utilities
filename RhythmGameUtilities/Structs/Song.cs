@@ -6,77 +6,85 @@ using Newtonsoft.Json;
 namespace RhythmGameUtilities
 {
 
-    public struct Song
+    public class Song
     {
 
+        [JsonIgnore]
+        private List<BeatBar> _beatBars = new();
+
+        [JsonIgnore]
+        private Dictionary<int, int> _sortedBPM = new();
+
         /// <summary>
-        /// Title of the song.
+        ///     Title of the song.
         /// </summary>
         [JsonProperty]
         public string Name { get; internal set; }
 
         /// <summary>
-        /// Artist(s) or band(s) behind the song.
+        ///     Artist(s) or band(s) behind the song.
         /// </summary>
         [JsonProperty]
         public string Artist { get; internal set; }
 
         /// <summary>
-        /// Title of the album the song is featured in.
+        ///     Title of the album the song is featured in.
         /// </summary>
         [JsonProperty]
         public string Album { get; internal set; }
 
         /// <summary>
-        /// Genre of the song.
+        ///     Genre of the song.
         /// </summary>
         [JsonProperty]
         public string Genre { get; internal set; }
 
         /// <summary>
-        /// Year of the song’s release.<br/>Typically preceded by a comma and space, for example `, 2002`, to make importing into GHTCP quicker.
+        ///     Year of the song’s release.<br />Typically preceded by a comma and space, for example `, 2002`, to make importing
+        ///     into GHTCP quicker.
         /// </summary>
         [JsonProperty]
         public string Year { get; internal set; }
 
         /// <summary>
-        /// Community member who charted the song.
+        ///     Community member who charted the song.
         /// </summary>
         [JsonProperty]
         public string Charter { get; internal set; }
 
         /// <summary>
-        /// (Required) Number of positional ticks between each 1/4th note in the chart.
+        ///     (Required) Number of positional ticks between each 1/4th note in the chart.
         /// </summary>
         [JsonProperty]
         public int Resolution { get; internal set; }
 
         /// <summary>
-        /// Estimated difficulty of the song.
+        ///     Estimated difficulty of the song.
         /// </summary>
         [JsonProperty]
         public int Difficulty { get; internal set; }
 
         /// <summary>
-        /// Start time of the audio, in seconds.<br/>A higher value makes the audio start sooner.
+        ///     Start time of the audio, in seconds.<br />A higher value makes the audio start sooner.
         /// </summary>
         [JsonProperty]
         public double Offset { get; internal set; }
 
         /// <summary>
-        /// Time of the song, in seconds, where the song preview should start.
+        ///     Time of the song, in seconds, where the song preview should start.
         /// </summary>
         [JsonProperty]
         public double PreviewStart { get; internal set; }
 
         /// <summary>
-        /// Time of the song, in seconds, where the song preview should end.
+        ///     Time of the song, in seconds, where the song preview should end.
         /// </summary>
         [JsonProperty]
         public double PreviewEnd { get; internal set; }
 
         /// <summary>
-        /// The main audio stream.<br/>When other audio stems are present, this is background audio not in the other tracks and/or instruments not charted.
+        ///     The main audio stream.<br />When other audio stems are present, this is background audio not in the other tracks
+        ///     and/or instruments not charted.
         /// </summary>
         [JsonProperty]
         public string MusicStream { get; internal set; }
@@ -90,8 +98,36 @@ namespace RhythmGameUtilities
         [JsonProperty]
         public Dictionary<int, int> BPM { get; internal set; }
 
+        [JsonIgnore]
+        public Dictionary<int, int> SortedBPM
+        {
+            get
+            {
+                if (_sortedBPM.Count != BPM.Count)
+                {
+                    _sortedBPM = new Dictionary<int, int>(BPM.OrderBy(b => b.Key));
+                }
+
+                return _sortedBPM;
+            }
+        }
+
         [JsonProperty]
         public Dictionary<int, int[]> TimeSignatures { get; internal set; }
+
+        [JsonProperty]
+        public List<BeatBar> BeatBars
+        {
+            get
+            {
+                if (_beatBars.Count == 0)
+                {
+                    _beatBars = CalculateBeatBars(BPM);
+                }
+
+                return _beatBars;
+            }
+        }
 
         public static Song FromChartFile(string input)
         {
@@ -160,6 +196,35 @@ namespace RhythmGameUtilities
         public int[] GetCurrentTimeSignature(Note note)
         {
             return TimeSignatures.Last(item => item.Key <= note.Position).Value;
+        }
+
+        public static List<BeatBar> CalculateBeatBars(Dictionary<int, int> bpm, int resolution = 192, int ts = 4,
+            bool includeHalfNotes = true)
+        {
+            var newBpm = new List<BeatBar>();
+
+            var keyValuePairs = Utilities.GenerateAdjacentKeyPairs(bpm);
+
+            foreach (var keys in keyValuePairs)
+            {
+                var startTick = keys[0];
+                var endTick = keys[1];
+
+                for (var tick = startTick; tick <= endTick; tick += resolution)
+                {
+                    newBpm.Add(new BeatBar { Position = tick, BPM = bpm[startTick], TimeSignature = new[] { ts } });
+
+                    if (includeHalfNotes && tick != endTick)
+                    {
+                        newBpm.Add(new BeatBar
+                        {
+                            Position = tick + resolution / 2, BPM = bpm[keys[0]], TimeSignature = new[] { 4 }
+                        });
+                    }
+                }
+            }
+
+            return newBpm;
         }
 
     }
