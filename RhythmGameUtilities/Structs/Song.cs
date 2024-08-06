@@ -122,7 +122,7 @@ namespace RhythmGameUtilities
             {
                 if (_beatBars.Count == 0)
                 {
-                    _beatBars = CalculateBeatBars(BPM);
+                    _beatBars = Utilities.CalculateBeatBars(BPM);
                 }
 
                 return _beatBars;
@@ -196,35 +196,6 @@ namespace RhythmGameUtilities
         public int[] GetCurrentTimeSignature(Note note)
         {
             return TimeSignatures.Last(item => item.Key <= note.Position).Value;
-        }
-
-        public static List<BeatBar> CalculateBeatBars(Dictionary<int, int> bpm, int resolution = 192, int ts = 4,
-            bool includeHalfNotes = true)
-        {
-            var newBpm = new List<BeatBar>();
-
-            var keyValuePairs = Utilities.GenerateAdjacentKeyPairs(bpm);
-
-            foreach (var keys in keyValuePairs)
-            {
-                var startTick = keys[0];
-                var endTick = keys[1];
-
-                for (var tick = startTick; tick <= endTick; tick += resolution)
-                {
-                    newBpm.Add(new BeatBar { Position = tick, BPM = bpm[startTick], TimeSignature = new[] { ts } });
-
-                    if (includeHalfNotes && tick != endTick)
-                    {
-                        newBpm.Add(new BeatBar
-                        {
-                            Position = tick + resolution / 2, BPM = bpm[keys[0]], TimeSignature = new[] { 4 }
-                        });
-                    }
-                }
-            }
-
-            return newBpm;
         }
 
     }

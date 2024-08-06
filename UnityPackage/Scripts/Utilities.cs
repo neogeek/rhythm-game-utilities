@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -101,17 +102,48 @@ namespace RhythmGameUtilities
             return UtilitiesInternal.InverseLerp(a, b, v);
         }
 
-        public static List<int[]> GenerateAdjacentKeyPairs<T>(Dictionary<int, T> dictionary)
+        public static List<BeatBar> CalculateBeatBars(Dictionary<int, int> bpmChanges, int resolution = 192, int ts = 4,
+            bool includeHalfNotes = true)
+        {
+            var beatBars = new List<BeatBar>();
+
+            var keyValuePairs = GenerateAdjacentKeyPairs(bpmChanges);
+
+            foreach (var (startTick, endTick) in keyValuePairs)
+            {
+                for (var tick = startTick; tick <= endTick; tick += resolution)
+                {
+                    beatBars.Add(new BeatBar
+                    {
+                        Position = tick, BPM = bpmChanges[startTick], TimeSignature = new[] { ts }
+                    });
+
+                    if (includeHalfNotes && tick != endTick)
+                    {
+                        beatBars.Add(new BeatBar
+                        {
+                            Position = tick + resolution / 2,
+                            BPM = bpmChanges[startTick],
+                            TimeSignature = new[] { ts }
+                        });
+                    }
+                }
+            }
+
+            return beatBars;
+        }
+
+        public static List<Tuple<T, T>> GenerateAdjacentKeyPairs<T>(Dictionary<T, T> dictionary)
         {
             var keys = dictionary.Keys.ToList();
 
             keys.Sort();
 
-            var adjacentKeyPairs = new List<int[]>();
+            var adjacentKeyPairs = new List<Tuple<T, T>>();
 
             for (var i = 0; i < keys.Count - 1; i += 1)
             {
-                adjacentKeyPairs.Add(new[] { keys[i], keys[i + 1] });
+                adjacentKeyPairs.Add(new Tuple<T, T>(keys[i], keys[i + 1]));
             }
 
             return adjacentKeyPairs;
