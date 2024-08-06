@@ -64,6 +64,17 @@ namespace RhythmGameUtilities
 #endif
         public static extern float InverseLerp(float a, float b, float v);
 
+#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
+#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
+#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
+#endif
+        public static extern IntPtr CalculateBeatBarsInternal(int[] bpmChangesKeys,
+            int[] bpmChangesValues, int bpmChangesSize, int resolution, int ts,
+            bool includeHalfNotes, out int size);
+
     }
 
     public static class Utilities
@@ -107,46 +118,21 @@ namespace RhythmGameUtilities
         {
             var beatBars = new List<BeatBar>();
 
-            var keyValuePairs = GenerateAdjacentKeyPairs(bpmChanges);
+            var ptrArray = UtilitiesInternal.CalculateBeatBarsInternal(bpmChanges.Keys.ToArray(),
+                bpmChanges.Values.ToArray(), bpmChanges.Count, resolution, ts, includeHalfNotes,
+                out var size);
 
-            foreach (var (startTick, endTick) in keyValuePairs)
+            var beatBarSize = Marshal.SizeOf(typeof(BeatBar));
+
+            for (var i = 0; i < size; i += 1)
             {
-                for (var tick = startTick; tick <= endTick; tick += resolution)
-                {
-                    beatBars.Add(new BeatBar
-                    {
-                        Position = tick, BPM = bpmChanges[startTick], TimeSignature = new[] { ts }
-                    });
+                var beatBarSizePtr = new IntPtr(ptrArray.ToInt64() + beatBarSize * i);
+                var beatBar = Marshal.PtrToStructure<BeatBar>(beatBarSizePtr);
 
-                    if (includeHalfNotes && tick != endTick)
-                    {
-                        beatBars.Add(new BeatBar
-                        {
-                            Position = tick + resolution / 2,
-                            BPM = bpmChanges[startTick],
-                            TimeSignature = new[] { ts }
-                        });
-                    }
-                }
+                beatBars.Add(beatBar);
             }
 
             return beatBars;
-        }
-
-        public static List<Tuple<T, T>> GenerateAdjacentKeyPairs<T>(Dictionary<T, T> dictionary)
-        {
-            var keys = dictionary.Keys.ToList();
-
-            keys.Sort();
-
-            var adjacentKeyPairs = new List<Tuple<T, T>>();
-
-            for (var i = 0; i < keys.Count - 1; i += 1)
-            {
-                adjacentKeyPairs.Add(new Tuple<T, T>(keys[i], keys[i + 1]));
-            }
-
-            return adjacentKeyPairs;
         }
 
     }
