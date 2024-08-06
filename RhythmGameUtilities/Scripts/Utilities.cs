@@ -101,15 +101,6 @@ namespace RhythmGameUtilities
             return UtilitiesInternal.InverseLerp(a, b, v);
         }
 
-        public static T2 FirstValue<T1, T2>(this Dictionary<T1, T2> dictionary)
-        {
-            var enumerator = dictionary.GetEnumerator();
-
-            enumerator.MoveNext();
-
-            return enumerator.Current.Value;
-        }
-
         public static List<int[]> GenerateAdjacentKeyPairs<T>(Dictionary<int, T> dictionary)
         {
             var keys = dictionary.Keys.ToList();
