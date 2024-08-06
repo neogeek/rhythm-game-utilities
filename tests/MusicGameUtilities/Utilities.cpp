@@ -74,6 +74,16 @@ void testSplit()
     std::cout << ".";
 }
 
+void testGenerateAdjacentKeyPairs()
+{
+    auto adjacentKeyPairs =
+        GenerateAdjacentKeyPairs(std::map<int, int>{{1, 2}, {3, 4}, {5, 6}});
+
+    assert(adjacentKeyPairs.size() == 2);
+
+    std::cout << ".";
+}
+
 void testFindAllMatches()
 {
     std::regex pattern("\\w+");
@@ -107,6 +117,7 @@ int main()
 
     testTrim();
     testSplit();
+    testGenerateAdjacentKeyPairs();
     testFindAllMatches();
     testFindMatchGroups();
 
