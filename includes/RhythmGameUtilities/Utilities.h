@@ -38,6 +38,9 @@ std::string Trim(const char *contents);
 
 std::vector<std::string> Split(const char *contents, const char delimiter);
 
+std::vector<std::tuple<int, int>>
+GenerateAdjacentKeyPairs(std::map<int, int> keyValuePairs);
+
 std::vector<std::string> FindAllMatches(const char *contents,
                                         std::regex pattern);
 
