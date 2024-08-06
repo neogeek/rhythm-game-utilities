@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 
@@ -22,18 +23,19 @@ namespace RhythmGameUtilities.Tests
             const int seconds = 5;
             const int resolution = 192;
 
+            var bpmChanges = new Dictionary<int, int>
+            {
+                { 0, 88000 },
+                { 3840, 112000 },
+                { 9984, 89600 },
+                { 22272, 112000 },
+                { 33792, 111500 },
+                { 34560, 112000 },
+                { 42240, 111980 }
+            };
+
             Assert.That(
-                Utilities.ConvertSecondsToTicks(seconds, resolution,
-                    new Dictionary<int, int>
-                    {
-                        { 0, 88000 },
-                        { 3840, 112000 },
-                        { 9984, 89600 },
-                        { 22272, 112000 },
-                        { 33792, 111500 },
-                        { 34560, 112000 },
-                        { 42240, 111980 }
-                    }), Is.EqualTo(1408));
+                Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges), Is.EqualTo(1408));
         }
 
         [Test]
@@ -64,6 +66,28 @@ namespace RhythmGameUtilities.Tests
             Assert.That(Utilities.InverseLerp(0, 10, 0), Is.EqualTo(0));
             Assert.That(Utilities.InverseLerp(0, 10, 5), Is.EqualTo(0.5f));
             Assert.That(Utilities.InverseLerp(0, 10, 10), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void TestCalculateBeatBars()
+        {
+            const int resolution = 192;
+            const int timeSignature = 4;
+
+            var bpmChanges = new Dictionary<int, int>
+            {
+                { 0, 88000 },
+                { 3840, 112000 },
+                { 9984, 89600 },
+                { 22272, 112000 },
+                { 33792, 111500 },
+                { 34560, 112000 },
+                { 42240, 111980 }
+            };
+
+            var beatBars = Utilities.CalculateBeatBars(bpmChanges, resolution, timeSignature, true);
+
+            Assert.That(beatBars.Count, Is.EqualTo(446));
         }
 
     }

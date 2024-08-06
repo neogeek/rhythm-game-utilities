@@ -11,8 +11,6 @@ namespace RhythmGameUtilities
 
         public int BPM;
 
-        public int[] TimeSignature;
-
     }
 
 }

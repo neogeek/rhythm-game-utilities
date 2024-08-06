@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "Structs/BeatBar.h"
 #include "Structs/Note.h"
 
 #ifdef _WIN32
@@ -29,6 +30,11 @@ extern "C"
     PACKAGE_API float Lerp(float a, float b, float t);
 
     PACKAGE_API float InverseLerp(float a, float b, float v);
+
+    PACKAGE_API BeatBar *
+    CalculateBeatBarsInternal(int *bpmChangesKeys, int *bpmChangesValues,
+                              int bpmChangesSize, int resolution, int ts,
+                              bool includeHalfNotes, int *outSize);
 }
 
 int ConvertSecondsToTicks(float seconds, int resolution,
@@ -37,6 +43,10 @@ int ConvertSecondsToTicks(float seconds, int resolution,
 std::string Trim(const char *contents);
 
 std::vector<std::string> Split(const char *contents, const char delimiter);
+
+std::vector<BeatBar> CalculateBeatBars(std::map<int, int> bpmChanges,
+                                       int resolution, int ts,
+                                       bool includeHalfNotes);
 
 std::vector<std::tuple<int, int>>
 GenerateAdjacentKeyPairs(std::map<int, int> keyValuePairs);
