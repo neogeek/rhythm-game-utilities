@@ -1,6 +1,7 @@
 #include <cassert>
 #include <cmath>
 #include <iostream>
+#include <tuple>
 
 #include "RhythmGameUtilities/Utilities.h"
 
@@ -74,6 +75,18 @@ void testSplit()
     std::cout << ".";
 }
 
+void testGenerateAdjacentKeyPairs()
+{
+    auto adjacentKeyPairs =
+        GenerateAdjacentKeyPairs(std::map<int, int>{{1, 2}, {3, 4}, {5, 6}});
+
+    assert(adjacentKeyPairs.size() == 2);
+    assert(adjacentKeyPairs[0] == std::make_tuple(1, 3));
+    assert(adjacentKeyPairs[1] == std::make_tuple(3, 5));
+
+    std::cout << ".";
+}
+
 void testFindAllMatches()
 {
     std::regex pattern("\\w+");
@@ -107,6 +120,7 @@ int main()
 
     testTrim();
     testSplit();
+    testGenerateAdjacentKeyPairs();
     testFindAllMatches();
     testFindMatchGroups();
 

@@ -4,6 +4,7 @@
 #include <regex>
 #include <sstream>
 #include <string>
+#include <tuple>
 #include <vector>
 
 #include "Utilities.h"
@@ -108,6 +109,29 @@ std::vector<std::string> Split(const char *contents, const char delimiter)
     }
 
     return parts;
+}
+
+std::vector<std::tuple<int, int>>
+GenerateAdjacentKeyPairs(std::map<int, int> keyValuePairs)
+{
+    auto adjacentKeyPairs = std::vector<std::tuple<int, int>>();
+
+    std::vector<int> keys;
+
+    for (auto item : keyValuePairs)
+    {
+        keys.push_back(item.first);
+    }
+
+    std::vector<int> sortedKeys(keys.begin(), keys.end());
+
+    for (auto i = 0; i < size(sortedKeys) - 1; i += 1)
+    {
+        adjacentKeyPairs.push_back(
+            std::make_tuple(sortedKeys[i], sortedKeys[i + 1]));
+    }
+
+    return adjacentKeyPairs;
 }
 
 std::vector<std::string> FindAllMatches(const char *contents,
