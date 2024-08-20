@@ -127,13 +127,12 @@ std::vector<BeatBar> CalculateBeatBars(std::map<int, int> bpmChanges,
 
         for (auto tick = startTick; tick <= endTick; tick += resolution)
         {
-            beatBars.push_back(
-                {.Position = tick, .BPM = bpmChanges[startTick]});
+            beatBars.push_back({tick, bpmChanges[startTick]});
 
             if (includeHalfNotes && tick != endTick)
             {
-                beatBars.push_back({.Position = tick + resolution / 2,
-                                    .BPM = bpmChanges[startTick]});
+                beatBars.push_back(
+                    {tick + resolution / 2, bpmChanges[startTick]});
             }
         }
     }
