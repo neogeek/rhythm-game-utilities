@@ -77,12 +77,54 @@ void testSplit()
 
 void testGenerateAdjacentKeyPairs()
 {
-    auto adjacentKeyPairs =
-        GenerateAdjacentKeyPairs(std::map<int, int>{{1, 2}, {3, 4}, {5, 6}});
+    std::map<int, int> bpmChanges = {
+        {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
+        {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
-    assert(adjacentKeyPairs.size() == 2);
-    assert(adjacentKeyPairs[0] == std::make_tuple(1, 3));
-    assert(adjacentKeyPairs[1] == std::make_tuple(3, 5));
+    auto adjacentKeyPairs = GenerateAdjacentKeyPairs(bpmChanges);
+
+    assert(adjacentKeyPairs.size() == 6);
+    assert(adjacentKeyPairs[0] == std::make_tuple(0, 3840));
+    assert(adjacentKeyPairs[1] == std::make_tuple(3840, 9984));
+
+    std::cout << ".";
+}
+
+void testCalculateBeatBars()
+{
+    std::map<int, int> bpmChanges = {
+        {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
+        {33792, 111500}, {34560, 112000}, {42240, 111980}};
+
+    auto beatBars = CalculateBeatBars(bpmChanges, 192, 4, true);
+
+    assert(beatBars.size() == 446);
+
+    std::cout << ".";
+}
+
+void testCalculateBeatBarsInternal()
+{
+    std::map<int, int> bpmChanges = {
+        {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
+        {33792, 111500}, {34560, 112000}, {42240, 111980}};
+
+    std::vector<int> bpmChangesKeys;
+    std::vector<int> bpmChangesValues;
+
+    for (const auto &[key, value] : bpmChanges)
+    {
+        bpmChangesKeys.push_back(key);
+        bpmChangesValues.push_back(value);
+    }
+
+    int *outSize;
+
+    auto beatBars =
+        CalculateBeatBarsInternal(&bpmChangesKeys[0], &bpmChangesValues[0],
+                                  size(bpmChanges), 192, 4, true, outSize);
+
+    assert(*outSize == 446);
 
     std::cout << ".";
 }
@@ -121,6 +163,8 @@ int main()
     testTrim();
     testSplit();
     testGenerateAdjacentKeyPairs();
+    testCalculateBeatBars();
+    testCalculateBeatBarsInternal();
     testFindAllMatches();
     testFindMatchGroups();
 

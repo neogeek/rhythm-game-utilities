@@ -9,6 +9,7 @@
 
 #include "Utilities.h"
 
+#include "Structs/BeatBar.h"
 #include "Structs/Note.h"
 
 const float SECONDS_PER_MINUTE = 60.0f;
@@ -109,6 +110,62 @@ std::vector<std::string> Split(const char *contents, const char delimiter)
     }
 
     return parts;
+}
+
+std::vector<BeatBar> CalculateBeatBars(std::map<int, int> bpmChanges,
+                                       int resolution, int ts,
+                                       bool includeHalfNotes)
+{
+    std::vector<BeatBar> beatBars;
+
+    auto keyValuePairs = GenerateAdjacentKeyPairs(bpmChanges);
+
+    for (const auto &keyValuePair : keyValuePairs)
+    {
+        auto startTick = std::get<0>(keyValuePair);
+        auto endTick = std::get<1>(keyValuePair);
+
+        for (auto tick = startTick; tick <= endTick; tick += resolution)
+        {
+            beatBars.push_back(
+                {.Position = tick, .BPM = bpmChanges[startTick]});
+
+            if (includeHalfNotes && tick != endTick)
+            {
+                beatBars.push_back({.Position = tick + resolution / 2,
+                                    .BPM = bpmChanges[startTick]});
+            }
+        }
+    }
+
+    return beatBars;
+}
+
+BeatBar *CalculateBeatBarsInternal(int *bpmChangesKeys, int *bpmChangesValues,
+                                   int bpmChangesSize, int resolution, int ts,
+                                   bool includeHalfNotes, int *outSize)
+{
+    auto bpmChanges = std::map<int, int>();
+
+    for (auto i = 0; i < bpmChangesSize; i += 1)
+    {
+        bpmChanges[bpmChangesKeys[i]] = bpmChangesValues[i];
+    }
+
+    auto internalBeatBars =
+        CalculateBeatBars(bpmChanges, resolution, ts, includeHalfNotes);
+
+    *outSize = internalBeatBars.size();
+
+    auto beatBars =
+        (BeatBar *)malloc(internalBeatBars.size() * sizeof(BeatBar));
+
+    for (auto i = 0; i < internalBeatBars.size(); i += 1)
+    {
+        beatBars[i] = internalBeatBars[i];
+    }
+
+    return beatBars;
 }
 
 std::vector<std::tuple<int, int>>
