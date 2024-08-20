@@ -1,7 +1,7 @@
 @echo off
 
 if not defined VCINSTALLDIR (
-    echo Please run this script from a Visual Studio Developer Command Prompt.
+    echo Please run this script from x64 Native Tools Command Prompt for VS.
     exit /b 1
 )
 
