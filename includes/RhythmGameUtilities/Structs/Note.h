@@ -1,5 +1,8 @@
 #pragma once
 
+namespace RhythmGameUtilities
+{
+
 struct Note
 {
 
@@ -9,3 +12,5 @@ struct Note
 
     int Length;
 };
+
+} // namespace RhythmGameUtilities

@@ -3,6 +3,8 @@
 
 #include "RhythmGameUtilities/Audio.h"
 
+using namespace RhythmGameUtilities;
+
 void testConvertSamplesToWaveform()
 {
     int size = 5;

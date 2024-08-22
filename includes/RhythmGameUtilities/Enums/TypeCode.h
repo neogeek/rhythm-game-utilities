@@ -2,6 +2,9 @@
 
 #include <string>
 
+namespace RhythmGameUtilities
+{
+
 namespace TypeCode
 {
 typedef std::string Type;
@@ -27,3 +30,5 @@ Type Note = "N";
 Type Event = "E";
 
 } // namespace TypeCode
+
+} // namespace RhythmGameUtilities

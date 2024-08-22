@@ -8,6 +8,9 @@
 #define PACKAGE_API
 #endif
 
+namespace RhythmGameUtilities
+{
+
 typedef struct
 {
     char *key;
@@ -35,3 +38,5 @@ extern "C"
     PACKAGE_API ChartSectionInternal *
     ParseSectionsFromChartInternal(const char *contents, int *outSize);
 }
+
+} // namespace RhythmGameUtilities

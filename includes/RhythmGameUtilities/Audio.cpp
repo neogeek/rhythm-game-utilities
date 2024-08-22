@@ -4,6 +4,9 @@
 
 #include "Audio.h"
 
+namespace RhythmGameUtilities
+{
+
 int **ConvertSamplesToWaveform(float *samples, int size, int width, int height)
 {
     auto waveform = new int *[width];
@@ -46,3 +49,5 @@ int **ConvertSamplesToWaveform(float *samples, int size, int width, int height)
 
     return waveform;
 }
+
+} // namespace RhythmGameUtilities

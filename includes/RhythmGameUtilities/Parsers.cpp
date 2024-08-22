@@ -10,6 +10,9 @@
 #include "Utilities.h"
 #include <iostream>
 
+namespace RhythmGameUtilities
+{
+
 std::regex CHART_SECTION_PATTERN("\\[([a-z]+)\\]\\s*\\{([^\\}]+)\\}",
                                  std::regex_constants::icase);
 
@@ -109,3 +112,5 @@ ChartSectionInternal *ParseSectionsFromChartInternal(const char *contents,
 
     return sections;
 }
+
+} // namespace RhythmGameUtilities

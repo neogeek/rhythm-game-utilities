@@ -2,6 +2,9 @@
 
 #include <string>
 
+namespace RhythmGameUtilities
+{
+
 namespace NamedSection
 {
 typedef std::string Type;
@@ -22,3 +25,5 @@ Type SyncTrack = "SyncTrack";
 Type Events = "Events";
 
 }; // namespace NamedSection
+
+} // namespace RhythmGameUtilities

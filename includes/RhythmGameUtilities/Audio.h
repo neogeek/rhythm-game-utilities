@@ -7,10 +7,15 @@
 #define PACKAGE_API
 #endif
 
+namespace RhythmGameUtilities
+{
+
 extern "C"
 {
     PACKAGE_API int **ConvertSamplesToWaveform(float *samples, int size,
                                                int width, int height);
 }
+
+} // namespace RhythmGameUtilities
 
 #endif

@@ -14,6 +14,9 @@
 #define PACKAGE_API
 #endif
 
+namespace RhythmGameUtilities
+{
+
 extern "C"
 {
     PACKAGE_API float ConvertTickToPosition(float tick, int resolution);
@@ -56,3 +59,5 @@ std::vector<std::string> FindAllMatches(const char *contents,
 
 std::vector<std::string> FindMatchGroups(const char *contents,
                                          std::regex pattern);
+
+} // namespace RhythmGameUtilities

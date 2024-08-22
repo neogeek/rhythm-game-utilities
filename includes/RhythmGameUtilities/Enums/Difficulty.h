@@ -1,5 +1,8 @@
 #pragma once
 
+namespace RhythmGameUtilities
+{
+
 enum Difficulty
 {
 
@@ -12,3 +15,5 @@ enum Difficulty
     Expert
 
 };
+
+} // namespace RhythmGameUtilities
