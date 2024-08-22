@@ -2,6 +2,9 @@
 
 #include <string>
 
+namespace RhythmGameUtilities
+{
+
 struct TrackEvent
 {
 
@@ -11,3 +14,5 @@ struct TrackEvent
 
     std::vector<std::string> *Values;
 };
+
+} // namespace RhythmGameUtilities

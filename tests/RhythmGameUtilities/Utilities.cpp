@@ -5,6 +5,8 @@
 
 #include "RhythmGameUtilities/Utilities.h"
 
+using namespace RhythmGameUtilities;
+
 void testConvertTickToPosition()
 {
     assert(4 == ConvertTickToPosition(768, 192));

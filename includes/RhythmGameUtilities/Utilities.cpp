@@ -12,6 +12,9 @@
 #include "Structs/BeatBar.h"
 #include "Structs/Note.h"
 
+namespace RhythmGameUtilities
+{
+
 const float SECONDS_PER_MINUTE = 60.0f;
 
 float ConvertTickToPosition(float tick, int resolution)
@@ -228,3 +231,5 @@ std::vector<std::string> FindMatchGroups(const char *contents,
 
     return matches;
 }
+
+} // namespace RhythmGameUtilities

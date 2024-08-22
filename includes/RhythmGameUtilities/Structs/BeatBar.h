@@ -1,5 +1,8 @@
 #pragma once
 
+namespace RhythmGameUtilities
+{
+
 struct BeatBar
 {
 
@@ -7,3 +10,5 @@ struct BeatBar
 
     int BPM;
 };
+
+} // namespace RhythmGameUtilities

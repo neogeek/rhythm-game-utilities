@@ -4,6 +4,8 @@
 
 #include "RhythmGameUtilities/Parsers.h"
 
+using namespace RhythmGameUtilities;
+
 auto contents = R"([Song]
 {
   Name = "Example Song"
