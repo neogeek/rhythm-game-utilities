@@ -1,7 +1,7 @@
 #include <cassert>
 #include <iostream>
 
-#include "RhythmGameUtilities/Audio.h"
+#include "RhythmGameUtilities/Audio.hpp"
 
 using namespace RhythmGameUtilities;
 

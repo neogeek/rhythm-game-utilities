@@ -2,7 +2,7 @@
 #include <cstring>
 #include <iostream>
 
-#include "RhythmGameUtilities/Parsers.h"
+#include "RhythmGameUtilities/Parsers.hpp"
 
 using namespace RhythmGameUtilities;
 

@@ -1,5 +1,5 @@
 // RhythmGameUtilities.cpp
 
-#include "Audio.cpp"
-#include "Parsers.cpp"
-#include "Utilities.cpp"
+#include "Audio.hpp"
+#include "Parsers.hpp"
+#include "Utilities.hpp"
