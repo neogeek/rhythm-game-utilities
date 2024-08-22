@@ -18,7 +18,7 @@ COLOROFF=$(tput sgr0)
 
         printf " - Running %s " "${FILE}"
 
-        if ! g++ -std=c++17 -o test "${FILE}" ./includes/RhythmGameUtilities/RhythmGameUtilities.cpp -Iincludes; then
+        if ! g++ -std=c++17 -o test "${FILE}" -Iincludes; then
             printf "%sCOMPILATION FAILED%s\n" "${REDON}" "${COLOROFF}"
             exit 1
         fi

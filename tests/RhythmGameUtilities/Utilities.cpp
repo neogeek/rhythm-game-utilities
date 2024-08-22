@@ -3,7 +3,7 @@
 #include <iostream>
 #include <tuple>
 
-#include "RhythmGameUtilities/Utilities.h"
+#include "RhythmGameUtilities/Utilities.hpp"
 
 using namespace RhythmGameUtilities;
 
