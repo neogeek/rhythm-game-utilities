@@ -1,5 +1,4 @@
-#ifndef AUDIO_H
-#define AUDIO_H
+#pragma once
 
 #ifdef _WIN32
 #define PACKAGE_API __declspec(dllexport)
@@ -17,5 +16,3 @@ extern "C"
 }
 
 } // namespace RhythmGameUtilities
-
-#endif

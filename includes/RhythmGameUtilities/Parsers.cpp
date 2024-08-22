@@ -1,5 +1,3 @@
-#pragma once
-
 #include <iterator>
 #include <map>
 #include <regex>
