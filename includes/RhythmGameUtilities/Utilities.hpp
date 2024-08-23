@@ -1,11 +1,9 @@
 #pragma once
 
-#include <algorithm>
 #include <cmath>
 #include <map>
 #include <regex>
 #include <sstream>
-#include <string>
 #include <tuple>
 #include <vector>
 
@@ -144,7 +142,7 @@ extern "C"
 
     PACKAGE_API int RoundUpToTheNearestMultiplier(int value, int multiplier)
     {
-        return (int)ceil((float)value / multiplier) * multiplier;
+        return (int)std::ceil((float)value / multiplier) * multiplier;
     }
 
     PACKAGE_API float Lerp(float a, float b, float t)
