@@ -1,9 +1,7 @@
 #pragma once
 
-#include <iterator>
-#include <map>
 #include <regex>
-#include <string.h>
+#include <string>
 #include <vector>
 
 #include "Utilities.hpp"
