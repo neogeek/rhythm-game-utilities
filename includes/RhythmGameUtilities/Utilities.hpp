@@ -1,13 +1,8 @@
 #pragma once
 
-#include <algorithm>
-#include <cmath>
 #include <map>
 #include <regex>
 #include <sstream>
-#include <string>
-#include <tuple>
-#include <vector>
 
 #include "Structs/BeatBar.h"
 #include "Structs/Note.h"
