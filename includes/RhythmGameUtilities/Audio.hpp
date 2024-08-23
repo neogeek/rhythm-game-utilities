@@ -56,6 +56,18 @@ extern "C"
 
         return waveform;
     }
+
+    PACKAGE_API void FreeWaveform(int **waveform, int width)
+    {
+        if (waveform != nullptr)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                delete[] waveform[x];
+            }
+            delete[] waveform;
+        }
+    }
 }
 
 } // namespace RhythmGameUtilities
