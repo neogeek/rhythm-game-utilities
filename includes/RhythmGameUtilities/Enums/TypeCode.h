@@ -5,30 +5,36 @@
 namespace RhythmGameUtilities
 {
 
-namespace TypeCode
+enum TypeCode
 {
-typedef std::string Type;
 
-/// <summary>
-/// BPM Marker
-/// </summary>
-Type BPM = "B";
+    /// BPM Marker
+    BPM,
 
-/// <summary>
-/// Time Signature Marker
-/// </summary>
-Type TimeSignature = "TS";
+    /// Time Signature Marker
+    TimeSignature,
 
-/// <summary>
-/// Note Marker
-/// </summary>
-Type Note = "N";
+    /// Note Marker
+    Note,
 
-/// <summary>
-/// Event Marker
-/// </summary>
-Type Event = "E";
+    /// Event Marker
+    Event
 
-} // namespace TypeCode
+};
+
+std::string ToString(TypeCode typeCode)
+{
+    switch (typeCode)
+    {
+    case BPM:
+        return "B";
+    case TimeSignature:
+        return "TS";
+    case Note:
+        return "N";
+    case Event:
+        return "E";
+    }
+}
 
 } // namespace RhythmGameUtilities
