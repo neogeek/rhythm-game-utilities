@@ -5,25 +5,29 @@
 namespace RhythmGameUtilities
 {
 
-namespace NamedSection
+enum NamedSection
 {
-typedef std::string Type;
+    /// Song information
+    Song,
 
-/// <summary>
-/// Song information
-/// </summary>
-Type Song = "Song";
+    /// Track information used for syncing with music and notes like BPM
+    SyncTrack,
 
-/// <summary>
-/// Track information used for syncing with music and notes like BPM
-/// </summary>
-Type SyncTrack = "SyncTrack";
+    /// Track events
+    Events
+};
 
-/// <summary>
-/// Track events
-/// </summary>
-Type Events = "Events";
-
-}; // namespace NamedSection
+std::string ToString(NamedSection namedSection)
+{
+    switch (namedSection)
+    {
+    case Song:
+        return "Song";
+    case SyncTrack:
+        return "SyncTrack";
+    case Events:
+        return "Events";
+    }
+}
 
 } // namespace RhythmGameUtilities
