@@ -5,7 +5,7 @@
 namespace RhythmGameUtilities
 {
 
-enum Difficulty
+typedef enum Difficulty
 {
 
     // Easy Difficulty
@@ -20,7 +20,7 @@ enum Difficulty
     // Expert Difficulty
     Expert
 
-};
+} DifficultyType;
 
 std::string ToString(Difficulty difficulty)
 {

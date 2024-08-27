@@ -5,7 +5,7 @@
 namespace RhythmGameUtilities
 {
 
-enum NamedSection
+typedef enum NamedSection
 {
     /// Song information
     Song,
@@ -15,7 +15,7 @@ enum NamedSection
 
     /// Track events
     Events
-};
+} NamedSectionType;
 
 std::string ToString(NamedSection namedSection)
 {
