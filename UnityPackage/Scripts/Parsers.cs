@@ -125,6 +125,7 @@ namespace RhythmGameUtilities
             return section
                 .Where(item => item.Value[0] == TypeCode.BPM)
                 .Select(item => new KeyValuePair<int, int>(int.Parse(item.Key), int.Parse(item.Value.Skip(1).First())))
+                .OrderBy(item => item.Key)
                 .ToDictionary(item => item.Key, x => x.Value);
         }
 

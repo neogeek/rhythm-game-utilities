@@ -98,20 +98,6 @@ namespace RhythmGameUtilities
         [JsonProperty]
         public Dictionary<int, int> BPM { get; internal set; }
 
-        [JsonIgnore]
-        public Dictionary<int, int> SortedBPM
-        {
-            get
-            {
-                if (_sortedBPM.Count != BPM.Count)
-                {
-                    _sortedBPM = new Dictionary<int, int>(BPM.OrderBy(b => b.Key));
-                }
-
-                return _sortedBPM;
-            }
-        }
-
         [JsonProperty]
         public Dictionary<int, int[]> TimeSignatures { get; internal set; }
 
