@@ -112,21 +112,6 @@ extern "C"
         return tick / resolution;
     }
 
-    PACKAGE_API int ConvertSecondsToTicksInternal(float seconds, int resolution,
-                                                  int *bpmChangesKeys,
-                                                  int *bpmChangesValues,
-                                                  int bpmChangesSize)
-    {
-        std::map<int, int> bpmChanges;
-
-        for (auto i = 0; i < bpmChangesSize; i += 1)
-        {
-            bpmChanges[bpmChangesKeys[i]] = bpmChangesValues[i];
-        }
-
-        return ConvertSecondsToTicks(seconds, resolution, bpmChanges);
-    }
-
     PACKAGE_API bool IsOnTheBeat(float bpm, float currentTime)
     {
         auto beatInterval = SECONDS_PER_MINUTE / bpm;
@@ -153,34 +138,6 @@ extern "C"
     PACKAGE_API float InverseLerp(float a, float b, float v)
     {
         return std::clamp(((v - a) / (b - a)), 0.0f, 1.0f);
-    }
-
-    PACKAGE_API BeatBar *
-    CalculateBeatBarsInternal(int *bpmChangesKeys, int *bpmChangesValues,
-                              int bpmChangesSize, int resolution, int ts,
-                              bool includeHalfNotes, int *outSize)
-    {
-        auto bpmChanges = std::map<int, int>();
-
-        for (auto i = 0; i < bpmChangesSize; i += 1)
-        {
-            bpmChanges[bpmChangesKeys[i]] = bpmChangesValues[i];
-        }
-
-        auto internalBeatBars =
-            CalculateBeatBars(bpmChanges, resolution, ts, includeHalfNotes);
-
-        *outSize = internalBeatBars.size();
-
-        auto beatBars =
-            (BeatBar *)malloc(internalBeatBars.size() * sizeof(BeatBar));
-
-        for (auto i = 0; i < internalBeatBars.size(); i += 1)
-        {
-            beatBars[i] = internalBeatBars[i];
-        }
-
-        return beatBars;
     }
 }
 
