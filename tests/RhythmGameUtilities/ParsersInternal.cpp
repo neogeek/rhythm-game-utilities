@@ -2,7 +2,7 @@
 #include <cstring>
 #include <iostream>
 
-#include "RhythmGameUtilities/Parsers.hpp"
+#include "RhythmGameUtilities/ParsersInternal.hpp"
 
 using namespace RhythmGameUtilities;
 
@@ -69,45 +69,52 @@ auto contents = R"([Song]
   1248 = E soloend
 })";
 
-void testParseSectionsFromChart()
+void testParseSectionsFromChartInternal()
 {
-    auto sections = ParseSectionsFromChart(contents);
+    int size = 0;
 
-    assert(sections.size() == 4);
+    auto sections = ParseSectionsFromChartInternal(contents, &size);
 
-    assert(sections.at(0).name == "Song");
-    assert(sections.at(1).name == "SyncTrack");
-    assert(sections.at(2).name == "Events");
-    assert(sections.at(3).name == "ExpertSingle");
+    assert(size == 4);
+
+    assert(strcmp(sections[0].name, "Song") == 0);
+    assert(sections[0].lineCount == 12);
+    assert(strcmp(sections[1].name, "SyncTrack") == 0);
+    assert(sections[1].lineCount == 11);
+    assert(strcmp(sections[2].name, "Events") == 0);
+    assert(sections[2].lineCount == 16);
+    assert(strcmp(sections[3].name, "ExpertSingle") == 0);
+    assert(sections[3].lineCount == 11);
 
     std::cout << ".";
 }
 
-void testParseValuesFromChartSections()
+void testParseValuesFromChartSectionsInternal()
 {
-    auto sections = ParseSectionsFromChart(contents);
+    int size = 0;
 
-    assert(sections.size() == 4);
+    auto sections = ParseSectionsFromChartInternal(contents, &size);
 
-    assert(sections.at(0).name == "Song");
-    assert(sections.at(0).lines.size() == 12);
+    assert(size == 4);
 
-    assert(sections.at(0).lines[0].first == "Name");
-    assert(sections.at(0).lines[0].second[0] == "Example Song");
+    assert(sections[0].lineCount == 12);
 
-    assert(sections.at(0).lines[6].first == "Resolution");
-    assert(sections.at(0).lines[6].second[0] == "192");
+    assert(strcmp(sections[0].lines[0].key, "Name") == 0);
+    assert(strcmp(sections[0].lines[0].values[0], "Example Song") == 0);
 
-    assert(sections.at(0).lines[11].first == "MusicStream");
-    assert(sections.at(0).lines[11].second[0] == "Example Song.ogg");
+    assert(strcmp(sections[0].lines[6].key, "Resolution") == 0);
+    assert(strcmp(sections[0].lines[6].values[0], "192") == 0);
+
+    assert(strcmp(sections[0].lines[11].key, "MusicStream") == 0);
+    assert(strcmp(sections[0].lines[11].values[0], "Example Song.ogg") == 0);
 
     std::cout << ".";
 }
 
 int main()
 {
-    testParseSectionsFromChart();
-    testParseValuesFromChartSections();
+    testParseSectionsFromChartInternal();
+    testParseValuesFromChartSectionsInternal();
 
     return 0;
 }
