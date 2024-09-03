@@ -15,6 +15,13 @@
     "music",
     "notes"
   ],
+  "samples": [
+    {
+      "displayName": "Sample Song",
+      "description": "Contains sample song rendering.",
+      "path": "Samples~/SampleSong"
+    }
+  ],
   "author": {
     "name": "Scott Doxey",
     "email": "hello@scottdoxey.com",

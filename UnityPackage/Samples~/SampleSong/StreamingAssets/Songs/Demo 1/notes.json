@@ -1,0 +1,453 @@
+{
+  "Name": "Demo 1",
+  "Artist": "Scott Doxey",
+  "Album": "Demo",
+  "Genre": "rock",
+  "Year": ", 2024",
+  "Charter": "Scott Doxey",
+  "Resolution": 192,
+  "Difficulty": 0,
+  "Offset": 0,
+  "PreviewStart": 0,
+  "PreviewEnd": 0,
+  "MusicStream": "song.ogg",
+  "Lyrics": {},
+  "Difficulties": {
+    "Easy": [
+      {
+        "Position": 768,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 960,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 1152,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 1536,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 1728,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 1920,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 2304,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 2496,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 2688,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 3072,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 3264,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 3456,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 3840,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 4032,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 4224,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 4608,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 4800,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 4992,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 5376,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 5568,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 5760,
+        "HandPosition": 2,
+        "Length": 0
+      }
+    ],
+    "Medium": [
+      {
+        "Position": 768,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 960,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 1152,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 1536,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 1728,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 1920,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 2304,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 2496,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 2688,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 3072,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 3264,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 3456,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 3840,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 4032,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 4224,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 4608,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 4800,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 4992,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 5376,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 5568,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 5760,
+        "HandPosition": 2,
+        "Length": 0
+      }
+    ],
+    "Hard": [
+      {
+        "Position": 768,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 960,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 1152,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 1536,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 1728,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 1920,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 2304,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 2496,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 2688,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 3072,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 3264,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 3456,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 3840,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 4032,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 4224,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 4608,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 4800,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 4992,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 5376,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 5568,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 5760,
+        "HandPosition": 2,
+        "Length": 0
+      }
+    ],
+    "Expert": [
+      {
+        "Position": 768,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 960,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 1152,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 1536,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 1728,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 1920,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 2304,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 2496,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 2688,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 3072,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 3264,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 3456,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 3840,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 4032,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 4224,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 4608,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 4800,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 4992,
+        "HandPosition": 2,
+        "Length": 0
+      },
+      {
+        "Position": 5376,
+        "HandPosition": 0,
+        "Length": 0
+      },
+      {
+        "Position": 5568,
+        "HandPosition": 1,
+        "Length": 0
+      },
+      {
+        "Position": 5760,
+        "HandPosition": 2,
+        "Length": 0
+      }
+    ]
+  },
+  "BPM": {
+    "0": 120000
+  },
+  "TimeSignatures": {
+    "0": [
+      4
+    ]
+  }
+}
