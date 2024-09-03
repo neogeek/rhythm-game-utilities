@@ -1,8 +1,16 @@
 #pragma once
 
+#include <algorithm>
+#include <map>
 #include <regex>
 #include <string>
 #include <vector>
+
+#include "Enums/Difficulty.h"
+#include "Enums/NamedSection.h"
+#include "Enums/TypeCode.h"
+
+#include "Structs/Note.h"
 
 #include "Utilities.hpp"
 
@@ -89,6 +97,98 @@ std::vector<ChartSection> ParseSectionsFromChart(const char *contents)
     }
 
     return sections;
+}
+
+std::map<int, int>
+ParseTimeSignaturesFromChartSection(std::vector<ChartSection> sections)
+{
+    auto timeSignatures = std::map<int, int>();
+
+    for (auto &section : sections)
+    {
+        if (section.name == ToString(NamedSection::SyncTrack))
+        {
+            for (auto &line : section.lines)
+            {
+                if (line.second.front() ==
+                    ToString(TypeCode::TimeSignatureMarker))
+                {
+                    timeSignatures.insert(
+                        {std::stoi(line.first), std::stoi(line.second.at(1))});
+                }
+            }
+        }
+    }
+
+    return timeSignatures;
+}
+
+std::map<int, int> ParseBpmFromChartSection(std::vector<ChartSection> sections)
+{
+    auto bpm = std::map<int, int>();
+
+    for (auto &section : sections)
+    {
+        if (section.name == ToString(NamedSection::SyncTrack))
+        {
+            for (auto &line : section.lines)
+            {
+                if (line.second.front() == ToString(TypeCode::BPM_Marker))
+                {
+                    bpm.insert(
+                        {std::stoi(line.first), std::stoi(line.second.at(1))});
+                }
+            }
+        }
+    }
+
+    return bpm;
+}
+
+std::vector<Note> ParseNotesFromChartSection(std::vector<ChartSection> sections,
+                                             Difficulty difficulty)
+{
+    auto notes = std::vector<Note>();
+
+    for (auto &section : sections)
+    {
+        if (section.name == ToString(difficulty) + "Single")
+        {
+            for (auto &line : section.lines)
+            {
+                if (line.second.front() == ToString(TypeCode::NoteMarker))
+                {
+                    notes.push_back({std::stoi(line.first),
+                                     std::stoi(line.second.at(1)),
+                                     std::stoi(line.second.at(2))});
+                }
+            }
+        }
+    }
+
+    return notes;
+}
+
+std::map<int, std::string>
+ParseLyricsFromChartSection(std::vector<ChartSection> sections)
+{
+    auto lyrics = std::map<int, std::string>();
+
+    for (auto &section : sections)
+    {
+        if (section.name == ToString(NamedSection::Events))
+        {
+            for (auto &line : section.lines)
+            {
+                if (line.second.back().rfind("lyric", 0) == 0)
+                {
+                    lyrics.insert({std::stoi(line.first), line.second.at(1)});
+                }
+            }
+        }
+    }
+
+    return lyrics;
 }
 
 } // namespace RhythmGameUtilities
