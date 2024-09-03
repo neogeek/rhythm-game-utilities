@@ -21,6 +21,14 @@ namespace RhythmGameUtilities
 
 const float SECONDS_PER_MINUTE = 60.0f;
 
+/**
+ * Convert seconds to ticks.
+ *
+ * @param seconds The seconds to generate ticks with.
+ * @param resolution The resolution of the song.
+ * @param bpmChanges All BPM changes within the song.
+ */
+
 int ConvertSecondsToTicks(float seconds, int resolution,
                           std::map<int, int> bpmChanges)
 {
@@ -107,10 +115,25 @@ std::vector<BeatBar> CalculateBeatBars(std::map<int, int> bpmChanges,
 
 extern "C"
 {
+
+    /**
+     * Convert a tick to a 2D/3D position.
+     *
+     * @param tick The tick.
+     * @param resolution The resolution of the song.
+     */
+
     PACKAGE_API float ConvertTickToPosition(float tick, int resolution)
     {
         return tick / resolution;
     }
+
+    /**
+     * Checks to see if the current time of a game or audio file is on the beat.
+     *
+     * @param bpm The base BPM for a song.
+     * @param currentTime A timestamp to compare to the BPM.
+     */
 
     PACKAGE_API bool IsOnTheBeat(float bpm, float currentTime)
     {
