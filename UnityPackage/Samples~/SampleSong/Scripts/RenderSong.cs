@@ -42,8 +42,6 @@ public class RenderSong : MonoBehaviour
 
     private async void Start()
     {
-        Debug.Log(Path.Join(Application.dataPath, _songPath, "notes.chart"));
-
         _song = Song.FromChartFile(
             await LoadTextFileFromPath(
                 $"file://{Path.Join(Application.dataPath, _songPath, "notes.chart")}"));
