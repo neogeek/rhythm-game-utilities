@@ -22,7 +22,7 @@ copy: ## Copy files from project to UnityPackage
 	cp screenshot.png ./UnityPackage/
 
 rcopy: ## Copy files from UnityPackage back to project
-	(cd UnityPackage && find . -type f -name "*.cs" -not -path '*/Editor/*' -exec cp {} ../RhythmGameUtilities/{} \;)
+	(cd UnityPackage && find . -type f -name "*.cs" -not -path '*/Editor/*' -not -path '*/Samples~/*' -exec cp {} ../RhythmGameUtilities/{} \;)
 
 clean: ## Clean project
 	git clean -xdf
