@@ -9,16 +9,16 @@ typedef enum TypeCode
 {
 
     /// BPM Marker
-    BPM,
+    BPM_Marker,
 
     /// Time Signature Marker
-    TimeSignature,
+    TimeSignatureMarker,
 
     /// Note Marker
-    Note,
+    NoteMarker,
 
     /// Event Marker
-    Event
+    EventMarker
 
 } TypeCodeType;
 
@@ -26,13 +26,13 @@ std::string ToString(TypeCode typeCode)
 {
     switch (typeCode)
     {
-    case BPM:
+    case BPM_Marker:
         return "B";
-    case TimeSignature:
+    case TimeSignatureMarker:
         return "TS";
-    case Note:
+    case NoteMarker:
         return "N";
-    case Event:
+    case EventMarker:
         return "E";
     }
 }
