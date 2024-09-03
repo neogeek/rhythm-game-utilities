@@ -113,7 +113,7 @@ namespace RhythmGameUtilities
             KeyValuePair<string, string[]>[] section)
         {
             return section
-                .Where(item => item.Value[0] == TypeCode.TimeSignature)
+                .Where(item => item.Value[0] == TypeCode.TimeSignatureMarker)
                 .Select(item =>
                     new KeyValuePair<int, int[]>(int.Parse(item.Key), item.Value.Skip(1).Select(int.Parse).ToArray()))
                 .ToDictionary(item => item.Key, x => x.Value);
@@ -123,7 +123,7 @@ namespace RhythmGameUtilities
             KeyValuePair<string, string[]>[] section)
         {
             return section
-                .Where(item => item.Value[0] == TypeCode.BPM)
+                .Where(item => item.Value[0] == TypeCode.BPM_Marker)
                 .Select(item => new KeyValuePair<int, int>(int.Parse(item.Key), int.Parse(item.Value.Skip(1).First())))
                 .OrderBy(item => item.Key)
                 .ToDictionary(item => item.Key, x => x.Value);
@@ -132,7 +132,7 @@ namespace RhythmGameUtilities
         public static Note[] ParseNotesFromChartSection(KeyValuePair<string, string[]>[] section)
         {
             return section
-                .Where(item => item.Value.Length == 3 && item.Value.First() == TypeCode.Note).Select(
+                .Where(item => item.Value.Length == 3 && item.Value.First() == TypeCode.NoteMarker).Select(
                     item => new Note
                     {
                         Position = int.Parse(item.Key),
@@ -145,7 +145,7 @@ namespace RhythmGameUtilities
             KeyValuePair<string, string[]>[] section)
         {
             return section
-                .Where(item => item.Value.First() == TypeCode.Event)
+                .Where(item => item.Value.First() == TypeCode.EventMarker)
                 .Select(
                     item => new KeyValuePair<int, string>(int.Parse(item.Key),
                         JSON_VALUE_PATTERN.Matches(item.Value.Skip(1).First()).Select(part => part.Value.Trim('"'))
