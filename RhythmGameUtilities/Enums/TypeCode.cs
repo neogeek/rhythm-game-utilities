@@ -7,22 +7,22 @@ namespace RhythmGameUtilities
         /// <summary>
         ///     BPM Marker
         /// </summary>
-        public const string BPM = "B";
+        public const string BPM_Marker = "B";
 
         /// <summary>
         ///     Time Signature Marker
         /// </summary>
-        public const string TimeSignature = "TS";
+        public const string TimeSignatureMarker = "TS";
 
         /// <summary>
         ///     Note Marker
         /// </summary>
-        public const string Note = "N";
+        public const string NoteMarker = "N";
 
         /// <summary>
         ///     Event Marker
         /// </summary>
-        public const string Event = "E";
+        public const string EventMarker = "E";
 
     }
 
