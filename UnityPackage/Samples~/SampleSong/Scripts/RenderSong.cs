@@ -8,20 +8,27 @@ using UnityEngine.Networking;
 
 public class RenderSong : MonoBehaviour
 {
+
     [SerializeField]
     private string _songPath = "Samples/Rhythm Game Utilities/1.0.0/Sample Song/StreamingAssets/Songs/Demo 1";
 
-    [SerializeField] private Mesh _mesh;
+    [SerializeField]
+    private Mesh _mesh;
 
-    [SerializeField] private Material _material;
+    [SerializeField]
+    private Material _material;
 
-    [SerializeField] private Material[] _materials;
+    [SerializeField]
+    private Material[] _materials;
 
-    [SerializeField] private AudioSource _audioSource;
+    [SerializeField]
+    private AudioSource _audioSource;
 
-    [SerializeField] private float _scale = 2;
+    [SerializeField]
+    private float _scale = 2;
 
-    [SerializeField] private float _distance = 50;
+    [SerializeField]
+    private float _distance = 50;
 
     private Song _song;
 
@@ -160,4 +167,5 @@ public class RenderSong : MonoBehaviour
 
         Graphics.DrawMeshInstanced(_mesh, 0, _material, beatBarMatrix);
     }
+
 }
