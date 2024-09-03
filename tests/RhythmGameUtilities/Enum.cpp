@@ -28,10 +28,10 @@ void testNamedSection()
 
 void testTypeCode()
 {
-    assert(ToString(TypeCode::BPM) == "B");
-    assert(ToString(TypeCode::TimeSignature) == "TS");
-    assert(ToString(TypeCode::Note) == "N");
-    assert(ToString(TypeCode::Event) == "E");
+    assert(ToString(TypeCode::BPM_Marker) == "B");
+    assert(ToString(TypeCode::TimeSignatureMarker) == "TS");
+    assert(ToString(TypeCode::NoteMarker) == "N");
+    assert(ToString(TypeCode::EventMarker) == "E");
 
     std::cout << ".";
 }
