@@ -34,6 +34,30 @@ void testIsOnTheBeat()
     std::cout << ".";
 }
 
+void testFindPositionNearGivenTick()
+{
+    std::vector<Note> notes = {{768, 0, 0},  {960, 0, 0},  {1152, 0, 0},
+                               {1536, 0, 0}, {1728, 0, 0}, {1920, 0, 0},
+                               {2304, 0, 0}, {2496, 0, 0}, {2688, 0, 0},
+                               {3072, 0, 0}, {3264, 0, 0}};
+
+    assert(std::nullopt == FindPositionNearGivenTick(notes, 100));
+    assert(768 == FindPositionNearGivenTick(notes, 750)->Position);
+    assert(1536 == FindPositionNearGivenTick(notes, 1500)->Position);
+    assert(std::nullopt == FindPositionNearGivenTick(notes, 3200));
+
+    std::cout << ".";
+}
+
+void testCalculateScore()
+{
+    assert(0 == CalculateScore(750, 100));
+    assert(1 == CalculateScore(750, 750));
+    assert(0.5f == CalculateScore(750, 725));
+
+    std::cout << ".";
+}
+
 void testRoundUpToTheNearestMultiplier()
 {
     assert(20 == RoundUpToTheNearestMultiplier(12, 10));
@@ -74,6 +98,8 @@ int main()
     testConvertTickToPosition();
     testConvertSecondsToTicks();
     testIsOnTheBeat();
+    testFindPositionNearGivenTick();
+    testCalculateScore();
     testRoundUpToTheNearestMultiplier();
     testGenerateAdjacentKeyPairs();
     testCalculateBeatBars();
