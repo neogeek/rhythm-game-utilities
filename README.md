@@ -186,11 +186,11 @@ var position = Utilities.ConvertTickToPosition(tick, resolution);
 ```csharp
 using RhythmGameUtilities;
 
-const int tick = 2784;
+const int seconds = 2784;
 const int resolution = 192;
 const bpmChanges = new Dictionary<int, int>();
 
-var position = Utilities.ConvertSecondsToTicks(tick, resolution, bpmChanges);
+var ticks = Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges);
 ```
 
 #### `Utilities.IsOnTheBeat`
@@ -212,7 +212,7 @@ if (Utilities.IsOnTheBeat(bpm, currentTime))
 ```csharp
 using RhythmGameUtilities;
 
-var position = Utilities.RoundUpToTheNearestMultiplier(12, 10);
+var value = Utilities.RoundUpToTheNearestMultiplier(12, 10);
 ```
 
 #### `Utilities.Lerp`
@@ -220,7 +220,7 @@ var position = Utilities.RoundUpToTheNearestMultiplier(12, 10);
 ```csharp
 using RhythmGameUtilities;
 
-var position = Utilities.Lerp(0, 10, 0.5f);
+var value = Utilities.Lerp(0, 10, 0.5f);
 ```
 
 #### `Utilities.InverseLerp`
@@ -228,7 +228,7 @@ var position = Utilities.Lerp(0, 10, 0.5f);
 ```csharp
 using RhythmGameUtilities;
 
-var percentage = Utilities.InverseLerp(0, 10, 5);
+var value = Utilities.InverseLerp(0, 10, 5);
 ```
 
 ## Architecture
