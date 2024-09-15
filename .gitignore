@@ -7,4 +7,5 @@ RhythmGameUtilities.sln.DotSettings.user
 
 build/
 
+.cache/
 .idea/
