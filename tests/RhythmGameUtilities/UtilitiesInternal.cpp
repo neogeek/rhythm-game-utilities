@@ -24,7 +24,7 @@ void testConvertSecondsToTicksInternal()
 
     assert(1408 == ConvertSecondsToTicksInternal(5, 192, &bpmChangesKeys[0],
                                                  &bpmChangesValues[0],
-                                                 size(bpmChanges)));
+                                                 bpmChanges.size()));
 
     std::cout << ".";
 }
@@ -48,7 +48,7 @@ void testCalculateBeatBarsInternal()
 
     auto beatBars =
         CalculateBeatBarsInternal(&bpmChangesKeys[0], &bpmChangesValues[0],
-                                  size(bpmChanges), 192, 4, true, outSize);
+                                  bpmChanges.size(), 192, 4, true, outSize);
 
     assert(*outSize == 446);
 
