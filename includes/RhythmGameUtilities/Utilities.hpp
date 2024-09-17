@@ -76,7 +76,7 @@ GenerateAdjacentKeyPairs(std::map<int, int> keyValuePairs)
 
     std::vector<int> sortedKeys(keys.begin(), keys.end());
 
-    for (auto i = 0; i < size(sortedKeys) - 1; i += 1)
+    for (auto i = 0; i < sortedKeys.size() - 1; i += 1)
     {
         adjacentKeyPairs.push_back(
             std::make_tuple(sortedKeys[i], sortedKeys[i + 1]));
