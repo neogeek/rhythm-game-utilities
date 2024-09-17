@@ -104,44 +104,44 @@ void testParseValuesFromChartSections()
     std::cout << ".";
 }
 
-void testParseTimeSignaturesFromChartSection()
+void testParseTimeSignaturesFromChartSections()
 {
     auto sections = ParseSectionsFromChart(contents);
 
-    auto lines = ParseTimeSignaturesFromChartSection(sections);
+    auto lines = ParseTimeSignaturesFromChartSections(sections);
 
     assert(lines.size() == 4);
 
     std::cout << ".";
 }
 
-void testParseBpmFromChartSection()
+void testParseBpmFromChartSections()
 {
     auto sections = ParseSectionsFromChart(contents);
 
-    auto lines = ParseBpmFromChartSection(sections);
+    auto lines = ParseBpmFromChartSections(sections);
 
     assert(lines.size() == 7);
 
     std::cout << ".";
 }
 
-void testParseNotesFromChartSection()
+void testParseNotesFromChartSections()
 {
     auto sections = ParseSectionsFromChart(contents);
 
-    auto lines = ParseNotesFromChartSection(sections, Difficulty::Expert);
+    auto lines = ParseNotesFromChartSections(sections, Difficulty::Expert);
 
     assert(lines.size() == 8);
 
     std::cout << ".";
 }
 
-void testParseLyricsFromChartSection()
+void testParseLyricsFromChartSections()
 {
     auto sections = ParseSectionsFromChart(contents);
 
-    auto lines = ParseLyricsFromChartSection(sections);
+    auto lines = ParseLyricsFromChartSections(sections);
 
     assert(lines.size() == 12);
 
@@ -153,10 +153,10 @@ int main()
     testParseSectionsFromChart();
     testParseValuesFromChartSections();
 
-    testParseTimeSignaturesFromChartSection();
-    testParseBpmFromChartSection();
-    testParseNotesFromChartSection();
-    testParseLyricsFromChartSection();
+    testParseTimeSignaturesFromChartSections();
+    testParseBpmFromChartSections();
+    testParseNotesFromChartSections();
+    testParseLyricsFromChartSections();
 
     return 0;
 }

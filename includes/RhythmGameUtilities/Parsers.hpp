@@ -100,7 +100,7 @@ std::vector<ChartSection> ParseSectionsFromChart(const char *contents)
 }
 
 std::map<int, int>
-ParseTimeSignaturesFromChartSection(std::vector<ChartSection> sections)
+ParseTimeSignaturesFromChartSections(std::vector<ChartSection> sections)
 {
     auto timeSignatures = std::map<int, int>();
 
@@ -123,7 +123,7 @@ ParseTimeSignaturesFromChartSection(std::vector<ChartSection> sections)
     return timeSignatures;
 }
 
-std::map<int, int> ParseBpmFromChartSection(std::vector<ChartSection> sections)
+std::map<int, int> ParseBpmFromChartSections(std::vector<ChartSection> sections)
 {
     auto bpm = std::map<int, int>();
 
@@ -145,8 +145,9 @@ std::map<int, int> ParseBpmFromChartSection(std::vector<ChartSection> sections)
     return bpm;
 }
 
-std::vector<Note> ParseNotesFromChartSection(std::vector<ChartSection> sections,
-                                             Difficulty difficulty)
+std::vector<Note>
+ParseNotesFromChartSections(std::vector<ChartSection> sections,
+                            Difficulty difficulty)
 {
     auto notes = std::vector<Note>();
 
@@ -170,7 +171,7 @@ std::vector<Note> ParseNotesFromChartSection(std::vector<ChartSection> sections,
 }
 
 std::map<int, std::string>
-ParseLyricsFromChartSection(std::vector<ChartSection> sections)
+ParseLyricsFromChartSections(std::vector<ChartSection> sections)
 {
     auto lyrics = std::map<int, std::string>();
 
