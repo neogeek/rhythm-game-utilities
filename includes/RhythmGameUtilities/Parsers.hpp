@@ -99,97 +99,123 @@ std::vector<ChartSection> ParseSectionsFromChart(const char *contents)
     return sections;
 }
 
-std::map<int, int>
-ParseTimeSignaturesFromChartSections(std::vector<ChartSection> sections)
+std::map<int, int> ParseTimeSignaturesFromChartSection(ChartSection section)
 {
     auto timeSignatures = std::map<int, int>();
 
-    for (auto &section : sections)
+    for (auto &line : section.lines)
     {
-        if (section.name == ToString(NamedSection::SyncTrack))
+        if (line.second.front() == ToString(TypeCode::TimeSignatureMarker))
         {
-            for (auto &line : section.lines)
-            {
-                if (line.second.front() ==
-                    ToString(TypeCode::TimeSignatureMarker))
-                {
-                    timeSignatures.insert(
-                        {std::stoi(line.first), std::stoi(line.second.at(1))});
-                }
-            }
+            timeSignatures.insert(
+                {std::stoi(line.first), std::stoi(line.second.at(1))});
         }
     }
 
     return timeSignatures;
 }
 
-std::map<int, int> ParseBpmFromChartSections(std::vector<ChartSection> sections)
+std::map<int, int>
+ParseTimeSignaturesFromChartSections(std::vector<ChartSection> sections)
 {
-    auto bpm = std::map<int, int>();
-
     for (auto &section : sections)
     {
         if (section.name == ToString(NamedSection::SyncTrack))
         {
-            for (auto &line : section.lines)
-            {
-                if (line.second.front() == ToString(TypeCode::BPM_Marker))
-                {
-                    bpm.insert(
-                        {std::stoi(line.first), std::stoi(line.second.at(1))});
-                }
-            }
+            return ParseTimeSignaturesFromChartSection(section);
+        }
+    }
+
+    return std::map<int, int>();
+}
+
+std::map<int, int> ParseBpmFromChartSection(ChartSection section)
+{
+    auto bpm = std::map<int, int>();
+
+    for (auto &line : section.lines)
+    {
+        if (line.second.front() == ToString(TypeCode::BPM_Marker))
+        {
+            bpm.insert({std::stoi(line.first), std::stoi(line.second.at(1))});
         }
     }
 
     return bpm;
 }
 
-std::vector<Note>
-ParseNotesFromChartSections(std::vector<ChartSection> sections,
-                            Difficulty difficulty)
+std::map<int, int> ParseBpmFromChartSections(std::vector<ChartSection> sections)
+{
+    for (auto &section : sections)
+    {
+        if (section.name == ToString(NamedSection::SyncTrack))
+        {
+            return ParseBpmFromChartSection(section);
+        }
+    }
+
+    return std::map<int, int>();
+}
+
+std::vector<Note> ParseNotesFromChartSection(ChartSection section)
 {
     auto notes = std::vector<Note>();
 
-    for (auto &section : sections)
+    for (auto &line : section.lines)
     {
-        if (section.name == ToString(difficulty) + "Single")
+        if (line.second.front() == ToString(TypeCode::NoteMarker))
         {
-            for (auto &line : section.lines)
-            {
-                if (line.second.front() == ToString(TypeCode::NoteMarker))
-                {
-                    notes.push_back({std::stoi(line.first),
-                                     std::stoi(line.second.at(1)),
-                                     std::stoi(line.second.at(2))});
-                }
-            }
+            notes.push_back({std::stoi(line.first),
+                             std::stoi(line.second.at(1)),
+                             std::stoi(line.second.at(2))});
         }
     }
 
     return notes;
 }
 
-std::map<int, std::string>
-ParseLyricsFromChartSections(std::vector<ChartSection> sections)
+std::vector<Note>
+ParseNotesFromChartSections(std::vector<ChartSection> sections,
+                            Difficulty difficulty)
+{
+    for (auto &section : sections)
+    {
+        if (section.name == ToString(difficulty) + "Single")
+        {
+            return ParseNotesFromChartSection(section);
+        }
+    }
+
+    return std::vector<Note>();
+}
+
+std::map<int, std::string> ParseLyricsFromChartSection(ChartSection section)
 {
     auto lyrics = std::map<int, std::string>();
 
-    for (auto &section : sections)
+    for (auto &line : section.lines)
     {
-        if (section.name == ToString(NamedSection::Events))
+        if (line.second.back().rfind("lyric", 0) == 0)
         {
-            for (auto &line : section.lines)
-            {
-                if (line.second.back().rfind("lyric", 0) == 0)
-                {
-                    lyrics.insert({std::stoi(line.first), line.second.at(1)});
-                }
-            }
+            lyrics.insert({std::stoi(line.first), line.second.at(1)});
         }
     }
 
     return lyrics;
+}
+
+std::map<int, std::string>
+ParseLyricsFromChartSections(std::vector<ChartSection> sections)
+{
+    for (auto &section : sections)
+    {
+        if (section.name == ToString(NamedSection::Events))
+        {
+            return ParseLyricsFromChartSection(section);
+        }
+    }
+
+    return std::map<int, std::string>();
 }
 
 } // namespace RhythmGameUtilities
