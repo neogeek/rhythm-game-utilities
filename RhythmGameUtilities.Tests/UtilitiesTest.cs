@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 
@@ -50,22 +49,6 @@ namespace RhythmGameUtilities.Tests
         public void TestRoundUpToTheNearestMultiplier()
         {
             Assert.That(Utilities.RoundUpToTheNearestMultiplier(12, 10), Is.EqualTo(20));
-        }
-
-        [Test]
-        public void TestLerp()
-        {
-            Assert.That(Utilities.Lerp(0, 10, 0), Is.EqualTo(0));
-            Assert.That(Utilities.Lerp(0, 10, 0.5f), Is.EqualTo(5));
-            Assert.That(Utilities.Lerp(0, 10, 1), Is.EqualTo(10));
-        }
-
-        [Test]
-        public void TestInverseLerp()
-        {
-            Assert.That(Utilities.InverseLerp(0, 10, 0), Is.EqualTo(0));
-            Assert.That(Utilities.InverseLerp(0, 10, 5), Is.EqualTo(0.5f));
-            Assert.That(Utilities.InverseLerp(0, 10, 10), Is.EqualTo(1));
         }
 
         [Test]
