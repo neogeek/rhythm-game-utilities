@@ -215,12 +215,14 @@ using RhythmGameUtilities;
 var value = Utilities.RoundUpToTheNearestMultiplier(12, 10);
 ```
 
-#### `Utilities.Lerp`
+### Common
+
+#### `Common.Lerp`
 
 ```csharp
 using RhythmGameUtilities;
 
-var value = Utilities.Lerp(0, 10, 0.5f);
+var value = Common.Lerp(0, 10, 0.5f);
 ```
 
 #### `Utilities.InverseLerp`
@@ -228,7 +230,7 @@ var value = Utilities.Lerp(0, 10, 0.5f);
 ```csharp
 using RhythmGameUtilities;
 
-var value = Utilities.InverseLerp(0, 10, 5);
+var value = Common.InverseLerp(0, 10, 5);
 ```
 
 ## Architecture

@@ -12,6 +12,7 @@
 
 #include "Structs/Note.h"
 
+#include "Common.hpp"
 #include "Utilities.hpp"
 
 #ifdef _WIN32

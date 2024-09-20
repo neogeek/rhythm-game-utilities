@@ -53,24 +53,6 @@ namespace RhythmGameUtilities
 #elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
         [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
-        public static extern float Lerp(float a, float b, float t);
-
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
-        public static extern float InverseLerp(float a, float b, float v);
-
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
         public static extern IntPtr CalculateBeatBarsInternal(int[] bpmChangesKeys,
             int[] bpmChangesValues, int bpmChangesSize, int resolution, int ts,
             bool includeHalfNotes, out int size);
@@ -101,16 +83,6 @@ namespace RhythmGameUtilities
         public static int RoundUpToTheNearestMultiplier(int value, int multiplier)
         {
             return UtilitiesInternal.RoundUpToTheNearestMultiplier(value, multiplier);
-        }
-
-        public static float Lerp(float a, float b, float t)
-        {
-            return UtilitiesInternal.Lerp(a, b, t);
-        }
-
-        public static float InverseLerp(float a, float b, float v)
-        {
-            return UtilitiesInternal.InverseLerp(a, b, v);
         }
 
         public static List<BeatBar> CalculateBeatBars(Dictionary<int, int> bpmChanges, int resolution = 192, int ts = 4,
