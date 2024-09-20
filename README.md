@@ -96,26 +96,6 @@ for (var x = 0; x < waveform.Length; x += 1)
 _texture2D.Apply();
 ```
 
-### `Song`
-
-#### `Song.FromChartFile`
-
-```csharp
-using RhythmGameUtilities;
-
-var contents = File.ReadAllText("notes.chart", Encoding.UTF8);
-var song = RhythmGameUtilities.Song.FromChartFile(contents);
-```
-
-#### `Song.FromJSON`
-
-```csharp
-using RhythmGameUtilities;
-
-var json = File.ReadAllText("notes.json", Encoding.UTF8);
-var song = RhythmGameUtilities.Song.FromJSON(json);
-```
-
 ### `Parsers`
 
 Read more about `.chart` files: <https://github.com/TheNathannator/GuitarGame_ChartFormats/blob/main/doc/FileFormats/.chart/Core%20Infrastructure.md>
