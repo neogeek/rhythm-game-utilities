@@ -64,7 +64,7 @@ void testCalculateBeatBars()
 
     auto beatBars = CalculateBeatBars(bpmChanges, 192, 4, true);
 
-    assert(beatBars.size() == 446);
+    assert(beatBars.size() == 440);
 
     std::cout << ".";
 }

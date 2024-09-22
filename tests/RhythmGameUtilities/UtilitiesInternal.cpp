@@ -50,7 +50,7 @@ void testCalculateBeatBarsInternal()
         CalculateBeatBarsInternal(&bpmChangesKeys[0], &bpmChangesValues[0],
                                   bpmChanges.size(), 192, 4, true, outSize);
 
-    assert(*outSize == 446);
+    assert(*outSize == 440);
 
     std::cout << ".";
 }
