@@ -95,7 +95,7 @@ std::vector<BeatBar> CalculateBeatBars(std::map<int, int> bpmChanges,
         auto startTick = std::get<0>(keyValuePair);
         auto endTick = std::get<1>(keyValuePair);
 
-        for (auto tick = startTick; tick <= endTick; tick += resolution)
+        for (auto tick = startTick; tick < endTick; tick += resolution)
         {
             beatBars.push_back({tick, bpmChanges[startTick]});
 

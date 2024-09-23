@@ -70,7 +70,7 @@ namespace RhythmGameUtilities.Tests
 
             var beatBars = Utilities.CalculateBeatBars(bpmChanges, resolution, timeSignature, true);
 
-            Assert.That(beatBars.Count, Is.EqualTo(446));
+            Assert.That(beatBars.Count, Is.EqualTo(440));
         }
 
     }
