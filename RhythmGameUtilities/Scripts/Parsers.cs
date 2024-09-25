@@ -109,6 +109,12 @@ namespace RhythmGameUtilities
             return sections;
         }
 
+        public static Dictionary<string, string> ParseMetaDataFromChartSection(
+            KeyValuePair<string, string[]>[] section)
+        {
+            return section.ToDictionary(item => item.Key, x => x.Value.First());
+        }
+
         public static Dictionary<int, int[]> ParseTimeSignaturesFromChartSection(
             KeyValuePair<string, string[]>[] section)
         {

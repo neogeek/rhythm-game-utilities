@@ -36,6 +36,18 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
+        public void TestParseMetaDataFromChartSection()
+        {
+            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+
+            var data = Parsers.ParseMetaDataFromChartSection(sections[NamedSection.Song]);
+
+            Assert.That(data["Name"], Is.EqualTo("Example Song"));
+            Assert.That(data["Resolution"], Is.EqualTo("192"));
+            Assert.That(data["MusicStream"], Is.EqualTo("Example Song.ogg"));
+        }
+
+        [Test]
         public void TestParseBpmFromChartSections()
         {
             var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
