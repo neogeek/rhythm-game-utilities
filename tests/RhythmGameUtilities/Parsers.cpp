@@ -104,6 +104,21 @@ void testParseValuesFromChartSections()
     std::cout << ".";
 }
 
+void testParseMetaDataFromChartSections()
+{
+    auto sections = ParseSectionsFromChart(contents);
+
+    auto lines = ParseMetaDataFromChartSections(sections);
+
+    assert(lines.size() == 12);
+
+    assert(lines.at("Name") == "Example Song");
+    assert(lines.at("Resolution") == "192");
+    assert(lines.at("MusicStream") == "Example Song.ogg");
+
+    std::cout << ".";
+}
+
 void testParseTimeSignaturesFromChartSections()
 {
     auto sections = ParseSectionsFromChart(contents);
@@ -153,6 +168,7 @@ int main()
     testParseSectionsFromChart();
     testParseValuesFromChartSections();
 
+    testParseMetaDataFromChartSections();
     testParseTimeSignaturesFromChartSections();
     testParseBpmFromChartSections();
     testParseNotesFromChartSections();

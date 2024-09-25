@@ -100,6 +100,33 @@ std::vector<ChartSection> ParseSectionsFromChart(const char *contents)
     return sections;
 }
 
+std::map<std::string, std::string>
+ParseMetaDataFromChartSection(ChartSection section)
+{
+    auto data = std::map<std::string, std::string>();
+
+    for (auto &line : section.lines)
+    {
+        data.insert({line.first, line.second.front()});
+    }
+
+    return data;
+}
+
+std::map<std::string, std::string>
+ParseMetaDataFromChartSections(std::vector<ChartSection> sections)
+{
+    for (auto &section : sections)
+    {
+        if (section.name == ToString(NamedSection::Song))
+        {
+            return ParseMetaDataFromChartSection(section);
+        }
+    }
+
+    return std::map<std::string, std::string>();
+}
+
 std::map<int, int> ParseTimeSignaturesFromChartSection(ChartSection section)
 {
     auto timeSignatures = std::map<int, int>();
