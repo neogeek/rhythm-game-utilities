@@ -358,7 +358,10 @@ MonoBehaviour:
   _songPath: Samples/Rhythm Game Utilities/1.0.0/Sample Song/StreamingAssets/Songs/Demo
     1
   _mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
-  _material: {fileID: 2100000, guid: 4ae981b9a0c2c447e843318a20998783, type: 2}
+  _trackMaterial: {fileID: 2100000, guid: a4c864fe19fd74c3fb6ece2f36cb4bdf, type: 2}
+  _beatBarMaterial: {fileID: 2100000, guid: 4f149c28b4b85433d8ccdec2b588d052, type: 2}
+  _beatBarHalfMaterial: {fileID: 2100000, guid: 97e91637817d8439894205ef0ce7d1e5, type: 2}
+  _beatBarQuarterMaterial: {fileID: 2100000, guid: d36249a89c32b470d8c6b40cd6e5e118, type: 2}
   _materials:
   - {fileID: 2100000, guid: 20dbc966d585d4a78b32ccec4fa43a1a, type: 2}
   - {fileID: 2100000, guid: 4176e88ba7b1c4bdbbe42088cf278b13, type: 2}

@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using RhythmGameUtilities;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -16,7 +18,16 @@ public class RenderSong : MonoBehaviour
     private Mesh _mesh;
 
     [SerializeField]
-    private Material _material;
+    private Material _trackMaterial;
+
+    [SerializeField]
+    private Material _beatBarMaterial;
+
+    [SerializeField]
+    private Material _beatBarHalfMaterial;
+
+    [SerializeField]
+    private Material _beatBarQuarterMaterial;
 
     [SerializeField]
     private Material[] _materials;
@@ -30,33 +41,64 @@ public class RenderSong : MonoBehaviour
     [SerializeField]
     private float _distance = 50;
 
-    private Song _song;
+    private readonly Vector3 _noteScale = new(0.5f, 0.25f, 0.35f);
 
-    private readonly Vector3 _noteScale = new(0.5f, 0.25f, 0.5f);
+    private readonly Vector3 _noteScaleFlat = new(0.5f, 0.05f, 0.35f);
 
-    private readonly Vector3 _noteScaleFlat = new(0.5f, 0.05f, 0.5f);
+    private readonly Vector3 _beatBarScaleFull = new(5, 0.03f, 0.1f);
 
-    private readonly Vector3 _beatBarScale = new(5, 0.03f, 0.03f);
+    private readonly Vector3 _beatBarScaleHalf = new(5, 0.03f, 0.05f);
 
-    private Dictionary<int, List<Note>> _notesGroupedByHandPosition;
+    private readonly Vector3 _beatBarScaleQuarter = new(5, 0.03f, 0.01f);
+
+    public int resolution { get; set; } = 192;
+
+    public Dictionary<int, int> bpm { get; set; }
+
+    public Dictionary<Difficulty, Note[]> difficulties { get; set; }
+
+    public Dictionary<int, List<Note>> notesGroupedByHandPosition { get; set; }
+
+    public List<BeatBar> beatBars { get; set; }
 
     private async void Start()
     {
-        _song = Song.FromChartFile(
-            await LoadTextFileFromPath(
-                $"file://{Path.Join(Application.dataPath, _songPath, "notes.chart")}"));
+        var path = Path.Join(Application.dataPath, _songPath, "notes.chart");
 
-        _audioSource.clip = await LoadAudioFileFromPath(
-            $"file://{Path.Join(Application.dataPath, _songPath, "song.ogg")}");
+        var contents = await LoadTextFileFromPath($"file://{HttpUtility.UrlPathEncode(path)}");
 
-        var lastTick = Utilities.ConvertSecondsToTicks(_audioSource.clip.length, _song.Resolution, _song.BPM);
+        var sections = Parsers.ParseSectionsFromChart(contents);
 
-        _song.BPM.TryAdd(Utilities.RoundUpToTheNearestMultiplier(lastTick, _song.Resolution), _song.BPM.Last().Value);
+        var metadata = Parsers.ParseMetaDataFromChartSection(sections
+            .First(section => section.Key == NamedSection.Song)
+            .Value);
 
-        _notesGroupedByHandPosition = _song.Difficulties[Difficulty.Expert]
+        _audioSource.clip =
+            await LoadAudioFileFromPath(
+                $"file://{HttpUtility.UrlPathEncode(Path.Join(Path.GetDirectoryName(path), metadata["MusicStream"]))}");
+
+        resolution = int.Parse(metadata["Resolution"]);
+
+        bpm = Parsers.ParseBpmFromChartSection(sections.First(section => section.Key == NamedSection.SyncTrack)
+            .Value);
+
+        var lastTick = Utilities.ConvertSecondsToTicks(_audioSource.clip.length, resolution, bpm);
+
+        bpm.TryAdd(Utilities.RoundUpToTheNearestMultiplier(lastTick, resolution), bpm.Last().Value);
+
+        difficulties = Enum.GetValues(typeof(Difficulty))
+            .Cast<Difficulty>()
+            .Where(difficulty => sections.ToDictionary(item => item.Key, x => x.Value)
+                .ContainsKey($"{difficulty}Single"))
+            .ToDictionary(difficulty => difficulty,
+                difficulty => Parsers.ParseNotesFromChartSection(sections[$"{difficulty}Single"]));
+
+        notesGroupedByHandPosition = difficulties[Difficulty.Expert]
             .Where(note => note.HandPosition < 5)
             .GroupBy(note => note.HandPosition)
             .ToDictionary(group => group.Key, group => group.ToList());
+
+        beatBars = Utilities.CalculateBeatBars(bpm, includeHalfNotes : true);
 
         _audioSource.Play();
     }
@@ -104,16 +146,45 @@ public class RenderSong : MonoBehaviour
 
     private void Update()
     {
-        if (_song == null || _notesGroupedByHandPosition == null)
+        RenderTrack();
+
+        if (notesGroupedByHandPosition == null)
         {
             return;
         }
 
-        var tickOffset = Utilities.ConvertSecondsToTicks(_audioSource.time, _song.Resolution, _song.BPM);
+        var tickOffset =
+            Utilities.ConvertSecondsToTicks(_audioSource.time, resolution, bpm);
 
-        for (var x = 0; x < _notesGroupedByHandPosition.Count; x += 1)
+        RenderHitNotes(notesGroupedByHandPosition);
+
+        RenderNotes(notesGroupedByHandPosition, resolution, tickOffset);
+        RenderBeatBars(beatBars, resolution, tickOffset);
+    }
+
+    private void RenderTrack()
+    {
+        Graphics.DrawMesh(_mesh,
+            Matrix4x4.TRS(new Vector3(2.5f, -0.05f, _distance / 2), Quaternion.identity,
+                new Vector3(5f, 0.1f, _distance)),
+            _trackMaterial, 0);
+    }
+
+    private void RenderHitNotes(Dictionary<int, List<Note>> notesGroupedByHandPosition)
+    {
+        for (var x = 0; x < notesGroupedByHandPosition.Count; x += 1)
         {
-            if (!_notesGroupedByHandPosition.ContainsKey(x))
+            Graphics.DrawMesh(_mesh,
+                Matrix4x4.TRS(new Vector3(x + 0.5f, 0, 0), Quaternion.identity, _noteScaleFlat),
+                _materials[x], 0);
+        }
+    }
+
+    private void RenderNotes(Dictionary<int, List<Note>> notesGroupedByHandPosition, int resolution, int tickOffset)
+    {
+        for (var x = 0; x < notesGroupedByHandPosition.Count; x += 1)
+        {
+            if (!notesGroupedByHandPosition.ContainsKey(x))
             {
                 continue;
             }
@@ -123,9 +194,10 @@ public class RenderSong : MonoBehaviour
                 Matrix4x4.TRS(new Vector3(x + 0.5f, 0, 0), Quaternion.identity, _noteScaleFlat)
             };
 
-            foreach (var note in _notesGroupedByHandPosition[x])
+            for (var y = 0; y < notesGroupedByHandPosition[x].Count; y += 1)
             {
-                var position = Utilities.ConvertTickToPosition(note.Position - tickOffset, _song.Resolution) * _scale;
+                var position = Utilities.ConvertTickToPosition(notesGroupedByHandPosition[x][y].Position - tickOffset,
+                    resolution) * _scale;
 
                 if (position > _distance)
                 {
@@ -137,18 +209,25 @@ public class RenderSong : MonoBehaviour
                     continue;
                 }
 
-                noteMatrix.Add(Matrix4x4.TRS(new Vector3(note.HandPosition + 0.5f, 0, position),
+                noteMatrix.Add(Matrix4x4.TRS(
+                    new Vector3(notesGroupedByHandPosition[x][y].HandPosition + 0.5f, 0, position),
                     Quaternion.identity, _noteScale));
             }
 
             Graphics.DrawMeshInstanced(_mesh, 0, _materials[x], noteMatrix);
         }
+    }
 
+    private void RenderBeatBars(List<BeatBar> beatBars, int resolution, int tickOffset)
+    {
         var beatBarMatrix = new List<Matrix4x4>();
+        var beatBarHalfMatrix = new List<Matrix4x4>();
+        var beatBarQuarterMatrix = new List<Matrix4x4>();
 
-        foreach (var beatBar in _song.BeatBars)
+        for (var x = 0; x < beatBars.Count; x += 1)
         {
-            var position = Utilities.ConvertTickToPosition(beatBar.Position - tickOffset, _song.Resolution) * _scale;
+            var position = Utilities.ConvertTickToPosition(beatBars[x].Position - tickOffset, resolution) *
+                           _scale;
 
             if (position > _distance)
             {
@@ -160,10 +239,26 @@ public class RenderSong : MonoBehaviour
                 continue;
             }
 
-            beatBarMatrix.Add(Matrix4x4.TRS(new Vector3(2.5f, 0, position), Quaternion.identity, _beatBarScale));
+            if (x % 8 == 0)
+            {
+                beatBarMatrix.Add(Matrix4x4.TRS(new Vector3(2.5f, 0, position), Quaternion.identity,
+                    _beatBarScaleFull));
+            }
+            else if (x % 2 == 0)
+            {
+                beatBarHalfMatrix.Add(Matrix4x4.TRS(new Vector3(2.5f, 0, position), Quaternion.identity,
+                    _beatBarScaleHalf));
+            }
+            else
+            {
+                beatBarQuarterMatrix.Add(Matrix4x4.TRS(new Vector3(2.5f, 0, position), Quaternion.identity,
+                    _beatBarScaleQuarter));
+            }
         }
 
-        Graphics.DrawMeshInstanced(_mesh, 0, _material, beatBarMatrix);
+        Graphics.DrawMeshInstanced(_mesh, 0, _beatBarMaterial, beatBarMatrix);
+        Graphics.DrawMeshInstanced(_mesh, 0, _beatBarHalfMaterial, beatBarHalfMatrix);
+        Graphics.DrawMeshInstanced(_mesh, 0, _beatBarQuarterMaterial, beatBarQuarterMatrix);
     }
 
 }
