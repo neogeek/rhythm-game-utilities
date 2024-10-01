@@ -223,7 +223,7 @@ using RhythmGameUtilities;
 var value = Utilities.RoundUpToTheNearestMultiplier(12, 10);
 ```
 
-#### `Utilities.CalculateScore`
+#### `Utilities.CalculateAccuracyRatio`
 
 #### `Utilities.CalculateBeatBarsInternal`
 
