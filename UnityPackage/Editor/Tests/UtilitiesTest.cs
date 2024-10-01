@@ -98,11 +98,11 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
-        public void TestCalculateScore()
+        public void TestCalculateAccuracyRatio()
         {
-            Assert.That(Utilities.CalculateScore(750, 100), Is.EqualTo(0));
-            Assert.That(Utilities.CalculateScore(750, 750), Is.EqualTo(1));
-            Assert.That(Utilities.CalculateScore(750, 725), Is.EqualTo(0.5f));
+            Assert.That(Utilities.CalculateAccuracyRatio(750, 100), Is.EqualTo(0));
+            Assert.That(Utilities.CalculateAccuracyRatio(750, 750), Is.EqualTo(1));
+            Assert.That(Utilities.CalculateAccuracyRatio(750, 725), Is.EqualTo(0.5f));
         }
 
     }

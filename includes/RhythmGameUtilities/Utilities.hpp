@@ -180,10 +180,10 @@ extern "C"
         return (int)std::ceil((float)value / multiplier) * multiplier;
     }
 
-    PACKAGE_API float CalculateScore(int position, int tickOffset,
-                                     int delta = 50)
+    PACKAGE_API float CalculateAccuracyRatio(int position, int currentPosition,
+                                             int delta = 50)
     {
-        auto diff = position - tickOffset;
+        auto diff = position - currentPosition;
 
         auto ratio = InverseLerp(delta, 0, std::abs(diff));
 

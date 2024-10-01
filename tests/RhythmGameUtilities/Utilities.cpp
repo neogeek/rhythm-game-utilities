@@ -49,11 +49,11 @@ void testFindPositionNearGivenTick()
     std::cout << ".";
 }
 
-void testCalculateScore()
+void testCalculateAccuracyRatio()
 {
-    assert(0 == CalculateScore(750, 100));
-    assert(1 == CalculateScore(750, 750));
-    assert(0.5f == CalculateScore(750, 725));
+    assert(0 == CalculateAccuracyRatio(750, 100));
+    assert(1 == CalculateAccuracyRatio(750, 750));
+    assert(0.5f == CalculateAccuracyRatio(750, 725));
 
     std::cout << ".";
 }
@@ -99,7 +99,7 @@ int main()
     testConvertSecondsToTicks();
     testIsOnTheBeat();
     testFindPositionNearGivenTick();
-    testCalculateScore();
+    testCalculateAccuracyRatio();
     testRoundUpToTheNearestMultiplier();
     testGenerateAdjacentKeyPairs();
     testCalculateBeatBars();
