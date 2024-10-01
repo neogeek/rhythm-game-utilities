@@ -51,6 +51,7 @@ jobs:
           git push
   build-macos:
     runs-on: macos-latest
+    needs: build-linux
 
     permissions:
       contents: write
@@ -90,6 +91,7 @@ jobs:
           git push
   build-windows:
     runs-on: windows-latest
+    needs: build-macos
 
     permissions:
       contents: write
