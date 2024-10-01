@@ -106,7 +106,7 @@ using RhythmGameUtilities;
 var value = Common.Lerp(0, 10, 0.5f);
 ```
 
-#### `Utilities.InverseLerp`
+#### `Common.InverseLerp`
 
 ```csharp
 using RhythmGameUtilities;
