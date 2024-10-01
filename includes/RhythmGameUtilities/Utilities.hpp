@@ -2,8 +2,10 @@
 
 #include <cmath>
 #include <map>
+#include <optional>
 #include <vector>
 
+#include "Common.hpp"
 #include "Structs/BeatBar.h"
 #include "Structs/Note.h"
 
@@ -110,6 +112,35 @@ std::vector<BeatBar> CalculateBeatBars(std::map<int, int> bpmChanges,
     return beatBars;
 }
 
+std::optional<Note> FindPositionNearGivenTick(std::vector<Note> notes, int tick,
+                                              int delta = 50)
+{
+    auto left = 0;
+    auto right = static_cast<int>(notes.size()) - 1;
+
+    while (left <= right)
+    {
+        auto mid = (left + right) / 2;
+
+        auto currentPosition = notes[mid].Position;
+
+        if (currentPosition + delta < tick)
+        {
+            left = mid + 1;
+        }
+        else if (currentPosition - delta > tick)
+        {
+            right = mid - 1;
+        }
+        else
+        {
+            return notes[mid];
+        }
+    }
+
+    return std::nullopt;
+}
+
 extern "C"
 {
     /**
@@ -147,6 +178,16 @@ extern "C"
     PACKAGE_API int RoundUpToTheNearestMultiplier(int value, int multiplier)
     {
         return (int)std::ceil((float)value / multiplier) * multiplier;
+    }
+
+    PACKAGE_API float CalculateScore(int position, int tickOffset,
+                                     int delta = 50)
+    {
+        auto diff = position - tickOffset;
+
+        auto ratio = InverseLerp(delta, 0, std::abs(diff));
+
+        return ratio;
     }
 }
 

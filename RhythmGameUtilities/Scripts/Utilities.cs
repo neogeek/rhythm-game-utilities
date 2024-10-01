@@ -53,6 +53,15 @@ namespace RhythmGameUtilities
 #elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
         [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
+        public static extern float CalculateScore(int position, int tickOffset, int delta);
+
+#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
+#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
+#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
+        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern IntPtr CalculateBeatBarsInternal(int[] bpmChangesKeys,
             int[] bpmChangesValues, int bpmChangesSize, int resolution, int ts,
             bool includeHalfNotes, out int size);
@@ -105,6 +114,39 @@ namespace RhythmGameUtilities
             }
 
             return beatBars;
+        }
+
+        public static Note? FindPositionNearGivenTick(List<Note> notes, int tick, int delta = 50)
+        {
+            var left = 0;
+            var right = notes.Count - 1;
+
+            while (left <= right)
+            {
+                var mid = (left + right) / 2;
+
+                var currentPosition = notes[mid].Position;
+
+                if (currentPosition + delta < tick)
+                {
+                    left = mid + 1;
+                }
+                else if (currentPosition - delta > tick)
+                {
+                    right = mid - 1;
+                }
+                else
+                {
+                    return notes[mid];
+                }
+            }
+
+            return null;
+        }
+
+        public static float CalculateScore(int position, int tickOffset, int delta = 50)
+        {
+            return UtilitiesInternal.CalculateScore(position, tickOffset, delta);
         }
 
     }
