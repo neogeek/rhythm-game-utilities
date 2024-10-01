@@ -96,6 +96,24 @@ for (var x = 0; x < waveform.Length; x += 1)
 _texture2D.Apply();
 ```
 
+### Common
+
+#### `Common.Lerp`
+
+```csharp
+using RhythmGameUtilities;
+
+var value = Common.Lerp(0, 10, 0.5f);
+```
+
+#### `Utilities.InverseLerp`
+
+```csharp
+using RhythmGameUtilities;
+
+var value = Common.InverseLerp(0, 10, 5);
+```
+
 ### `Parsers`
 
 Read more about `.chart` files: <https://github.com/TheNathannator/GuitarGame_ChartFormats/blob/main/doc/FileFormats/.chart/Core%20Infrastructure.md>
@@ -106,6 +124,16 @@ Read more about `.chart` files: <https://github.com/TheNathannator/GuitarGame_Ch
 using RhythmGameUtilities;
 
 var sections = Parsers.ParseSectionsFromChart(contents);
+```
+
+#### `Parsers.ParseMetaDataFromChartSection`
+
+```csharp
+using RhythmGameUtilities;
+
+var sections = Parsers.ParseSectionsFromChart(contents);
+
+var metaData = Parsers.ParseMetaDataFromChartSection(sections[NamedSection.Song]);
 ```
 
 #### `Parsers.ParseTimeSignaturesFromChartSection`
@@ -195,23 +223,9 @@ using RhythmGameUtilities;
 var value = Utilities.RoundUpToTheNearestMultiplier(12, 10);
 ```
 
-### Common
+#### `Utilities.CalculateScore`
 
-#### `Common.Lerp`
-
-```csharp
-using RhythmGameUtilities;
-
-var value = Common.Lerp(0, 10, 0.5f);
-```
-
-#### `Utilities.InverseLerp`
-
-```csharp
-using RhythmGameUtilities;
-
-var value = Common.InverseLerp(0, 10, 5);
-```
+#### `Utilities.CalculateBeatBarsInternal`
 
 ## Architecture
 
