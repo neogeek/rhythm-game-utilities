@@ -310,7 +310,7 @@ var bpmChanges = new Dictionary<int, int>
 
 var beatBars = Utilities.CalculateBeatBars(bpmChanges, resolution, timeSignature, true);
 
-Assert.That(beatBars.Count, Is.EqualTo(440));
+Console.WriteLine(beatBars.Count); // 440
 ```
 
 ## Architecture
