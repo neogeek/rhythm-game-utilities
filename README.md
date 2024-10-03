@@ -277,6 +277,7 @@ using RhythmGameUtilities;
 
 const int seconds = 2;
 const int resolution = 192;
+const int positionDelta = 50;
 
 var bpmChanges = new Dictionary<int, int> {
     { 0, 120000 }
@@ -284,9 +285,8 @@ var bpmChanges = new Dictionary<int, int> {
 
 var note = new Note { Position = 750 };
 var currentPosition = Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges);
-const int delta = 50;
 
-var value = Utilities.CalculateAccuracyRatio(note.Position, currentPosition, delta);
+var value = Utilities.CalculateAccuracyRatio(note.Position, currentPosition, positionDelta);
 
 Console.WriteLine(value); // 0.64
 ```
