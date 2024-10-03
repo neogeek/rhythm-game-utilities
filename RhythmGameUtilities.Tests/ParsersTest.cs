@@ -48,6 +48,16 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
+        public void TestParseTimeSignaturesFromChartSection()
+        {
+            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+
+            var timeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
+
+            Assert.That(timeSignatures.Count, Is.EqualTo(4));
+        }
+
+        [Test]
         public void TestParseBpmFromChartSections()
         {
             var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
