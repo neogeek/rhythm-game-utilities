@@ -101,17 +101,23 @@ _texture2D.Apply();
 #### `Common.Lerp`
 
 ```csharp
+using System;
 using RhythmGameUtilities;
 
 var value = Common.Lerp(0, 10, 0.5f);
+
+Console.WriteLine(value); // 5
 ```
 
 #### `Common.InverseLerp`
 
 ```csharp
+using System;
 using RhythmGameUtilities;
 
 var value = Common.InverseLerp(0, 10, 5);
+
+Console.WriteLine(value); // 0.5
 ```
 
 ### `Parsers`
@@ -121,59 +127,79 @@ Read more about `.chart` files: <https://github.com/TheNathannator/GuitarGame_Ch
 #### `Parsers.ParseSectionsFromChart`
 
 ```csharp
+using System;
 using RhythmGameUtilities;
 
 var sections = Parsers.ParseSectionsFromChart(contents);
+
+Console.WriteLine(sections.Count); // 4
 ```
 
 #### `Parsers.ParseMetaDataFromChartSection`
 
 ```csharp
+using System;
 using RhythmGameUtilities;
 
 var sections = Parsers.ParseSectionsFromChart(contents);
 
 var metaData = Parsers.ParseMetaDataFromChartSection(sections[NamedSection.Song]);
+
+Console.WriteLine(metaData["Name"]); // Example Song
+Console.WriteLine(metaData["Resolution"]); // 192
+Console.WriteLine(metaData["MusicStream"]); // Example Song.ogg
 ```
 
 #### `Parsers.ParseTimeSignaturesFromChartSection`
 
 ```csharp
+using System;
 using RhythmGameUtilities;
 
 var sections = Parsers.ParseSectionsFromChart(contents);
 
 var timeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
+
+Console.WriteLine(timeSignatures.Count); // 4
 ```
 
 #### `Parsers.ParseBpmFromChartSection`
 
 ```csharp
+using System;
 using RhythmGameUtilities;
 
 var sections = Parsers.ParseSectionsFromChart(contents);
 
 var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
+
+Console.WriteLine(bpm.Count); // 7
 ```
 
 #### `Parsers.ParseNotesFromChartSection`
 
 ```csharp
+using System;
 using RhythmGameUtilities;
 
 var sections = Parsers.ParseSectionsFromChart(contents);
 
 var notes = Parsers.ParseNotesFromChartSection(sections[$"{Difficulty.Expert}Single"]);
+
+Console.WriteLine(notes.Count); // 8
 ```
 
 #### `Parsers.ParseLyricsFromChartSection`
 
 ```csharp
+using System;
 using RhythmGameUtilities;
 
 var sections = Parsers.ParseSectionsFromChart(contents);
 
 var lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.Events]);
+
+Console.WriteLine(notes.Count); // 12
 ```
 
 ### Utilities
@@ -181,29 +207,46 @@ var lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.Events]);
 #### `Utilities.ConvertTickToPosition`
 
 ```csharp
+using System;
 using RhythmGameUtilities;
 
 const int tick = 2784;
 const int resolution = 192;
 
 var position = Utilities.ConvertTickToPosition(tick, resolution);
+
+Console.WriteLine(position); // 14.5
 ```
 
 #### `Utilities.ConvertSecondsToTicks`
 
 ```csharp
+using System;
 using RhythmGameUtilities;
 
-const int seconds = 2784;
+const int seconds = 5;
 const int resolution = 192;
-const bpmChanges = new Dictionary<int, int>();
+
+var bpmChanges = new Dictionary<int, int>
+{
+    { 0, 88000 },
+    { 3840, 112000 },
+    { 9984, 89600 },
+    { 22272, 112000 },
+    { 33792, 111500 },
+    { 34560, 112000 },
+    { 42240, 111980 }
+};
 
 var ticks = Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges);
+
+Console.WriteLine(ticks); // 1408
 ```
 
 #### `Utilities.IsOnTheBeat`
 
 ```csharp
+using System;
 using RhythmGameUtilities;
 
 const int bpm = 120;
@@ -211,21 +254,64 @@ const int currentTime = 10;
 
 if (Utilities.IsOnTheBeat(bpm, currentTime))
 {
-
+    Console.WriteLine("On the beat!");
 }
 ```
 
 #### `Utilities.RoundUpToTheNearestMultiplier`
 
 ```csharp
+using System;
 using RhythmGameUtilities;
 
 var value = Utilities.RoundUpToTheNearestMultiplier(12, 10);
+
+Console.WriteLine(value); // 20
 ```
 
 #### `Utilities.CalculateAccuracyRatio`
 
+```csharp
+using System;
+using RhythmGameUtilities;
+
+const int seconds = 2;
+const int resolution = 192;
+
+var bpmChanges = new Dictionary<int, int> {
+    { 0, 120000 }
+};
+
+var note = new Note { Position = 750 };
+var currentPosition = Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges);
+const int delta = 50;
+
+var value = Utilities.CalculateAccuracyRatio(note.Position, currentPosition, delta);
+
+Console.WriteLine(value); // 0.64
+```
+
 #### `Utilities.CalculateBeatBarsInternal`
+
+```csharp
+const int resolution = 192;
+const int timeSignature = 4;
+
+var bpmChanges = new Dictionary<int, int>
+{
+    { 0, 88000 },
+    { 3840, 112000 },
+    { 9984, 89600 },
+    { 22272, 112000 },
+    { 33792, 111500 },
+    { 34560, 112000 },
+    { 42240, 111980 }
+};
+
+var beatBars = Utilities.CalculateBeatBars(bpmChanges, resolution, timeSignature, true);
+
+Assert.That(beatBars.Count, Is.EqualTo(440));
+```
 
 ## Architecture
 
