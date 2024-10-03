@@ -100,6 +100,8 @@ _texture2D.Apply();
 
 #### `Common.Lerp`
 
+##### C#
+
 ```csharp
 using System;
 using RhythmGameUtilities;
@@ -109,7 +111,28 @@ var value = Common.Lerp(0, 10, 0.5f);
 Console.WriteLine(value); // 5
 ```
 
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Common.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto value = Lerp(0, 10, 0.5f);
+
+    std::cout << value << std::endl; // 5
+
+    return 0;
+}
+```
+
 #### `Common.InverseLerp`
+
+##### C#
 
 ```csharp
 using System;
@@ -118,6 +141,25 @@ using RhythmGameUtilities;
 var value = Common.InverseLerp(0, 10, 5);
 
 Console.WriteLine(value); // 0.5
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Common.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto value = InverseLerp(0, 10, 5);
+
+    std::cout << value << std::endl; // 0.5
+
+    return 0;
+}
 ```
 
 ### `Parsers`
@@ -260,6 +302,8 @@ if (Utilities.IsOnTheBeat(bpm, currentTime))
 
 #### `Utilities.RoundUpToTheNearestMultiplier`
 
+##### C#
+
 ```csharp
 using System;
 using RhythmGameUtilities;
@@ -269,7 +313,28 @@ var value = Utilities.RoundUpToTheNearestMultiplier(12, 10);
 Console.WriteLine(value); // 20
 ```
 
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto value = RoundUpToTheNearestMultiplier(12, 10);
+
+    std::cout << value << std::endl; // 20
+
+    return 0;
+}
+```
+
 #### `Utilities.CalculateAccuracyRatio`
+
+##### C#
 
 ```csharp
 using System;
@@ -279,9 +344,7 @@ const int seconds = 2;
 const int resolution = 192;
 const int positionDelta = 50;
 
-var bpmChanges = new Dictionary<int, int> {
-    { 0, 120000 }
-};
+var bpmChanges = new Dictionary<int, int> { { 0, 120000 } };
 
 var note = new Note { Position = 750 };
 var currentPosition = Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges);
@@ -291,7 +354,39 @@ var value = Utilities.CalculateAccuracyRatio(note.Position, currentPosition, pos
 Console.WriteLine(value); // 0.64
 ```
 
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    const int seconds = 2;
+    const int resolution = 192;
+    const int positionDelta = 50;
+
+    std::map<int, int> bpmChanges = {{0, 120000}};
+
+    auto note = new Note{750};
+    auto currentPosition =
+        ConvertSecondsToTicks(seconds, resolution, bpmChanges);
+
+    auto value =
+        CalculateAccuracyRatio(note->Position, currentPosition, positionDelta);
+
+    std::cout << value << std::endl; // 0.64
+
+    return 0;
+}
+```
+
 #### `Utilities.CalculateBeatBarsInternal`
+
+##### C#
 
 ```csharp
 const int resolution = 192;
@@ -311,6 +406,33 @@ var bpmChanges = new Dictionary<int, int>
 var beatBars = Utilities.CalculateBeatBars(bpmChanges, resolution, timeSignature, true);
 
 Console.WriteLine(beatBars.Count); // 440
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    const int resolution = 192;
+    const int timeSignature = 4;
+
+    std::map<int, int> bpmChanges = {
+        {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
+        {33792, 111500}, {34560, 112000}, {42240, 111980}};
+
+    auto beatBars =
+        CalculateBeatBars(bpmChanges, resolution, timeSignature, true);
+
+    std::cout << size(beatBars) << std::endl; // 440
+
+    return 0;
+}
 ```
 
 ## Architecture
