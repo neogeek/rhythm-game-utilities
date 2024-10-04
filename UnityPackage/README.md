@@ -7,7 +7,7 @@
 [![Build](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/build.workflow.yml/badge.svg)](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/build.workflow.yml)
 [![Join the chat at https://discord.gg/nNtFsfd](https://img.shields.io/badge/discord-join%20chat-7289DA.svg)](https://discord.gg/nNtFsfd)
 
-This library is a collection of utilities for creating rhythm games like Tap Tap Revenge, Guitar Hero, and Rock Band. It is meant to be used within any game engine that supports loading C++ libraries, such as Unity, Unreal, and Godot.
+This library is a collection of utilities for creating rhythm games like Tap Tap Revenge, Guitar Hero, and Rock Band. It is meant to be used within any game engine that supports loading C++ libraries, such as Unity, Unreal, Godot and SDL.
 
 ![](screenshot.png)
 _Prototype game built using these utilities._
@@ -46,7 +46,7 @@ Coming soon.
 
 Coming soon.
 
-### HandcrankEngine
+### SDL
 
 Coming soon.
 
@@ -54,18 +54,18 @@ Coming soon.
 
 This library aims to offer support for multiple platforms through a single codebase. This is highly ambitious, so if you run into an issue with your platform of choice during development, please leave a detailed bug report with as much information as possible. Also, as this library is relatively new, mobile platforms will be fully supported after all other platforms are complete.
 
-| Engine                                                                | Platform | Tested |
-| --------------------------------------------------------------------- | -------- | :----: |
-| [Unity](https://unity.com/)                                           | macOS    |   ✅   |
-| [Unity](https://unity.com/)                                           | Windows  |   ✅   |
-| [Unity](https://unity.com/)                                           | WebGL    |   ❌   |
-| [Unreal](https://www.unrealengine.com/)                               | macOS    |   -    |
-| [Unreal](https://www.unrealengine.com/)                               | Windows  |   -    |
-| [Godot 4](https://godotengine.org/)                                   | macOS    |   -    |
-| [Godot 4](https://godotengine.org/)                                   | Windows  |   -    |
-| [Godot 4](https://godotengine.org/)                                   | WebGL    |   -    |
-| [HandcrankEngine](https://github.com/HandcrankEngine/HandcrankEngine) | macOS    |   ⏳   |
-| [HandcrankEngine](https://github.com/HandcrankEngine/HandcrankEngine) | Windows  |   ⏳   |
+| Engine                                  | Platform | Tested |
+| --------------------------------------- | -------- | :----: |
+| [Unity](https://unity.com/)             | macOS    |   ✅   |
+| [Unity](https://unity.com/)             | Windows  |   ✅   |
+| [Unity](https://unity.com/)             | WebGL    |   ❌   |
+| [Unreal](https://www.unrealengine.com/) | macOS    |   -    |
+| [Unreal](https://www.unrealengine.com/) | Windows  |   -    |
+| [Godot 4](https://godotengine.org/)     | macOS    |   -    |
+| [Godot 4](https://godotengine.org/)     | Windows  |   -    |
+| [Godot 4](https://godotengine.org/)     | WebGL    |   -    |
+| [SDL](https://www.libsdl.org/)          | macOS    |   ⏳   |
+| [SDL](https://www.libsdl.org/)          | Windows  |   ⏳   |
 
 ## Usage
 
