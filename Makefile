@@ -28,6 +28,6 @@ clean: ## Clean project
 	git clean -xdf
 
 tidy:
-	clang-tidy includes/**/*.hpp -checks=-*,clang-analyzer-*,-clang-analyzer-cplusplus*
+	clang-tidy include/**/*.hpp -checks=-*,clang-analyzer-*,-clang-analyzer-cplusplus*
 
 .PHONY: build

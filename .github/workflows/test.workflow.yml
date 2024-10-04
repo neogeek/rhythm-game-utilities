@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'includes/**/*'
+      - 'include/**/*'
       - 'tests/**/*'
       - 'RhythmGameUtilities/**/*'
       - 'RhythmGameUtilities.Tests/**/*'
@@ -14,7 +14,7 @@ on:
     branches:
       - main
     paths:
-      - 'includes/**/*'
+      - 'include/**/*'
       - 'tests/**/*'
       - 'RhythmGameUtilities/**/*'
       - 'RhythmGameUtilities.Tests/**/*'
@@ -47,7 +47,7 @@ jobs:
       - name: Build Release
         run: |
           mkdir -p build
-          g++ -std=c++17 -shared -fPIC -o build/libRhythmGameUtilities.so includes/RhythmGameUtilities/RhythmGameUtilities.cpp
+          g++ -std=c++17 -shared -fPIC -o build/libRhythmGameUtilities.so include/RhythmGameUtilities/RhythmGameUtilities.cpp
 
       - name: Copy Release
         run: |

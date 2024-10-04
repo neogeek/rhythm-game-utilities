@@ -7,7 +7,7 @@ if not defined VCINSTALLDIR (
 
 mkdir build
 
-cl /EHsc /std:c++17 /c includes/RhythmGameUtilities/RhythmGameUtilities.cpp /Fo:build\RhythmGameUtilities.obj
+cl /EHsc /std:c++17 /c include/RhythmGameUtilities/RhythmGameUtilities.cpp /Fo:build\RhythmGameUtilities.obj
 link /DLL /MACHINE:X64 /OUT:build\libRhythmGameUtilities.dll /IMPLIB:build\libRhythmGameUtilities.lib build\RhythmGameUtilities.obj
 
 del build\RhythmGameUtilities.obj

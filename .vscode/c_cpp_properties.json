@@ -2,7 +2,7 @@
   "configurations": [
     {
       "name": "Mac",
-      "includePath": ["${workspaceFolder}/**", "${workspaceFolder}/includes"],
+      "includePath": ["${workspaceFolder}/**", "${workspaceFolder}/include"],
       "defines": [],
       "compilerPath": "/usr/bin/clang",
       "cStandard": "c17",
@@ -11,7 +11,7 @@
     },
     {
       "name": "Win32",
-      "includePath": ["${workspaceFolder}/**", "${workspaceFolder}/includes"],
+      "includePath": ["${workspaceFolder}/**", "${workspaceFolder}/include"],
       "defines": [],
       "compilerPath": "C:/Program Files/Microsoft Visual Studio/2022/Preview/VC/Tools/MSVC/14.40.33617/bin/Hostx64/x64/cl.exe",
       "cStandard": "c17",
