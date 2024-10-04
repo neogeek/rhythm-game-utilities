@@ -213,7 +213,8 @@ int main()
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
-    auto metaData = ParseMetaDataFromChartSections(sections);
+    auto metaData = ParseMetaDataFromChartSection(
+        sections.at(ToString(NamedSection::Song)));
 
     std::cout << metaData["Name"] << std::endl; // Example Song
     std::cout << metaData["Resolution"] << std::endl; // 192
@@ -255,7 +256,8 @@ int main()
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
-    auto timeSignatures = ParseTimeSignaturesFromChartSections(sections);
+    auto timeSignatures = ParseTimeSignaturesFromChartSection(
+        sections.at(ToString(NamedSection::SyncTrack)));
 
     std::cout << size(timeSignatures) << std::endl; // 4
 
@@ -295,7 +297,8 @@ int main()
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
-    auto bpm = ParseBpmFromChartSections(sections);
+    auto bpm = ParseBpmFromChartSection(
+        sections.at(ToString(NamedSection::SyncTrack)));
 
     std::cout << size(bpm) << std::endl; // 7
 
@@ -335,7 +338,8 @@ int main()
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
-    auto notes = ParseNotesFromChartSections(sections, Expert);
+    auto notes = ParseNotesFromChartSection(
+        sections.at(ToString(Difficulty::Expert) + "Single"));
 
     for (auto &note : notes)
     {
@@ -383,7 +387,8 @@ int main()
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
-    auto lyrics = ParseLyricsFromChartSections(sections);
+    auto lyrics = ParseLyricsFromChartSection(
+        sections.at(ToString(NamedSection::Events)));
 
     std::cout << size(lyrics) << std::endl; // 12
 

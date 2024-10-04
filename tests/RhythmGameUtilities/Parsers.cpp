@@ -75,40 +75,40 @@ void testParseSectionsFromChart()
 
     assert(sections.size() == 4);
 
-    assert(sections.at(0).name == "Song");
-    assert(sections.at(1).name == "SyncTrack");
-    assert(sections.at(2).name == "Events");
-    assert(sections.at(3).name == "ExpertSingle");
+    assert(sections.find(ToString(NamedSection::Song)) != sections.end());
+    assert(sections.find(ToString(NamedSection::SyncTrack)) != sections.end());
+    assert(sections.find(ToString(Difficulty::Expert) + "Single") !=
+           sections.end());
 
     std::cout << ".";
 }
 
-void testParseValuesFromChartSections()
+void testParseValuesFromChartSection()
 {
     auto sections = ParseSectionsFromChart(contents);
 
-    assert(sections.size() == 4);
+    auto values = sections.at(ToString(NamedSection::Song));
 
-    assert(sections.at(0).name == "Song");
-    assert(sections.at(0).lines.size() == 12);
+    assert(values.size() == 12);
 
-    assert(sections.at(0).lines[0].first == "Name");
-    assert(sections.at(0).lines[0].second[0] == "Example Song");
+    assert(values[0].first == "Name");
+    assert(values[0].second[0] == "Example Song");
 
-    assert(sections.at(0).lines[6].first == "Resolution");
-    assert(sections.at(0).lines[6].second[0] == "192");
+    assert(values[6].first == "Resolution");
+    assert(values[6].second[0] == "192");
 
-    assert(sections.at(0).lines[11].first == "MusicStream");
-    assert(sections.at(0).lines[11].second[0] == "Example Song.ogg");
+    assert(values[11].first == "MusicStream");
+    assert(values[11].second[0] == "Example Song.ogg");
 
     std::cout << ".";
 }
 
-void testParseMetaDataFromChartSections()
+void testParseMetaDataFromChartSection()
 {
     auto sections = ParseSectionsFromChart(contents);
 
-    auto lines = ParseMetaDataFromChartSections(sections);
+    auto lines = ParseMetaDataFromChartSection(
+        sections.at(ToString(NamedSection::Song)));
 
     assert(lines.size() == 12);
 
@@ -119,44 +119,48 @@ void testParseMetaDataFromChartSections()
     std::cout << ".";
 }
 
-void testParseTimeSignaturesFromChartSections()
+void testParseTimeSignaturesFromChartSection()
 {
     auto sections = ParseSectionsFromChart(contents);
 
-    auto lines = ParseTimeSignaturesFromChartSections(sections);
+    auto lines = ParseTimeSignaturesFromChartSection(
+        sections.at(ToString(NamedSection::SyncTrack)));
 
     assert(lines.size() == 4);
 
     std::cout << ".";
 }
 
-void testParseBpmFromChartSections()
+void testParseBpmFromChartSection()
 {
     auto sections = ParseSectionsFromChart(contents);
 
-    auto lines = ParseBpmFromChartSections(sections);
+    auto lines = ParseBpmFromChartSection(
+        sections.at(ToString(NamedSection::SyncTrack)));
 
     assert(lines.size() == 7);
 
     std::cout << ".";
 }
 
-void testParseNotesFromChartSections()
+void testParseNotesFromChartSection()
 {
     auto sections = ParseSectionsFromChart(contents);
 
-    auto lines = ParseNotesFromChartSections(sections, Difficulty::Expert);
+    auto lines = ParseNotesFromChartSection(
+        sections.at(ToString(Difficulty::Expert) + "Single"));
 
     assert(lines.size() == 8);
 
     std::cout << ".";
 }
 
-void testParseLyricsFromChartSections()
+void testParseLyricsFromChartSection()
 {
     auto sections = ParseSectionsFromChart(contents);
 
-    auto lines = ParseLyricsFromChartSections(sections);
+    auto lines = ParseLyricsFromChartSection(
+        sections.at(ToString(NamedSection::Events)));
 
     assert(lines.size() == 12);
 
@@ -166,13 +170,13 @@ void testParseLyricsFromChartSections()
 int main()
 {
     testParseSectionsFromChart();
-    testParseValuesFromChartSections();
+    testParseValuesFromChartSection();
 
-    testParseMetaDataFromChartSections();
-    testParseTimeSignaturesFromChartSections();
-    testParseBpmFromChartSections();
-    testParseNotesFromChartSections();
-    testParseLyricsFromChartSections();
+    testParseMetaDataFromChartSection();
+    testParseTimeSignaturesFromChartSection();
+    testParseBpmFromChartSection();
+    testParseNotesFromChartSection();
+    testParseLyricsFromChartSection();
 
     return 0;
 }

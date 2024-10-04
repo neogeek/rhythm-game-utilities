@@ -69,6 +69,20 @@ auto contents = R"([Song]
   1248 = E soloend
 })";
 
+ChartSectionInternal *FindSection(ChartSectionInternal *sections, int size,
+                                  std::string name)
+{
+    for (auto i = 0; i < size; i += 1)
+    {
+        if (sections[i].name == name)
+        {
+            return &sections[i];
+        }
+    }
+
+    return nullptr;
+}
+
 void testParseSectionsFromChartInternal()
 {
     int size = 0;
@@ -77,19 +91,29 @@ void testParseSectionsFromChartInternal()
 
     assert(size == 4);
 
-    assert(strcmp(sections[0].name, "Song") == 0);
-    assert(sections[0].lineCount == 12);
-    assert(strcmp(sections[1].name, "SyncTrack") == 0);
-    assert(sections[1].lineCount == 11);
-    assert(strcmp(sections[2].name, "Events") == 0);
-    assert(sections[2].lineCount == 16);
-    assert(strcmp(sections[3].name, "ExpertSingle") == 0);
-    assert(sections[3].lineCount == 11);
+    auto song = FindSection(sections, size, ToString(NamedSection::Song));
+
+    auto syncTrack =
+        FindSection(sections, size, ToString(NamedSection::SyncTrack));
+
+    auto events = FindSection(sections, size, ToString(NamedSection::Events));
+
+    auto expertSingle =
+        FindSection(sections, size, ToString(Difficulty::Expert) + "Single");
+
+    assert(song != nullptr);
+    assert(song->lineCount == 12);
+    assert(syncTrack != nullptr);
+    assert(syncTrack->lineCount == 11);
+    assert(events != nullptr);
+    assert(events->lineCount == 16);
+    assert(expertSingle != nullptr);
+    assert(expertSingle->lineCount == 11);
 
     std::cout << ".";
 }
 
-void testParseValuesFromChartSectionsInternal()
+void testParseValuesFromChartSectionInternal()
 {
     int size = 0;
 
@@ -97,16 +121,18 @@ void testParseValuesFromChartSectionsInternal()
 
     assert(size == 4);
 
-    assert(sections[0].lineCount == 12);
+    auto song = FindSection(sections, size, ToString(NamedSection::Song));
 
-    assert(strcmp(sections[0].lines[0].key, "Name") == 0);
-    assert(strcmp(sections[0].lines[0].values[0], "Example Song") == 0);
+    assert(song->lineCount == 12);
 
-    assert(strcmp(sections[0].lines[6].key, "Resolution") == 0);
-    assert(strcmp(sections[0].lines[6].values[0], "192") == 0);
+    assert(strcmp(song->lines[0].key, "Name") == 0);
+    assert(strcmp(song->lines[0].values[0], "Example Song") == 0);
 
-    assert(strcmp(sections[0].lines[11].key, "MusicStream") == 0);
-    assert(strcmp(sections[0].lines[11].values[0], "Example Song.ogg") == 0);
+    assert(strcmp(song->lines[6].key, "Resolution") == 0);
+    assert(strcmp(song->lines[6].values[0], "192") == 0);
+
+    assert(strcmp(song->lines[11].key, "MusicStream") == 0);
+    assert(strcmp(song->lines[11].values[0], "Example Song.ogg") == 0);
 
     std::cout << ".";
 }
@@ -114,7 +140,7 @@ void testParseValuesFromChartSectionsInternal()
 int main()
 {
     testParseSectionsFromChartInternal();
-    testParseValuesFromChartSectionsInternal();
+    testParseValuesFromChartSectionInternal();
 
     return 0;
 }

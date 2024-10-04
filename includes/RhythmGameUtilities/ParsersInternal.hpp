@@ -25,30 +25,30 @@ extern "C"
         auto sections = (ChartSectionInternal *)malloc(
             internalSections.size() * sizeof(ChartSectionInternal));
 
-        for (auto i = 0; i < internalSections.size(); i += 1)
+        int i = 0;
+
+        for (auto section = internalSections.begin();
+             section != internalSections.end(); section++)
         {
-            auto nameLength = internalSections[i].name.size() + 1;
+            auto nameLength = section->first.size() + 1;
             sections[i].name = (char *)malloc(nameLength);
-            strncpy(sections[i].name, internalSections[i].name.c_str(),
-                    nameLength - 1);
+            strncpy(sections[i].name, section->first.c_str(), nameLength - 1);
             sections[i].name[nameLength - 1] = '\0';
 
             sections[i].lines = (KeyValuePairInternal *)malloc(
-                internalSections[i].lines.size() *
-                sizeof(KeyValuePairInternal));
+                section->second.size() * sizeof(KeyValuePairInternal));
 
-            sections[i].lineCount = internalSections[i].lines.size();
+            sections[i].lineCount = section->second.size();
 
-            for (auto j = 0; j < internalSections[i].lines.size(); j += 1)
+            for (auto j = 0; j < section->second.size(); j += 1)
             {
-                auto keyLength = internalSections[i].lines[j].first.size() + 1;
+                auto keyLength = section->second[j].first.size() + 1;
                 sections[i].lines[j].key = (char *)malloc(keyLength);
                 strncpy(sections[i].lines[j].key,
-                        internalSections[i].lines[j].first.c_str(),
-                        keyLength - 1);
+                        section->second[j].first.c_str(), keyLength - 1);
                 sections[i].lines[j].key[keyLength - 1] = '\0';
 
-                auto values = internalSections[i].lines[j].second;
+                auto values = section->second[j].second;
 
                 for (auto k = 0; k < values.size(); k += 1)
                 {
@@ -62,6 +62,8 @@ extern "C"
 
                 sections[i].lines[j].valueCount = values.size();
             }
+
+            i += 1;
         }
 
         return sections;
