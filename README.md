@@ -168,6 +168,8 @@ Read more about `.chart` files: <https://github.com/TheNathannator/GuitarGame_Ch
 
 #### `Parsers.ParseSectionsFromChart`
 
+##### C#
+
 ```csharp
 using System;
 using RhythmGameUtilities;
@@ -178,6 +180,8 @@ Console.WriteLine(sections.Count); // 4
 ```
 
 #### `Parsers.ParseMetaDataFromChartSection`
+
+##### C#
 
 ```csharp
 using System;
@@ -192,7 +196,36 @@ Console.WriteLine(metaData["Resolution"]); // 192
 Console.WriteLine(metaData["MusicStream"]); // Example Song.ogg
 ```
 
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/File.hpp"
+#include "RhythmGameUtilities/Parsers.hpp"
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto content = ReadFromFile("./tests/Mocks/song.chart");
+
+    auto sections = ParseSectionsFromChart(content.c_str());
+
+    auto metaData = ParseMetaDataFromChartSections(sections);
+
+    std::cout << metaData["Name"] << std::endl; // Example Song
+    std::cout << metaData["Resolution"] << std::endl; // 192
+    std::cout << metaData["MusicStream"] << std::endl; // Example Song.ogg
+
+    return 0;
+}
+```
+
 #### `Parsers.ParseTimeSignaturesFromChartSection`
+
+##### C#
 
 ```csharp
 using System;
@@ -205,7 +238,34 @@ var timeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedS
 Console.WriteLine(timeSignatures.Count); // 4
 ```
 
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/File.hpp"
+#include "RhythmGameUtilities/Parsers.hpp"
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto content = ReadFromFile("./tests/Mocks/song.chart");
+
+    auto sections = ParseSectionsFromChart(content.c_str());
+
+    auto timeSignatures = ParseTimeSignaturesFromChartSections(sections);
+
+    std::cout << size(timeSignatures) << std::endl; // 4
+
+    return 0;
+}
+```
+
 #### `Parsers.ParseBpmFromChartSection`
+
+##### C#
 
 ```csharp
 using System;
@@ -218,7 +278,34 @@ var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
 Console.WriteLine(bpm.Count); // 7
 ```
 
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/File.hpp"
+#include "RhythmGameUtilities/Parsers.hpp"
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto content = ReadFromFile("./tests/Mocks/song.chart");
+
+    auto sections = ParseSectionsFromChart(content.c_str());
+
+    auto bpm = ParseBpmFromChartSections(sections);
+
+    std::cout << size(bpm) << std::endl; // 7
+
+    return 0;
+}
+```
+
 #### `Parsers.ParseNotesFromChartSection`
+
+##### C#
 
 ```csharp
 using System;
@@ -231,7 +318,42 @@ var notes = Parsers.ParseNotesFromChartSection(sections[$"{Difficulty.Expert}Sin
 Console.WriteLine(notes.Count); // 8
 ```
 
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/File.hpp"
+#include "RhythmGameUtilities/Parsers.hpp"
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto content = ReadFromFile("./tests/Mocks/song.chart");
+
+    auto sections = ParseSectionsFromChart(content.c_str());
+
+    auto notes = ParseNotesFromChartSections(sections, Expert);
+
+    for (auto &note : notes)
+    {
+        if (note.HandPosition > 5)
+        {
+            continue;
+        }
+
+        std::cout << note.Position << " " << note.HandPosition << std::endl;
+    }
+
+    return 0;
+}
+```
+
 #### `Parsers.ParseLyricsFromChartSection`
+
+##### C#
 
 ```csharp
 using System;
@@ -244,9 +366,36 @@ var lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.Events]);
 Console.WriteLine(notes.Count); // 12
 ```
 
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/File.hpp"
+#include "RhythmGameUtilities/Parsers.hpp"
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto content = ReadFromFile("./tests/Mocks/song.chart");
+
+    auto sections = ParseSectionsFromChart(content.c_str());
+
+    auto lyrics = ParseLyricsFromChartSections(sections);
+
+    std::cout << size(lyrics) << std::endl; // 12
+
+    return 0;
+}
+```
+
 ### Utilities
 
 #### `Utilities.ConvertTickToPosition`
+
+##### C#
 
 ```csharp
 using System;
@@ -260,7 +409,31 @@ var position = Utilities.ConvertTickToPosition(tick, resolution);
 Console.WriteLine(position); // 14.5
 ```
 
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    const int tick = 2784;
+    const int resolution = 192;
+
+    auto position = ConvertTickToPosition(tick, resolution);
+
+    std::cout << position << std::endl; // 14.5
+
+    return 0;
+}
+```
+
 #### `Utilities.ConvertSecondsToTicks`
+
+##### C#
 
 ```csharp
 using System;
@@ -285,7 +458,35 @@ var ticks = Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges);
 Console.WriteLine(ticks); // 1408
 ```
 
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    const int seconds = 5;
+    const int resolution = 192;
+
+    std::map<int, int> bpmChanges = {
+        {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
+        {33792, 111500}, {34560, 112000}, {42240, 111980}};
+
+    auto ticks = ConvertSecondsToTicks(seconds, resolution, bpmChanges);
+
+    std::cout << ticks << std::endl; // 1408
+
+    return 0;
+}
+```
+
 #### `Utilities.IsOnTheBeat`
+
+##### C#
 
 ```csharp
 using System;
@@ -296,7 +497,30 @@ const int currentTime = 10;
 
 if (Utilities.IsOnTheBeat(bpm, currentTime))
 {
-    Console.WriteLine("On the beat!");
+    Console.WriteLine("Is on the beat!");
+}
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    const int bpm = 120;
+    const int currentTime = 10;
+
+    if (IsOnTheBeat(bpm, currentTime))
+    {
+        std::cout << "Is on the beat!" << std::endl;
+    }
+
+    return 0;
 }
 ```
 
