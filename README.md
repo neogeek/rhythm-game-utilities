@@ -48,7 +48,27 @@ Coming soon.
 
 ### SDL
 
-Coming soon.
+1. Clone this repo locally (using either a tagged release or the main development branch).
+2. Add the include path to your project.
+   - VS Code: `.vscode/c_cpp_properties.json`
+     ```json
+     "includePath": [
+         "${workspaceFolder}/**",
+         "${HOME}/git/github/rhythm-game-utilities/include/**"
+     ]
+     ```
+3. Add the include path to your build command.
+   - `g++`
+     ```bash
+     g++ -std=c++17 -o build/output src/*.cpp -Isrc \
+         -I"${HOME}/git/github/rhythm-game-utilities/include/" \
+         -I/opt/homebrew/Cellar/sdl2/2.30.8/include/SDL2 -L/opt/homebrew/Cellar/sdl2/2.30.8/lib \
+         -lSDL2
+     ```
+4. Add the include path to your CMAKE `CMakeLists.txt` file.
+   ```cmake
+   include_directories($ENV{HOME}/git/github/rhythm-game-utilities/include/)
+   ```
 
 ## Platforms
 
@@ -64,8 +84,8 @@ This library aims to offer support for multiple platforms through a single codeb
 | [Godot 4](https://godotengine.org/)     | macOS    |   -    |
 | [Godot 4](https://godotengine.org/)     | Windows  |   -    |
 | [Godot 4](https://godotengine.org/)     | WebGL    |   -    |
-| [SDL](https://www.libsdl.org/)          | macOS    |   ⏳   |
-| [SDL](https://www.libsdl.org/)          | Windows  |   ⏳   |
+| [SDL](https://www.libsdl.org/)          | macOS    |   ✅   |
+| [SDL](https://www.libsdl.org/)          | Windows  |   ✅   |
 
 ## Usage
 
