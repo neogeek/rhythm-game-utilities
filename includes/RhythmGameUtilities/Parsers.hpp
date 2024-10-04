@@ -38,12 +38,6 @@ typedef struct
     int lineCount;
 } ChartSectionInternal;
 
-typedef struct
-{
-    std::string name;
-    std::vector<std::pair<std::string, std::vector<std::string>>> lines;
-} ChartSection;
-
 std::regex CHART_SECTION_PATTERN("\\[([a-z]+)\\]\\s*\\{([^\\}]+)\\}",
                                  std::regex_constants::icase);
 
@@ -51,11 +45,15 @@ std::regex CHART_SECTION_LINE_PATTERN("([^=]+)\\s*=([^\\r\\n]+)");
 
 std::regex JSON_VALUE_PATTERN("(\"[^\"]+\"|\\S+)");
 
-std::vector<ChartSection> ParseSectionsFromChart(const char *contents)
+std::map<std::string,
+         std::vector<std::pair<std::string, std::vector<std::string>>>>
+ParseSectionsFromChart(const char *contents)
 {
     auto matches = FindAllMatches(contents, CHART_SECTION_PATTERN);
 
-    auto sections = std::vector<ChartSection>();
+    std::map<std::string,
+             std::vector<std::pair<std::string, std::vector<std::string>>>>
+        sections;
 
     for (auto i = 0; i < matches.size(); i += 1)
     {
@@ -66,15 +64,10 @@ std::vector<ChartSection> ParseSectionsFromChart(const char *contents)
             continue;
         }
 
-        ChartSection section;
-
-        section.name = parts[1].c_str();
-
         auto lines =
             FindAllMatches(parts[2].c_str(), CHART_SECTION_LINE_PATTERN);
 
-        section.lines =
-            std::vector<std::pair<std::string, std::vector<std::string>>>();
+        std::vector<std::pair<std::string, std::vector<std::string>>> items;
 
         for (auto j = 0; j < lines.size(); j += 1)
         {
@@ -91,21 +84,21 @@ std::vector<ChartSection> ParseSectionsFromChart(const char *contents)
                     std::regex_replace(values[k], std::regex("^\"|\"$"), "");
             }
 
-            section.lines.push_back(std::make_pair(key, values));
+            items.push_back(std::make_pair(key, values));
         }
 
-        sections.push_back(section);
+        sections.insert({parts[1].c_str(), items});
     }
 
     return sections;
 }
 
-std::map<std::string, std::string>
-ParseMetaDataFromChartSection(ChartSection section)
+std::map<std::string, std::string> ParseMetaDataFromChartSection(
+    std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
     auto data = std::map<std::string, std::string>();
 
-    for (auto &line : section.lines)
+    for (auto &line : section)
     {
         data.insert({line.first, line.second.front()});
     }
@@ -113,25 +106,12 @@ ParseMetaDataFromChartSection(ChartSection section)
     return data;
 }
 
-std::map<std::string, std::string>
-ParseMetaDataFromChartSections(std::vector<ChartSection> sections)
-{
-    for (auto &section : sections)
-    {
-        if (section.name == ToString(NamedSection::Song))
-        {
-            return ParseMetaDataFromChartSection(section);
-        }
-    }
-
-    return std::map<std::string, std::string>();
-}
-
-std::map<int, int> ParseTimeSignaturesFromChartSection(ChartSection section)
+std::map<int, int> ParseTimeSignaturesFromChartSection(
+    std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
     auto timeSignatures = std::map<int, int>();
 
-    for (auto &line : section.lines)
+    for (auto &line : section)
     {
         if (line.second.front() == ToString(TypeCode::TimeSignatureMarker))
         {
@@ -143,25 +123,12 @@ std::map<int, int> ParseTimeSignaturesFromChartSection(ChartSection section)
     return timeSignatures;
 }
 
-std::map<int, int>
-ParseTimeSignaturesFromChartSections(std::vector<ChartSection> sections)
-{
-    for (auto &section : sections)
-    {
-        if (section.name == ToString(NamedSection::SyncTrack))
-        {
-            return ParseTimeSignaturesFromChartSection(section);
-        }
-    }
-
-    return std::map<int, int>();
-}
-
-std::map<int, int> ParseBpmFromChartSection(ChartSection section)
+std::map<int, int> ParseBpmFromChartSection(
+    std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
     auto bpm = std::map<int, int>();
 
-    for (auto &line : section.lines)
+    for (auto &line : section)
     {
         if (line.second.front() == ToString(TypeCode::BPM_Marker))
         {
@@ -172,24 +139,12 @@ std::map<int, int> ParseBpmFromChartSection(ChartSection section)
     return bpm;
 }
 
-std::map<int, int> ParseBpmFromChartSections(std::vector<ChartSection> sections)
-{
-    for (auto &section : sections)
-    {
-        if (section.name == ToString(NamedSection::SyncTrack))
-        {
-            return ParseBpmFromChartSection(section);
-        }
-    }
-
-    return std::map<int, int>();
-}
-
-std::vector<Note> ParseNotesFromChartSection(ChartSection section)
+std::vector<Note> ParseNotesFromChartSection(
+    std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
     auto notes = std::vector<Note>();
 
-    for (auto &line : section.lines)
+    for (auto &line : section)
     {
         if (line.second.front() == ToString(TypeCode::NoteMarker))
         {
@@ -202,26 +157,12 @@ std::vector<Note> ParseNotesFromChartSection(ChartSection section)
     return notes;
 }
 
-std::vector<Note>
-ParseNotesFromChartSections(std::vector<ChartSection> sections,
-                            Difficulty difficulty)
-{
-    for (auto &section : sections)
-    {
-        if (section.name == ToString(difficulty) + "Single")
-        {
-            return ParseNotesFromChartSection(section);
-        }
-    }
-
-    return std::vector<Note>();
-}
-
-std::map<int, std::string> ParseLyricsFromChartSection(ChartSection section)
+std::map<int, std::string> ParseLyricsFromChartSection(
+    std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
     auto lyrics = std::map<int, std::string>();
 
-    for (auto &line : section.lines)
+    for (auto &line : section)
     {
         if (line.second.back().rfind("lyric", 0) == 0)
         {
@@ -230,20 +171,6 @@ std::map<int, std::string> ParseLyricsFromChartSection(ChartSection section)
     }
 
     return lyrics;
-}
-
-std::map<int, std::string>
-ParseLyricsFromChartSections(std::vector<ChartSection> sections)
-{
-    for (auto &section : sections)
-    {
-        if (section.name == ToString(NamedSection::Events))
-        {
-            return ParseLyricsFromChartSection(section);
-        }
-    }
-
-    return std::map<int, std::string>();
 }
 
 } // namespace RhythmGameUtilities

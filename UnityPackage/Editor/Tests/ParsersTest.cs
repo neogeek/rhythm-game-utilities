@@ -22,7 +22,7 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
-        public void TestParseValuesFromChartSections()
+        public void TestParseValuesFromChartSection()
         {
             var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
 
@@ -58,7 +58,7 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
-        public void TestParseBpmFromChartSections()
+        public void TestParseBpmFromChartSection()
         {
             var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
 
@@ -68,7 +68,7 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
-        public void TestParseNotesFromChartSections()
+        public void TestParseNotesFromChartSection()
         {
             var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
 
@@ -78,7 +78,7 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
-        public void TestParseLyricsFromChartSections()
+        public void TestParseLyricsFromChartSection()
         {
             var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
 
