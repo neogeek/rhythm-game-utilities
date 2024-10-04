@@ -16,8 +16,8 @@ COLOROFF=$(tput sgr0)
 
     printf "Building macOS libraries ... "
 
-    g++ -std=c++17 -shared -fPIC -arch arm64 -o build/libRhythmGameUtilities-arm64.dylib includes/RhythmGameUtilities/RhythmGameUtilities.cpp
-    g++ -std=c++17 -shared -fPIC -arch x86_64 -o build/libRhythmGameUtilities-x86_64.dylib includes/RhythmGameUtilities/RhythmGameUtilities.cpp
+    g++ -std=c++17 -shared -fPIC -arch arm64 -o build/libRhythmGameUtilities-arm64.dylib include/RhythmGameUtilities/RhythmGameUtilities.cpp
+    g++ -std=c++17 -shared -fPIC -arch x86_64 -o build/libRhythmGameUtilities-x86_64.dylib include/RhythmGameUtilities/RhythmGameUtilities.cpp
 
     if [[ ! -f build/libRhythmGameUtilities-arm64.dylib || ! -f build/libRhythmGameUtilities-x86_64.dylib ]]; then
         exit 1

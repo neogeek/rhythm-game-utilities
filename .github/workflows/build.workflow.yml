@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'includes/**/*'
+      - 'include/**/*'
   workflow_dispatch:
 
 concurrency:
@@ -28,7 +28,7 @@ jobs:
       - name: Build Release
         run: |
           mkdir -p build
-          g++ -std=c++17 -shared -fPIC -o build/libRhythmGameUtilities.so includes/RhythmGameUtilities/RhythmGameUtilities.cpp
+          g++ -std=c++17 -shared -fPIC -o build/libRhythmGameUtilities.so include/RhythmGameUtilities/RhythmGameUtilities.cpp
 
       - name: Copy Release
         run: |
@@ -65,8 +65,8 @@ jobs:
       - name: Build Release
         run: |
           mkdir -p build
-          g++ -std=c++17 -shared -fPIC -arch arm64 -o build/libRhythmGameUtilities-arm64.dylib includes/RhythmGameUtilities/RhythmGameUtilities.cpp
-          g++ -std=c++17 -shared -fPIC -arch x86_64 -o build/libRhythmGameUtilities-x86_64.dylib includes/RhythmGameUtilities/RhythmGameUtilities.cpp
+          g++ -std=c++17 -shared -fPIC -arch arm64 -o build/libRhythmGameUtilities-arm64.dylib include/RhythmGameUtilities/RhythmGameUtilities.cpp
+          g++ -std=c++17 -shared -fPIC -arch x86_64 -o build/libRhythmGameUtilities-x86_64.dylib include/RhythmGameUtilities/RhythmGameUtilities.cpp
           lipo -create -output build/libRhythmGameUtilities.dylib build/libRhythmGameUtilities-arm64.dylib build/libRhythmGameUtilities-x86_64.dylib
           lipo -info build/libRhythmGameUtilities.dylib
 
@@ -107,7 +107,7 @@ jobs:
         run: |
           call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           mkdir -p build
-          cl /EHsc /std:c++17 /c includes/RhythmGameUtilities/RhythmGameUtilities.cpp /Fo:build\RhythmGameUtilities.obj
+          cl /EHsc /std:c++17 /c include/RhythmGameUtilities/RhythmGameUtilities.cpp /Fo:build\RhythmGameUtilities.obj
           link /DLL /MACHINE:X64 /OUT:build\libRhythmGameUtilities.dll /IMPLIB:build\libRhythmGameUtilities.lib build\RhythmGameUtilities.obj
           del build\RhythmGameUtilities.obj
 
