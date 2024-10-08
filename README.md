@@ -12,6 +12,14 @@ This library is a collection of utilities for creating rhythm games like Tap Tap
 ![](screenshot.png)
 _Prototype game built using these utilities._
 
+## Features
+
+- 🎵 Parse `.chart` and `.midi` song files
+- 🎼 Calculate position to render notes
+- 💯 Calculate hit accuracy
+- 🥁 Determine if the current time is on the beat
+- 💫 And more!
+
 ## Social
 
 - Star [this repo on GitHub](https://github.com/neogeek/rhythm-game-utilities) for updates
@@ -21,8 +29,8 @@ _Prototype game built using these utilities._
 
 ## Table of Contents
 
-- [Install](#install)
 - [Platforms](#platforms)
+- [Install](#install)
 - [Usage](#usage)
 - [Architecture](#architecture)
 - [Git Hooks](#git-hooks)
@@ -32,6 +40,21 @@ _Prototype game built using these utilities._
 - [Community Roadmap](#community-roadmap)
 - [License](#license)
 
+## Platforms
+
+This library aims to offer support for multiple platforms through a single codebase. This is highly ambitious, so if you run into an issue with your platform of choice during development, please leave a detailed bug report with as much information as possible. Also, as this library is relatively new, mobile platforms will be fully supported after all other platforms are complete.
+
+| Engine                                  | Platform | Tested |
+| --------------------------------------- | -------- | :----: |
+| [Unity](https://unity.com/)             | macOS    |   ✅   |
+| [Unity](https://unity.com/)             | Windows  |   ✅   |
+| [Unreal](https://www.unrealengine.com/) | macOS    |   ✅   |
+| [Unreal](https://www.unrealengine.com/) | Windows  |   ✅   |
+| [Godot 4](https://godotengine.org/)     | macOS    |   -    |
+| [Godot 4](https://godotengine.org/)     | Windows  |   -    |
+| [SDL](https://www.libsdl.org/)          | macOS    |   ✅   |
+| [SDL](https://www.libsdl.org/)          | Windows  |   ✅   |
+
 ## Install
 
 ### Unity
@@ -40,7 +63,11 @@ Add package via git URL `https://github.com/neogeek/rhythm-game-utilities.git?pa
 
 ### Unreal
 
-Coming soon.
+1. Clone this repo locally (using either a tagged release or the main development branch).
+2. Add the include path to your `<project>.Build.cs` file.
+   ```csharp
+   PublicIncludePaths.AddRange(new string[] { "D:/git/github/rhythm-game-utilities/include" });
+   ```
 
 ### Godot
 
@@ -69,23 +96,6 @@ Coming soon.
    ```cmake
    include_directories($ENV{HOME}/git/github/rhythm-game-utilities/include/)
    ```
-
-## Platforms
-
-This library aims to offer support for multiple platforms through a single codebase. This is highly ambitious, so if you run into an issue with your platform of choice during development, please leave a detailed bug report with as much information as possible. Also, as this library is relatively new, mobile platforms will be fully supported after all other platforms are complete.
-
-| Engine                                  | Platform | Tested |
-| --------------------------------------- | -------- | :----: |
-| [Unity](https://unity.com/)             | macOS    |   ✅   |
-| [Unity](https://unity.com/)             | Windows  |   ✅   |
-| [Unity](https://unity.com/)             | WebGL    |   ❌   |
-| [Unreal](https://www.unrealengine.com/) | macOS    |   -    |
-| [Unreal](https://www.unrealengine.com/) | Windows  |   -    |
-| [Godot 4](https://godotengine.org/)     | macOS    |   -    |
-| [Godot 4](https://godotengine.org/)     | Windows  |   -    |
-| [Godot 4](https://godotengine.org/)     | WebGL    |   -    |
-| [SDL](https://www.libsdl.org/)          | macOS    |   ✅   |
-| [SDL](https://www.libsdl.org/)          | Windows  |   ✅   |
 
 ## Usage
 
