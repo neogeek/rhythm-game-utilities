@@ -47,7 +47,7 @@ This library aims to offer support for multiple platforms through a single codeb
 | Engine                                  | Language | Platform |                  Version                  | Tested |
 | --------------------------------------- | -------- | -------- | :---------------------------------------: | :----: |
 | [Unity](https://unity.com/)             | C#       | macOS    | 6000.0.22f1<br>2022.3.50f1<br>2021.3.44f1 |   ✅   |
-| [Unity](https://unity.com/)             | C#       | Windows  |                                           |   ✅   |
+| [Unity](https://unity.com/)             | C#       | Windows  | 6000.0.22f1<br>2022.3.50f1<br>2021.3.44f1 |   ✅   |
 | [Unreal](https://www.unrealengine.com/) | C++      | macOS    |                                           |   ✅   |
 | [Unreal](https://www.unrealengine.com/) | C++      | Windows  |                   5.4.4                   |   ✅   |
 | [Godot 4](https://godotengine.org/)     | GDScript | macOS    |                                           |   -    |
