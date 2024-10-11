@@ -44,24 +44,29 @@ _Prototype game built using these utilities._
 
 This library aims to offer support for multiple platforms through a single codebase. This is highly ambitious, so if you run into an issue with your platform of choice during development, please leave a detailed bug report with as much information as possible. Also, as this library is relatively new, mobile platforms will be fully supported after all other platforms are complete.
 
-| Engine                                  | Language | Platform | Tested |
-| --------------------------------------- | -------- | -------- | :----: |
-| [Unity](https://unity.com/)             | C#       | macOS    |   ✅   |
-| [Unity](https://unity.com/)             | C#       | Windows  |   ✅   |
-| [Unreal](https://www.unrealengine.com/) | C++      | macOS    |   ✅   |
-| [Unreal](https://www.unrealengine.com/) | C++      | Windows  |   ✅   |
-| [Godot 4](https://godotengine.org/)     | GDScript | macOS    |   -    |
-| [Godot 4](https://godotengine.org/)     | GDScript | Windows  |   -    |
-| [Godot 4](https://godotengine.org/)     | C#       | macOS    |   -    |
-| [Godot 4](https://godotengine.org/)     | C#       | Windows  |   -    |
-| [SDL](https://www.libsdl.org/)          | C++      | macOS    |   ✅   |
-| [SDL](https://www.libsdl.org/)          | C++      | Windows  |   ✅   |
+| Engine                                  | Language | Platform |                  Version                  | Tested |
+| --------------------------------------- | -------- | -------- | :---------------------------------------: | :----: |
+| [Unity](https://unity.com/)             | C#       | macOS    | 6000.0.22f1<br>2022.3.50f1<br>2021.3.44f1 |   ✅   |
+| [Unity](https://unity.com/)             | C#       | Windows  |                                           |   ✅   |
+| [Unreal](https://www.unrealengine.com/) | C++      | macOS    |                                           |   ✅   |
+| [Unreal](https://www.unrealengine.com/) | C++      | Windows  |                   5.4.4                   |   ✅   |
+| [Godot 4](https://godotengine.org/)     | GDScript | macOS    |                                           |   -    |
+| [Godot 4](https://godotengine.org/)     | GDScript | Windows  |                                           |   -    |
+| [Godot 4](https://godotengine.org/)     | C#       | macOS    |                                           |   -    |
+| [Godot 4](https://godotengine.org/)     | C#       | Windows  |                                           |   -    |
+| [SDL](https://www.libsdl.org/)          | C++      | macOS    |                  2.30.8                   |   ✅   |
+| [SDL](https://www.libsdl.org/)          | C++      | Windows  |                                           |   ✅   |
 
 ## Install
 
 ### Unity
 
-Add package via git URL `https://github.com/neogeek/rhythm-game-utilities.git?path=/UnityPackage`.
+1. Add package via git URL
+   ```
+   https://github.com/neogeek/rhythm-game-utilities.git?path=/UnityPackage
+   ```
+2. Import the sample project (optional)
+   - Check the materials to make sure they work in the version of Unity and render pipeline you selected.
 
 ### Unreal
 
