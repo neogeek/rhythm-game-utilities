@@ -20,6 +20,11 @@
       "displayName": "Sample Song",
       "description": "Contains sample song rendering.",
       "path": "Samples~/SampleSong"
+    },
+    {
+      "displayName": "Sample Song (URP)",
+      "description": "Contains sample song rendering.",
+      "path": "Samples~/SampleSong (URP)"
     }
   ],
   "author": {
