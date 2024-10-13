@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Parsers.hpp"
-#include "Utilities.hpp"
 
 #ifdef _WIN32
 #define PACKAGE_API __declspec(dllexport)

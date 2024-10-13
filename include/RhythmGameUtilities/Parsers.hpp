@@ -1,6 +1,5 @@
 #pragma once
 
-#include <algorithm>
 #include <map>
 #include <regex>
 #include <string>
@@ -13,7 +12,6 @@
 #include "Structs/Note.h"
 
 #include "Common.hpp"
-#include "Utilities.hpp"
 
 #ifdef _WIN32
 #define PACKAGE_API __declspec(dllexport)
