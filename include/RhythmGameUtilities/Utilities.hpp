@@ -26,6 +26,7 @@ const float SECONDS_PER_MINUTE = 60.0f;
  * @param seconds The seconds to generate ticks with.
  * @param resolution The resolution of the song.
  * @param bpmChanges All BPM changes within the song.
+ * @public
  */
 
 int ConvertSecondsToTicks(float seconds, int resolution,
@@ -60,6 +61,13 @@ int ConvertSecondsToTicks(float seconds, int resolution,
 
     return totalTicks;
 }
+
+/**
+ * Takes a map of key/value pairs and returns a list of adjacent key pairs.
+ *
+ * @param keyValuePairs Key/value pairs map.
+ * @public
+ */
 
 std::vector<std::tuple<int, int>>
 GenerateAdjacentKeyPairs(std::map<int, int> keyValuePairs)
@@ -148,6 +156,7 @@ extern "C"
      *
      * @param tick The tick.
      * @param resolution The resolution of the song.
+     * @public
      */
 
     PACKAGE_API float ConvertTickToPosition(float tick, int resolution)
@@ -160,6 +169,7 @@ extern "C"
      *
      * @param bpm The base BPM for a song.
      * @param currentTime A timestamp to compare to the BPM.
+     * @public
      */
 
     PACKAGE_API bool IsOnTheBeat(float bpm, float currentTime)
@@ -175,10 +185,28 @@ extern "C"
         return result;
     }
 
+    /**
+     * Rounds a value up the nearest multiplier.
+     *
+     * @param value The value to round.
+     * @param multiplier The multiplier to round using.
+     * @public
+     */
+
     PACKAGE_API int RoundUpToTheNearestMultiplier(int value, int multiplier)
     {
         return (int)std::ceil((float)value / multiplier) * multiplier;
     }
+
+    /**
+     * Calculated the accuracy ratio of the current position against a static
+     * position.
+     *
+     * @param position The position to test against.
+     * @param currentPosition The current position.
+     * @param delta The plus/minus delta to test the current position against.
+     * @public
+     */
 
     PACKAGE_API float CalculateAccuracyRatio(int position, int currentPosition,
                                              int delta = 50)

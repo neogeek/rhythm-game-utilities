@@ -7,6 +7,13 @@
 namespace RhythmGameUtilities
 {
 
+/**
+ * Reads the entire contents of a file.
+ *
+ * @param path The path of the file to read.
+ * @public
+ */
+
 std::string ReadFromFile(const char *path)
 {
     std::ifstream file(path);

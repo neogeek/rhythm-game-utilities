@@ -13,6 +13,16 @@ namespace RhythmGameUtilities
 
 extern "C"
 {
+    /**
+     * Converts samples from an audio file into data used to display a waveform.
+     *
+     * @param samples Array of sample data from an audio file.
+     * @param size Length of the array.
+     * @param width Width of the waveform.
+     * @param height Height of the waveform.
+     * @public
+     */
+
     PACKAGE_API int **ConvertSamplesToWaveform(float *samples, int size,
                                                int width, int height)
     {
@@ -57,14 +67,23 @@ extern "C"
         return waveform;
     }
 
+    /**
+     * Free data returned from the ConvertSamplesToWaveform function.
+     *
+     * @param waveform Waveform multidimensional array.
+     * @param width Width of the waveform.
+     * @public
+     */
+
     PACKAGE_API void FreeWaveform(int **waveform, int width)
     {
         if (waveform != nullptr)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < width; x += 1)
             {
                 delete[] waveform[x];
             }
+
             delete[] waveform;
         }
     }
