@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstring>
+
 #include "Parsers.hpp"
 
 #ifdef _WIN32

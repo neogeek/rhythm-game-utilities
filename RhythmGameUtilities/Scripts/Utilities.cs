@@ -113,6 +113,8 @@ namespace RhythmGameUtilities
                 beatBars.Add(beatBar);
             }
 
+            Marshal.FreeHGlobal(ptrArray);
+
             return beatBars;
         }
 
