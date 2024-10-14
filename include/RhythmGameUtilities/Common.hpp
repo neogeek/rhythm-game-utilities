@@ -15,21 +15,54 @@ namespace RhythmGameUtilities
 
 extern "C"
 {
+    /**
+     * Calculates the linear interpolation between two values.
+     *
+     * @param a The start value.
+     * @param b The end value.
+     * @param t The value used for interpolation.
+     * @public
+     */
 
     PACKAGE_API float Lerp(float a, float b, float t)
     {
         return (1 - t) * a + b * t;
     }
 
+    /**
+     * Calculates the fraction, based on a value between two values.
+     *
+     * @param a The start value.
+     * @param b The end value.
+     * @param v The value in the middle.
+     * @public
+     */
+
     PACKAGE_API float InverseLerp(float a, float b, float v)
     {
         return std::clamp(((v - a) / (b - a)), 0.0f, 1.0f);
     }
 }
+
+/**
+ * Trims a string value.
+ *
+ * @param contents The string to trim.
+ * @private
+ */
+
 std::string Trim(const char *contents)
 {
     return std::regex_replace(contents, std::regex("^\\s+|\\s+$"), "");
 }
+
+/**
+ * Splits a string into an array based on a delimiter.
+ *
+ * @param contents The string to split.
+ * @param delimiter The delimiter to split on.
+ * @private
+ */
 
 std::vector<std::string> Split(const char *contents, const char delimiter)
 {
