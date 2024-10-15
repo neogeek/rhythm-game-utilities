@@ -73,22 +73,47 @@ namespace RhythmGameUtilities
 
         public const float SECONDS_PER_MINUTE = 60.0f;
 
+        /// <summary>
+        /// Convert a tick to a 2D/3D position.
+        /// </summary>
+        ///
+        /// <param name="tick">The tick.</param>
+        /// <param name="resolution">The resolution of the song.</param>
         public static float ConvertTickToPosition(float tick, int resolution)
         {
             return UtilitiesInternal.ConvertTickToPosition(tick, resolution);
         }
 
+        /// <summary>
+        /// Convert seconds to ticks.
+        /// </summary>
+        ///
+        /// <param name="seconds">The seconds to generate ticks with.</param>
+        /// <param name="resolution">The resolution of the song.</param>
+        /// <param name="bpmChanges">All BPM changes within the song.</param>
         public static int ConvertSecondsToTicks(float seconds, int resolution, Dictionary<int, int> bpmChanges)
         {
             return UtilitiesInternal.ConvertSecondsToTicksInternal(seconds, resolution, bpmChanges.Keys.ToArray(),
                 bpmChanges.Values.ToArray(), bpmChanges.Count);
         }
 
+        /// <summary>
+        /// Checks to see if the current time of a game or audio file is on the beat.
+        /// </summary>
+        ///
+        /// <param name="bpm">The base BPM for a song.</param>
+        /// <param name="currentTime">A timestamp to compare to the BPM.</param>
         public static bool IsOnTheBeat(float bpm, float currentTime)
         {
             return UtilitiesInternal.IsOnTheBeat(bpm, currentTime);
         }
 
+        /// <summary>
+        /// Rounds a value up the nearest multiplier.
+        /// </summary>
+        ///
+        /// <param name="value">The value to round.</param>
+        /// <param name="multiplier">The multiplier to round using.</param>
         public static int RoundUpToTheNearestMultiplier(int value, int multiplier)
         {
             return UtilitiesInternal.RoundUpToTheNearestMultiplier(value, multiplier);
@@ -146,6 +171,13 @@ namespace RhythmGameUtilities
             return null;
         }
 
+        /// <summary>
+        /// Calculated the accuracy ratio of the current position against a static position.
+        /// </summary>
+        ///
+        /// <param name="position">The position to test against.</param>
+        /// <param name="currentPosition">The current position.</param>
+        /// <param name="delta">The plus/minus delta to test the current position against.</param>
         public static float CalculateAccuracyRatio(int position, int currentPosition, int delta = 50)
         {
             return UtilitiesInternal.CalculateAccuracyRatio(position, currentPosition, delta);
