@@ -30,6 +30,13 @@ namespace RhythmGameUtilities
     public static class Audio
     {
 
+        /// <summary>
+        /// Converts samples from an audio file into data used to display a waveform.
+        /// </summary>
+        ///
+        /// <param name="samples">Array of sample data from an audio file.</param>
+        /// <param name="width">Width of the waveform.</param>
+        /// <param name="height">Height of the waveform.</param>
         public static int[][] ConvertSamplesToWaveform(float[] samples, int width, int height)
         {
             var ptr = AudioInternal.ConvertSamplesToWaveform(samples, samples.Length, width, height);
