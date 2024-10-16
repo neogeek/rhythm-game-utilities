@@ -1,4 +1,4 @@
-#### `Utilities.CalculateBeatBarsInternal`
+#### `Utilities.CalculateBeatBars`
 
 > Languages: `C#` `C++`
 
