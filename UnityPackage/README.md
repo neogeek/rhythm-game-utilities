@@ -31,7 +31,7 @@ _Prototype game built using these utilities._
 
 - [Platforms](#platforms)
 - [Install](#install)
-- [Usage](#usage)
+- [API](#api)
 - [Architecture](#architecture)
 - [Git Hooks](#git-hooks)
 - [Testing](#testing)
@@ -104,7 +104,7 @@ Coming soon.
    include_directories($ENV{HOME}/git/github/rhythm-game-utilities/include/)
    ```
 
-## Usage
+## API
 
 ### `Audio`
 
