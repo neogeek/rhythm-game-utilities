@@ -110,6 +110,8 @@ Coming soon.
 
 #### `Audio.ConvertSamplesToWaveform`
 
+> Languages: `C#`
+
 ```csharp
 using RhythmGameUtilities;
 
@@ -135,39 +137,9 @@ _texture2D.Apply();
 
 ### Common
 
-#### `Common.Lerp`
-
-##### C#
-
-```csharp
-using System;
-using RhythmGameUtilities;
-
-var value = Common.Lerp(0, 10, 0.5f);
-
-Console.WriteLine(value); // 5
-```
-
-##### C++
-
-```cpp
-#include <iostream>
-
-#include "RhythmGameUtilities/Common.hpp"
-
-using namespace RhythmGameUtilities;
-
-int main()
-{
-    auto value = Lerp(0, 10, 0.5f);
-
-    std::cout << value << std::endl; // 5
-
-    return 0;
-}
-```
-
 #### `Common.InverseLerp`
+
+> Languages: `C#` `C++`
 
 ##### C#
 
@@ -199,11 +171,47 @@ int main()
 }
 ```
 
+#### `Common.Lerp`
+
+> Languages: `C#` `C++`
+
+##### C#
+
+```csharp
+using System;
+using RhythmGameUtilities;
+
+var value = Common.Lerp(0, 10, 0.5f);
+
+Console.WriteLine(value); // 5
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Common.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto value = Lerp(0, 10, 0.5f);
+
+    std::cout << value << std::endl; // 5
+
+    return 0;
+}
+```
+
 ### `Parsers`
 
 Read more about `.chart` files: <https://github.com/TheNathannator/GuitarGame_ChartFormats/blob/main/doc/FileFormats/.chart/Core%20Infrastructure.md>
 
-#### `Parsers.ParseSectionsFromChart`
+#### `Parsers.ParseBpmFromChartSection`
+
+> Languages: `C#` `C++`
 
 ##### C#
 
@@ -213,10 +221,81 @@ using RhythmGameUtilities;
 
 var sections = Parsers.ParseSectionsFromChart(contents);
 
-Console.WriteLine(sections.Count); // 4
+var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
+
+Console.WriteLine(bpm.Count); // 7
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/File.hpp"
+#include "RhythmGameUtilities/Parsers.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto content = ReadFromFile("./tests/Mocks/song.chart");
+
+    auto sections = ParseSectionsFromChart(content.c_str());
+
+    auto bpm = ParseBpmFromChartSection(
+        sections.at(ToString(NamedSection::SyncTrack)));
+
+    std::cout << size(bpm) << std::endl; // 7
+
+    return 0;
+}
+```
+
+#### `Parsers.ParseLyricsFromChartSection`
+
+> Languages: `C#` `C++`
+
+##### C#
+
+```csharp
+using System;
+using RhythmGameUtilities;
+
+var sections = Parsers.ParseSectionsFromChart(contents);
+
+var lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.Events]);
+
+Console.WriteLine(notes.Count); // 12
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/File.hpp"
+#include "RhythmGameUtilities/Parsers.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto content = ReadFromFile("./tests/Mocks/song.chart");
+
+    auto sections = ParseSectionsFromChart(content.c_str());
+
+    auto lyrics = ParseLyricsFromChartSection(
+        sections.at(ToString(NamedSection::Events)));
+
+    std::cout << size(lyrics) << std::endl; // 12
+
+    return 0;
+}
 ```
 
 #### `Parsers.ParseMetaDataFromChartSection`
+
+> Languages: `C#` `C++`
 
 ##### C#
 
@@ -240,7 +319,6 @@ Console.WriteLine(metaData["MusicStream"]); // Example Song.ogg
 
 #include "RhythmGameUtilities/File.hpp"
 #include "RhythmGameUtilities/Parsers.hpp"
-#include "RhythmGameUtilities/Utilities.hpp"
 
 using namespace RhythmGameUtilities;
 
@@ -261,89 +339,9 @@ int main()
 }
 ```
 
-#### `Parsers.ParseTimeSignaturesFromChartSection`
-
-##### C#
-
-```csharp
-using System;
-using RhythmGameUtilities;
-
-var sections = Parsers.ParseSectionsFromChart(contents);
-
-var timeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
-
-Console.WriteLine(timeSignatures.Count); // 4
-```
-
-##### C++
-
-```cpp
-#include <iostream>
-
-#include "RhythmGameUtilities/File.hpp"
-#include "RhythmGameUtilities/Parsers.hpp"
-#include "RhythmGameUtilities/Utilities.hpp"
-
-using namespace RhythmGameUtilities;
-
-int main()
-{
-    auto content = ReadFromFile("./tests/Mocks/song.chart");
-
-    auto sections = ParseSectionsFromChart(content.c_str());
-
-    auto timeSignatures = ParseTimeSignaturesFromChartSection(
-        sections.at(ToString(NamedSection::SyncTrack)));
-
-    std::cout << size(timeSignatures) << std::endl; // 4
-
-    return 0;
-}
-```
-
-#### `Parsers.ParseBpmFromChartSection`
-
-##### C#
-
-```csharp
-using System;
-using RhythmGameUtilities;
-
-var sections = Parsers.ParseSectionsFromChart(contents);
-
-var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
-
-Console.WriteLine(bpm.Count); // 7
-```
-
-##### C++
-
-```cpp
-#include <iostream>
-
-#include "RhythmGameUtilities/File.hpp"
-#include "RhythmGameUtilities/Parsers.hpp"
-#include "RhythmGameUtilities/Utilities.hpp"
-
-using namespace RhythmGameUtilities;
-
-int main()
-{
-    auto content = ReadFromFile("./tests/Mocks/song.chart");
-
-    auto sections = ParseSectionsFromChart(content.c_str());
-
-    auto bpm = ParseBpmFromChartSection(
-        sections.at(ToString(NamedSection::SyncTrack)));
-
-    std::cout << size(bpm) << std::endl; // 7
-
-    return 0;
-}
-```
-
 #### `Parsers.ParseNotesFromChartSection`
+
+> Languages: `C#` `C++`
 
 ##### C#
 
@@ -365,7 +363,6 @@ Console.WriteLine(notes.Count); // 8
 
 #include "RhythmGameUtilities/File.hpp"
 #include "RhythmGameUtilities/Parsers.hpp"
-#include "RhythmGameUtilities/Utilities.hpp"
 
 using namespace RhythmGameUtilities;
 
@@ -392,7 +389,9 @@ int main()
 }
 ```
 
-#### `Parsers.ParseLyricsFromChartSection`
+#### `Parsers.ParseSectionsFromChart`
+
+> Languages: `C#` `C++`
 
 ##### C#
 
@@ -402,9 +401,7 @@ using RhythmGameUtilities;
 
 var sections = Parsers.ParseSectionsFromChart(contents);
 
-var lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.Events]);
-
-Console.WriteLine(notes.Count); // 12
+Console.WriteLine(sections.Count); // 4
 ```
 
 ##### C++
@@ -414,7 +411,6 @@ Console.WriteLine(notes.Count); // 12
 
 #include "RhythmGameUtilities/File.hpp"
 #include "RhythmGameUtilities/Parsers.hpp"
-#include "RhythmGameUtilities/Utilities.hpp"
 
 using namespace RhythmGameUtilities;
 
@@ -424,10 +420,49 @@ int main()
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
-    auto lyrics = ParseLyricsFromChartSection(
-        sections.at(ToString(NamedSection::Events)));
+    std::cout << size(sections) << std::endl; // 4
 
-    std::cout << size(lyrics) << std::endl; // 12
+    return 0;
+}
+```
+
+#### `Parsers.ParseTimeSignaturesFromChartSection`
+
+> Languages: `C#` `C++`
+
+##### C#
+
+```csharp
+using System;
+using RhythmGameUtilities;
+
+var sections = Parsers.ParseSectionsFromChart(contents);
+
+var timeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
+
+Console.WriteLine(timeSignatures.Count); // 4
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/File.hpp"
+#include "RhythmGameUtilities/Parsers.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto content = ReadFromFile("./tests/Mocks/song.chart");
+
+    auto sections = ParseSectionsFromChart(content.c_str());
+
+    auto timeSignatures = ParseTimeSignaturesFromChartSection(
+        sections.at(ToString(NamedSection::SyncTrack)));
+
+    std::cout << size(timeSignatures) << std::endl; // 4
 
     return 0;
 }
@@ -435,170 +470,9 @@ int main()
 
 ### Utilities
 
-#### `Utilities.ConvertTickToPosition`
-
-##### C#
-
-```csharp
-using System;
-using RhythmGameUtilities;
-
-const int tick = 2784;
-const int resolution = 192;
-
-var position = Utilities.ConvertTickToPosition(tick, resolution);
-
-Console.WriteLine(position); // 14.5
-```
-
-##### C++
-
-```cpp
-#include <iostream>
-
-#include "RhythmGameUtilities/Utilities.hpp"
-
-using namespace RhythmGameUtilities;
-
-int main()
-{
-    const int tick = 2784;
-    const int resolution = 192;
-
-    auto position = ConvertTickToPosition(tick, resolution);
-
-    std::cout << position << std::endl; // 14.5
-
-    return 0;
-}
-```
-
-#### `Utilities.ConvertSecondsToTicks`
-
-##### C#
-
-```csharp
-using System;
-using RhythmGameUtilities;
-
-const int seconds = 5;
-const int resolution = 192;
-
-var bpmChanges = new Dictionary<int, int>
-{
-    { 0, 88000 },
-    { 3840, 112000 },
-    { 9984, 89600 },
-    { 22272, 112000 },
-    { 33792, 111500 },
-    { 34560, 112000 },
-    { 42240, 111980 }
-};
-
-var ticks = Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges);
-
-Console.WriteLine(ticks); // 1408
-```
-
-##### C++
-
-```cpp
-#include <iostream>
-
-#include "RhythmGameUtilities/Utilities.hpp"
-
-using namespace RhythmGameUtilities;
-
-int main()
-{
-    const int seconds = 5;
-    const int resolution = 192;
-
-    std::map<int, int> bpmChanges = {
-        {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
-        {33792, 111500}, {34560, 112000}, {42240, 111980}};
-
-    auto ticks = ConvertSecondsToTicks(seconds, resolution, bpmChanges);
-
-    std::cout << ticks << std::endl; // 1408
-
-    return 0;
-}
-```
-
-#### `Utilities.IsOnTheBeat`
-
-##### C#
-
-```csharp
-using System;
-using RhythmGameUtilities;
-
-const int bpm = 120;
-const int currentTime = 10;
-
-if (Utilities.IsOnTheBeat(bpm, currentTime))
-{
-    Console.WriteLine("Is on the beat!");
-}
-```
-
-##### C++
-
-```cpp
-#include <iostream>
-
-#include "RhythmGameUtilities/Utilities.hpp"
-
-using namespace RhythmGameUtilities;
-
-int main()
-{
-    const int bpm = 120;
-    const int currentTime = 10;
-
-    if (IsOnTheBeat(bpm, currentTime))
-    {
-        std::cout << "Is on the beat!" << std::endl;
-    }
-
-    return 0;
-}
-```
-
-#### `Utilities.RoundUpToTheNearestMultiplier`
-
-##### C#
-
-```csharp
-using System;
-using RhythmGameUtilities;
-
-var value = Utilities.RoundUpToTheNearestMultiplier(12, 10);
-
-Console.WriteLine(value); // 20
-```
-
-##### C++
-
-```cpp
-#include <iostream>
-
-#include "RhythmGameUtilities/Utilities.hpp"
-
-using namespace RhythmGameUtilities;
-
-int main()
-{
-    auto value = RoundUpToTheNearestMultiplier(12, 10);
-
-    std::cout << value << std::endl; // 20
-
-    return 0;
-}
-```
-
 #### `Utilities.CalculateAccuracyRatio`
+
+> Languages: `C#` `C++`
 
 ##### C#
 
@@ -652,6 +526,8 @@ int main()
 
 #### `Utilities.CalculateBeatBarsInternal`
 
+> Languages: `C#` `C++`
+
 ##### C#
 
 ```csharp
@@ -701,56 +577,268 @@ int main()
 }
 ```
 
+#### `Utilities.ConvertSecondsToTicks`
+
+> Languages: `C#` `C++`
+
+##### C#
+
+```csharp
+using System;
+using RhythmGameUtilities;
+
+const int seconds = 5;
+const int resolution = 192;
+
+var bpmChanges = new Dictionary<int, int>
+{
+    { 0, 88000 },
+    { 3840, 112000 },
+    { 9984, 89600 },
+    { 22272, 112000 },
+    { 33792, 111500 },
+    { 34560, 112000 },
+    { 42240, 111980 }
+};
+
+var ticks = Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges);
+
+Console.WriteLine(ticks); // 1408
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    const int seconds = 5;
+    const int resolution = 192;
+
+    std::map<int, int> bpmChanges = {
+        {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
+        {33792, 111500}, {34560, 112000}, {42240, 111980}};
+
+    auto ticks = ConvertSecondsToTicks(seconds, resolution, bpmChanges);
+
+    std::cout << ticks << std::endl; // 1408
+
+    return 0;
+}
+```
+
+#### `Utilities.ConvertTickToPosition`
+
+> Languages: `C#` `C++`
+
+##### C#
+
+```csharp
+using System;
+using RhythmGameUtilities;
+
+const int tick = 2784;
+const int resolution = 192;
+
+var position = Utilities.ConvertTickToPosition(tick, resolution);
+
+Console.WriteLine(position); // 14.5
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    const int tick = 2784;
+    const int resolution = 192;
+
+    auto position = ConvertTickToPosition(tick, resolution);
+
+    std::cout << position << std::endl; // 14.5
+
+    return 0;
+}
+```
+
+#### `Utilities.IsOnTheBeat`
+
+> Languages: `C#` `C++`
+
+##### C#
+
+```csharp
+using System;
+using RhythmGameUtilities;
+
+const int bpm = 120;
+const int currentTime = 10;
+
+if (Utilities.IsOnTheBeat(bpm, currentTime))
+{
+    Console.WriteLine("Is on the beat!");
+}
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    const int bpm = 120;
+    const int currentTime = 10;
+
+    if (IsOnTheBeat(bpm, currentTime))
+    {
+        std::cout << "Is on the beat!" << std::endl;
+    }
+
+    return 0;
+}
+```
+
+#### `Utilities.RoundUpToTheNearestMultiplier`
+
+> Languages: `C#` `C++`
+
+##### C#
+
+```csharp
+using System;
+using RhythmGameUtilities;
+
+var value = Utilities.RoundUpToTheNearestMultiplier(12, 10);
+
+Console.WriteLine(value); // 20
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Utilities.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto value = RoundUpToTheNearestMultiplier(12, 10);
+
+    std::cout << value << std::endl; // 20
+
+    return 0;
+}
+```
+
 ## Architecture
+
+The current architecture for this project (Unity specifically) looks like this:
+
+### Rendering Notes
 
 ```mermaid
 graph LR;
-    chartFile["Chart File"]
-    chartFileParserCpp["Chart File Parser"]
-    chartFileParserCsharp["Chart File Parser"]
-    chartFileRender["Chart File Renderer"]
+    file["song.chart"]
 
-    audioFile["Audio File"]
-    audioFileWaveformParserCpp["Audio File Waveform Parser"]
-    audioFileWaveformParserCsharp["Audio File Waveform Parser"]
-    audioFileWaveformRenderer["Audio File Waveform Renderer"]
+    file-->parseSectionsFromChartCpp
 
-    trackRenderer["Track Renderer"]
+    subgraph cppLibrary ["C++ Library"]
+        parseSectionsFromChartCpp["ParseSectionsFromChart()"]
+        parseBpmFromChartSectionCpp["ParseBpmFromChartSection()"]
+        parseNotesFromChartSectionCpp["ParseNotesFromChartSection()"]
+        parseLyricsFromChartSectionCpp["ParseLyricsFromChartSection()"]
 
-    userInput["User Input"]
-    userInputCheck["User Input Check"]
+        calculateBeatBarsCpp["CalculateBeatBars()"]
 
-    subgraph cpp ["C++"]
-        chartFileParserCpp
-        audioFileWaveformParserCpp
+        convertTickToPositionCpp["ConvertTickToPosition()"]
+        isOnTheBeatCpp["IsOnTheBeat()"]
+
+        parseSectionsFromChartCpp
+        parseBpmFromChartSectionCpp
+        parseNotesFromChartSectionCpp
+        parseLyricsFromChartSectionCpp
+
+        calculateBeatBarsCpp
+
+        convertTickToPositionCpp
+        isOnTheBeatCpp
     end
 
-    subgraph csharp ["C#"]
-        chartFileParserCsharp
-        audioFileWaveformParserCsharp
+    subgraph csharpLibrary ["C# Plugin"]
+        songParseFromFileCsharp["Song.ParseFromFile()"]
+
+        calculateBeatBarsCsharp["CalculateBeatBars()"]
+
+        convertTickToPositionCsharp["ConvertTickToPosition()"]
+        isOnTheBeatCsharp["IsOnTheBeat()"]
+
+        calculateBeatBarsCsharp
+
+        convertTickToPositionCsharp
+        isOnTheBeatCsharp
     end
 
-    subgraph unity ["Unity"]
-        chartFileRender
-        audioFileWaveformRenderer
-        trackRenderer
-        userInput
-        userInputCheck
+    subgraph unityProject ["Unity Project"]
+        renderNotesInScene["Render Notes in Scene"]
+        renderBeatBarsInScene["Render Beat Bars in Scene"]
+        renderTrackInScene["Render Track in Scene"]
     end
 
-    chartFile-->chartFileParserCsharp
-    audioFile-->audioFileWaveformParserCsharp
+    parseSectionsFromChartCpp-->parseBpmFromChartSectionCpp
+    parseSectionsFromChartCpp-->parseNotesFromChartSectionCpp
+    parseSectionsFromChartCpp-->parseLyricsFromChartSectionCpp
 
-    chartFileParserCpp-->chartFileParserCsharp
-    chartFileParserCsharp-->chartFileRender
-    audioFileWaveformParserCpp-->audioFileWaveformParserCsharp
-    audioFileWaveformParserCsharp-->audioFileWaveformRenderer
+    parseSectionsFromChartCpp-->songParseFromFileCsharp
 
-    chartFileRender-->trackRenderer
-    audioFileWaveformRenderer-->trackRenderer
+    calculateBeatBarsCpp-->calculateBeatBarsCsharp
+    convertTickToPositionCpp-->convertTickToPositionCsharp
+    isOnTheBeatCpp-->isOnTheBeatCsharp
 
-    userInput-->userInputCheck
-    chartFileParserCsharp-->userInputCheck
+    songParseFromFileCsharp-->renderNotesInScene
+    songParseFromFileCsharp-->renderBeatBarsInScene
+    songParseFromFileCsharp-->renderTrackInScene
+```
+
+### Rendering Audio Frequency
+
+```mermaid
+graph LR;
+    file["song.ogg"]
+
+    file-->convertSamplesToWaveformCpp
+
+    subgraph cppLibrary ["C++ Library"]
+        convertSamplesToWaveformCpp["ConvertSamplesToWaveform()"]
+    end
+
+    subgraph csharpLibrary ["C# Plugin"]
+        convertSamplesToWaveformCsharp["ConvertSamplesToWaveform()"]
+    end
+
+    subgraph unityProject ["Unity Project"]
+        renderWaveformToTexture["Render Waveform to Texture"]
+    end
+
+    convertSamplesToWaveformCpp-->convertSamplesToWaveformCsharp
+    convertSamplesToWaveformCsharp-->renderWaveformToTexture
 ```
 
 ## Git Hooks
@@ -816,3 +904,4 @@ This project aims to help you build your rhythm game as fast as possible without
 ## License
 
 [The MIT License (MIT)](./LICENSE)
+
