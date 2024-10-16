@@ -27,6 +27,8 @@ std::string ToString(NamedSection namedSection)
         return "SyncTrack";
     case Events:
         return "Events";
+    default:
+        throw std::invalid_argument("Unknown NamedSection");
     }
 }
 
