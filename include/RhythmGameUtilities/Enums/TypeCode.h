@@ -34,6 +34,8 @@ std::string ToString(TypeCode typeCode)
         return "N";
     case EventMarker:
         return "E";
+    default:
+        throw std::invalid_argument("Unknown TypeCode");
     }
 }
 
