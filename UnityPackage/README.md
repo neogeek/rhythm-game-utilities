@@ -34,9 +34,9 @@ _Prototype game built using these utilities._
 - [API](#api)
 
   1. [Audio](#audio)
-     1. [ConvertSamplesToWaveform](audioconvertsamplestowaveform)
+     1. [ConvertSamplesToWaveform](#audioconvertsamplestowaveform)
   1. [Common](#common)
-     1. [InverseLerp](commoninverselerp)
+     1. [InverseLerp](#commoninverselerp)
      1. [Lerp](#commonlerp)
   1. [Parse](#parse)
      1. [ParseBpmFromChartSection](#parseparsebpmfromchartsection)
