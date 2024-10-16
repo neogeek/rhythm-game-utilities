@@ -20,30 +20,30 @@ COLOROFF=$(tput sgr0)
 
   printf "## API\n\n" >>README.md
 
-  (cat "./Documentation/Audio/README.md" && printf '\n') >>README.md
+  (cat "./Documentation/API/Audio/README.md" && printf '\n') >>README.md
 
-  find ./Documentation/Audio -type f -name "*.md" -not -name "README.md" | sort -n |
+  find ./Documentation/API/Audio -type f -name "*.md" -not -name "README.md" | sort -n |
     while read -r FILE; do
       (cat "${FILE}" && printf '\n') >>README.md
     done
 
-  (cat "./Documentation/Common/README.md" && printf '\n') >>README.md
+  (cat "./Documentation/API/Common/README.md" && printf '\n') >>README.md
 
-  find ./Documentation/Common -type f -name "*.md" -not -name "README.md" | sort -n |
+  find ./Documentation/API/Common -type f -name "*.md" -not -name "README.md" | sort -n |
     while read -r FILE; do
       (cat "${FILE}" && printf '\n') >>README.md
     done
 
-  (cat "./Documentation/Parsers/README.md" && printf '\n') >>README.md
+  (cat "./Documentation/API/Parsers/README.md" && printf '\n') >>README.md
 
-  find ./Documentation/Parsers -type f -name "*.md" -not -name "README.md" | sort -n |
+  find ./Documentation/API/Parsers -type f -name "*.md" -not -name "README.md" | sort -n |
     while read -r FILE; do
       (cat "${FILE}" && printf '\n') >>README.md
     done
 
-  (cat "./Documentation/Utilities/README.md" && printf '\n') >>README.md
+  (cat "./Documentation/API/Utilities/README.md" && printf '\n') >>README.md
 
-  find ./Documentation/Utilities -type f -name "*.md" -not -name "README.md" | sort -n |
+  find ./Documentation/API/Utilities -type f -name "*.md" -not -name "README.md" | sort -n |
     while read -r FILE; do
       (cat "${FILE}" && printf '\n') >>README.md
     done
