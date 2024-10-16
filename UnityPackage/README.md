@@ -524,7 +524,7 @@ int main()
 }
 ```
 
-#### `Utilities.CalculateBeatBarsInternal`
+#### `Utilities.CalculateBeatBars`
 
 > Languages: `C#` `C++`
 
@@ -750,96 +750,79 @@ int main()
 
 ## Architecture
 
-The current architecture for this project (Unity specifically) looks like this:
+The current architecture for this project looks like this:
 
-### Rendering Notes
-
-```mermaid
-graph LR;
-    file["song.chart"]
-
-    file-->parseSectionsFromChartCpp
-
-    subgraph cppLibrary ["C++ Library"]
-        parseSectionsFromChartCpp["ParseSectionsFromChart()"]
-        parseBpmFromChartSectionCpp["ParseBpmFromChartSection()"]
-        parseNotesFromChartSectionCpp["ParseNotesFromChartSection()"]
-        parseLyricsFromChartSectionCpp["ParseLyricsFromChartSection()"]
-
-        calculateBeatBarsCpp["CalculateBeatBars()"]
-
-        convertTickToPositionCpp["ConvertTickToPosition()"]
-        isOnTheBeatCpp["IsOnTheBeat()"]
-
-        parseSectionsFromChartCpp
-        parseBpmFromChartSectionCpp
-        parseNotesFromChartSectionCpp
-        parseLyricsFromChartSectionCpp
-
-        calculateBeatBarsCpp
-
-        convertTickToPositionCpp
-        isOnTheBeatCpp
-    end
-
-    subgraph csharpLibrary ["C# Plugin"]
-        songParseFromFileCsharp["Song.ParseFromFile()"]
-
-        calculateBeatBarsCsharp["CalculateBeatBars()"]
-
-        convertTickToPositionCsharp["ConvertTickToPosition()"]
-        isOnTheBeatCsharp["IsOnTheBeat()"]
-
-        calculateBeatBarsCsharp
-
-        convertTickToPositionCsharp
-        isOnTheBeatCsharp
-    end
-
-    subgraph unityProject ["Unity Project"]
-        renderNotesInScene["Render Notes in Scene"]
-        renderBeatBarsInScene["Render Beat Bars in Scene"]
-        renderTrackInScene["Render Track in Scene"]
-    end
-
-    parseSectionsFromChartCpp-->parseBpmFromChartSectionCpp
-    parseSectionsFromChartCpp-->parseNotesFromChartSectionCpp
-    parseSectionsFromChartCpp-->parseLyricsFromChartSectionCpp
-
-    parseSectionsFromChartCpp-->songParseFromFileCsharp
-
-    calculateBeatBarsCpp-->calculateBeatBarsCsharp
-    convertTickToPositionCpp-->convertTickToPositionCsharp
-    isOnTheBeatCpp-->isOnTheBeatCsharp
-
-    songParseFromFileCsharp-->renderNotesInScene
-    songParseFromFileCsharp-->renderBeatBarsInScene
-    songParseFromFileCsharp-->renderTrackInScene
-```
-
-### Rendering Audio Frequency
+### C++ Library / C# Plugin
 
 ```mermaid
 graph LR;
-    file["song.ogg"]
+    file[/"song.chart"/]
 
-    file-->convertSamplesToWaveformCpp
-
-    subgraph cppLibrary ["C++ Library"]
-        convertSamplesToWaveformCpp["ConvertSamplesToWaveform()"]
+    subgraph audioGraph ["Audio"]
+        convertSamplesToWaveform["ConvertSamplesToWaveform()"]
     end
 
-    subgraph csharpLibrary ["C# Plugin"]
-        convertSamplesToWaveformCsharp["ConvertSamplesToWaveform()"]
+    subgraph commonGraph ["Common"]
+        inverseLerp["InverseLerp()"]
+        lerp["Lerp()"]
     end
 
-    subgraph unityProject ["Unity Project"]
-        renderWaveformToTexture["Render Waveform to Texture"]
+    subgraph parsersGraph ["Parsers"]
+        parseSectionsFromChart["ParseSectionsFromChart()"]
+        parseBpmFromChartSection["ParseBpmFromChartSection()"]
+        parseLyricsFromChartSection["ParseLyricsFromChartSection()"]
+        parseMetaDataFromChartSection["ParseMetaDataFromChartSection()"]
+        parseNotesFromChartSection["ParseNotesFromChartSection()"]
+        parseTimeSignaturesFromChartSection["ParseTimeSignaturesFromChartSection()"]
+
+        parseSectionsFromChart-->parseBpmFromChartSection
+        parseSectionsFromChart-->parseLyricsFromChartSection
+        parseSectionsFromChart-->parseMetaDataFromChartSection
+        parseSectionsFromChart-->parseNotesFromChartSection
+        parseSectionsFromChart-->parseTimeSignaturesFromChartSection
     end
 
-    convertSamplesToWaveformCpp-->convertSamplesToWaveformCsharp
-    convertSamplesToWaveformCsharp-->renderWaveformToTexture
+    subgraph utilitiesGraph ["Utilities"]
+        calculateAccuracyRatio["CalculateAccuracyRatio()"]
+        calculateBeatBars["CalculateBeatBars()"]
+        convertSecondsToTicks["ConvertSecondsToTicks()"]
+        convertTickToPosition["ConvertTickToPosition()"]
+        isOnTheBeat["IsOnTheBeat()"]
+        roundUpToTheNearestMultiplier["RoundUpToTheNearestMultiplier()"]
+    end
+
+    file-->parseSectionsFromChart
+
+    parseMetaDataFromChartSection-->calculateAccuracyRatio
+    parseNotesFromChartSection-->calculateAccuracyRatio
+    convertSecondsToTicks-->calculateAccuracyRatio
+
+    parseBpmFromChartSection-->calculateBeatBars
+    parseMetaDataFromChartSection-->calculateBeatBars
+
+    parseMetaDataFromChartSection-->convertSecondsToTicks
+    parseBpmFromChartSection-->convertSecondsToTicks
+
+    parseMetaDataFromChartSection-->convertTickToPosition
+
+    parseMetaDataFromChartSection-->isOnTheBeat
 ```
+
+### Unity Plugin
+
+The Unity plugin includes compiled C++ libraries (macOS, Windows and Linux) and wraps the internal calls in native C# functions. These functions pass and retrieve the data from the C++ library and clean up memory upon completion.
+
+### Unreal Plugin
+
+There isn't a custom wrapper or plugin for Unreal, as the C++ library works as is when included as a header-only library.
+
+### Godot Plugin
+
+Coming soon.
+
+### SDL Library
+
+There isn't a custom wrapper or plugin for SDL, as the C++ library works as is when included as a header-only library.
 
 ## Git Hooks
 
