@@ -27,7 +27,7 @@
    ```xml
    <ItemGroup>
        <ProjectReference
-       Include="../../github/rhythm-game-utilities/RhythmGameUtilities/RhythmGameUtilities.csproj" />
+       Include="$(HOME)/git/github/rhythm-game-utilities/RhythmGameUtilities/RhythmGameUtilities.csproj" />
    </ItemGroup>
    ```
 
@@ -36,21 +36,21 @@
    ```xml
    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
        <None
-           Include="../../github/rhythm-game-utilities/RhythmGameUtilities/Libs/Windows/libRhythmGameUtilities.dll">
+           Include="$(HOME)/git/github/rhythm-game-utilities/RhythmGameUtilities/Libs/Windows/libRhythmGameUtilities.dll">
            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
        </None>
    </ItemGroup>
 
    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
        <None
-           Include="../../github/rhythm-game-utilities/RhythmGameUtilities/Libs/macOS/libRhythmGameUtilities.dylib">
+           Include="$(HOME)/git/github/rhythm-game-utilities/RhythmGameUtilities/Libs/macOS/libRhythmGameUtilities.dylib">
            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
        </None>
    </ItemGroup>
 
    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
        <None
-           Include="../../github/rhythm-game-utilities/RhythmGameUtilities/Libs/Linux/libRhythmGameUtilities.so">
+           Include="$(HOME)/git/github/rhythm-game-utilities/RhythmGameUtilities/Libs/Linux/libRhythmGameUtilities.so">
            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
        </None>
    </ItemGroup>
