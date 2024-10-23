@@ -10,7 +10,7 @@ This library aims to offer support for multiple platforms through a single codeb
 | [Unreal](https://www.unrealengine.com/) | C++      | Windows  |                   5.4.4                   |   ✅   |
 | [Godot 4](https://godotengine.org/)     | GDScript | macOS    |                     -                     |   -    |
 | [Godot 4](https://godotengine.org/)     | GDScript | Windows  |                     -                     |   -    |
-| [Godot 4](https://godotengine.org/)     | C#       | macOS    |                     -                     |   -    |
-| [Godot 4](https://godotengine.org/)     | C#       | Windows  |                     -                     |   -    |
+| [Godot 4](https://godotengine.org/)     | C#       | macOS    |                    4.3                    |   ✅   |
+| [Godot 4](https://godotengine.org/)     | C#       | Windows  |                    4.3                    |   ✅   |
 | [SDL](https://www.libsdl.org/)          | C++      | macOS    |                  2.30.8                   |   ✅   |
 | [SDL](https://www.libsdl.org/)          | C++      | Windows  |                     -                     |   -    |
