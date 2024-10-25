@@ -16,7 +16,7 @@ namespace RhythmGameUtilities
 #elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
         [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
-        public static extern float ConvertTickToPosition(float tick, int resolution);
+        public static extern float ConvertTickToPosition(int tick, int resolution);
 
 #if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -35,7 +35,7 @@ namespace RhythmGameUtilities
 #elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
         [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
-        public static extern bool IsOnTheBeat(float bpm, float currentTime);
+        public static extern bool IsOnTheBeat(int bpm, float currentTime);
 
 #if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -79,7 +79,7 @@ namespace RhythmGameUtilities
         ///
         /// <param name="tick">The tick.</param>
         /// <param name="resolution">The resolution of the song.</param>
-        public static float ConvertTickToPosition(float tick, int resolution)
+        public static float ConvertTickToPosition(int tick, int resolution)
         {
             return UtilitiesInternal.ConvertTickToPosition(tick, resolution);
         }
@@ -103,7 +103,7 @@ namespace RhythmGameUtilities
         ///
         /// <param name="bpm">The base BPM for a song.</param>
         /// <param name="currentTime">A timestamp to compare to the BPM.</param>
-        public static bool IsOnTheBeat(float bpm, float currentTime)
+        public static bool IsOnTheBeat(int bpm, float currentTime)
         {
             return UtilitiesInternal.IsOnTheBeat(bpm, currentTime);
         }

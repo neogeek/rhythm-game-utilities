@@ -159,9 +159,9 @@ extern "C"
      * @public
      */
 
-    PACKAGE_API float ConvertTickToPosition(float tick, int resolution)
+    PACKAGE_API float ConvertTickToPosition(int tick, int resolution)
     {
-        return tick / resolution;
+        return tick / (float)resolution;
     }
 
     /**
@@ -172,9 +172,9 @@ extern "C"
      * @public
      */
 
-    PACKAGE_API bool IsOnTheBeat(float bpm, float currentTime)
+    PACKAGE_API bool IsOnTheBeat(int bpm, float currentTime)
     {
-        auto beatInterval = SECONDS_PER_MINUTE / bpm;
+        auto beatInterval = SECONDS_PER_MINUTE / (float)bpm;
 
         auto beatFraction = currentTime / beatInterval;
 
