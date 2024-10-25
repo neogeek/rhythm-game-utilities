@@ -59,4 +59,5 @@ _Prototype game built using these utilities._
 - [Build](#build)
 - [Contributing](#contributing)
 - [Community Roadmap](#community-roadmap)
+- [Other Projects](#other-projects)
 - [License](#license)

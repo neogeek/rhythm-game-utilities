@@ -54,6 +54,7 @@ COLOROFF=$(tput sgr0)
   (cat "./Documentation/Build.md" && printf '\n') >>README.md
   (cat "./Documentation/Contributing.md" && printf '\n') >>README.md
   (cat "./Documentation/Community Roadmap.md" && printf '\n') >>README.md
+  (cat "./Documentation/Other Projects.md" && printf '\n') >>README.md
   (cat "./Documentation/License.md" && printf '\n') >>README.md
 
 )

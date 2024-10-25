@@ -59,6 +59,7 @@ _Prototype game built using these utilities._
 - [Build](#build)
 - [Contributing](#contributing)
 - [Community Roadmap](#community-roadmap)
+- [Other Projects](#other-projects)
 - [License](#license)
 
 ## Platforms
@@ -975,6 +976,13 @@ This project aims to help you build your rhythm game as fast as possible without
 
 - [Feature Requests](https://github.com/neogeek/rhythm-game-utilities/labels/enhancement)
 - [Bugs](https://github.com/neogeek/rhythm-game-utilities/labels/bug)
+
+## Other Projects
+
+| Name          | Description                                                                    | Link                                       |
+| ------------- | ------------------------------------------------------------------------------ | ------------------------------------------ |
+| tiny-midi     | Tiny wrapper around Window/macOS native MIDI libraries for reading MIDI input. | <https://github.com/neogeek/tiny-midi>     |
+| chart-to-json | Parse .chart files in JavaScript or the command line.                          | <https://github.com/neogeek/chart-to-json> |
 
 ## License
 
