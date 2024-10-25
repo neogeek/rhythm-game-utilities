@@ -35,7 +35,7 @@ namespace RhythmGameUtilities
 #elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
         [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
 #endif
-        public static extern bool IsOnTheBeat(int bpm, float currentTime);
+        public static extern bool IsOnTheBeat(int bpm, float currentTime, float delta);
 
 #if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
         [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -103,9 +103,10 @@ namespace RhythmGameUtilities
         ///
         /// <param name="bpm">The base BPM for a song.</param>
         /// <param name="currentTime">A timestamp to compare to the BPM.</param>
-        public static bool IsOnTheBeat(int bpm, float currentTime)
+        /// <param name="delta">The plus/minus delta to test the current time against.</param>
+        public static bool IsOnTheBeat(int bpm, float currentTime, float delta = 0.05f)
         {
-            return UtilitiesInternal.IsOnTheBeat(bpm, currentTime);
+            return UtilitiesInternal.IsOnTheBeat(bpm, currentTime, delta);
         }
 
         /// <summary>

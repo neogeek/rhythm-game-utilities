@@ -169,10 +169,12 @@ extern "C"
      *
      * @param bpm The base BPM for a song.
      * @param currentTime A timestamp to compare to the BPM.
+     * @param delta The plus/minus delta to test the current time against.
      * @public
      */
 
-    PACKAGE_API bool IsOnTheBeat(int bpm, float currentTime)
+    PACKAGE_API bool IsOnTheBeat(int bpm, float currentTime,
+                                 float delta = 0.05f)
     {
         auto beatInterval = SECONDS_PER_MINUTE / (float)bpm;
 
@@ -180,7 +182,7 @@ extern "C"
 
         auto difference = std::abs(beatFraction - std::round(beatFraction));
 
-        auto result = difference < 0.05f;
+        auto result = difference < delta;
 
         return result;
     }
