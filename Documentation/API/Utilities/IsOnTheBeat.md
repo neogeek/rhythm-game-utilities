@@ -9,9 +9,10 @@ using System;
 using RhythmGameUtilities;
 
 const int bpm = 120;
-const int currentTime = 10;
+const float currentTime = 10f;
+const float delta = 0.05f;
 
-if (Utilities.IsOnTheBeat(bpm, currentTime))
+if (Utilities.IsOnTheBeat(bpm, currentTime, delta))
 {
     Console.WriteLine("Is on the beat!");
 }
@@ -29,9 +30,10 @@ using namespace RhythmGameUtilities;
 int main()
 {
     const int bpm = 120;
-    const int currentTime = 10;
+    const float currentTime = 10f;
+    const float delta = 0.05f;
 
-    if (IsOnTheBeat(bpm, currentTime))
+    if (IsOnTheBeat(bpm, currentTime, delta))
     {
         std::cout << "Is on the beat!" << std::endl;
     }
