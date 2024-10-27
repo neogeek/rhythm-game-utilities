@@ -1,7 +1,7 @@
 > [!CAUTION]
 > This package is in early development and should not be used in production.
 
-# Rhythm Game Utilities
+![Rhythm Game Utilities](https://github.com/neogeek/rhythm-game-utilities/blob/main/cover.png?raw=true)
 
 [![Tests](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/test.workflow.yml/badge.svg)](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/test.workflow.yml)
 [![Build](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/build.workflow.yml/badge.svg)](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/build.workflow.yml)
@@ -10,7 +10,7 @@
 
 This library is a collection of utilities for creating rhythm games like Tap Tap Revenge, Guitar Hero, and Rock Band. It is meant to be used within any game engine that supports loading C++ libraries, such as Unity, Unreal, Godot and SDL.
 
-![](screenshot.png)
+![Prototype game built using these utilities.](https://github.com/neogeek/rhythm-game-utilities/blob/main/screenshot.png?raw=true)
 _Prototype game built using these utilities._
 
 ## Features
