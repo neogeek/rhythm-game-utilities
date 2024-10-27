@@ -18,6 +18,7 @@ copy: ## Copy files from project to UnityPackage
 	(cd RhythmGameUtilities && find . -type f -name "*.cs" -not -path '*/obj/*' -not -path '*/bin/*' -exec cp {} ../UnityPackage/{} \;)
 	(cd RhythmGameUtilities.Tests && find . -type f -name "*.cs" -not -path '*/obj/*' -not -path '*/bin/*' -exec cp {} ../UnityPackage/Editor/Tests/{} \;)
 	cp LICENSE ./UnityPackage/
+	cp README.md ./RhythmGameUtilities/
 	cp README.md ./UnityPackage/
 	cp screenshot.png ./UnityPackage/
 
