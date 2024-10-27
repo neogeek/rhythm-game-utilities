@@ -3,7 +3,21 @@
         <TargetFrameworks>net5.0</TargetFrameworks>
         <LangVersion>9.0</LangVersion>
         <AssemblyVersion>1.0.0</AssemblyVersion>
+        <PackageId>com.neogeek.rhythm-game-utilities</PackageId>
+        <Version>1.0.0-alpha.1</Version>
+        <Title>Rhythm Game Utilities</Title>
+        <Description>A collection of utilities for creating rhythm games.</Description>
+        <Authors>neogeek</Authors>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageProjectUrl>https://github.com/neogeek/rhythm-game-utilities/</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/neogeek/rhythm-game-utilities/</RepositoryUrl>
+        <PackageTags>unity;unreal;godot;sdl</PackageTags>
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="/" />
+    </ItemGroup>
 
     <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
         <DefineConstants>$(DefineConstants);WINDOWS_BUILD</DefineConstants>
@@ -34,6 +48,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 </Project>
