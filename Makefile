@@ -1,16 +1,13 @@
 help:
 	@fgrep -h "##" $(MAKEFILE_LIST) | sed -e 's/##//' | tail -n +2
 
-build: ## Build libraries
-	./bin/build.sh
-
-debug: build ## Build debug
+debug: ## Build debug
 	dotnet build RhythmGameUtilities/*.csproj --configuration Debug
 
-release: build ## Build release
+release: ## Build release
 	dotnet build RhythmGameUtilities/*.csproj --configuration Release
 
-test: build ## Run tests
+test: ## Run tests
 	./bin/test.sh
 	dotnet test RhythmGameUtilities.Tests/*.csproj
 

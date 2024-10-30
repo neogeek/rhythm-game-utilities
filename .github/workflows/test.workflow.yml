@@ -44,16 +44,6 @@ jobs:
         with:
           dotnet-version: 8.0
 
-      - name: Build Release
-        run: |
-          mkdir -p build
-          g++ -std=c++17 -shared -fPIC -o build/libRhythmGameUtilities.so include/RhythmGameUtilities/RhythmGameUtilities.cpp
-
-      - name: Copy Release
-        run: |
-          cp build/libRhythmGameUtilities.so UnityPackage/Libs/Linux
-          cp build/libRhythmGameUtilities.so RhythmGameUtilities/Libs/Linux
-
       - name: Install dependencies
         run: dotnet restore
 

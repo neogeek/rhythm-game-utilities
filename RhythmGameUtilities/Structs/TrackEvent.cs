@@ -1,9 +1,6 @@
-using System.Runtime.InteropServices;
-
 namespace RhythmGameUtilities
 {
 
-    [StructLayout(LayoutKind.Sequential)]
     public struct TrackEvent
     {
 

@@ -1,31 +1,7 @@
 using System;
-using System.Runtime.InteropServices;
 
 namespace RhythmGameUtilities
 {
-
-    internal static class AudioInternal
-    {
-
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
-        public static extern IntPtr ConvertSamplesToWaveform(float[] samples, int size, int width, int height);
-
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
-        public static extern void FreeWaveform(IntPtr waveform, int width);
-
-    }
 
     public static class Audio
     {
@@ -39,20 +15,43 @@ namespace RhythmGameUtilities
         /// <param name="height">Height of the waveform.</param>
         public static int[][] ConvertSamplesToWaveform(float[] samples, int width, int height)
         {
-            var ptr = AudioInternal.ConvertSamplesToWaveform(samples, samples.Length, width, height);
-
             var waveform = new int[width][];
+
+            var step = Math.Floor((double)samples.Length / width);
+            var amp = height / 2;
 
             for (var x = 0; x < width; x += 1)
             {
-                var innerPtr = Marshal.ReadIntPtr(ptr, x * IntPtr.Size);
-
                 waveform[x] = new int[height];
 
-                Marshal.Copy(innerPtr, waveform[x], 0, height);
-            }
+                var min = 1.0f;
+                var max = -1.0f;
 
-            AudioInternal.FreeWaveform(ptr, width);
+                for (var j = 0; j < step; j += 1)
+                {
+                    var index = (int)(x * step + j);
+
+                    var datum = samples[index];
+
+                    if (datum < min)
+                    {
+                        min = datum;
+                    }
+
+                    if (datum > max)
+                    {
+                        max = datum;
+                    }
+                }
+
+                var minY = (int)((1 + min) * amp);
+                var maxY = (int)((1 + max) * amp);
+
+                for (var y = 0; y < height; y += 1)
+                {
+                    waveform[x][y] = y >= minY && y <= maxY ? 1 : 0;
+                }
+            }
 
             return waveform;
         }

@@ -4,44 +4,32 @@
 #include <regex>
 #include <sstream>
 
-#ifdef _WIN32
-#define PACKAGE_API __declspec(dllexport)
-#else
-#define PACKAGE_API
-#endif
-
 namespace RhythmGameUtilities
 {
 
-extern "C"
+/**
+ * Calculates the linear interpolation between two values.
+ *
+ * @param a The start value.
+ * @param b The end value.
+ * @param t The value used for interpolation.
+ * @public
+ */
+
+float Lerp(float a, float b, float t) { return (1 - t) * a + b * t; }
+
+/**
+ * Calculates the fraction, based on a value between two values.
+ *
+ * @param a The start value.
+ * @param b The end value.
+ * @param v The value in the middle.
+ * @public
+ */
+
+float InverseLerp(float a, float b, float v)
 {
-    /**
-     * Calculates the linear interpolation between two values.
-     *
-     * @param a The start value.
-     * @param b The end value.
-     * @param t The value used for interpolation.
-     * @public
-     */
-
-    PACKAGE_API float Lerp(float a, float b, float t)
-    {
-        return (1 - t) * a + b * t;
-    }
-
-    /**
-     * Calculates the fraction, based on a value between two values.
-     *
-     * @param a The start value.
-     * @param b The end value.
-     * @param v The value in the middle.
-     * @public
-     */
-
-    PACKAGE_API float InverseLerp(float a, float b, float v)
-    {
-        return std::clamp(((v - a) / (b - a)), 0.0f, 1.0f);
-    }
+    return std::clamp(((v - a) / (b - a)), 0.0f, 1.0f);
 }
 
 /**

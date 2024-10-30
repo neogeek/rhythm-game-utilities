@@ -6,49 +6,13 @@
         <RootNamespace>RhythmGameUtilities.Tests</RootNamespace>
     </PropertyGroup>
 
-    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
-        <PlatformTarget>x64</PlatformTarget>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
-        <PlatformTarget>AnyCPU</PlatformTarget>
-    </PropertyGroup>
-
     <ItemGroup>
         <PackageReference Include="nunit" Version="4.2.2" />
         <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     </ItemGroup>
 
-    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
-        <None Include="../RhythmGameUtilities/Libs/Windows/libRhythmGameUtilities.dll">
-            <Link>libRhythmGameUtilities.dll</Link>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Visible>true</Visible>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
-        <None Include="../RhythmGameUtilities/Libs/macOS/libRhythmGameUtilities.dylib">
-            <Link>libRhythmGameUtilities.dylib</Link>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Visible>true</Visible>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
-        <None Include="../RhythmGameUtilities/Libs/Linux/libRhythmGameUtilities.so">
-            <Link>libRhythmGameUtilities.so</Link>
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <Visible>true</Visible>
-        </None>
-    </ItemGroup>
-
     <ItemGroup>
-        <ProjectReference Include="../RhythmGameUtilities/RhythmGameUtilities.csproj"/>
+        <ProjectReference Include="../RhythmGameUtilities/RhythmGameUtilities.csproj" />
     </ItemGroup>
 </Project>

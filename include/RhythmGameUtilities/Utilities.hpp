@@ -9,12 +9,6 @@
 #include "Structs/BeatBar.h"
 #include "Structs/Note.h"
 
-#ifdef _WIN32
-#define PACKAGE_API __declspec(dllexport)
-#else
-#define PACKAGE_API
-#endif
-
 namespace RhythmGameUtilities
 {
 
@@ -149,76 +143,71 @@ std::optional<Note> FindPositionNearGivenTick(std::vector<Note> notes, int tick,
     return std::nullopt;
 }
 
-extern "C"
+/**
+ * Convert a tick to a 2D/3D position.
+ *
+ * @param tick The tick.
+ * @param resolution The resolution of the song.
+ * @public
+ */
+
+float ConvertTickToPosition(int tick, int resolution)
 {
-    /**
-     * Convert a tick to a 2D/3D position.
-     *
-     * @param tick The tick.
-     * @param resolution The resolution of the song.
-     * @public
-     */
+    return tick / (float)resolution;
+}
 
-    PACKAGE_API float ConvertTickToPosition(int tick, int resolution)
-    {
-        return tick / (float)resolution;
-    }
+/**
+ * Checks to see if the current time of a game or audio file is on the beat.
+ *
+ * @param bpm The base BPM for a song.
+ * @param currentTime A timestamp to compare to the BPM.
+ * @param delta The plus/minus delta to test the current time against.
+ * @public
+ */
 
-    /**
-     * Checks to see if the current time of a game or audio file is on the beat.
-     *
-     * @param bpm The base BPM for a song.
-     * @param currentTime A timestamp to compare to the BPM.
-     * @param delta The plus/minus delta to test the current time against.
-     * @public
-     */
+bool IsOnTheBeat(int bpm, float currentTime, float delta = 0.05f)
+{
+    auto beatInterval = SECONDS_PER_MINUTE / (float)bpm;
 
-    PACKAGE_API bool IsOnTheBeat(int bpm, float currentTime,
-                                 float delta = 0.05f)
-    {
-        auto beatInterval = SECONDS_PER_MINUTE / (float)bpm;
+    auto beatFraction = currentTime / beatInterval;
 
-        auto beatFraction = currentTime / beatInterval;
+    auto difference = std::abs(beatFraction - std::round(beatFraction));
 
-        auto difference = std::abs(beatFraction - std::round(beatFraction));
+    auto result = difference < delta;
 
-        auto result = difference < delta;
+    return result;
+}
 
-        return result;
-    }
+/**
+ * Rounds a value up the nearest multiplier.
+ *
+ * @param value The value to round.
+ * @param multiplier The multiplier to round using.
+ * @public
+ */
 
-    /**
-     * Rounds a value up the nearest multiplier.
-     *
-     * @param value The value to round.
-     * @param multiplier The multiplier to round using.
-     * @public
-     */
+int RoundUpToTheNearestMultiplier(int value, int multiplier)
+{
+    return (int)std::ceil((float)value / multiplier) * multiplier;
+}
 
-    PACKAGE_API int RoundUpToTheNearestMultiplier(int value, int multiplier)
-    {
-        return (int)std::ceil((float)value / multiplier) * multiplier;
-    }
+/**
+ * Calculated the accuracy ratio of the current position against a static
+ * position.
+ *
+ * @param position The position to test against.
+ * @param currentPosition The current position.
+ * @param delta The plus/minus delta to test the current position against.
+ * @public
+ */
 
-    /**
-     * Calculated the accuracy ratio of the current position against a static
-     * position.
-     *
-     * @param position The position to test against.
-     * @param currentPosition The current position.
-     * @param delta The plus/minus delta to test the current position against.
-     * @public
-     */
+float CalculateAccuracyRatio(int position, int currentPosition, int delta = 50)
+{
+    auto diff = position - currentPosition;
 
-    PACKAGE_API float CalculateAccuracyRatio(int position, int currentPosition,
-                                             int delta = 50)
-    {
-        auto diff = position - currentPosition;
+    auto ratio = InverseLerp(delta, 0, std::abs(diff));
 
-        auto ratio = InverseLerp(delta, 0, std::abs(diff));
-
-        return ratio;
-    }
+    return ratio;
 }
 
 } // namespace RhythmGameUtilities

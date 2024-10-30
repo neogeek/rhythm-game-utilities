@@ -13,28 +13,8 @@
 
 #include "Common.hpp"
 
-#ifdef _WIN32
-#define PACKAGE_API __declspec(dllexport)
-#else
-#define PACKAGE_API
-#endif
-
 namespace RhythmGameUtilities
 {
-
-typedef struct
-{
-    char *key;
-    char *values[10];
-    int valueCount;
-} KeyValuePairInternal;
-
-typedef struct
-{
-    char *name;
-    KeyValuePairInternal *lines;
-    int lineCount;
-} ChartSectionInternal;
 
 std::regex CHART_SECTION_PATTERN("\\[([a-z]+)\\]\\s*\\{([^\\}]+)\\}",
                                  std::regex_constants::icase);

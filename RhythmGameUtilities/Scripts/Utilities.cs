@@ -1,72 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace RhythmGameUtilities
 {
-
-    internal static class UtilitiesInternal
-    {
-
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
-        public static extern float ConvertTickToPosition(int tick, int resolution);
-
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
-        public static extern int ConvertSecondsToTicksInternal(float seconds, int resolution, int[] bpmChangesKeys,
-            int[] bpmChangesValues, int bpmChangesSize);
-
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
-        public static extern bool IsOnTheBeat(int bpm, float currentTime, float delta);
-
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
-        public static extern int RoundUpToTheNearestMultiplier(int value, int multiplier);
-
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
-        public static extern float CalculateAccuracyRatio(int position, int currentPosition, int delta);
-
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
-        public static extern IntPtr CalculateBeatBarsInternal(int[] bpmChangesKeys,
-            int[] bpmChangesValues, int bpmChangesSize, int resolution, int ts,
-            bool includeHalfNotes, out int size);
-
-    }
 
     public static class Utilities
     {
@@ -81,7 +18,7 @@ namespace RhythmGameUtilities
         /// <param name="resolution">The resolution of the song.</param>
         public static float ConvertTickToPosition(int tick, int resolution)
         {
-            return UtilitiesInternal.ConvertTickToPosition(tick, resolution);
+            return tick / (float)resolution;
         }
 
         /// <summary>
@@ -93,8 +30,34 @@ namespace RhythmGameUtilities
         /// <param name="bpmChanges">All BPM changes within the song.</param>
         public static int ConvertSecondsToTicks(float seconds, int resolution, Dictionary<int, int> bpmChanges)
         {
-            return UtilitiesInternal.ConvertSecondsToTicksInternal(seconds, resolution, bpmChanges.Keys.ToArray(),
-                bpmChanges.Values.ToArray(), bpmChanges.Count);
+            var totalTicks = 0;
+            var remainingSeconds = seconds;
+            var previousTick = 0;
+            var previousBPM = bpmChanges.First().Value / 1000;
+
+            foreach (var (currentTick, value) in bpmChanges)
+            {
+                var timeForSegment = (currentTick - previousTick) /
+                                     (resolution * previousBPM / SECONDS_PER_MINUTE);
+
+                if (remainingSeconds <= timeForSegment)
+                {
+                    totalTicks += (int)(remainingSeconds * previousBPM /
+                        SECONDS_PER_MINUTE * resolution);
+
+                    return totalTicks;
+                }
+
+                totalTicks += currentTick - previousTick;
+                remainingSeconds -= timeForSegment;
+                previousTick = currentTick;
+                previousBPM = value / 1000;
+            }
+
+            totalTicks +=
+                (int)(remainingSeconds * previousBPM / SECONDS_PER_MINUTE * resolution);
+
+            return totalTicks;
         }
 
         /// <summary>
@@ -106,7 +69,15 @@ namespace RhythmGameUtilities
         /// <param name="delta">The plus/minus delta to test the current time against.</param>
         public static bool IsOnTheBeat(int bpm, float currentTime, float delta = 0.05f)
         {
-            return UtilitiesInternal.IsOnTheBeat(bpm, currentTime, delta);
+            var beatInterval = SECONDS_PER_MINUTE / bpm;
+
+            var beatFraction = currentTime / beatInterval;
+
+            var difference = Math.Abs(beatFraction - Math.Round(beatFraction));
+
+            var result = difference < delta;
+
+            return result;
         }
 
         /// <summary>
@@ -117,7 +88,28 @@ namespace RhythmGameUtilities
         /// <param name="multiplier">The multiplier to round using.</param>
         public static int RoundUpToTheNearestMultiplier(int value, int multiplier)
         {
-            return UtilitiesInternal.RoundUpToTheNearestMultiplier(value, multiplier);
+            return (int)Math.Ceiling((float)value / multiplier) * multiplier;
+        }
+
+        public static List<KeyValuePair<int, int>> GenerateAdjacentKeyPairs(Dictionary<int, int> keyValuePairs)
+        {
+            var adjacentKeyPairs = new List<KeyValuePair<int, int>>();
+
+            var keys = new List<int>();
+
+            foreach (var item in keyValuePairs)
+            {
+                keys.Add(item.Key);
+            }
+
+            keys.Sort();
+
+            for (var i = 0; i < keys.Count - 1; i += 1)
+            {
+                adjacentKeyPairs.Add(new KeyValuePair<int, int>(keys[i], keys[i + 1]));
+            }
+
+            return adjacentKeyPairs;
         }
 
         public static List<BeatBar> CalculateBeatBars(Dictionary<int, int> bpmChanges, int resolution = 192, int ts = 4,
@@ -125,21 +117,20 @@ namespace RhythmGameUtilities
         {
             var beatBars = new List<BeatBar>();
 
-            var ptrArray = UtilitiesInternal.CalculateBeatBarsInternal(bpmChanges.Keys.ToArray(),
-                bpmChanges.Values.ToArray(), bpmChanges.Count, resolution, ts, includeHalfNotes,
-                out var size);
+            var keyValuePairs = GenerateAdjacentKeyPairs(bpmChanges);
 
-            var beatBarSize = Marshal.SizeOf(typeof(BeatBar));
-
-            for (var i = 0; i < size; i += 1)
+            foreach (var (startTick, endTick) in keyValuePairs)
             {
-                var beatBarSizePtr = new IntPtr(ptrArray.ToInt64() + beatBarSize * i);
-                var beatBar = Marshal.PtrToStructure<BeatBar>(beatBarSizePtr);
+                for (var tick = startTick; tick < endTick; tick += resolution)
+                {
+                    beatBars.Add(new BeatBar { Position = tick, BPM = bpmChanges[startTick] });
 
-                beatBars.Add(beatBar);
+                    if (includeHalfNotes && tick != endTick)
+                    {
+                        beatBars.Add(new BeatBar { Position = tick + resolution / 2, BPM = bpmChanges[startTick] });
+                    }
+                }
             }
-
-            Marshal.FreeHGlobal(ptrArray);
 
             return beatBars;
         }
@@ -181,7 +172,11 @@ namespace RhythmGameUtilities
         /// <param name="delta">The plus/minus delta to test the current position against.</param>
         public static float CalculateAccuracyRatio(int position, int currentPosition, int delta = 50)
         {
-            return UtilitiesInternal.CalculateAccuracyRatio(position, currentPosition, delta);
+            var diff = position - currentPosition;
+
+            var ratio = Common.InverseLerp(delta, 0, Math.Abs(diff));
+
+            return ratio;
         }
 
     }
