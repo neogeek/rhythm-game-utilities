@@ -9,12 +9,13 @@ env.Append(CPPPATH=["include/", "../include"])
 sources = Glob("include/*.cpp")
 
 library = env.SharedLibrary(
-    "build/addons/libRhythmGameUtilities.{}.{}".format(env["platform"], env["target"]),
+    "build/addons/RhythmGameUtilities/libRhythmGameUtilities.{}.{}"
+        .format(env["platform"], env["target"]),
     source=sources
 )
 
 gdextension_copy = env.Command(
-    target="build/addons/RhythmGameUtilities.gdextension",
+    target="build/addons/RhythmGameUtilities/RhythmGameUtilities.gdextension",
     source="RhythmGameUtilities.gdextension",
     action=Copy("$TARGET", "$SOURCE")
 )
