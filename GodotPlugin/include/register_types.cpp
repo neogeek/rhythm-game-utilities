@@ -34,7 +34,6 @@ extern "C"
         const GDExtensionClassLibraryPtr p_library,
         GDExtensionInitialization *r_initialization)
     {
-
         godot::GDExtensionBinding::InitObject init_obj(
             p_get_proc_address, p_library, r_initialization);
 
