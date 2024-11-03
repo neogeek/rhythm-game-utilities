@@ -44,8 +44,8 @@ int ConvertSecondsToTicks(float seconds, int resolution,
 
         if (remainingSeconds <= timeForSegment)
         {
-            totalTicks += (int)(remainingSeconds * previousBPM /
-                                SECONDS_PER_MINUTE * resolution);
+            totalTicks += static_cast<int>(remainingSeconds * previousBPM /
+                                           SECONDS_PER_MINUTE * resolution);
 
             return totalTicks;
         }
@@ -56,8 +56,8 @@ int ConvertSecondsToTicks(float seconds, int resolution,
         previousBPM = value / 1000;
     }
 
-    totalTicks +=
-        (int)(remainingSeconds * previousBPM / SECONDS_PER_MINUTE * resolution);
+    totalTicks += static_cast<int>(remainingSeconds * previousBPM /
+                                   SECONDS_PER_MINUTE * resolution);
 
     return totalTicks;
 }
@@ -161,7 +161,7 @@ extern "C"
 
     PACKAGE_API float ConvertTickToPosition(int tick, int resolution)
     {
-        return tick / (float)resolution;
+        return tick / static_cast<float>(resolution);
     }
 
     /**
@@ -176,7 +176,7 @@ extern "C"
     PACKAGE_API bool IsOnTheBeat(int bpm, float currentTime,
                                  float delta = 0.05f)
     {
-        auto beatInterval = SECONDS_PER_MINUTE / (float)bpm;
+        auto beatInterval = SECONDS_PER_MINUTE / static_cast<float>(bpm);
 
         auto beatFraction = currentTime / beatInterval;
 
@@ -197,7 +197,8 @@ extern "C"
 
     PACKAGE_API int RoundUpToTheNearestMultiplier(int value, int multiplier)
     {
-        return (int)std::ceil((float)value / multiplier) * multiplier;
+        return static_cast<int>(
+            std::ceil(static_cast<float>(value) / multiplier) * multiplier);
     }
 
     /**
