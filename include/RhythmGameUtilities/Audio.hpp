@@ -40,7 +40,7 @@ extern "C"
 
             for (auto j = 0; j < step; j += 1)
             {
-                auto index = (int)(x * step + j);
+                auto index = static_cast<int>(x * step + j);
 
                 auto datum = samples[index];
 
@@ -55,8 +55,8 @@ extern "C"
                 }
             }
 
-            auto minY = (int)((1 + min) * amp);
-            auto maxY = (int)((1 + max) * amp);
+            auto minY = static_cast<int>((1 + min) * amp);
+            auto maxY = static_cast<int>((1 + max) * amp);
 
             for (auto y = 0; y < height; y += 1)
             {
