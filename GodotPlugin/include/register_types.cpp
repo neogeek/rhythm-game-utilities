@@ -29,10 +29,10 @@ void terminate_rhythm_game_utilities(ModuleInitializationLevel p_level)
 
 extern "C"
 {
-    GDExtensionBool GDE_EXPORT
-    rhythm_game_utilities(GDExtensionInterfaceGetProcAddress p_get_proc_address,
-                          const GDExtensionClassLibraryPtr p_library,
-                          GDExtensionInitialization *r_initialization)
+    GDExtensionBool GDE_EXPORT rhythm_game_utilities_plugin(
+        GDExtensionInterfaceGetProcAddress p_get_proc_address,
+        const GDExtensionClassLibraryPtr p_library,
+        GDExtensionInitialization *r_initialization)
     {
 
         godot::GDExtensionBinding::InitObject init_obj(

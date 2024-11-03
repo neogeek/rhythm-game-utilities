@@ -1,6 +1,6 @@
 [configuration]
 
-entry_symbol = "rhythm_game_utilities"
+entry_symbol = "rhythm_game_utilities_plugin"
 compatibility_minimum = 4.1
 
 [libraries]
