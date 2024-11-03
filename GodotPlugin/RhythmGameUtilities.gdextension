@@ -1,0 +1,9 @@
+[configuration]
+
+entry_symbol = "rhythm_game_utilities"
+compatibility_minimum = 4.1
+
+[libraries]
+
+macos.debug = "res://addons/RhythmGameUtilities/rhythm_game_utilities.macos.template_debug"
+macos.release = "res://addons/RhythmGameUtilities/rhythm_game_utilities.macos.template_release"
