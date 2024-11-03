@@ -1,5 +1,7 @@
 #include "rhythm_game_utilities.h"
 
+#include <godot_cpp/variant/dictionary.hpp>
+
 #include <RhythmGameUtilities/Common.hpp>
 #include <RhythmGameUtilities/Utilities.hpp>
 
@@ -16,6 +18,12 @@ void rhythm_game_utilities::_bind_methods()
                                 &rhythm_game_utilities::inverse_lerp);
 
     // Utilities
+
+    ClassDB::bind_static_method(
+        "rhythm_game_utilities",
+        D_METHOD("convert_seconds_to_ticks", "seconds", "resolution",
+                 "bpmChanges"),
+        &rhythm_game_utilities::convert_seconds_to_ticks);
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
@@ -52,6 +60,24 @@ float rhythm_game_utilities::inverse_lerp(float a, float b, float v)
 }
 
 // Utilities
+
+int rhythm_game_utilities::convert_seconds_to_ticks(float seconds,
+                                                    int resolution,
+                                                    Dictionary bpmChanges)
+{
+    std::map<int, int> bpmChangesMap;
+
+    auto keys = bpmChanges.keys();
+
+    for (auto i = 0; i < keys.size(); i += 1)
+    {
+        auto key = keys[i];
+        bpmChangesMap[key] = bpmChanges[key];
+    }
+
+    return RhythmGameUtilities::ConvertSecondsToTicks(seconds, resolution,
+                                                      bpmChangesMap);
+}
 
 float rhythm_game_utilities::convert_tick_to_position(int tick, int resolution)
 {

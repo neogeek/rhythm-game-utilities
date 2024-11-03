@@ -2,6 +2,7 @@
 
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/dictionary.hpp>
 #include <godot_cpp/variant/string.hpp>
 
 using namespace godot;
@@ -21,6 +22,9 @@ class rhythm_game_utilities : public Object
     static float inverse_lerp(float a, float b, float v);
 
     // Utilities
+
+    static int convert_seconds_to_ticks(float seconds, int resolution,
+                                        Dictionary bpmChanges);
 
     static float convert_tick_to_position(int tick, int resolution);
 
