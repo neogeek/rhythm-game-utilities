@@ -263,6 +263,17 @@ int main()
 }
 ```
 
+##### Godot
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var value = rhythm_game_utilities.inverse_lerp(0, 10, 5)
+
+	print(value) # 0.5
+```
+
 #### `Common.Lerp`
 
 > Languages: `C#` `C++`
@@ -295,6 +306,17 @@ int main()
 
     return 0;
 }
+```
+
+##### Godot
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var value = rhythm_game_utilities.lerp(0, 10, 0.5)
+
+	print(value) # 5
 ```
 
 ### `Parsers`
@@ -724,6 +746,26 @@ int main()
 }
 ```
 
+##### Godot
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var seconds = 5;
+	var resolution = 192;
+
+	var bpmChanges = {
+		0: 88000, 3840: 112000, 9984: 89600,
+		22272: 112000, 33792: 111500, 34560: 112000,
+		42240: 111980
+	}
+
+	var ticks = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, bpmChanges);
+
+	print(ticks) # 1408
+```
+
 #### `Utilities.ConvertTickToPosition`
 
 > Languages: `C#` `C++`
@@ -762,6 +804,20 @@ int main()
 
     return 0;
 }
+```
+
+##### Godot
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var tick = 2784;
+	var resolution = 192;
+
+	var position = rhythm_game_utilities.convert_tick_to_position(tick, resolution);
+
+	print(position) # 14.5
 ```
 
 #### `Utilities.IsOnTheBeat`
@@ -808,6 +864,20 @@ int main()
 }
 ```
 
+##### Godot
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var bpm = 120;
+	var currentTime = 10;
+	var delta = 0.05;
+
+	if rhythm_game_utilities.is_on_the_beat(bpm, currentTime, delta):
+		print("Is on the beat!")
+```
+
 #### `Utilities.RoundUpToTheNearestMultiplier`
 
 > Languages: `C#` `C++`
@@ -840,6 +910,17 @@ int main()
 
     return 0;
 }
+```
+
+##### Godot
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var value = rhythm_game_utilities.round_up_to_the_nearest_multiplier(12, 10);
+
+	print(value) # 20
 ```
 
 ## Architecture
