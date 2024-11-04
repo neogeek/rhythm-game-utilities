@@ -1,6 +1,6 @@
 #include "rhythm_game_utilities.h"
 
-#include <godot_cpp/variant/dictionary.hpp>
+#include "utilities.hpp"
 
 #include <RhythmGameUtilities/Common.hpp>
 #include <RhythmGameUtilities/Utilities.hpp>
@@ -45,6 +45,12 @@ void rhythm_game_utilities::_bind_methods()
         D_METHOD("calculate_accuracy_ratio", "position", "currentPosition",
                  "delta"),
         &rhythm_game_utilities::calculate_accuracy_ratio);
+
+    ClassDB::bind_static_method("rhythm_game_utilities",
+                                D_METHOD("calculate_beat_bars", "bpmChanges",
+                                         "resolution", "ts",
+                                         "includeHalfNotes"),
+                                &rhythm_game_utilities::calculate_beat_bars);
 }
 
 // Common
@@ -65,18 +71,8 @@ int rhythm_game_utilities::convert_seconds_to_ticks(float seconds,
                                                     int resolution,
                                                     Dictionary bpmChanges)
 {
-    std::map<int, int> bpmChangesMap;
-
-    auto keys = bpmChanges.keys();
-
-    for (auto i = 0; i < keys.size(); i += 1)
-    {
-        auto key = keys[i];
-        bpmChangesMap[key] = bpmChanges[key];
-    }
-
-    return RhythmGameUtilities::ConvertSecondsToTicks(seconds, resolution,
-                                                      bpmChangesMap);
+    return RhythmGameUtilities::ConvertSecondsToTicks(
+        seconds, resolution, convert_dictionary_to_map<int, int>(bpmChanges));
 }
 
 float rhythm_game_utilities::convert_tick_to_position(int tick, int resolution)
@@ -103,4 +99,27 @@ float rhythm_game_utilities::calculate_accuracy_ratio(int position,
 {
     return RhythmGameUtilities::CalculateAccuracyRatio(position,
                                                        currentPosition, delta);
+}
+
+Array rhythm_game_utilities::calculate_beat_bars(Dictionary bpmChanges,
+                                                 int resolution, int ts,
+                                                 bool includeHalfNotes)
+{
+    auto beatBars = RhythmGameUtilities::CalculateBeatBars(
+        convert_dictionary_to_map<int, int>(bpmChanges), resolution, ts,
+        includeHalfNotes);
+
+    Array beatBarsDictionaryArray;
+
+    for (auto &beatBar : beatBars)
+    {
+        Dictionary beatBarDictionary;
+
+        beatBarDictionary["bpm"] = beatBar.BPM;
+        beatBarDictionary["position"] = beatBar.Position;
+
+        beatBarsDictionaryArray.append(beatBarDictionary);
+    }
+
+    return beatBarsDictionaryArray;
 }

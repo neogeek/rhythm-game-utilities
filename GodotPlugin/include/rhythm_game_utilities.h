@@ -2,6 +2,7 @@
 
 #include <godot_cpp/classes/object.hpp>
 #include <godot_cpp/core/class_db.hpp>
+#include <godot_cpp/variant/array.hpp>
 #include <godot_cpp/variant/dictionary.hpp>
 #include <godot_cpp/variant/string.hpp>
 
@@ -34,4 +35,7 @@ class rhythm_game_utilities : public Object
 
     static float calculate_accuracy_ratio(int position, int currentPosition,
                                           int delta = 50);
+
+    static Array calculate_beat_bars(Dictionary bpmChanges, int resolution,
+                                     int ts, bool includeHalfNotes);
 };

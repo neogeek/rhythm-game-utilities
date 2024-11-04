@@ -691,6 +691,26 @@ int main()
 }
 ```
 
+##### Godot
+
+```godot
+extends Node
+
+func _ready() -> void:
+	var resolution = 192;
+	var timeSignature = 4;
+
+	var bpmChanges = {
+		0: 88000, 3840: 112000, 9984: 89600,
+		22272: 112000, 33792: 111500, 34560: 112000,
+		42240: 111980
+	}
+
+	var beatBars = rhythm_game_utilities.calculate_beat_bars(bpmChanges, resolution, timeSignature, true);
+
+	print(beatBars)
+```
+
 #### `Utilities.ConvertSecondsToTicks`
 
 > Languages: `C#` `C++`
