@@ -540,6 +540,21 @@ int main()
 }
 ```
 
+##### Godot
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+
+	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	print(sections)
+```
+
 #### `Parsers.ParseTimeSignaturesFromChartSection`
 
 > Languages: `C#` `C++`
