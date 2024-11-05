@@ -3,6 +3,7 @@
 #include "utilities.hpp"
 
 #include <RhythmGameUtilities/Common.hpp>
+#include <RhythmGameUtilities/Parsers.hpp>
 #include <RhythmGameUtilities/Utilities.hpp>
 
 void rhythm_game_utilities::_bind_methods()
@@ -16,6 +17,13 @@ void rhythm_game_utilities::_bind_methods()
     ClassDB::bind_static_method("rhythm_game_utilities",
                                 D_METHOD("inverse_lerp", "a", "b", "v"),
                                 &rhythm_game_utilities::inverse_lerp);
+
+    // Parsers
+
+    ClassDB::bind_static_method(
+        "rhythm_game_utilities",
+        D_METHOD("parse_sections_from_chart", "contents"),
+        &rhythm_game_utilities::parse_sections_from_chart);
 
     // Utilities
 
@@ -63,6 +71,44 @@ float rhythm_game_utilities::lerp(float a, float b, float t)
 float rhythm_game_utilities::inverse_lerp(float a, float b, float v)
 {
     return RhythmGameUtilities::InverseLerp(a, b, v);
+}
+
+// Parsers
+
+Dictionary rhythm_game_utilities::parse_sections_from_chart(String contents)
+{
+    Dictionary sections;
+
+    auto sectionsInternal =
+        RhythmGameUtilities::ParseSectionsFromChart(contents.utf8().get_data());
+
+    for (auto sectionInternal = sectionsInternal.begin();
+         sectionInternal != sectionsInternal.end(); sectionInternal++)
+    {
+        auto sectionKey = godot::String(sectionInternal->first.c_str());
+
+        Dictionary section;
+
+        for (auto i = 0; i < sectionInternal->second.size(); i += 1)
+        {
+            auto temp = sectionInternal->second[i];
+
+            auto key = godot::Variant(temp.first.c_str());
+
+            Array values;
+
+            for (auto j = 0; j < temp.second.size(); j += 1)
+            {
+                values.append(godot::Variant(temp.second[j].c_str()));
+            }
+
+            section[key] = values;
+        }
+
+        sections[sectionKey] = section;
+    }
+
+    return sections;
 }
 
 // Utilities

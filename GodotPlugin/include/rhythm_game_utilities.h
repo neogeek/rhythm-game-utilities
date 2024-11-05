@@ -22,6 +22,10 @@ class rhythm_game_utilities : public Object
 
     static float inverse_lerp(float a, float b, float v);
 
+    // Parsers
+
+    static Dictionary parse_sections_from_chart(String contents);
+
     // Utilities
 
     static int convert_seconds_to_ticks(float seconds, int resolution,
