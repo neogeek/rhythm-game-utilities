@@ -693,7 +693,7 @@ int main()
 
 ##### Godot
 
-```godot
+```gdscript
 extends Node
 
 func _ready() -> void:
