@@ -231,7 +231,7 @@ _texture2D.Apply();
 
 #### `Common.InverseLerp`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -276,7 +276,7 @@ func _ready() -> void:
 
 #### `Common.Lerp`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -505,7 +505,7 @@ int main()
 
 #### `Parsers.ParseSectionsFromChart`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -655,7 +655,7 @@ int main()
 
 #### `Utilities.CalculateBeatBars`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -728,7 +728,7 @@ func _ready() -> void:
 
 #### `Utilities.ConvertSecondsToTicks`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -803,7 +803,7 @@ func _ready() -> void:
 
 #### `Utilities.ConvertTickToPosition`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -857,7 +857,7 @@ func _ready() -> void:
 
 #### `Utilities.IsOnTheBeat`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -915,7 +915,7 @@ func _ready() -> void:
 
 #### `Utilities.RoundUpToTheNearestMultiplier`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 

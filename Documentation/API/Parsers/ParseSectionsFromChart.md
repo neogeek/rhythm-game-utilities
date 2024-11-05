@@ -1,6 +1,6 @@
 #### `Parsers.ParseSectionsFromChart`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 

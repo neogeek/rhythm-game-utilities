@@ -1,6 +1,6 @@
 #### `Utilities.CalculateBeatBars`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 

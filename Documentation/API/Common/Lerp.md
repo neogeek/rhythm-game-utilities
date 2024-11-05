@@ -1,6 +1,6 @@
 #### `Common.Lerp`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 

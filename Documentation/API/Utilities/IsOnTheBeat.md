@@ -1,6 +1,6 @@
 #### `Utilities.IsOnTheBeat`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
