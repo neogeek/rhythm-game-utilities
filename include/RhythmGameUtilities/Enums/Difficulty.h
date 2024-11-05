@@ -35,7 +35,7 @@ std::string ToString(Difficulty difficulty)
     case Expert:
         return "Expert";
     default:
-        throw std::invalid_argument("Unknown Difficulty");
+        return "Unknown Difficulty";
     }
 }
 
