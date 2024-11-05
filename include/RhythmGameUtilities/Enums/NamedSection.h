@@ -28,7 +28,7 @@ std::string ToString(NamedSection namedSection)
     case Events:
         return "Events";
     default:
-        throw std::invalid_argument("Unknown NamedSection");
+        return "Unknown NamedSection";
     }
 }
 
