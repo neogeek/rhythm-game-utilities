@@ -1,6 +1,6 @@
 #### `Utilities.CalculateAccuracyRatio`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -50,4 +50,23 @@ int main()
 
     return 0;
 }
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var seconds = 2
+	var resolution = 192
+	var position_delta = 50
+
+	var bpm_changes = { 0: 120000 }
+
+	var current_position = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, bpm_changes)
+
+	var value = rhythm_game_utilities.calculate_accuracy_ratio(750, current_position, position_delta)
+
+	print(round(value * 100) / 100.0) # 0.64
 ```

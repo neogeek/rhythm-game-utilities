@@ -53,22 +53,22 @@ int main()
 }
 ```
 
-##### Godot
+##### GDScript
 
 ```gdscript
 extends Node
 
 func _ready() -> void:
-	var seconds = 5;
-	var resolution = 192;
+	var seconds = 5
+	var resolution = 192
 
-	var bpmChanges = {
+	var bpm_changes = {
 		0: 88000, 3840: 112000, 9984: 89600,
 		22272: 112000, 33792: 111500, 34560: 112000,
 		42240: 111980
 	}
 
-	var ticks = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, bpmChanges);
+	var ticks = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, bpm_changes)
 
 	print(ticks) # 1408
 ```

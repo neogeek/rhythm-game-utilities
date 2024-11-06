@@ -263,7 +263,7 @@ int main()
 }
 ```
 
-##### Godot
+##### GDScript
 
 ```gdscript
 extends Node
@@ -308,7 +308,7 @@ int main()
 }
 ```
 
-##### Godot
+##### GDScript
 
 ```gdscript
 extends Node
@@ -325,7 +325,7 @@ Read more about `.chart` files: <https://github.com/TheNathannator/GuitarGame_Ch
 
 #### `Parsers.ParseBpmFromChartSection`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -363,6 +363,22 @@ int main()
 
     return 0;
 }
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	var bpm = rhythm_game_utilities.parse_bpm_from_chart_section(sections["SyncTrack"])
+
+	print(bpm)
 ```
 
 #### `Parsers.ParseLyricsFromChartSection`
@@ -407,9 +423,25 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	var lyrics = rhythm_game_utilities.parse_lyrics_from_chart_section(sections["Events"])
+
+	print(lyrics)
+```
+
 #### `Parsers.ParseMetaDataFromChartSection`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -453,9 +485,25 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	var meta_data = rhythm_game_utilities.parse_meta_data_from_chart_section(sections["Song"])
+
+	print(meta_data)
+```
+
 #### `Parsers.ParseNotesFromChartSection`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -503,6 +551,22 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	var notes = rhythm_game_utilities.parse_notes_from_chart_section(sections["ExpertSingle"])
+
+	print(notes)
+```
+
 #### `Parsers.ParseSectionsFromChart`
 
 > Languages: `C#` `C++` `GDScript`
@@ -540,13 +604,12 @@ int main()
 }
 ```
 
-##### Godot
+##### GDScript
 
 ```gdscript
 extends Node
 
 func _ready() -> void:
-
 	var file = FileAccess.open("res://song.txt", FileAccess.READ)
 	var content = file.get_as_text()
 
@@ -557,7 +620,7 @@ func _ready() -> void:
 
 #### `Parsers.ParseTimeSignaturesFromChartSection`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -597,11 +660,27 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	var time_signatures = rhythm_game_utilities.parse_time_signatures_from_chart_section(sections["SyncTrack"])
+
+	print(time_signatures)
+```
+
 ### Utilities
 
 #### `Utilities.CalculateAccuracyRatio`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -651,6 +730,25 @@ int main()
 
     return 0;
 }
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var seconds = 2
+	var resolution = 192
+	var position_delta = 50
+
+	var bpm_changes = { 0: 120000 }
+
+	var current_position = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, bpm_changes)
+
+	var value = rhythm_game_utilities.calculate_accuracy_ratio(750, current_position, position_delta)
+
+	print(round(value * 100) / 100.0) # 0.64
 ```
 
 #### `Utilities.CalculateBeatBars`
@@ -706,24 +804,24 @@ int main()
 }
 ```
 
-##### Godot
+##### GDScript
 
 ```gdscript
 extends Node
 
 func _ready() -> void:
-	var resolution = 192;
-	var timeSignature = 4;
+	var resolution = 192
+	var time_signature = 4
 
-	var bpmChanges = {
+	var bpm_changes = {
 		0: 88000, 3840: 112000, 9984: 89600,
 		22272: 112000, 33792: 111500, 34560: 112000,
 		42240: 111980
 	}
 
-	var beatBars = rhythm_game_utilities.calculate_beat_bars(bpmChanges, resolution, timeSignature, true);
+	var beat_bars = rhythm_game_utilities.calculate_beat_bars(bpm_changes, resolution, time_signature, true)
 
-	print(beatBars)
+	print(beat_bars)
 ```
 
 #### `Utilities.ConvertSecondsToTicks`
@@ -781,22 +879,22 @@ int main()
 }
 ```
 
-##### Godot
+##### GDScript
 
 ```gdscript
 extends Node
 
 func _ready() -> void:
-	var seconds = 5;
-	var resolution = 192;
+	var seconds = 5
+	var resolution = 192
 
-	var bpmChanges = {
+	var bpm_changes = {
 		0: 88000, 3840: 112000, 9984: 89600,
 		22272: 112000, 33792: 111500, 34560: 112000,
 		42240: 111980
 	}
 
-	var ticks = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, bpmChanges);
+	var ticks = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, bpm_changes)
 
 	print(ticks) # 1408
 ```
@@ -841,16 +939,16 @@ int main()
 }
 ```
 
-##### Godot
+##### GDScript
 
 ```gdscript
 extends Node
 
 func _ready() -> void:
-	var tick = 2784;
-	var resolution = 192;
+	var tick = 2784
+	var resolution = 192
 
-	var position = rhythm_game_utilities.convert_tick_to_position(tick, resolution);
+	var position = rhythm_game_utilities.convert_tick_to_position(tick, resolution)
 
 	print(position) # 14.5
 ```
@@ -899,17 +997,17 @@ int main()
 }
 ```
 
-##### Godot
+##### GDScript
 
 ```gdscript
 extends Node
 
 func _ready() -> void:
-	var bpm = 120;
-	var currentTime = 10;
-	var delta = 0.05;
+	var bpm = 120
+	var current_time = 10
+	var delta = 0.05
 
-	if rhythm_game_utilities.is_on_the_beat(bpm, currentTime, delta):
+	if rhythm_game_utilities.is_on_the_beat(bpm, current_time, delta):
 		print("Is on the beat!")
 ```
 
@@ -947,13 +1045,13 @@ int main()
 }
 ```
 
-##### Godot
+##### GDScript
 
 ```gdscript
 extends Node
 
 func _ready() -> void:
-	var value = rhythm_game_utilities.round_up_to_the_nearest_multiplier(12, 10);
+	var value = rhythm_game_utilities.round_up_to_the_nearest_multiplier(12, 10)
 
 	print(value) # 20
 ```

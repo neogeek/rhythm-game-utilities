@@ -51,22 +51,22 @@ int main()
 }
 ```
 
-##### Godot
+##### GDScript
 
 ```gdscript
 extends Node
 
 func _ready() -> void:
-	var resolution = 192;
-	var timeSignature = 4;
+	var resolution = 192
+	var time_signature = 4
 
-	var bpmChanges = {
+	var bpm_changes = {
 		0: 88000, 3840: 112000, 9984: 89600,
 		22272: 112000, 33792: 111500, 34560: 112000,
 		42240: 111980
 	}
 
-	var beatBars = rhythm_game_utilities.calculate_beat_bars(bpmChanges, resolution, timeSignature, true);
+	var beat_bars = rhythm_game_utilities.calculate_beat_bars(bpm_changes, resolution, time_signature, true)
 
-	print(beatBars)
+	print(beat_bars)
 ```

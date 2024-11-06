@@ -32,7 +32,7 @@ int main()
 }
 ```
 
-##### Godot
+##### GDScript
 
 ```gdscript
 extends Node

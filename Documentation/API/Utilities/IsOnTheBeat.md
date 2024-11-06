@@ -42,16 +42,16 @@ int main()
 }
 ```
 
-##### Godot
+##### GDScript
 
 ```gdscript
 extends Node
 
 func _ready() -> void:
-	var bpm = 120;
-	var currentTime = 10;
-	var delta = 0.05;
+	var bpm = 120
+	var current_time = 10
+	var delta = 0.05
 
-	if rhythm_game_utilities.is_on_the_beat(bpm, currentTime, delta):
+	if rhythm_game_utilities.is_on_the_beat(bpm, current_time, delta):
 		print("Is on the beat!")
 ```

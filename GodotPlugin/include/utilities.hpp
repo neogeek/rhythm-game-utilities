@@ -21,3 +21,43 @@ std::map<T1, T2> convert_dictionary_to_map(Dictionary input)
 
     return output;
 }
+
+std::vector<std::pair<std::string, std::vector<std::string>>>
+convert_section_to_section_internal(Array section)
+{
+    std::vector<std::pair<std::string, std::vector<std::string>>>
+        sectionInternal;
+
+    for (auto i = 0; i < section.size(); i += 1)
+    {
+        if (section[i].get_type() == Variant::DICTIONARY)
+        {
+            Dictionary variant = section[i];
+
+            Array keys = variant.keys();
+
+            for (auto j = 0; j < keys.size(); j += 1)
+            {
+                String key = keys[j];
+                Array values = variant[key];
+
+                std::vector<std::string> valuesInternal;
+
+                for (auto k = 0; k < values.size(); k += 1)
+                {
+                    if (values[k].get_type() == Variant::Type::STRING)
+                    {
+                        String value = values[k];
+
+                        valuesInternal.push_back(value.utf8().get_data());
+                    }
+                }
+
+                sectionInternal.push_back(
+                    std::make_pair(key.utf8().get_data(), valuesInternal));
+            }
+        }
+    }
+
+    return sectionInternal;
+}
