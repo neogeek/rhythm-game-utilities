@@ -8,11 +8,19 @@ env = SConscript("godot-cpp/SConstruct")
 env.Append(CPPPATH=["include/", "../include"])
 sources = Glob("include/*.cpp")
 
-library = env.SharedLibrary(
-    "build/addons/RhythmGameUtilities/libRhythmGameUtilities.{}.{}"
-        .format(env["platform"], env["target"]),
-    source=sources
-)
+if env["platform"] == "macos":
+    file_name = "libRhythmGameUtilities.{}.{}".format(env["platform"], env["target"])
+
+    library = env.SharedLibrary(
+        "build/addons/RhythmGameUtilities/{}.framework/{}".format(file_name, file_name),
+        source=sources
+    )
+else:
+    library = env.SharedLibrary(
+        "build/addons/RhythmGameUtilities/libRhythmGameUtilities{}{}"
+            .format(env["suffix"], env["SHLIBSUFFIX"]),
+        source=sources,
+    )
 
 gdextension_copy = env.Command(
     target="build/addons/RhythmGameUtilities/RhythmGameUtilities.gdextension",
