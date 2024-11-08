@@ -41,7 +41,7 @@ convert_section_to_section_internal(Array section)
                 String key = keys[j];
                 Array values = variant[key];
 
-                std::vector<std::string> valuesInternal;
+                std::vector<std::string> values_internal;
 
                 for (auto k = 0; k < values.size(); k += 1)
                 {
@@ -49,12 +49,12 @@ convert_section_to_section_internal(Array section)
                     {
                         String value = values[k];
 
-                        valuesInternal.push_back(value.utf8().get_data());
+                        values_internal.push_back(value.utf8().get_data());
                     }
                 }
 
                 section_internal.push_back(
-                    std::make_pair(key.utf8().get_data(), valuesInternal));
+                    std::make_pair(key.utf8().get_data(), values_internal));
             }
         }
     }
