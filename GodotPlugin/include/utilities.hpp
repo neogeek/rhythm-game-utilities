@@ -26,7 +26,7 @@ std::vector<std::pair<std::string, std::vector<std::string>>>
 convert_section_to_section_internal(Array section)
 {
     std::vector<std::pair<std::string, std::vector<std::string>>>
-        sectionInternal;
+        section_internal;
 
     for (auto i = 0; i < section.size(); i += 1)
     {
@@ -53,11 +53,11 @@ convert_section_to_section_internal(Array section)
                     }
                 }
 
-                sectionInternal.push_back(
+                section_internal.push_back(
                     std::make_pair(key.utf8().get_data(), valuesInternal));
             }
         }
     }
 
-    return sectionInternal;
+    return section_internal;
 }
