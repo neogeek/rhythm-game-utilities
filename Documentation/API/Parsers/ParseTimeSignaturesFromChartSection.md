@@ -1,6 +1,6 @@
 #### `Parsers.ParseTimeSignaturesFromChartSection`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -38,4 +38,20 @@ int main()
 
     return 0;
 }
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	var time_signatures = rhythm_game_utilities.parse_time_signatures_from_chart_section(sections["SyncTrack"])
+
+	print(time_signatures)
 ```

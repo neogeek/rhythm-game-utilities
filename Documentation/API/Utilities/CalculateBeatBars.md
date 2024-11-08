@@ -1,6 +1,6 @@
 #### `Utilities.CalculateBeatBars`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -49,4 +49,24 @@ int main()
 
     return 0;
 }
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var resolution = 192
+	var time_signature = 4
+
+	var bpm_changes = {
+		0: 88000, 3840: 112000, 9984: 89600,
+		22272: 112000, 33792: 111500, 34560: 112000,
+		42240: 111980
+	}
+
+	var beat_bars = rhythm_game_utilities.calculate_beat_bars(bpm_changes, resolution, time_signature, true)
+
+	print(beat_bars)
 ```

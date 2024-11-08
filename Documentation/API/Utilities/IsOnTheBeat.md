@@ -1,6 +1,6 @@
 #### `Utilities.IsOnTheBeat`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -40,4 +40,18 @@ int main()
 
     return 0;
 }
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var bpm = 120
+	var current_time = 10
+	var delta = 0.05
+
+	if rhythm_game_utilities.is_on_the_beat(bpm, current_time, delta):
+		print("Is on the beat!")
 ```

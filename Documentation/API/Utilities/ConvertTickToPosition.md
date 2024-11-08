@@ -1,6 +1,6 @@
 #### `Utilities.ConvertTickToPosition`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -36,4 +36,18 @@ int main()
 
     return 0;
 }
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var tick = 2784
+	var resolution = 192
+
+	var position = rhythm_game_utilities.convert_tick_to_position(tick, resolution)
+
+	print(position) # 14.5
 ```

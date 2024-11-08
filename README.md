@@ -231,7 +231,7 @@ _texture2D.Apply();
 
 #### `Common.InverseLerp`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -263,9 +263,20 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var value = rhythm_game_utilities.inverse_lerp(0, 10, 5)
+
+	print(value) # 0.5
+```
+
 #### `Common.Lerp`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -297,13 +308,24 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var value = rhythm_game_utilities.lerp(0, 10, 0.5)
+
+	print(value) # 5
+```
+
 ### `Parsers`
 
 Read more about `.chart` files: <https://github.com/TheNathannator/GuitarGame_ChartFormats/blob/main/doc/FileFormats/.chart/Core%20Infrastructure.md>
 
 #### `Parsers.ParseBpmFromChartSection`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -343,9 +365,25 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	var bpm = rhythm_game_utilities.parse_bpm_from_chart_section(sections["SyncTrack"])
+
+	print(bpm)
+```
+
 #### `Parsers.ParseLyricsFromChartSection`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -385,9 +423,25 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	var lyrics = rhythm_game_utilities.parse_lyrics_from_chart_section(sections["Events"])
+
+	print(lyrics)
+```
+
 #### `Parsers.ParseMetaDataFromChartSection`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -431,9 +485,25 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	var meta_data = rhythm_game_utilities.parse_meta_data_from_chart_section(sections["Song"])
+
+	print(meta_data)
+```
+
 #### `Parsers.ParseNotesFromChartSection`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -481,9 +551,25 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	var notes = rhythm_game_utilities.parse_notes_from_chart_section(sections["ExpertSingle"])
+
+	print(notes)
+```
+
 #### `Parsers.ParseSectionsFromChart`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -518,9 +604,23 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	print(sections)
+```
+
 #### `Parsers.ParseTimeSignaturesFromChartSection`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -560,11 +660,27 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	var time_signatures = rhythm_game_utilities.parse_time_signatures_from_chart_section(sections["SyncTrack"])
+
+	print(time_signatures)
+```
+
 ### Utilities
 
 #### `Utilities.CalculateAccuracyRatio`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -616,9 +732,28 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var seconds = 2
+	var resolution = 192
+	var position_delta = 50
+
+	var bpm_changes = { 0: 120000 }
+
+	var current_position = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, bpm_changes)
+
+	var value = rhythm_game_utilities.calculate_accuracy_ratio(750, current_position, position_delta)
+
+	print(round(value * 100) / 100.0) # 0.64
+```
+
 #### `Utilities.CalculateBeatBars`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -669,9 +804,29 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var resolution = 192
+	var time_signature = 4
+
+	var bpm_changes = {
+		0: 88000, 3840: 112000, 9984: 89600,
+		22272: 112000, 33792: 111500, 34560: 112000,
+		42240: 111980
+	}
+
+	var beat_bars = rhythm_game_utilities.calculate_beat_bars(bpm_changes, resolution, time_signature, true)
+
+	print(beat_bars)
+```
+
 #### `Utilities.ConvertSecondsToTicks`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -724,9 +879,29 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var seconds = 5
+	var resolution = 192
+
+	var bpm_changes = {
+		0: 88000, 3840: 112000, 9984: 89600,
+		22272: 112000, 33792: 111500, 34560: 112000,
+		42240: 111980
+	}
+
+	var ticks = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, bpm_changes)
+
+	print(ticks) # 1408
+```
+
 #### `Utilities.ConvertTickToPosition`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -764,9 +939,23 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var tick = 2784
+	var resolution = 192
+
+	var position = rhythm_game_utilities.convert_tick_to_position(tick, resolution)
+
+	print(position) # 14.5
+```
+
 #### `Utilities.IsOnTheBeat`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -808,9 +997,23 @@ int main()
 }
 ```
 
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var bpm = 120
+	var current_time = 10
+	var delta = 0.05
+
+	if rhythm_game_utilities.is_on_the_beat(bpm, current_time, delta):
+		print("Is on the beat!")
+```
+
 #### `Utilities.RoundUpToTheNearestMultiplier`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -840,6 +1043,17 @@ int main()
 
     return 0;
 }
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var value = rhythm_game_utilities.round_up_to_the_nearest_multiplier(12, 10)
+
+	print(value) # 20
 ```
 
 ## Architecture

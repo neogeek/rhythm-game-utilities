@@ -1,0 +1,4 @@
+addons/
+
+*.os
+*.dblite

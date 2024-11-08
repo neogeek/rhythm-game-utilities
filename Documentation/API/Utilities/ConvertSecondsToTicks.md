@@ -1,6 +1,6 @@
 #### `Utilities.ConvertSecondsToTicks`
 
-> Languages: `C#` `C++`
+> Languages: `C#` `C++` `GDScript`
 
 ##### C#
 
@@ -51,4 +51,24 @@ int main()
 
     return 0;
 }
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var seconds = 5
+	var resolution = 192
+
+	var bpm_changes = {
+		0: 88000, 3840: 112000, 9984: 89600,
+		22272: 112000, 33792: 111500, 34560: 112000,
+		42240: 111980
+	}
+
+	var ticks = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, bpm_changes)
+
+	print(ticks) # 1408
 ```
