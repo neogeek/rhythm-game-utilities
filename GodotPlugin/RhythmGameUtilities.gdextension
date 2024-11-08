@@ -2,7 +2,6 @@
 
 entry_symbol = "rhythm_game_utilities_entry"
 compatibility_minimum = 4.3
-reloadable = true
 
 [libraries]
 
