@@ -9,59 +9,23 @@ namespace RhythmGameUtilities
     internal static class UtilitiesInternal
     {
 
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
+        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
         public static extern float ConvertTickToPosition(int tick, int resolution);
 
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
+        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ConvertSecondsToTicksInternal(float seconds, int resolution, int[] bpmChangesKeys,
             int[] bpmChangesValues, int bpmChangesSize);
 
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
+        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool IsOnTheBeat(int bpm, float currentTime, float delta);
 
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
+        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
         public static extern int RoundUpToTheNearestMultiplier(int value, int multiplier);
 
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
+        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
         public static extern float CalculateAccuracyRatio(int position, int currentPosition, int delta);
 
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
+        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr CalculateBeatBarsInternal(int[] bpmChangesKeys,
             int[] bpmChangesValues, int bpmChangesSize, int resolution, int ts,
             bool includeHalfNotes, out int size);
