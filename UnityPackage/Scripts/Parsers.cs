@@ -35,13 +35,7 @@ namespace RhythmGameUtilities
     internal static class ParsersInternal
     {
 
-#if WINDOWS_BUILD || UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        [DllImport("libRhythmGameUtilities.dll", CallingConvention = CallingConvention.Cdecl)]
-#elif MACOS_BUILD || UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-        [DllImport("libRhythmGameUtilities.dylib", CallingConvention = CallingConvention.Cdecl)]
-#elif LINUX_BUILD || UNITY_EDITOR_LINUX || UNITY_STANDALONE_LINUX
-        [DllImport("libRhythmGameUtilities.so", CallingConvention = CallingConvention.Cdecl)]
-#endif
+        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ParseSectionsFromChartInternal(string contents, out int size);
 
     }

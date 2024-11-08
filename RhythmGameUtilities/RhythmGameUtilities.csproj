@@ -29,25 +29,16 @@
         <DefineConstants>$(DefineConstants);LINUX_BUILD</DefineConstants>
     </PropertyGroup>
 
-    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
-        <None Include="./Libs/Windows/libRhythmGameUtilities.dll">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
-        <None Include="./Libs/macOS/libRhythmGameUtilities.dylib">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux'))">
-        <None Include="./Libs/Linux/libRhythmGameUtilities.so">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <Content Include="./Libs/Windows/libRhythmGameUtilities.dll" Pack="true"
+            PackagePath="runtimes/win-x64/native/" />
+        <Content Include="./Libs/Linux/libRhythmGameUtilities.so" Pack="true"
+            PackagePath="runtimes/linux-x64/native/" />
+        <Content Include="./Libs/macOS/libRhythmGameUtilities.dylib" Pack="true"
+            PackagePath="runtimes/osx-x64/native/" />
     </ItemGroup>
 </Project>
