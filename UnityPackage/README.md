@@ -1148,7 +1148,7 @@ Run all tests via `make test`.
 - Tests are run automatically via GitHub Actions on each new PR.
 - For you add a new feature or fix a bug, please include the benchmark output in the PR along with your device stats.
 
-If you want to test the projecet from within Unity, add the test namespace to your project by adding the following to your `Packages/manifest.json` file:
+If you want to test the project from within Unity, add the test namespace to your project by adding the following to your `Packages/manifest.json` file:
 
 ```json
 {
