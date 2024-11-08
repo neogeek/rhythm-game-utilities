@@ -29,7 +29,7 @@ void terminate_rhythm_game_utilities(ModuleInitializationLevel p_level)
 
 extern "C"
 {
-    GDExtensionBool GDE_EXPORT rhythm_game_utilities_plugin(
+    GDExtensionBool GDE_EXPORT rhythm_game_utilities_entry(
         GDExtensionInterfaceGetProcAddress p_get_proc_address,
         const GDExtensionClassLibraryPtr p_library,
         GDExtensionInitialization *r_initialization)
