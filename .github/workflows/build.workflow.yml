@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'include/**/*'
+      - '!**/*.md'
   workflow_dispatch:
 
 concurrency:
