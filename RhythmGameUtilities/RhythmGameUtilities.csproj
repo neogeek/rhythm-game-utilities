@@ -4,7 +4,7 @@
         <LangVersion>9.0</LangVersion>
         <AssemblyVersion>1.0.0</AssemblyVersion>
         <PackageId>com.neogeek.rhythm-game-utilities</PackageId>
-        <Version>1.0.0-alpha.2</Version>
+        <Version>1.0.0-alpha.3</Version>
         <Title>Rhythm Game Utilities</Title>
         <Description>A collection of utilities for creating rhythm games.</Description>
         <Authors>neogeek</Authors>
@@ -39,6 +39,6 @@
         <Content Include="./Libs/Linux/libRhythmGameUtilities.so" Pack="true"
             PackagePath="runtimes/linux-x64/native/" />
         <Content Include="./Libs/macOS/libRhythmGameUtilities.dylib" Pack="true"
-            PackagePath="runtimes/osx-x64/native/" />
+            PackagePath="runtimes/osx/native/" />
     </ItemGroup>
 </Project>
