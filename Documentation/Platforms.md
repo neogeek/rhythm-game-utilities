@@ -14,5 +14,5 @@ This library aims to offer support for multiple platforms through a single codeb
 | [Godot 4](https://godotengine.org/)     | C#       | Windows  |                    4.3                    |   ✅   |   ❌   |
 | [SDL](https://www.libsdl.org/)          | C++      | macOS    |                  2.30.8                   |   ✅   |   ❌   |
 | [SDL](https://www.libsdl.org/)          | C++      | Windows  |                  2.30.8                   |   -    |   -    |
-| [MonoGame](https://monogame.net/)       | C#       | macOS    |                   3.8.2                   |   ✅   |   -    |
-| [MonoGame](https://monogame.net/)       | C#       | Windows  |                   3.8.2                   |   ✅   |   -    |
+| [MonoGame](https://monogame.net/)       | C#       | macOS    |                   3.8.2                   |   ✅   |   ❌   |
+| [MonoGame](https://monogame.net/)       | C#       | Windows  |                   3.8.2                   |   ✅   |   ❌   |
