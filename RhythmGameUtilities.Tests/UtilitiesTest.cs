@@ -70,25 +70,18 @@ namespace RhythmGameUtilities.Tests
 
             var beatBars = Utilities.CalculateBeatBars(bpmChanges, resolution, timeSignature, true);
 
-            Assert.That(beatBars.Count, Is.EqualTo(440));
+            Assert.That(beatBars.Length, Is.EqualTo(440));
         }
 
         [Test]
         public void TestFindPositionNearGivenTick()
         {
-            var notes = new List<Note>
+            var notes = new Note[]
             {
-                new() { Position = 768 },
-                new() { Position = 960 },
-                new() { Position = 1152 },
-                new() { Position = 1536 },
-                new() { Position = 1728 },
-                new() { Position = 1920 },
-                new() { Position = 2304 },
-                new() { Position = 2496 },
-                new() { Position = 2688 },
-                new() { Position = 3072 },
-                new() { Position = 3264 },
+                new() { Position = 768 }, new() { Position = 960 }, new() { Position = 1152 },
+                new() { Position = 1536 }, new() { Position = 1728 }, new() { Position = 1920 },
+                new() { Position = 2304 }, new() { Position = 2496 }, new() { Position = 2688 },
+                new() { Position = 3072 }, new() { Position = 3264 },
             };
 
             Assert.That(Utilities.FindPositionNearGivenTick(notes, 100), Is.Null);
