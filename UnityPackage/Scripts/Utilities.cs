@@ -84,10 +84,9 @@ namespace RhythmGameUtilities
             return UtilitiesInternal.RoundUpToTheNearestMultiplier(value, multiplier);
         }
 
-        public static List<BeatBar> CalculateBeatBars(Dictionary<int, int> bpmChanges, int resolution = 192, int ts = 4,
+        public static BeatBar[] CalculateBeatBars(Dictionary<int, int> bpmChanges, int resolution = 192, int ts = 4,
             bool includeHalfNotes = true)
         {
-            var beatBars = new List<BeatBar>();
 
             var ptrArray = UtilitiesInternal.CalculateBeatBarsInternal(bpmChanges.Keys.ToArray(),
                 bpmChanges.Values.ToArray(), bpmChanges.Count, resolution, ts, includeHalfNotes,
@@ -95,12 +94,14 @@ namespace RhythmGameUtilities
 
             var beatBarSize = Marshal.SizeOf(typeof(BeatBar));
 
+            var beatBars = new BeatBar[size];
+
             for (var i = 0; i < size; i += 1)
             {
                 var beatBarSizePtr = new IntPtr(ptrArray.ToInt64() + beatBarSize * i);
                 var beatBar = Marshal.PtrToStructure<BeatBar>(beatBarSizePtr);
 
-                beatBars.Add(beatBar);
+                beatBars[i] = beatBar;
             }
 
             Marshal.FreeHGlobal(ptrArray);
@@ -108,10 +109,10 @@ namespace RhythmGameUtilities
             return beatBars;
         }
 
-        public static Note? FindPositionNearGivenTick(List<Note> notes, int tick, int delta = 50)
+        public static Note? FindPositionNearGivenTick(Note[] notes, int tick, int delta = 50)
         {
             var left = 0;
-            var right = notes.Count - 1;
+            var right = notes.Length - 1;
 
             while (left <= right)
             {
