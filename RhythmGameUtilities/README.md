@@ -303,7 +303,7 @@ using namespace RhythmGameUtilities;
 
 int main()
 {
-    auto content = ReadFromFile("./tests/Mocks/song.chart");
+    auto content = ReadStringFromFile("./tests/Mocks/song.chart");
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
@@ -361,7 +361,7 @@ using namespace RhythmGameUtilities;
 
 int main()
 {
-    auto content = ReadFromFile("./tests/Mocks/song.chart");
+    auto content = ReadStringFromFile("./tests/Mocks/song.chart");
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
@@ -421,7 +421,7 @@ using namespace RhythmGameUtilities;
 
 int main()
 {
-    auto content = ReadFromFile("./tests/Mocks/song.chart");
+    auto content = ReadStringFromFile("./tests/Mocks/song.chart");
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
@@ -481,7 +481,7 @@ using namespace RhythmGameUtilities;
 
 int main()
 {
-    auto content = ReadFromFile("./tests/Mocks/song.chart");
+    auto content = ReadStringFromFile("./tests/Mocks/song.chart");
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
@@ -545,7 +545,7 @@ using namespace RhythmGameUtilities;
 
 int main()
 {
-    auto content = ReadFromFile("./tests/Mocks/song.chart");
+    auto content = ReadStringFromFile("./tests/Mocks/song.chart");
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
@@ -598,7 +598,7 @@ using namespace RhythmGameUtilities;
 
 int main()
 {
-    auto content = ReadFromFile("./tests/Mocks/song.chart");
+    auto content = ReadStringFromFile("./tests/Mocks/song.chart");
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
