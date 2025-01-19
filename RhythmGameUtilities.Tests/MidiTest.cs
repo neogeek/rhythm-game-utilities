@@ -17,7 +17,7 @@ namespace RhythmGameUtilities.Tests
 
             var notes = Midi.ReadMidiData(content);
 
-            Assert.That(notes.Count, Is.EqualTo(10));
+            Assert.That(notes.Length, Is.EqualTo(10));
 
             Assert.That(notes[0].Position, Is.EqualTo(0));
             Assert.That(notes[0].HandPosition, Is.EqualTo(48));
@@ -58,7 +58,7 @@ namespace RhythmGameUtilities.Tests
 
             var notes = Midi.ReadMidiFile(path);
 
-            Assert.That(notes.Count, Is.EqualTo(10));
+            Assert.That(notes.Length, Is.EqualTo(10));
 
             Assert.That(notes[0].Position, Is.EqualTo(0));
             Assert.That(notes[0].HandPosition, Is.EqualTo(48));
