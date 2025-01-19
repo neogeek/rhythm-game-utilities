@@ -19,7 +19,7 @@ namespace RhythmGameUtilities
     public static class Midi
     {
 
-        public static List<Note> ReadMidiData(byte[] bytes)
+        public static Note[] ReadMidiData(byte[] bytes)
         {
             var notes = new List<Note>();
 
@@ -37,10 +37,10 @@ namespace RhythmGameUtilities
 
             Marshal.FreeHGlobal(ptrArray);
 
-            return notes;
+            return notes.ToArray();
         }
 
-        public static List<Note> ReadMidiFile(string path)
+        public static Note[] ReadMidiFile(string path)
         {
             var notes = new List<Note>();
 
@@ -58,7 +58,7 @@ namespace RhythmGameUtilities
 
             Marshal.FreeHGlobal(ptrArray);
 
-            return notes;
+            return notes.ToArray();
         }
 
     }
