@@ -54,7 +54,7 @@ namespace RhythmGameUtilities.Tests
 
             var timeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
 
-            Assert.That(timeSignatures.Count, Is.EqualTo(4));
+            Assert.That(timeSignatures.Length, Is.EqualTo(4));
         }
 
         [Test]

@@ -3,6 +3,7 @@
 #include <map>
 
 #include "Structs/BeatBar.h"
+#include "Structs/TimeSignature.h"
 
 #include "Utilities.hpp"
 
@@ -20,7 +21,9 @@ extern "C"
     PACKAGE_API int ConvertSecondsToTicksInternal(float seconds, int resolution,
                                                   int *bpmChangesKeys,
                                                   int *bpmChangesValues,
-                                                  int bpmChangesSize)
+                                                  int bpmChangesSize,
+                                                  TimeSignature *timeSignatures,
+                                                  int timeSignaturesSize)
     {
         std::map<int, int> bpmChanges;
 
@@ -29,7 +32,15 @@ extern "C"
             bpmChanges[bpmChangesKeys[i]] = bpmChangesValues[i];
         }
 
-        return ConvertSecondsToTicks(seconds, resolution, bpmChanges);
+        std::vector<TimeSignature> timeSignatureChanges;
+
+        for (auto i = 0; i < timeSignaturesSize; i += 1)
+        {
+            timeSignatureChanges.push_back(timeSignatures[i]);
+        }
+
+        return ConvertSecondsToTicks(seconds, resolution, bpmChanges,
+                                     timeSignatureChanges);
     }
 
     PACKAGE_API BeatBar *

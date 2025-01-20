@@ -1,13 +1,16 @@
 #pragma once
 
+#include <climits>
 #include <cmath>
 #include <map>
 #include <optional>
 #include <vector>
 
-#include "Common.hpp"
 #include "Structs/BeatBar.h"
 #include "Structs/Note.h"
+#include "Structs/TimeSignature.h"
+
+#include "Common.hpp"
 
 #ifdef _WIN32
 #define PACKAGE_API __declspec(dllexport)
@@ -26,38 +29,65 @@ const float SECONDS_PER_MINUTE = 60.0f;
  * @param seconds The seconds to generate ticks with.
  * @param resolution The resolution of the song.
  * @param bpmChanges All BPM changes within the song.
+ * @param timeSignatureChanges All time signature changes within the song.
  * @public
  */
 
 int ConvertSecondsToTicks(float seconds, int resolution,
-                          std::map<int, int> bpmChanges)
+                          std::map<int, int> bpmChanges,
+                          std::vector<TimeSignature> timeSignatureChanges)
 {
+    auto bpmIterator = bpmChanges.begin();
+    auto timeSignatureIterator = timeSignatureChanges.begin();
+
     auto totalTicks = 0;
     auto remainingSeconds = seconds;
     auto previousTick = 0;
-    auto previousBPM = bpmChanges.begin()->second / 1000;
+    auto previousBPM = bpmIterator->second / 1000.0;
+    auto previousTimeSignature = timeSignatureIterator->Numerator;
 
-    for (auto const &[currentTick, value] : bpmChanges)
+    while (remainingSeconds > 0)
     {
-        auto timeForSegment = (currentTick - previousTick) /
-                              (resolution * previousBPM / SECONDS_PER_MINUTE);
+        int nextBPMChange =
+            bpmIterator != bpmChanges.end() ? bpmIterator->first : INT_MAX;
+
+        int nextTimeSignatureChange =
+            timeSignatureIterator != timeSignatureChanges.end()
+                ? timeSignatureIterator->Position
+                : INT_MAX;
+
+        int nextChangeTick = std::min(nextBPMChange, nextTimeSignatureChange);
+
+        float ticksPerSecond = resolution * previousBPM / SECONDS_PER_MINUTE;
+        float timeForSegment = (nextChangeTick - previousTick) / ticksPerSecond;
 
         if (remainingSeconds <= timeForSegment)
         {
-            totalTicks += static_cast<int>(remainingSeconds * previousBPM /
-                                           SECONDS_PER_MINUTE * resolution);
+            totalTicks += static_cast<int>(remainingSeconds * ticksPerSecond);
 
             return totalTicks;
         }
 
-        totalTicks += currentTick - previousTick;
+        totalTicks += nextChangeTick - previousTick;
         remainingSeconds -= timeForSegment;
-        previousTick = currentTick;
-        previousBPM = value / 1000;
+        previousTick = nextChangeTick;
+
+        if (nextChangeTick == nextBPMChange)
+        {
+            previousBPM = bpmIterator->second / 1000.0;
+            ++bpmIterator;
+        }
+
+        if (nextChangeTick == nextTimeSignatureChange)
+        {
+            previousTimeSignature = timeSignatureIterator->Numerator;
+            ++timeSignatureIterator;
+        }
     }
 
-    totalTicks += static_cast<int>(remainingSeconds * previousBPM /
-                                   SECONDS_PER_MINUTE * resolution);
+    float ticksPerSecond = resolution * previousBPM / SECONDS_PER_MINUTE;
+
+    totalTicks += static_cast<int>(remainingSeconds * ticksPerSecond);
 
     return totalTicks;
 }

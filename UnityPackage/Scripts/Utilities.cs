@@ -14,7 +14,7 @@ namespace RhythmGameUtilities
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ConvertSecondsToTicksInternal(float seconds, int resolution, int[] bpmChangesKeys,
-            int[] bpmChangesValues, int bpmChangesSize);
+            int[] bpmChangesValues, int bpmChangesSize, TimeSignature[] timeSignatures, int timeSignaturesSize);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool IsOnTheBeat(int bpm, float currentTime, float delta);
@@ -55,10 +55,12 @@ namespace RhythmGameUtilities
         /// <param name="seconds">The seconds to generate ticks with.</param>
         /// <param name="resolution">The resolution of the song.</param>
         /// <param name="bpmChanges">All BPM changes within the song.</param>
-        public static int ConvertSecondsToTicks(float seconds, int resolution, Dictionary<int, int> bpmChanges)
+        /// <param name="timeSignatureChanges">All time signature changes within the song.</param>
+        public static int ConvertSecondsToTicks(float seconds, int resolution, Dictionary<int, int> bpmChanges,
+            TimeSignature[] timeSignatureChanges)
         {
             return UtilitiesInternal.ConvertSecondsToTicksInternal(seconds, resolution, bpmChanges.Keys.ToArray(),
-                bpmChanges.Values.ToArray(), bpmChanges.Count);
+                bpmChanges.Values.ToArray(), bpmChanges.Count, timeSignatureChanges, timeSignatureChanges.Length);
         }
 
         /// <summary>

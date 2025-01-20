@@ -3,6 +3,8 @@
 #include <iostream>
 #include <tuple>
 
+#include "RhythmGameUtilities/Structs/TimeSignature.h"
+
 #include "RhythmGameUtilities/Utilities.hpp"
 
 using namespace RhythmGameUtilities;
@@ -20,7 +22,10 @@ void testConvertSecondsToTicks()
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
-    assert(1408 == ConvertSecondsToTicks(5, 192, bpmChanges));
+    std::vector<TimeSignature> timeSignatureChanges = {{0, 4, 2}};
+
+    assert(1408 ==
+           ConvertSecondsToTicks(5, 192, bpmChanges, timeSignatureChanges));
 
     std::cout << ".";
 }
