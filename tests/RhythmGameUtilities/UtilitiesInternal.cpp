@@ -13,6 +13,8 @@ void testConvertSecondsToTicksInternal()
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
+    std::vector<TimeSignature> timeSignatureChanges = {{0, 4, 2}};
+
     std::vector<int> bpmChangesKeys;
     std::vector<int> bpmChangesValues;
 
@@ -22,9 +24,10 @@ void testConvertSecondsToTicksInternal()
         bpmChangesValues.push_back(value);
     }
 
-    assert(1408 == ConvertSecondsToTicksInternal(5, 192, &bpmChangesKeys[0],
-                                                 &bpmChangesValues[0],
-                                                 bpmChanges.size()));
+    assert(1408 == ConvertSecondsToTicksInternal(
+                       5, 192, &bpmChangesKeys[0], &bpmChangesValues[0],
+                       bpmChanges.size(), &timeSignatureChanges[0],
+                       timeSignatureChanges.size()));
 
     std::cout << ".";
 }

@@ -10,6 +10,7 @@
 #include "Enums/TypeCode.h"
 
 #include "Structs/Note.h"
+#include "Structs/TimeSignature.h"
 
 #include "Common.hpp"
 
@@ -104,17 +105,21 @@ std::map<std::string, std::string> ParseMetaDataFromChartSection(
     return data;
 }
 
-std::map<int, int> ParseTimeSignaturesFromChartSection(
+std::vector<TimeSignature> ParseTimeSignaturesFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
-    auto timeSignatures = std::map<int, int>();
+    auto timeSignatures = std::vector<TimeSignature>();
 
     for (auto &line : section)
     {
         if (line.second.front() == ToString(TypeCode::TimeSignatureMarker))
         {
-            timeSignatures.insert(
-                {std::stoi(line.first), std::stoi(line.second.at(1))});
+            auto position = std::stoi(line.first);
+            auto numerator = std::stoi(line.second.at(1));
+            auto denominator =
+                line.second.size() > 2 ? std::stoi(line.second.at(2)) : 2;
+
+            timeSignatures.push_back({position, numerator, denominator});
         }
     }
 

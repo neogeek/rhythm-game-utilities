@@ -33,8 +33,11 @@ namespace RhythmGameUtilities.Tests
                 { 42240, 111980 }
             };
 
+            var timeSignatureChanges = new[] { new TimeSignature { Position = 0, Numerator = 4, Denominator = 2 } };
+
             Assert.That(
-                Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges), Is.EqualTo(1408));
+                Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges, timeSignatureChanges),
+                Is.EqualTo(1408));
         }
 
         [Test]

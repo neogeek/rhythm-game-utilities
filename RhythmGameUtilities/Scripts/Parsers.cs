@@ -109,14 +109,17 @@ namespace RhythmGameUtilities
             return section.ToDictionary(item => item.Key, x => x.Value.First());
         }
 
-        public static Dictionary<int, int[]> ParseTimeSignaturesFromChartSection(
+        public static TimeSignature[] ParseTimeSignaturesFromChartSection(
             KeyValuePair<string, string[]>[] section)
         {
             return section
-                .Where(item => item.Value[0] == TypeCode.TimeSignatureMarker)
-                .Select(item =>
-                    new KeyValuePair<int, int[]>(int.Parse(item.Key), item.Value.Skip(1).Select(int.Parse).ToArray()))
-                .ToDictionary(item => item.Key, x => x.Value);
+                .Where(item => item.Value.Length >= 2 && item.Value.First() == TypeCode.TimeSignatureMarker).Select(
+                    item => new TimeSignature
+                    {
+                        Position = int.Parse(item.Key),
+                        Numerator = int.Parse(item.Value.Skip(1).First()),
+                        Denominator = item.Value.Length > 2 ? int.Parse(item.Value.Skip(2).First()) : 2
+                    }).ToArray();
         }
 
         public static Dictionary<int, int> ParseBpmFromChartSection(
