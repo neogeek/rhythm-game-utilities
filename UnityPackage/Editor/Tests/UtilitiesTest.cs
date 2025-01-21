@@ -22,15 +22,12 @@ namespace RhythmGameUtilities.Tests
             const int seconds = 5;
             const int resolution = 192;
 
-            var bpmChanges = new Dictionary<int, int>
+            var bpmChanges = new[]
             {
-                { 0, 88000 },
-                { 3840, 112000 },
-                { 9984, 89600 },
-                { 22272, 112000 },
-                { 33792, 111500 },
-                { 34560, 112000 },
-                { 42240, 111980 }
+                new Tempo { Position = 0, BPM = 88000 }, new Tempo { Position = 3840, BPM = 112000 },
+                new Tempo { Position = 9984, BPM = 89600 }, new Tempo { Position = 22272, BPM = 112000 },
+                new Tempo { Position = 33792, BPM = 111500 }, new Tempo { Position = 34560, BPM = 112000 },
+                new Tempo { Position = 42240, BPM = 111980 }
             };
 
             var timeSignatureChanges = new[] { new TimeSignature { Position = 0, Numerator = 4, Denominator = 2 } };
@@ -60,15 +57,12 @@ namespace RhythmGameUtilities.Tests
             const int resolution = 192;
             const int timeSignature = 4;
 
-            var bpmChanges = new Dictionary<int, int>
+            var bpmChanges = new Tempo[]
             {
-                { 0, 88000 },
-                { 3840, 112000 },
-                { 9984, 89600 },
-                { 22272, 112000 },
-                { 33792, 111500 },
-                { 34560, 112000 },
-                { 42240, 111980 }
+                new() { Position = 0, BPM = 88000 }, new() { Position = 3840, BPM = 112000 },
+                new() { Position = 9984, BPM = 89600 }, new() { Position = 22272, BPM = 112000 },
+                new() { Position = 33792, BPM = 111500 }, new() { Position = 34560, BPM = 112000 },
+                new() { Position = 42240, BPM = 111980 }
             };
 
             var beatBars = Utilities.CalculateBeatBars(bpmChanges, resolution, timeSignature, true);

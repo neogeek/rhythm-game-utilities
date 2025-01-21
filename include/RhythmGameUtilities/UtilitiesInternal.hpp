@@ -3,6 +3,7 @@
 #include <map>
 
 #include "Structs/BeatBar.h"
+#include "Structs/Tempo.h"
 #include "Structs/TimeSignature.h"
 
 #include "Utilities.hpp"
@@ -18,45 +19,43 @@ namespace RhythmGameUtilities
 
 extern "C"
 {
-    PACKAGE_API int ConvertSecondsToTicksInternal(float seconds, int resolution,
-                                                  int *bpmChangesKeys,
-                                                  int *bpmChangesValues,
-                                                  int bpmChangesSize,
-                                                  TimeSignature *timeSignatures,
-                                                  int timeSignaturesSize)
+    PACKAGE_API int ConvertSecondsToTicksInternal(
+        float seconds, int resolution, Tempo *bpmChanges, int bpmChangesSize,
+        TimeSignature *timeSignaturesChanges, int timeSignaturesChangesSize)
     {
-        std::map<int, int> bpmChanges;
+        std::vector<Tempo> bpmChangesVector;
 
         for (auto i = 0; i < bpmChangesSize; i += 1)
         {
-            bpmChanges[bpmChangesKeys[i]] = bpmChangesValues[i];
+            bpmChangesVector.push_back(bpmChanges[i]);
         }
 
-        std::vector<TimeSignature> timeSignatureChanges;
+        std::vector<TimeSignature> timeSignatureChangesVector;
 
-        for (auto i = 0; i < timeSignaturesSize; i += 1)
+        for (auto i = 0; i < timeSignaturesChangesSize; i += 1)
         {
-            timeSignatureChanges.push_back(timeSignatures[i]);
+            timeSignatureChangesVector.push_back(timeSignaturesChanges[i]);
         }
 
-        return ConvertSecondsToTicks(seconds, resolution, bpmChanges,
-                                     timeSignatureChanges);
+        return ConvertSecondsToTicks(seconds, resolution, bpmChangesVector,
+                                     timeSignatureChangesVector);
     }
 
-    PACKAGE_API BeatBar *
-    CalculateBeatBarsInternal(int *bpmChangesKeys, int *bpmChangesValues,
-                              int bpmChangesSize, int resolution, int ts,
-                              bool includeHalfNotes, int *outSize)
+    PACKAGE_API BeatBar *CalculateBeatBarsInternal(Tempo *bpmChanges,
+                                                   int bpmChangesSize,
+                                                   int resolution, int ts,
+                                                   bool includeHalfNotes,
+                                                   int *outSize)
     {
-        auto bpmChanges = std::map<int, int>();
+        std::vector<Tempo> bpmChangesVector;
 
         for (auto i = 0; i < bpmChangesSize; i += 1)
         {
-            bpmChanges[bpmChangesKeys[i]] = bpmChangesValues[i];
+            bpmChangesVector.push_back(bpmChanges[i]);
         }
 
-        auto internalBeatBars =
-            CalculateBeatBars(bpmChanges, resolution, ts, includeHalfNotes);
+        auto internalBeatBars = CalculateBeatBars(bpmChangesVector, resolution,
+                                                  ts, includeHalfNotes);
 
         *outSize = internalBeatBars.size();
 

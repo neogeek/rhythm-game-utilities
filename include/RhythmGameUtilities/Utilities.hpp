@@ -8,6 +8,7 @@
 
 #include "Structs/BeatBar.h"
 #include "Structs/Note.h"
+#include "Structs/Tempo.h"
 #include "Structs/TimeSignature.h"
 
 #include "Common.hpp"
@@ -34,7 +35,7 @@ const float SECONDS_PER_MINUTE = 60.0f;
  */
 
 int ConvertSecondsToTicks(float seconds, int resolution,
-                          std::map<int, int> bpmChanges,
+                          std::vector<Tempo> bpmChanges,
                           std::vector<TimeSignature> timeSignatureChanges)
 {
     auto bpmIterator = bpmChanges.begin();
@@ -43,13 +44,13 @@ int ConvertSecondsToTicks(float seconds, int resolution,
     auto totalTicks = 0;
     auto remainingSeconds = seconds;
     auto previousTick = 0;
-    auto previousBPM = bpmIterator->second / 1000.0;
+    auto previousBPM = bpmIterator->BPM / 1000.0;
     auto previousTimeSignature = timeSignatureIterator->Numerator;
 
     while (remainingSeconds > 0)
     {
         int nextBPMChange =
-            bpmIterator != bpmChanges.end() ? bpmIterator->first : INT_MAX;
+            bpmIterator != bpmChanges.end() ? bpmIterator->Position : INT_MAX;
 
         int nextTimeSignatureChange =
             timeSignatureIterator != timeSignatureChanges.end()
@@ -74,7 +75,7 @@ int ConvertSecondsToTicks(float seconds, int resolution,
 
         if (nextChangeTick == nextBPMChange)
         {
-            previousBPM = bpmIterator->second / 1000.0;
+            previousBPM = bpmIterator->BPM / 1000.0;
             ++bpmIterator;
         }
 
@@ -122,13 +123,20 @@ GenerateAdjacentKeyPairs(std::map<int, int> keyValuePairs)
     return adjacentKeyPairs;
 }
 
-std::vector<BeatBar> CalculateBeatBars(std::map<int, int> bpmChanges,
+std::vector<BeatBar> CalculateBeatBars(std::vector<Tempo> bpmChanges,
                                        int resolution, int ts,
                                        bool includeHalfNotes)
 {
     std::vector<BeatBar> beatBars;
 
-    auto keyValuePairs = GenerateAdjacentKeyPairs(bpmChanges);
+    std::map<int, int> bpmChangePositions;
+
+    for (const auto &bpmChange : bpmChanges)
+    {
+        bpmChangePositions[bpmChange.Position] = bpmChange.BPM;
+    }
+
+    auto keyValuePairs = GenerateAdjacentKeyPairs(bpmChangePositions);
 
     for (const auto &keyValuePair : keyValuePairs)
     {
@@ -137,12 +145,15 @@ std::vector<BeatBar> CalculateBeatBars(std::map<int, int> bpmChanges,
 
         for (auto tick = startTick; tick < endTick; tick += resolution)
         {
-            beatBars.push_back({tick, bpmChanges[startTick]});
+
+            auto position = tick;
+            auto bpm = bpmChangePositions[startTick];
+
+            beatBars.push_back({tick, bpm});
 
             if (includeHalfNotes && tick != endTick)
             {
-                beatBars.push_back(
-                    {tick + resolution / 2, bpmChanges[startTick]});
+                beatBars.push_back({tick + resolution / 2, bpm});
             }
         }
     }
