@@ -73,11 +73,11 @@ void testRoundUpToTheNearestMultiplier()
 
 void testGenerateAdjacentKeyPairs()
 {
-    std::map<int, int> bpmChangePositions = {
+    std::map<int, int> bpmChanges = {
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
-    auto adjacentKeyPairs = GenerateAdjacentKeyPairs(bpmChangePositions);
+    auto adjacentKeyPairs = GenerateAdjacentKeyPairs(bpmChanges);
 
     assert(adjacentKeyPairs.size() == 6);
     assert(adjacentKeyPairs[0] == std::make_tuple(0, 3840));
