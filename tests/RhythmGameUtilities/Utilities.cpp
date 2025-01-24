@@ -3,6 +3,7 @@
 #include <iostream>
 #include <tuple>
 
+#include "RhythmGameUtilities/Structs/Tempo.h"
 #include "RhythmGameUtilities/Structs/TimeSignature.h"
 
 #include "RhythmGameUtilities/Utilities.hpp"
@@ -18,7 +19,7 @@ void testConvertTickToPosition()
 
 void testConvertSecondsToTicks()
 {
-    std::map<int, int> bpmChanges = {
+    std::vector<Tempo> bpmChanges = {
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
@@ -87,7 +88,7 @@ void testGenerateAdjacentKeyPairs()
 
 void testCalculateBeatBars()
 {
-    std::map<int, int> bpmChanges = {
+    std::vector<Tempo> bpmChanges = {
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 

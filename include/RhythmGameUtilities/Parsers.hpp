@@ -10,6 +10,7 @@
 #include "Enums/TypeCode.h"
 
 #include "Structs/Note.h"
+#include "Structs/Tempo.h"
 #include "Structs/TimeSignature.h"
 
 #include "Common.hpp"
@@ -108,7 +109,7 @@ std::map<std::string, std::string> ParseMetaDataFromChartSection(
 std::vector<TimeSignature> ParseTimeSignaturesFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
-    auto timeSignatures = std::vector<TimeSignature>();
+    auto timeSignaturesChanges = std::vector<TimeSignature>();
 
     for (auto &line : section)
     {
@@ -119,27 +120,30 @@ std::vector<TimeSignature> ParseTimeSignaturesFromChartSection(
             auto denominator =
                 line.second.size() > 2 ? std::stoi(line.second.at(2)) : 2;
 
-            timeSignatures.push_back({position, numerator, denominator});
+            timeSignaturesChanges.push_back({position, numerator, denominator});
         }
     }
 
-    return timeSignatures;
+    return timeSignaturesChanges;
 }
 
-std::map<int, int> ParseBpmFromChartSection(
+std::vector<Tempo> ParseBpmFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
-    auto bpm = std::map<int, int>();
+    auto bpmChanges = std::vector<Tempo>();
 
     for (auto &line : section)
     {
         if (line.second.front() == ToString(TypeCode::BPM_Marker))
         {
-            bpm.insert({std::stoi(line.first), std::stoi(line.second.at(1))});
+            auto position = std::stoi(line.first);
+            auto bpm = std::stoi(line.second.at(1));
+
+            bpmChanges.push_back({position, bpm});
         }
     }
 
-    return bpm;
+    return bpmChanges;
 }
 
 std::vector<Note> ParseNotesFromChartSection(

@@ -3,55 +3,38 @@
 #include <iostream>
 #include <tuple>
 
+#include "RhythmGameUtilities/Structs/Tempo.h"
+#include "RhythmGameUtilities/Structs/TimeSignature.h"
+
 #include "RhythmGameUtilities/UtilitiesInternal.hpp"
 
 using namespace RhythmGameUtilities;
 
 void testConvertSecondsToTicksInternal()
 {
-    std::map<int, int> bpmChanges = {
+    std::vector<Tempo> bpmChanges = {
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
     std::vector<TimeSignature> timeSignatureChanges = {{0, 4, 2}};
 
-    std::vector<int> bpmChangesKeys;
-    std::vector<int> bpmChangesValues;
-
-    for (const auto &[key, value] : bpmChanges)
-    {
-        bpmChangesKeys.push_back(key);
-        bpmChangesValues.push_back(value);
-    }
-
     assert(1408 == ConvertSecondsToTicksInternal(
-                       5, 192, &bpmChangesKeys[0], &bpmChangesValues[0],
-                       bpmChanges.size(), &timeSignatureChanges[0],
-                       timeSignatureChanges.size()));
+                       5, 192, &bpmChanges[0], bpmChanges.size(),
+                       &timeSignatureChanges[0], timeSignatureChanges.size()));
 
     std::cout << ".";
 }
 
 void testCalculateBeatBarsInternal()
 {
-    std::map<int, int> bpmChanges = {
+    std::vector<Tempo> bpmChanges = {
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
-    std::vector<int> bpmChangesKeys;
-    std::vector<int> bpmChangesValues;
-
-    for (const auto &[key, value] : bpmChanges)
-    {
-        bpmChangesKeys.push_back(key);
-        bpmChangesValues.push_back(value);
-    }
-
     int *outSize;
 
-    auto beatBars =
-        CalculateBeatBarsInternal(&bpmChangesKeys[0], &bpmChangesValues[0],
-                                  bpmChanges.size(), 192, 4, true, outSize);
+    auto beatBars = CalculateBeatBarsInternal(&bpmChanges[0], bpmChanges.size(),
+                                              192, 4, true, outSize);
 
     assert(*outSize == 440);
 
