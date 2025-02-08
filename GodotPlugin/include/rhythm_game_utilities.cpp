@@ -55,7 +55,7 @@ void rhythm_game_utilities::_bind_methods()
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
         D_METHOD("convert_seconds_to_ticks", "seconds", "resolution",
-                 "bpm_changes"),
+                 "bpm_changes", "time_signature_changes"),
         &rhythm_game_utilities::convert_seconds_to_ticks);
 
     ClassDB::bind_static_method(
@@ -140,19 +140,24 @@ Dictionary rhythm_game_utilities::parse_sections_from_chart(String contents)
     return sections;
 }
 
-Dictionary rhythm_game_utilities::parse_bpm_from_chart_section(Array section)
+Array rhythm_game_utilities::parse_bpm_from_chart_section(Array section)
 {
-    auto bpm_internal = RhythmGameUtilities::ParseBpmFromChartSection(
+    auto bpm_changes_internal = RhythmGameUtilities::ParseBpmFromChartSection(
         convert_section_to_section_internal(section));
 
-    Dictionary bpm;
+    Array bpm_changes;
 
-    for (auto const &[key, val] : bpm_internal)
+    for (auto &bpm_change_internal : bpm_changes_internal)
     {
-        bpm[key] = bpm_internal[key];
+        Dictionary bpm_change;
+
+        bpm_change["position"] = bpm_change_internal.Position;
+        bpm_change["bpm"] = bpm_change_internal.BPM;
+
+        bpm_changes.append(bpm_change);
     }
 
-    return bpm;
+    return bpm_changes;
 }
 
 Dictionary rhythm_game_utilities::parse_lyrics_from_chart_section(Array section)
@@ -199,9 +204,9 @@ Array rhythm_game_utilities::parse_notes_from_chart_section(Array section)
     {
         Dictionary note;
 
+        note["position"] = note_internal.Position;
         note["hand_position"] = note_internal.HandPosition;
         note["length"] = note_internal.Length;
-        note["position"] = note_internal.Position;
 
         notes.append(note);
     }
@@ -209,18 +214,24 @@ Array rhythm_game_utilities::parse_notes_from_chart_section(Array section)
     return notes;
 }
 
-Dictionary
-rhythm_game_utilities::parse_time_signatures_from_chart_section(Array section)
+Array rhythm_game_utilities::parse_time_signatures_from_chart_section(
+    Array section)
 {
     auto time_signatures_internal =
         RhythmGameUtilities::ParseTimeSignaturesFromChartSection(
             convert_section_to_section_internal(section));
 
-    Dictionary time_signatures;
+    Array time_signatures;
 
-    for (auto const &[key, val] : time_signatures_internal)
+    for (auto &time_signature_internal : time_signatures_internal)
     {
-        time_signatures[key] = time_signatures_internal[key];
+        Dictionary time_signature;
+
+        time_signature["position"] = time_signature_internal.Position;
+        time_signature["numerator"] = time_signature_internal.Numerator;
+        time_signature["denominator"] = time_signature_internal.Denominator;
+
+        time_signatures.append(time_signature);
     }
 
     return time_signatures;
@@ -228,12 +239,51 @@ rhythm_game_utilities::parse_time_signatures_from_chart_section(Array section)
 
 // Utilities
 
-int rhythm_game_utilities::convert_seconds_to_ticks(float seconds,
-                                                    int resolution,
-                                                    Dictionary bpm_changes)
+int rhythm_game_utilities::convert_seconds_to_ticks(
+    float seconds, int resolution, Array bpm_changes,
+    Array time_signature_changes)
 {
+    std::vector<RhythmGameUtilities::Tempo> bpm_changes_internal;
+    bpm_changes_internal.reserve(bpm_changes.size());
+
+    for (auto i = 0; i < bpm_changes.size(); i += 1)
+    {
+        RhythmGameUtilities::Tempo bpm_change;
+
+        if (bpm_changes[i].get_type() == Variant::DICTIONARY)
+        {
+            Dictionary variant = bpm_changes[i];
+
+            bpm_change.Position = variant["position"];
+            bpm_change.BPM = variant["bpm"];
+        }
+
+        bpm_changes_internal.push_back(bpm_change);
+    }
+
+    std::vector<RhythmGameUtilities::TimeSignature>
+        time_signature_changes_internal;
+    time_signature_changes_internal.reserve(time_signature_changes.size());
+
+    for (auto i = 0; i < time_signature_changes.size(); i += 1)
+    {
+        RhythmGameUtilities::TimeSignature time_signature;
+
+        if (time_signature_changes[i].get_type() == Variant::DICTIONARY)
+        {
+            Dictionary variant = time_signature_changes[i];
+
+            time_signature.Position = variant["position"];
+            time_signature.Numerator = variant["numerator"];
+            time_signature.Denominator = variant["denominator"];
+        }
+
+        time_signature_changes_internal.push_back(time_signature);
+    }
+
     return RhythmGameUtilities::ConvertSecondsToTicks(
-        seconds, resolution, convert_dictionary_to_map<int, int>(bpm_changes));
+        seconds, resolution, bpm_changes_internal,
+        time_signature_changes_internal);
 }
 
 float rhythm_game_utilities::convert_tick_to_position(int tick, int resolution)
@@ -262,13 +312,30 @@ float rhythm_game_utilities::calculate_accuracy_ratio(int position,
                                                        current_position, delta);
 }
 
-Array rhythm_game_utilities::calculate_beat_bars(Dictionary bpm_changes,
+Array rhythm_game_utilities::calculate_beat_bars(Array bpm_changes,
                                                  int resolution, int ts,
                                                  bool include_half_notes)
 {
+    std::vector<RhythmGameUtilities::Tempo> bpm_changes_internal;
+    bpm_changes_internal.reserve(bpm_changes.size());
+
+    for (auto i = 0; i < bpm_changes.size(); i += 1)
+    {
+        RhythmGameUtilities::Tempo bpm_change;
+
+        if (bpm_changes[i].get_type() == Variant::DICTIONARY)
+        {
+            Dictionary variant = bpm_changes[i];
+
+            bpm_change.Position = variant["position"];
+            bpm_change.BPM = variant["bpm"];
+        }
+
+        bpm_changes_internal.push_back(bpm_change);
+    }
+
     auto beat_bars = RhythmGameUtilities::CalculateBeatBars(
-        convert_dictionary_to_map<int, int>(bpm_changes), resolution, ts,
-        include_half_notes);
+        bpm_changes_internal, resolution, ts, include_half_notes);
 
     Array beat_bars_dictionary_array;
 
