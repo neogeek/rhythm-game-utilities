@@ -303,7 +303,7 @@ using namespace RhythmGameUtilities;
 
 int main()
 {
-    auto content = ReadStringFromFile("./tests/Mocks/song.chart");
+    auto content = ReadStringFromFile("./song.chart");
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
@@ -322,7 +322,7 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var file = FileAccess.open("res://song.chart", FileAccess.READ)
 	var content = file.get_as_text()
 
 	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
@@ -361,7 +361,7 @@ using namespace RhythmGameUtilities;
 
 int main()
 {
-    auto content = ReadStringFromFile("./tests/Mocks/song.chart");
+    auto content = ReadStringFromFile("./song.chart");
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
@@ -380,7 +380,7 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var file = FileAccess.open("res://song.chart", FileAccess.READ)
 	var content = file.get_as_text()
 
 	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
@@ -421,7 +421,7 @@ using namespace RhythmGameUtilities;
 
 int main()
 {
-    auto content = ReadStringFromFile("./tests/Mocks/song.chart");
+    auto content = ReadStringFromFile("./song.chart");
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
@@ -442,7 +442,7 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var file = FileAccess.open("res://song.chart", FileAccess.READ)
 	var content = file.get_as_text()
 
 	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
@@ -481,7 +481,7 @@ using namespace RhythmGameUtilities;
 
 int main()
 {
-    auto content = ReadStringFromFile("./tests/Mocks/song.chart");
+    auto content = ReadStringFromFile("./song.chart");
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
@@ -508,7 +508,7 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var file = FileAccess.open("res://song.chart", FileAccess.READ)
 	var content = file.get_as_text()
 
 	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
@@ -545,7 +545,7 @@ using namespace RhythmGameUtilities;
 
 int main()
 {
-    auto content = ReadStringFromFile("./tests/Mocks/song.chart");
+    auto content = ReadStringFromFile("./song.chart");
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
@@ -561,7 +561,7 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var file = FileAccess.open("res://song.chart", FileAccess.READ)
 	var content = file.get_as_text()
 
 	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
@@ -598,7 +598,7 @@ using namespace RhythmGameUtilities;
 
 int main()
 {
-    auto content = ReadStringFromFile("./tests/Mocks/song.chart");
+    auto content = ReadStringFromFile("./song.chart");
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
@@ -617,7 +617,7 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.txt", FileAccess.READ)
+	var file = FileAccess.open("res://song.chart", FileAccess.READ)
 	var content = file.get_as_text()
 
 	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
