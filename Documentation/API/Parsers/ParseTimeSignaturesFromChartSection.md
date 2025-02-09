@@ -12,7 +12,7 @@ var sections = Parsers.ParseSectionsFromChart(contents);
 
 var timeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
 
-Console.WriteLine(timeSignatures.Count); // 4
+Console.WriteLine(timeSignatures.Length); // 4
 ```
 
 ##### C++

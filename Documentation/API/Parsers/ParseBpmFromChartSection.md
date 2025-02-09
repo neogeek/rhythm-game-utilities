@@ -12,7 +12,7 @@ var sections = Parsers.ParseSectionsFromChart(contents);
 
 var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
 
-Console.WriteLine(bpm.Count); // 7
+Console.WriteLine(bpm.Length); // 7
 ```
 
 ##### C++

@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 
 namespace RhythmGameUtilities
@@ -38,9 +36,8 @@ namespace RhythmGameUtilities
         public const float SECONDS_PER_MINUTE = 60.0f;
 
         /// <summary>
-        /// Convert a tick to a 2D/3D position.
+        ///     Convert a tick to a 2D/3D position.
         /// </summary>
-        ///
         /// <param name="tick">The tick.</param>
         /// <param name="resolution">The resolution of the song.</param>
         public static float ConvertTickToPosition(int tick, int resolution)
@@ -49,9 +46,8 @@ namespace RhythmGameUtilities
         }
 
         /// <summary>
-        /// Convert seconds to ticks.
+        ///     Convert seconds to ticks.
         /// </summary>
-        ///
         /// <param name="seconds">The seconds to generate ticks with.</param>
         /// <param name="resolution">The resolution of the song.</param>
         /// <param name="bpmChanges">All BPM changes within the song.</param>
@@ -64,9 +60,8 @@ namespace RhythmGameUtilities
         }
 
         /// <summary>
-        /// Checks to see if the current time of a game or audio file is on the beat.
+        ///     Checks to see if the current time of a game or audio file is on the beat.
         /// </summary>
-        ///
         /// <param name="bpm">The base BPM for a song.</param>
         /// <param name="currentTime">A timestamp to compare to the BPM.</param>
         /// <param name="delta">The plus/minus delta to test the current time against.</param>
@@ -76,9 +71,8 @@ namespace RhythmGameUtilities
         }
 
         /// <summary>
-        /// Rounds a value up the nearest multiplier.
+        ///     Rounds a value up the nearest multiplier.
         /// </summary>
-        ///
         /// <param name="value">The value to round.</param>
         /// <param name="multiplier">The multiplier to round using.</param>
         public static int RoundUpToTheNearestMultiplier(int value, int multiplier)
@@ -139,9 +133,8 @@ namespace RhythmGameUtilities
         }
 
         /// <summary>
-        /// Calculated the accuracy ratio of the current position against a static position.
+        ///     Calculated the accuracy ratio of the current position against a static position.
         /// </summary>
-        ///
         /// <param name="position">The position to test against.</param>
         /// <param name="currentPosition">The current position.</param>
         /// <param name="delta">The plus/minus delta to test the current position against.</param>

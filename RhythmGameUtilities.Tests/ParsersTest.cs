@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework;
 
 namespace RhythmGameUtilities.Tests
@@ -7,9 +8,63 @@ namespace RhythmGameUtilities.Tests
     {
 
         [Test]
+        public void TestParseBpmFromChartSection()
+        {
+            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+
+            var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
+
+            Console.WriteLine(bpm.Length); // 7
+
+            Assert.That(bpm.Length, Is.EqualTo(7));
+        }
+
+        [Test]
+        public void TestParseLyricsFromChartSection()
+        {
+            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+
+            var lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.Events]);
+
+            Console.WriteLine(lyrics.Count); // 12
+
+            Assert.That(lyrics.Count, Is.EqualTo(12));
+        }
+
+        [Test]
+        public void TestParseMetaDataFromChartSection()
+        {
+            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+
+            var metaData = Parsers.ParseMetaDataFromChartSection(sections[NamedSection.Song]);
+
+            Console.WriteLine(metaData["Name"]); // Example Song
+            Console.WriteLine(metaData["Resolution"]); // 192
+            Console.WriteLine(metaData["MusicStream"]); // Example Song.ogg
+
+            Assert.That(metaData["Name"], Is.EqualTo("Example Song"));
+            Assert.That(metaData["Resolution"], Is.EqualTo("192"));
+            Assert.That(metaData["MusicStream"], Is.EqualTo("Example Song.ogg"));
+        }
+
+        [Test]
+        public void TestParseNotesFromChartSection()
+        {
+            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+
+            var notes = Parsers.ParseNotesFromChartSection(sections[$"{Difficulty.Expert}Single"]);
+
+            Assert.That(notes.Length, Is.EqualTo(8));
+        }
+
+        [Test]
         public void TestParseSectionsFromChart()
         {
             var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+
+            Console.WriteLine(sections.Count); // 4
+
+            Assert.That(sections.Count, Is.EqualTo(4));
 
             Assert.That(sections.ContainsKey(NamedSection.Song), Is.True);
             Assert.That(sections["Song"].Length, Is.EqualTo(12));
@@ -19,6 +74,16 @@ namespace RhythmGameUtilities.Tests
             Assert.That(sections[NamedSection.Events].Length, Is.EqualTo(16));
             Assert.That(sections.ContainsKey("ExpertSingle"), Is.True);
             Assert.That(sections["ExpertSingle"].Length, Is.EqualTo(11));
+        }
+
+        [Test]
+        public void TestParseTimeSignaturesFromChartSection()
+        {
+            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+
+            var timeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
+
+            Assert.That(timeSignatures.Length, Is.EqualTo(4));
         }
 
         [Test]
@@ -33,58 +98,6 @@ namespace RhythmGameUtilities.Tests
             Assert.That(sections[NamedSection.Song][6].Value[0], Is.EqualTo("192"));
             Assert.That(sections[NamedSection.Song][11].Key, Is.EqualTo("MusicStream"));
             Assert.That(sections[NamedSection.Song][11].Value[0], Is.EqualTo("Example Song.ogg"));
-        }
-
-        [Test]
-        public void TestParseMetaDataFromChartSection()
-        {
-            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
-
-            var data = Parsers.ParseMetaDataFromChartSection(sections[NamedSection.Song]);
-
-            Assert.That(data["Name"], Is.EqualTo("Example Song"));
-            Assert.That(data["Resolution"], Is.EqualTo("192"));
-            Assert.That(data["MusicStream"], Is.EqualTo("Example Song.ogg"));
-        }
-
-        [Test]
-        public void TestParseTimeSignaturesFromChartSection()
-        {
-            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
-
-            var timeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
-
-            Assert.That(timeSignatures.Length, Is.EqualTo(4));
-        }
-
-        [Test]
-        public void TestParseBpmFromChartSection()
-        {
-            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
-
-            var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
-
-            Assert.That(bpm.Count, Is.EqualTo(7));
-        }
-
-        [Test]
-        public void TestParseNotesFromChartSection()
-        {
-            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
-
-            var notes = Parsers.ParseNotesFromChartSection(sections[$"{Difficulty.Expert}Single"]);
-
-            Assert.That(notes.Length, Is.EqualTo(8));
-        }
-
-        [Test]
-        public void TestParseLyricsFromChartSection()
-        {
-            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
-
-            var lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.Events]);
-
-            Assert.That(lyrics.Count, Is.EqualTo(12));
         }
 
     }

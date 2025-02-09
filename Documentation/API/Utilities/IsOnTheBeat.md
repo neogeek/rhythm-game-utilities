@@ -12,10 +12,9 @@ const int bpm = 120;
 const float currentTime = 10f;
 const float delta = 0.05f;
 
-if (Utilities.IsOnTheBeat(bpm, currentTime, delta))
-{
-    Console.WriteLine("Is on the beat!");
-}
+var isOnTheBeat = Utilities.IsOnTheBeat(bpm, currentTime, delta);
+
+Console.WriteLine(isOnTheBeat ? "Is on the beat!" : "Is not on the beat!"); // "Is on the beat!"
 ```
 
 ##### C++
@@ -30,13 +29,13 @@ using namespace RhythmGameUtilities;
 int main()
 {
     const int bpm = 120;
-    const float currentTime = 10f;
+    const float currentTime = 10;
     const float delta = 0.05f;
 
-    if (IsOnTheBeat(bpm, currentTime, delta))
-    {
-        std::cout << "Is on the beat!" << std::endl;
-    }
+    auto isOnTheBeat = IsOnTheBeat(bpm, currentTime, delta);
+
+    std::cout << (isOnTheBeat ? "Is on the beat!" : "Is not on the beat!")
+              << std::endl; // "Is on the beat!"
 
     return 0;
 }
@@ -52,6 +51,10 @@ func _ready() -> void:
 	var current_time = 10
 	var delta = 0.05
 
-	if rhythm_game_utilities.is_on_the_beat(bpm, current_time, delta):
+	var isOnTheBeat = rhythm_game_utilities.is_on_the_beat(bpm, current_time, delta)
+
+	if isOnTheBeat: # "Is on the beat!"
 		print("Is on the beat!")
+	else:
+		print("Is not on the beat!")
 ```

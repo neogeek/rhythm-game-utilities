@@ -14,7 +14,10 @@ namespace RhythmGameUtilities
 
         public int Length;
 
-        public override int GetHashCode() => (Position, HandPosition, Length).GetHashCode();
+        public override int GetHashCode()
+        {
+            return (Position, HandPosition, Length).GetHashCode();
+        }
 
         public bool Equals(Note other)
         {

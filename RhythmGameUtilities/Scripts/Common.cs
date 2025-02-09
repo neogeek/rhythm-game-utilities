@@ -18,9 +18,8 @@ namespace RhythmGameUtilities
     {
 
         /// <summary>
-        /// Calculates the linear interpolation between two values.
+        ///     Calculates the linear interpolation between two values.
         /// </summary>
-        ///
         /// <param name="a">The start value.</param>
         /// <param name="b">The end value.</param>
         /// <param name="t">The value used for interpolation.</param>
@@ -30,9 +29,8 @@ namespace RhythmGameUtilities
         }
 
         /// <summary>
-        /// Calculates the fraction, based on a value between two values.
+        ///     Calculates the fraction, based on a value between two values.
         /// </summary>
-        ///
         /// <param name="a">The start value.</param>
         /// <param name="b">The end value.</param>
         /// <param name="v">The value in the middle.</param>
