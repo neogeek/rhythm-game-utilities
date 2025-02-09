@@ -69,6 +69,58 @@ auto contents = R"([Song]
   1248 = E soloend
 })";
 
+void testParseBpmFromChartSection()
+{
+    auto sections = ParseSectionsFromChart(contents);
+
+    auto bpm = ParseBpmFromChartSection(
+        sections.at(ToString(NamedSection::SyncTrack)));
+
+    assert(bpm.size() == 7);
+
+    std::cout << ".";
+}
+
+void testParseLyricsFromChartSection()
+{
+    auto sections = ParseSectionsFromChart(contents);
+
+    auto lyrics = ParseLyricsFromChartSection(
+        sections.at(ToString(NamedSection::Events)));
+
+    assert(lyrics.size() == 12);
+
+    std::cout << ".";
+}
+
+void testParseMetaDataFromChartSection()
+{
+    auto sections = ParseSectionsFromChart(contents);
+
+    auto metaData = ParseMetaDataFromChartSection(
+        sections.at(ToString(NamedSection::Song)));
+
+    assert(metaData.size() == 12);
+
+    assert(metaData.at("Name") == "Example Song");
+    assert(metaData.at("Resolution") == "192");
+    assert(metaData.at("MusicStream") == "Example Song.ogg");
+
+    std::cout << ".";
+}
+
+void testParseNotesFromChartSection()
+{
+    auto sections = ParseSectionsFromChart(contents);
+
+    auto notes = ParseNotesFromChartSection(
+        sections.at(ToString(Difficulty::Expert) + "Single"));
+
+    assert(notes.size() == 8);
+
+    std::cout << ".";
+}
+
 void testParseSectionsFromChart()
 {
     auto sections = ParseSectionsFromChart(contents);
@@ -83,9 +135,23 @@ void testParseSectionsFromChart()
     std::cout << ".";
 }
 
+void testParseTimeSignaturesFromChartSection()
+{
+    auto sections = ParseSectionsFromChart(contents);
+
+    auto timeSignatures = ParseTimeSignaturesFromChartSection(
+        sections.at(ToString(NamedSection::SyncTrack)));
+
+    assert(timeSignatures.size() == 4);
+
+    std::cout << ".";
+}
+
 void testParseValuesFromChartSection()
 {
     auto sections = ParseSectionsFromChart(contents);
+
+    assert(sections.size() == 4);
 
     auto values = sections.at(ToString(NamedSection::Song));
 
@@ -103,80 +169,16 @@ void testParseValuesFromChartSection()
     std::cout << ".";
 }
 
-void testParseMetaDataFromChartSection()
-{
-    auto sections = ParseSectionsFromChart(contents);
-
-    auto lines = ParseMetaDataFromChartSection(
-        sections.at(ToString(NamedSection::Song)));
-
-    assert(lines.size() == 12);
-
-    assert(lines.at("Name") == "Example Song");
-    assert(lines.at("Resolution") == "192");
-    assert(lines.at("MusicStream") == "Example Song.ogg");
-
-    std::cout << ".";
-}
-
-void testParseTimeSignaturesFromChartSection()
-{
-    auto sections = ParseSectionsFromChart(contents);
-
-    auto lines = ParseTimeSignaturesFromChartSection(
-        sections.at(ToString(NamedSection::SyncTrack)));
-
-    assert(lines.size() == 4);
-
-    std::cout << ".";
-}
-
-void testParseBpmFromChartSection()
-{
-    auto sections = ParseSectionsFromChart(contents);
-
-    auto lines = ParseBpmFromChartSection(
-        sections.at(ToString(NamedSection::SyncTrack)));
-
-    assert(lines.size() == 7);
-
-    std::cout << ".";
-}
-
-void testParseNotesFromChartSection()
-{
-    auto sections = ParseSectionsFromChart(contents);
-
-    auto lines = ParseNotesFromChartSection(
-        sections.at(ToString(Difficulty::Expert) + "Single"));
-
-    assert(lines.size() == 8);
-
-    std::cout << ".";
-}
-
-void testParseLyricsFromChartSection()
-{
-    auto sections = ParseSectionsFromChart(contents);
-
-    auto lines = ParseLyricsFromChartSection(
-        sections.at(ToString(NamedSection::Events)));
-
-    assert(lines.size() == 12);
-
-    std::cout << ".";
-}
-
 int main()
 {
-    testParseSectionsFromChart();
-    testParseValuesFromChartSection();
-
-    testParseMetaDataFromChartSection();
-    testParseTimeSignaturesFromChartSection();
     testParseBpmFromChartSection();
-    testParseNotesFromChartSection();
     testParseLyricsFromChartSection();
+    testParseMetaDataFromChartSection();
+    testParseNotesFromChartSection();
+    testParseSectionsFromChart();
+    testParseTimeSignaturesFromChartSection();
+
+    testParseValuesFromChartSection();
 
     return 0;
 }

@@ -106,14 +106,16 @@ namespace RhythmGameUtilities
         public static Dictionary<string, string> ParseMetaDataFromChartSection(
             KeyValuePair<string, string[]>[] section)
         {
-            return section.ToDictionary(item => item.Key, x => x.Value.First());
+            return section.Where(item => item.Value.Length >= 1)
+                .ToDictionary(item => item.Key, x => x.Value[0]);
         }
 
         public static TimeSignature[] ParseTimeSignaturesFromChartSection(
             KeyValuePair<string, string[]>[] section)
         {
             return section
-                .Where(item => item.Value.Length >= 2 && item.Value.First() == TypeCode.TimeSignatureMarker).Select(
+                .Where(item => item.Value.Length >= 2 && item.Value[0] == TypeCode.TimeSignatureMarker)
+                .OrderBy(item => int.Parse(item.Key)).Select(
                     item => new TimeSignature
                     {
                         Position = int.Parse(item.Key),
@@ -122,20 +124,20 @@ namespace RhythmGameUtilities
                     }).ToArray();
         }
 
-        public static Dictionary<int, int> ParseBpmFromChartSection(
+        public static Tempo[] ParseBpmFromChartSection(
             KeyValuePair<string, string[]>[] section)
         {
             return section
                 .Where(item => item.Value[0] == TypeCode.BPM_Marker)
                 .Select(item => new KeyValuePair<int, int>(int.Parse(item.Key), int.Parse(item.Value.Skip(1).First())))
-                .OrderBy(item => item.Key)
-                .ToDictionary(item => item.Key, x => x.Value);
+                .OrderBy(item => item.Key).Select(
+                    item => new Tempo { Position = item.Key, BPM = item.Value }).ToArray();
         }
 
         public static Note[] ParseNotesFromChartSection(KeyValuePair<string, string[]>[] section)
         {
             return section
-                .Where(item => item.Value.Length == 3 && item.Value.First() == TypeCode.NoteMarker).Select(
+                .Where(item => item.Value.Length == 3 && item.Value[0] == TypeCode.NoteMarker).Select(
                     item => new Note
                     {
                         Position = int.Parse(item.Key),
@@ -148,7 +150,7 @@ namespace RhythmGameUtilities
             KeyValuePair<string, string[]>[] section)
         {
             return section
-                .Where(item => item.Value.First() == TypeCode.EventMarker)
+                .Where(item => item.Value[0] == TypeCode.EventMarker)
                 .Select(
                     item => new KeyValuePair<int, string>(int.Parse(item.Key),
                         JSON_VALUE_PATTERN.Matches(item.Value.Skip(1).First()).Select(part => part.Value.Trim('"'))

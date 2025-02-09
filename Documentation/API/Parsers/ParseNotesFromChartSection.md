@@ -12,7 +12,7 @@ var sections = Parsers.ParseSectionsFromChart(contents);
 
 var notes = Parsers.ParseNotesFromChartSection(sections[$"{Difficulty.Expert}Single"]);
 
-Console.WriteLine(notes.Count); // 8
+Console.WriteLine(notes.Length); // 8
 ```
 
 ##### C++

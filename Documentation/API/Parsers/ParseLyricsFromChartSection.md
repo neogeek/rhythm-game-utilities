@@ -12,7 +12,7 @@ var sections = Parsers.ParseSectionsFromChart(contents);
 
 var lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.Events]);
 
-Console.WriteLine(notes.Count); // 12
+Console.WriteLine(lyrics.Count); // 12
 ```
 
 ##### C++
