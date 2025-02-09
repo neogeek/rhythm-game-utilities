@@ -924,7 +924,7 @@ func _ready() -> void:
 	print(position) # 5.5
 ```
 
-# FindPositionNearGivenTick
+#### `Utilities.FindPositionNearGivenTick`
 
 > Languages: `C#` `C++` `GDScript`
 
