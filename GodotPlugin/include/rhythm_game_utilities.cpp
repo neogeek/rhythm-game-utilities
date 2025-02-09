@@ -248,17 +248,17 @@ int rhythm_game_utilities::convert_seconds_to_ticks(
 
     for (auto i = 0; i < bpm_changes.size(); i += 1)
     {
-        RhythmGameUtilities::Tempo bpm_change;
+        RhythmGameUtilities::Tempo bpm_change_internal;
 
         if (bpm_changes[i].get_type() == Variant::DICTIONARY)
         {
             Dictionary variant = bpm_changes[i];
 
-            bpm_change.Position = variant["position"];
-            bpm_change.BPM = variant["bpm"];
+            bpm_change_internal.Position = variant["position"];
+            bpm_change_internal.BPM = variant["bpm"];
         }
 
-        bpm_changes_internal.push_back(bpm_change);
+        bpm_changes_internal.push_back(bpm_change_internal);
     }
 
     std::vector<RhythmGameUtilities::TimeSignature>
@@ -267,18 +267,18 @@ int rhythm_game_utilities::convert_seconds_to_ticks(
 
     for (auto i = 0; i < time_signature_changes.size(); i += 1)
     {
-        RhythmGameUtilities::TimeSignature time_signature;
+        RhythmGameUtilities::TimeSignature time_signature_internal;
 
         if (time_signature_changes[i].get_type() == Variant::DICTIONARY)
         {
             Dictionary variant = time_signature_changes[i];
 
-            time_signature.Position = variant["position"];
-            time_signature.Numerator = variant["numerator"];
-            time_signature.Denominator = variant["denominator"];
+            time_signature_internal.Position = variant["position"];
+            time_signature_internal.Numerator = variant["numerator"];
+            time_signature_internal.Denominator = variant["denominator"];
         }
 
-        time_signature_changes_internal.push_back(time_signature);
+        time_signature_changes_internal.push_back(time_signature_internal);
     }
 
     return RhythmGameUtilities::ConvertSecondsToTicks(
@@ -321,30 +321,30 @@ Array rhythm_game_utilities::calculate_beat_bars(Array bpm_changes,
 
     for (auto i = 0; i < bpm_changes.size(); i += 1)
     {
-        RhythmGameUtilities::Tempo bpm_change;
+        RhythmGameUtilities::Tempo bpm_change_internal;
 
         if (bpm_changes[i].get_type() == Variant::DICTIONARY)
         {
             Dictionary variant = bpm_changes[i];
 
-            bpm_change.Position = variant["position"];
-            bpm_change.BPM = variant["bpm"];
+            bpm_change_internal.Position = variant["position"];
+            bpm_change_internal.BPM = variant["bpm"];
         }
 
-        bpm_changes_internal.push_back(bpm_change);
+        bpm_changes_internal.push_back(bpm_change_internal);
     }
 
-    auto beat_bars = RhythmGameUtilities::CalculateBeatBars(
+    auto beat_bars_internal = RhythmGameUtilities::CalculateBeatBars(
         bpm_changes_internal, resolution, ts, include_half_notes);
 
     Array beat_bars_dictionary_array;
 
-    for (auto &beat_bar : beat_bars)
+    for (auto &beat_bar_internal : beat_bars_internal)
     {
         Dictionary beat_bar_dictionary;
 
-        beat_bar_dictionary["position"] = beat_bar.Position;
-        beat_bar_dictionary["bpm"] = beat_bar.BPM;
+        beat_bar_dictionary["position"] = beat_bar_internal.Position;
+        beat_bar_dictionary["bpm"] = beat_bar_internal.BPM;
 
         beat_bars_dictionary_array.append(beat_bar_dictionary);
     }
