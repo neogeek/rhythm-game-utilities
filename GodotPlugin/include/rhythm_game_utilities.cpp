@@ -343,8 +343,8 @@ Array rhythm_game_utilities::calculate_beat_bars(Array bpm_changes,
     {
         Dictionary beat_bar_dictionary;
 
-        beat_bar_dictionary["bpm"] = beat_bar.BPM;
         beat_bar_dictionary["position"] = beat_bar.Position;
+        beat_bar_dictionary["bpm"] = beat_bar.BPM;
 
         beat_bars_dictionary_array.append(beat_bar_dictionary);
     }
