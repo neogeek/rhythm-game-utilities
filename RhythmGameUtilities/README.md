@@ -852,7 +852,7 @@ func _ready() -> void:
 	var resolution = 192
 
 	var bpm_changes = [
-		{"position": 0, "bpm": 8800 },
+		{"position": 0, "bpm": 88000 },
 		{"position": 3840, "bpm": 112000 },
 		{"position": 9984, "bpm": 89600 },
 		{"position": 22272, "bpm": 112000 },
