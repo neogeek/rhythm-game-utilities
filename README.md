@@ -982,6 +982,7 @@ extends Node
 func _ready() -> void:
 	var seconds = 5
 	var resolution = 192
+	var delta = 50
 
 	var notes = [
 		{"position": 768 }, {"position": 960 }, {"position": 1152 },
@@ -990,7 +991,7 @@ func _ready() -> void:
 		{"position": 3072 }, {"position": 3264 }
 	]
 
-	var note = rhythm_game_utilities.find_position_near_given_tick(notes, 750);
+	var note = rhythm_game_utilities.find_position_near_given_tick(notes, 750, delta);
 
 	print(note["position"]) # 768
 ```
