@@ -53,13 +53,15 @@ public class RenderSong : MonoBehaviour
 
     public int resolution { get; set; } = 192;
 
-    public Dictionary<int, int> bpm { get; set; }
+    public Tempo[] bpmChanges { get; set; }
+
+    public TimeSignature[] timeSignatureChanges { get; set; }
 
     public Dictionary<Difficulty, Note[]> difficulties { get; set; }
 
     public Dictionary<int, List<Note>> notesGroupedByHandPosition { get; set; }
 
-    public List<BeatBar> beatBars { get; set; }
+    public BeatBar[] beatBars { get; set; }
 
     private async void Start()
     {
@@ -79,12 +81,23 @@ public class RenderSong : MonoBehaviour
 
         resolution = int.Parse(metadata["Resolution"]);
 
-        bpm = Parsers.ParseBpmFromChartSection(sections.First(section => section.Key == NamedSection.SyncTrack)
+        bpmChanges = Parsers.ParseBpmFromChartSection(sections.First(section => section.Key == NamedSection.SyncTrack)
             .Value);
 
-        var lastTick = Utilities.ConvertSecondsToTicks(_audioSource.clip.length, resolution, bpm);
+        timeSignatureChanges = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
 
-        bpm.TryAdd(Utilities.RoundUpToTheNearestMultiplier(lastTick, resolution), bpm.Last().Value);
+        var lastTick =
+            Utilities.ConvertSecondsToTicks(_audioSource.clip.length, resolution, bpmChanges, timeSignatureChanges);
+
+        bpmChanges = bpmChanges.Concat(new Tempo[]
+            {
+                new()
+                {
+                    Position = Utilities.RoundUpToTheNearestMultiplier(lastTick, resolution),
+                    BPM = bpmChanges.Last().BPM
+                }
+            })
+            .ToArray();
 
         difficulties = Enum.GetValues(typeof(Difficulty))
             .Cast<Difficulty>()
@@ -98,7 +111,7 @@ public class RenderSong : MonoBehaviour
             .GroupBy(note => note.HandPosition)
             .ToDictionary(group => group.Key, group => group.ToList());
 
-        beatBars = Utilities.CalculateBeatBars(bpm, includeHalfNotes : true);
+        beatBars = Utilities.CalculateBeatBars(bpmChanges, includeHalfNotes : true);
 
         _audioSource.Play();
     }
@@ -154,7 +167,7 @@ public class RenderSong : MonoBehaviour
         }
 
         var tickOffset =
-            Utilities.ConvertSecondsToTicks(_audioSource.time, resolution, bpm);
+            Utilities.ConvertSecondsToTicks(_audioSource.time, resolution, bpmChanges, timeSignatureChanges);
 
         RenderHitNotes(notesGroupedByHandPosition);
 
@@ -218,13 +231,13 @@ public class RenderSong : MonoBehaviour
         }
     }
 
-    private void RenderBeatBars(List<BeatBar> beatBars, int resolution, int tickOffset)
+    private void RenderBeatBars(BeatBar[] beatBars, int resolution, int tickOffset)
     {
         var beatBarMatrix = new List<Matrix4x4>();
         var beatBarHalfMatrix = new List<Matrix4x4>();
         var beatBarQuarterMatrix = new List<Matrix4x4>();
 
-        for (var x = 0; x < beatBars.Count; x += 1)
+        for (var x = 0; x < beatBars.Length; x += 1)
         {
             var position = Utilities.ConvertTickToPosition(beatBars[x].Position - tickOffset, resolution) *
                            _scale;
