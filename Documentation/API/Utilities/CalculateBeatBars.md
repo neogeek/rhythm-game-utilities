@@ -5,7 +5,7 @@
 ##### C#
 
 ```csharp
-var bpmChanges = new Tempo[]
+var tempoChanges = new Tempo[]
 {
     new() { Position = 0, BPM = 88000 }, new() { Position = 3840, BPM = 112000 },
     new() { Position = 9984, BPM = 89600 }, new() { Position = 22272, BPM = 112000 },
@@ -13,7 +13,7 @@ var bpmChanges = new Tempo[]
     new() { Position = 42240, BPM = 111980 }
 };
 
-var beatBars = Utilities.CalculateBeatBars(bpmChanges);
+var beatBars = Utilities.CalculateBeatBars(tempoChanges);
 
 Console.WriteLine(beatBars.Length); // 440
 ```
@@ -32,12 +32,12 @@ int main()
     const int resolution = 192;
     const int timeSignature = 4;
 
-    std::vector<Tempo> bpmChanges = {
+    std::vector<Tempo> tempoChanges = {
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
     auto beatBars =
-        CalculateBeatBars(bpmChanges, resolution, timeSignature, true);
+        CalculateBeatBars(tempoChanges, resolution, timeSignature, true);
 
     std::cout << size(beatBars) << std::endl; // 440
 
@@ -54,7 +54,7 @@ func _ready() -> void:
 	var resolution = 192
 	var time_signature = 4
 
-	var bpm_changes = [
+	var tempo_changes = [
 		{"position": 0, "bpm": 8800 },
 		{"position": 3840, "bpm": 112000 },
 		{"position": 9984, "bpm": 89600 },
@@ -64,7 +64,7 @@ func _ready() -> void:
 		{"position": 42240, "bpm": 111980 }
 	]
 
-	var beat_bars = rhythm_game_utilities.calculate_beat_bars(bpm_changes, resolution, time_signature, true)
+	var beat_bars = rhythm_game_utilities.calculate_beat_bars(tempo_changes, resolution, time_signature, true)
 
 	print(beat_bars)
 ```

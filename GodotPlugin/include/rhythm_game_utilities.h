@@ -24,7 +24,7 @@ class rhythm_game_utilities : public Object
 
     // Parsers
 
-    static Array parse_bpm_from_chart_section(Array section);
+    static Array parse_tempo_changes_from_chart_section(Array section);
 
     static Dictionary parse_lyrics_from_chart_section(Array section);
 
@@ -34,18 +34,18 @@ class rhythm_game_utilities : public Object
 
     static Dictionary parse_sections_from_chart(String contents);
 
-    static Array parse_time_signatures_from_chart_section(Array section);
+    static Array parse_time_signature_changes_from_chart_section(Array section);
 
     // Utilities
 
     static float calculate_accuracy_ratio(int position, int current_position,
                                           int delta = 50);
 
-    static Array calculate_beat_bars(Array bpm_changes, int resolution, int ts,
-                                     bool include_half_notes);
+    static Array calculate_beat_bars(Array tempo_changes, int resolution,
+                                     int ts, bool include_half_notes);
 
     static int convert_seconds_to_ticks(float seconds, int resolution,
-                                        Array bpm_changes,
+                                        Array tempo_changes,
                                         Array time_signature_changes);
 
     static float convert_tick_to_position(int tick, int resolution);

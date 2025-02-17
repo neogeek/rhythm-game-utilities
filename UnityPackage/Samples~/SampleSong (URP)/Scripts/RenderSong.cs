@@ -53,7 +53,7 @@ public class RenderSong : MonoBehaviour
 
     public int resolution { get; set; } = 192;
 
-    public Tempo[] bpmChanges { get; set; }
+    public Tempo[] tempoChanges { get; set; }
 
     public TimeSignature[] timeSignatureChanges { get; set; }
 
@@ -81,20 +81,20 @@ public class RenderSong : MonoBehaviour
 
         resolution = int.Parse(metadata["Resolution"]);
 
-        bpmChanges = Parsers.ParseBpmFromChartSection(sections.First(section => section.Key == NamedSection.SyncTrack)
+        tempoChanges = Parsers.ParseTempoChangesFromChartSection(sections.First(section => section.Key == NamedSection.SyncTrack)
             .Value);
 
-        timeSignatureChanges = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
+        timeSignatureChanges = Parsers.ParseTimeSignatureChangesFromChartSection(sections[NamedSection.SyncTrack]);
 
         var lastTick =
-            Utilities.ConvertSecondsToTicks(_audioSource.clip.length, resolution, bpmChanges, timeSignatureChanges);
+            Utilities.ConvertSecondsToTicks(_audioSource.clip.length, resolution, tempoChanges, timeSignatureChanges);
 
-        bpmChanges = bpmChanges.Concat(new Tempo[]
+        tempoChanges = tempoChanges.Concat(new Tempo[]
             {
                 new()
                 {
                     Position = Utilities.RoundUpToTheNearestMultiplier(lastTick, resolution),
-                    BPM = bpmChanges.Last().BPM
+                    BPM = tempoChanges.Last().BPM
                 }
             })
             .ToArray();
@@ -111,7 +111,7 @@ public class RenderSong : MonoBehaviour
             .GroupBy(note => note.HandPosition)
             .ToDictionary(group => group.Key, group => group.ToList());
 
-        beatBars = Utilities.CalculateBeatBars(bpmChanges, includeHalfNotes : true);
+        beatBars = Utilities.CalculateBeatBars(tempoChanges, includeHalfNotes : true);
 
         _audioSource.Play();
     }
@@ -167,7 +167,7 @@ public class RenderSong : MonoBehaviour
         }
 
         var tickOffset =
-            Utilities.ConvertSecondsToTicks(_audioSource.time, resolution, bpmChanges, timeSignatureChanges);
+            Utilities.ConvertSecondsToTicks(_audioSource.time, resolution, tempoChanges, timeSignatureChanges);
 
         RenderHitNotes(notesGroupedByHandPosition);
 

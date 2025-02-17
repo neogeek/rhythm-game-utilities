@@ -40,12 +40,12 @@ _Prototype game built using these utilities._
      1. [InverseLerp](#commoninverselerp)
      1. [Lerp](#commonlerp)
   1. [Parsers](#parsers)
-     1. [ParseBpmFromChartSection](#parsersparsebpmfromchartsection)
+     1. [ParseTempoChangesFromChartSection](#parsersparsetempochangesfromchartsection)
      1. [ParseLyricsFromChartSection](#parsersparselyricsfromchartsection)
      1. [ParseMetaDataFromChartSection](#parsersparsemetadatafromchartsection)
      1. [ParseNotesFromChartSection](#parsersparsenotesfromchartsection)
      1. [ParseSectionsFromChart](#parsersparsesectionsfromchart)
-     1. [ParseTimeSignaturesFromChartSection](#parsersparsetimesignaturesfromchartsection)
+     1. [ParseTimeSignatureChangesFromChartSection](#parsersparsetimesignaturechangesfromchartsection)
   1. [Utilities](#utilities)
      1. [CalculateAccuracyRatio](#utilitiescalculateaccuracyratio)
      1. [CalculateBeatBars](#utilitiescalculatebeatbars)
@@ -274,64 +274,6 @@ func _ready() -> void:
 ### `Parsers`
 
 Read more about `.chart` files: <https://github.com/TheNathannator/GuitarGame_ChartFormats/blob/main/doc/FileFormats/.chart/Core%20Infrastructure.md>
-
-#### `Parsers.ParseBpmFromChartSection`
-
-> Languages: `C#` `C++` `GDScript`
-
-##### C#
-
-```csharp
-using System;
-using RhythmGameUtilities;
-
-var sections = Parsers.ParseSectionsFromChart(contents);
-
-var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
-
-Console.WriteLine(bpm.Length); // 7
-```
-
-##### C++
-
-```cpp
-#include <iostream>
-
-#include "RhythmGameUtilities/File.hpp"
-#include "RhythmGameUtilities/Parsers.hpp"
-
-using namespace RhythmGameUtilities;
-
-int main()
-{
-    auto content = ReadStringFromFile("./song.chart");
-
-    auto sections = ParseSectionsFromChart(content.c_str());
-
-    auto bpm = ParseBpmFromChartSection(
-        sections.at(ToString(NamedSection::SyncTrack)));
-
-    std::cout << size(bpm) << std::endl; // 7
-
-    return 0;
-}
-```
-
-##### GDScript
-
-```gdscript
-extends Node
-
-func _ready() -> void:
-	var file = FileAccess.open("res://song.chart", FileAccess.READ)
-	var content = file.get_as_text()
-
-	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
-
-	var bpm = rhythm_game_utilities.parse_bpm_from_chart_section(sections["SyncTrack"])
-
-	print(bpm)
-```
 
 #### `Parsers.ParseLyricsFromChartSection`
 
@@ -570,7 +512,7 @@ func _ready() -> void:
 	print(sections)
 ```
 
-#### `Parsers.ParseTimeSignaturesFromChartSection`
+#### `Parsers.ParseTempoChangesFromChartSection`
 
 > Languages: `C#` `C++` `GDScript`
 
@@ -582,9 +524,9 @@ using RhythmGameUtilities;
 
 var sections = Parsers.ParseSectionsFromChart(contents);
 
-var timeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
+var tempoChanges = Parsers.ParseTempoChangesFromChartSection(sections[NamedSection.SyncTrack]);
 
-Console.WriteLine(timeSignatures.Length); // 4
+Console.WriteLine(tempoChanges.Length); // 7
 ```
 
 ##### C++
@@ -603,10 +545,10 @@ int main()
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
-    auto timeSignatures = ParseTimeSignaturesFromChartSection(
+    auto tempoChanges = ParseTempoChangesFromChartSection(
         sections.at(ToString(NamedSection::SyncTrack)));
 
-    std::cout << size(timeSignatures) << std::endl; // 4
+    std::cout << size(tempoChanges) << std::endl; // 7
 
     return 0;
 }
@@ -623,9 +565,67 @@ func _ready() -> void:
 
 	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
 
-	var time_signatures = rhythm_game_utilities.parse_time_signatures_from_chart_section(sections["SyncTrack"])
+	var tempo_changes = rhythm_game_utilities.parse_tempo_changes_from_chart_section(sections["SyncTrack"])
 
-	print(time_signatures)
+	print(tempo_changes)
+```
+
+#### `Parsers.ParseTimeSignatureChangesFromChartSection`
+
+> Languages: `C#` `C++` `GDScript`
+
+##### C#
+
+```csharp
+using System;
+using RhythmGameUtilities;
+
+var sections = Parsers.ParseSectionsFromChart(contents);
+
+var timeSignatureChanges = Parsers.ParseTimeSignatureChangesFromChartSection(sections[NamedSection.SyncTrack]);
+
+Console.WriteLine(timeSignatureChanges.Length); // 4
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/File.hpp"
+#include "RhythmGameUtilities/Parsers.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto content = ReadStringFromFile("./song.chart");
+
+    auto sections = ParseSectionsFromChart(content.c_str());
+
+    auto timeSignatureChanges = ParseTimeSignatureChangesFromChartSection(
+        sections.at(ToString(NamedSection::SyncTrack)));
+
+    std::cout << size(timeSignatureChanges) << std::endl; // 4
+
+    return 0;
+}
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.chart", FileAccess.READ)
+	var content = file.get_as_text()
+
+	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+
+	var time_signature_changes = rhythm_game_utilities.parse_time_signatures_changes_from_chart_section(sections["SyncTrack"])
+
+	print(time_signature_changes)
 ```
 
 ### Utilities
@@ -644,14 +644,14 @@ const int seconds = 2;
 const int resolution = 192;
 const int positionDelta = 50;
 
-var bpmChanges = new Tempo[] { new() { Position = 0, BPM = 120000 } };
+var tempoChanges = new Tempo[] { new() { Position = 0, BPM = 120000 } };
 
 var timeSignatureChanges = new TimeSignature[] { new() { Position = 0, Numerator = 4, Denominator = 2 } };
 
 var note = new Note { Position = 750 };
 
 var currentPosition =
-    Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges, timeSignatureChanges);
+    Utilities.ConvertSecondsToTicks(seconds, resolution, tempoChanges, timeSignatureChanges);
 
 var value = Utilities.CalculateAccuracyRatio(note.Position, currentPosition, positionDelta);
 
@@ -673,12 +673,12 @@ int main()
     const int resolution = 192;
     const int positionDelta = 50;
 
-    std::vector<Tempo> bpmChanges = {{0, 120000}};
+    std::vector<Tempo> tempoChanges = {{0, 120000}};
     std::vector<TimeSignature> timeSignatureChanges = {{0, 4}};
 
     auto note = new Note{750};
     auto currentPosition = ConvertSecondsToTicks(
-        seconds, resolution, bpmChanges, timeSignatureChanges);
+        seconds, resolution, tempoChanges, timeSignatureChanges);
 
     auto value =
         CalculateAccuracyRatio(note->Position, currentPosition, positionDelta);
@@ -699,7 +699,7 @@ func _ready() -> void:
 	var resolution = 192
 	var position_delta = 50
 
-	var bpm_changes = [
+	var tempo_changes = [
 		{"position": 0, "bpm": 120000 }
 	]
 
@@ -707,7 +707,7 @@ func _ready() -> void:
 		{"position": 0, "numerator": 4, "denominator": 2 }
 	]
 
-	var current_position = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, bpm_changes, time_signature_changes)
+	var current_position = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, tempo_changes, time_signature_changes)
 
 	var value = rhythm_game_utilities.calculate_accuracy_ratio(750, current_position, position_delta)
 
@@ -721,7 +721,7 @@ func _ready() -> void:
 ##### C#
 
 ```csharp
-var bpmChanges = new Tempo[]
+var tempoChanges = new Tempo[]
 {
     new() { Position = 0, BPM = 88000 }, new() { Position = 3840, BPM = 112000 },
     new() { Position = 9984, BPM = 89600 }, new() { Position = 22272, BPM = 112000 },
@@ -729,7 +729,7 @@ var bpmChanges = new Tempo[]
     new() { Position = 42240, BPM = 111980 }
 };
 
-var beatBars = Utilities.CalculateBeatBars(bpmChanges);
+var beatBars = Utilities.CalculateBeatBars(tempoChanges);
 
 Console.WriteLine(beatBars.Length); // 440
 ```
@@ -748,12 +748,12 @@ int main()
     const int resolution = 192;
     const int timeSignature = 4;
 
-    std::vector<Tempo> bpmChanges = {
+    std::vector<Tempo> tempoChanges = {
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
     auto beatBars =
-        CalculateBeatBars(bpmChanges, resolution, timeSignature, true);
+        CalculateBeatBars(tempoChanges, resolution, timeSignature, true);
 
     std::cout << size(beatBars) << std::endl; // 440
 
@@ -770,7 +770,7 @@ func _ready() -> void:
 	var resolution = 192
 	var time_signature = 4
 
-	var bpm_changes = [
+	var tempo_changes = [
 		{"position": 0, "bpm": 8800 },
 		{"position": 3840, "bpm": 112000 },
 		{"position": 9984, "bpm": 89600 },
@@ -780,7 +780,7 @@ func _ready() -> void:
 		{"position": 42240, "bpm": 111980 }
 	]
 
-	var beat_bars = rhythm_game_utilities.calculate_beat_bars(bpm_changes, resolution, time_signature, true)
+	var beat_bars = rhythm_game_utilities.calculate_beat_bars(tempo_changes, resolution, time_signature, true)
 
 	print(beat_bars)
 ```
@@ -798,7 +798,7 @@ using RhythmGameUtilities;
 const int seconds = 5;
 const int resolution = 192;
 
-var bpmChanges = new Tempo[]
+var tempoChanges = new Tempo[]
 {
     new() { Position = 0, BPM = 88000 }, new() { Position = 3840, BPM = 112000 },
     new() { Position = 9984, BPM = 89600 }, new() { Position = 22272, BPM = 112000 },
@@ -808,7 +808,7 @@ var bpmChanges = new Tempo[]
 
 var timeSignatureChanges = new TimeSignature[] { new() { Position = 0, Numerator = 4, Denominator = 2 } };
 
-var ticks = Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges, timeSignatureChanges);
+var ticks = Utilities.ConvertSecondsToTicks(seconds, resolution, tempoChanges, timeSignatureChanges);
 
 Console.WriteLine(ticks); // 1408
 ```
@@ -827,13 +827,13 @@ int main()
     const int seconds = 5;
     const int resolution = 192;
 
-    std::vector<Tempo> bpmChanges = {
+    std::vector<Tempo> tempoChanges = {
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
     std::vector<TimeSignature> timeSignatureChanges = {{0, 4, 2}};
 
-    auto ticks = ConvertSecondsToTicks(seconds, resolution, bpmChanges,
+    auto ticks = ConvertSecondsToTicks(seconds, resolution, tempoChanges,
                                        timeSignatureChanges);
 
     std::cout << ticks << std::endl; // 1408
@@ -851,7 +851,7 @@ func _ready() -> void:
 	var seconds = 5
 	var resolution = 192
 
-	var bpm_changes = [
+	var tempo_changes = [
 		{"position": 0, "bpm": 88000 },
 		{"position": 3840, "bpm": 112000 },
 		{"position": 9984, "bpm": 89600 },
@@ -865,7 +865,7 @@ func _ready() -> void:
 		{"position": 0, "numerator": 4, "denominator": 2 }
 	]
 
-	var current_position = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, bpm_changes, time_signature_changes)
+	var current_position = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, tempo_changes, time_signature_changes)
 
 	print(current_position) # 1408
 ```
@@ -1123,11 +1123,11 @@ graph LR;
 
     subgraph parsersGraph ["Parsers"]
         parseSectionsFromChart["ParseSectionsFromChart()"]
-        parseBpmFromChartSection["ParseBpmFromChartSection()"]
+        parseBpmFromChartSection["ParseTempoChangesFromChartSection()"]
         parseLyricsFromChartSection["ParseLyricsFromChartSection()"]
         parseMetaDataFromChartSection["ParseMetaDataFromChartSection()"]
         parseNotesFromChartSection["ParseNotesFromChartSection()"]
-        parseTimeSignaturesFromChartSection["ParseTimeSignaturesFromChartSection()"]
+        parseTimeSignaturesFromChartSection["ParseTimeSignatureChangesFromChartSection()"]
 
         parseSectionsFromChart-->parseBpmFromChartSection
         parseSectionsFromChart-->parseLyricsFromChartSection

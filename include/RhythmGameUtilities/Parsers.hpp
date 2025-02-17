@@ -106,7 +106,7 @@ std::map<std::string, std::string> ParseMetaDataFromChartSection(
     return data;
 }
 
-std::vector<TimeSignature> ParseTimeSignaturesFromChartSection(
+std::vector<TimeSignature> ParseTimeSignatureChangesFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
     auto timeSignaturesChanges = std::vector<TimeSignature>();
@@ -127,10 +127,10 @@ std::vector<TimeSignature> ParseTimeSignaturesFromChartSection(
     return timeSignaturesChanges;
 }
 
-std::vector<Tempo> ParseBpmFromChartSection(
+std::vector<Tempo> ParseTempoChangesFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
-    auto bpmChanges = std::vector<Tempo>();
+    auto tempoChanges = std::vector<Tempo>();
 
     for (auto &line : section)
     {
@@ -139,11 +139,11 @@ std::vector<Tempo> ParseBpmFromChartSection(
             auto position = std::stoi(line.first);
             auto bpm = std::stoi(line.second.at(1));
 
-            bpmChanges.push_back({position, bpm});
+            tempoChanges.push_back({position, bpm});
         }
     }
 
-    return bpmChanges;
+    return tempoChanges;
 }
 
 std::vector<Note> ParseNotesFromChartSection(

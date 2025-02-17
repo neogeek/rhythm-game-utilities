@@ -19,11 +19,11 @@ graph LR;
 
     subgraph parsersGraph ["Parsers"]
         parseSectionsFromChart["ParseSectionsFromChart()"]
-        parseBpmFromChartSection["ParseBpmFromChartSection()"]
+        parseBpmFromChartSection["ParseTempoChangesFromChartSection()"]
         parseLyricsFromChartSection["ParseLyricsFromChartSection()"]
         parseMetaDataFromChartSection["ParseMetaDataFromChartSection()"]
         parseNotesFromChartSection["ParseNotesFromChartSection()"]
-        parseTimeSignaturesFromChartSection["ParseTimeSignaturesFromChartSection()"]
+        parseTimeSignaturesFromChartSection["ParseTimeSignatureChangesFromChartSection()"]
 
         parseSectionsFromChart-->parseBpmFromChartSection
         parseSectionsFromChart-->parseLyricsFromChartSection

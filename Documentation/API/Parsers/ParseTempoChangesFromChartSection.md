@@ -1,4 +1,4 @@
-#### `Parsers.ParseTimeSignaturesFromChartSection`
+#### `Parsers.ParseTempoChangesFromChartSection`
 
 > Languages: `C#` `C++` `GDScript`
 
@@ -10,9 +10,9 @@ using RhythmGameUtilities;
 
 var sections = Parsers.ParseSectionsFromChart(contents);
 
-var timeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
+var tempoChanges = Parsers.ParseTempoChangesFromChartSection(sections[NamedSection.SyncTrack]);
 
-Console.WriteLine(timeSignatures.Length); // 4
+Console.WriteLine(tempoChanges.Length); // 7
 ```
 
 ##### C++
@@ -31,10 +31,10 @@ int main()
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
-    auto timeSignatures = ParseTimeSignaturesFromChartSection(
+    auto tempoChanges = ParseTempoChangesFromChartSection(
         sections.at(ToString(NamedSection::SyncTrack)));
 
-    std::cout << size(timeSignatures) << std::endl; // 4
+    std::cout << size(tempoChanges) << std::endl; // 7
 
     return 0;
 }
@@ -51,7 +51,7 @@ func _ready() -> void:
 
 	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
 
-	var time_signatures = rhythm_game_utilities.parse_time_signatures_from_chart_section(sections["SyncTrack"])
+	var tempo_changes = rhythm_game_utilities.parse_tempo_changes_from_chart_section(sections["SyncTrack"])
 
-	print(time_signatures)
+	print(tempo_changes)
 ```

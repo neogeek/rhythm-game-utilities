@@ -19,15 +19,17 @@ namespace RhythmGameUtilities
 
 extern "C"
 {
-    PACKAGE_API int ConvertSecondsToTicksInternal(
-        float seconds, int resolution, Tempo *bpmChanges, int bpmChangesSize,
-        TimeSignature *timeSignaturesChanges, int timeSignaturesChangesSize)
+    PACKAGE_API int
+    ConvertSecondsToTicksInternal(float seconds, int resolution,
+                                  Tempo *tempoChanges, int tempoChangesSize,
+                                  TimeSignature *timeSignaturesChanges,
+                                  int timeSignaturesChangesSize)
     {
-        std::vector<Tempo> bpmChangesVector;
+        std::vector<Tempo> tempoChangesVector;
 
-        for (auto i = 0; i < bpmChangesSize; i += 1)
+        for (auto i = 0; i < tempoChangesSize; i += 1)
         {
-            bpmChangesVector.push_back(bpmChanges[i]);
+            tempoChangesVector.push_back(tempoChanges[i]);
         }
 
         std::vector<TimeSignature> timeSignatureChangesVector;
@@ -37,25 +39,25 @@ extern "C"
             timeSignatureChangesVector.push_back(timeSignaturesChanges[i]);
         }
 
-        return ConvertSecondsToTicks(seconds, resolution, bpmChangesVector,
+        return ConvertSecondsToTicks(seconds, resolution, tempoChangesVector,
                                      timeSignatureChangesVector);
     }
 
-    PACKAGE_API BeatBar *CalculateBeatBarsInternal(Tempo *bpmChanges,
-                                                   int bpmChangesSize,
+    PACKAGE_API BeatBar *CalculateBeatBarsInternal(Tempo *tempoChanges,
+                                                   int tempoChangesSize,
                                                    int resolution, int ts,
                                                    bool includeHalfNotes,
                                                    int *outSize)
     {
-        std::vector<Tempo> bpmChangesVector;
+        std::vector<Tempo> tempoChangesVector;
 
-        for (auto i = 0; i < bpmChangesSize; i += 1)
+        for (auto i = 0; i < tempoChangesSize; i += 1)
         {
-            bpmChangesVector.push_back(bpmChanges[i]);
+            tempoChangesVector.push_back(tempoChanges[i]);
         }
 
-        auto internalBeatBars = CalculateBeatBars(bpmChangesVector, resolution,
-                                                  ts, includeHalfNotes);
+        auto internalBeatBars = CalculateBeatBars(
+            tempoChangesVector, resolution, ts, includeHalfNotes);
 
         *outSize = internalBeatBars.size();
 

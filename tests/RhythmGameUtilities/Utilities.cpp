@@ -16,12 +16,12 @@ void testCalculateAccuracyRatio()
     const int resolution = 192;
     const int positionDelta = 50;
 
-    std::vector<Tempo> bpmChanges = {{0, 120000}};
+    std::vector<Tempo> tempoChanges = {{0, 120000}};
     std::vector<TimeSignature> timeSignatureChanges = {{0, 4}};
 
     auto note = new Note{750};
     auto currentPosition = ConvertSecondsToTicks(
-        seconds, resolution, bpmChanges, timeSignatureChanges);
+        seconds, resolution, tempoChanges, timeSignatureChanges);
 
     auto value =
         CalculateAccuracyRatio(note->Position, currentPosition, positionDelta);
@@ -36,12 +36,12 @@ void testCalculateBeatBars()
     const int resolution = 192;
     const int timeSignature = 4;
 
-    std::vector<Tempo> bpmChanges = {
+    std::vector<Tempo> tempoChanges = {
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
     auto beatBars =
-        CalculateBeatBars(bpmChanges, resolution, timeSignature, true);
+        CalculateBeatBars(tempoChanges, resolution, timeSignature, true);
 
     assert(beatBars.size() == 440);
 
@@ -53,13 +53,13 @@ void testConvertSecondsToTicks()
     const int seconds = 5;
     const int resolution = 192;
 
-    std::vector<Tempo> bpmChanges = {
+    std::vector<Tempo> tempoChanges = {
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
     std::vector<TimeSignature> timeSignatureChanges = {{0, 4, 2}};
 
-    auto ticks = ConvertSecondsToTicks(seconds, resolution, bpmChanges,
+    auto ticks = ConvertSecondsToTicks(seconds, resolution, tempoChanges,
                                        timeSignatureChanges);
 
     assert(1408 == ticks);
@@ -122,11 +122,11 @@ void testRoundUpToTheNearestMultiplier()
 
 void testGenerateAdjacentKeyPairs()
 {
-    std::map<int, int> bpmChanges = {
+    std::map<int, int> tempoChanges = {
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
-    auto adjacentKeyPairs = GenerateAdjacentKeyPairs(bpmChanges);
+    auto adjacentKeyPairs = GenerateAdjacentKeyPairs(tempoChanges);
 
     assert(adjacentKeyPairs.size() == 6);
     assert(adjacentKeyPairs[0] == std::make_tuple(0, 3840));
