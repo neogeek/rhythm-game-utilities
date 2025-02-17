@@ -29,7 +29,7 @@ const float SECONDS_PER_MINUTE = 60.0f;
  *
  * @param seconds The seconds to generate ticks with.
  * @param resolution The resolution of the song.
- * @param tempoChanges All BPM changes within the song.
+ * @param tempoChanges All tempo changes within the song.
  * @param timeSignatureChanges All time signature changes within the song.
  * @public
  */
@@ -49,16 +49,16 @@ int ConvertSecondsToTicks(float seconds, int resolution,
 
     while (remainingSeconds > 0)
     {
-        int nextBPMChange = tempoChangesIterator != tempoChanges.end()
-                                ? tempoChangesIterator->Position
-                                : INT_MAX;
+        int nextTempoChange = tempoChangesIterator != tempoChanges.end()
+                                  ? tempoChangesIterator->Position
+                                  : INT_MAX;
 
         int nextTimeSignatureChange =
             timeSignatureIterator != timeSignatureChanges.end()
                 ? timeSignatureIterator->Position
                 : INT_MAX;
 
-        int nextChangeTick = std::min(nextBPMChange, nextTimeSignatureChange);
+        int nextChangeTick = std::min(nextTempoChange, nextTimeSignatureChange);
 
         float ticksPerSecond = resolution * previousBPM / SECONDS_PER_MINUTE;
         float timeForSegment = (nextChangeTick - previousTick) / ticksPerSecond;
@@ -74,7 +74,7 @@ int ConvertSecondsToTicks(float seconds, int resolution,
         remainingSeconds -= timeForSegment;
         previousTick = nextChangeTick;
 
-        if (nextChangeTick == nextBPMChange)
+        if (nextChangeTick == nextTempoChange)
         {
             previousBPM = tempoChangesIterator->BPM / 1000.0;
             ++tempoChangesIterator;
