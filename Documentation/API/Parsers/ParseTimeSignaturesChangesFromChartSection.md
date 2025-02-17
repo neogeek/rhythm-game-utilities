@@ -51,7 +51,7 @@ func _ready() -> void:
 
 	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
 
-	var time_signature_changes = rhythm_game_utilities.parse_time_signatures_changes_from_chart_section(sections["SyncTrack"])
+	var time_signature_changes = rhythm_game_utilities.parse_time_signature_changes_from_chart_section(sections["SyncTrack"])
 
 	print(time_signature_changes)
 ```
