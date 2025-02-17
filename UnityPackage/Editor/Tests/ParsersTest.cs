@@ -8,15 +8,15 @@ namespace RhythmGameUtilities.Tests
     {
 
         [Test]
-        public void TestParseBpmFromChartSection()
+        public void TestParseTempoChangesFromChartSection()
         {
             var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
 
-            var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
+            var tempoChanges = Parsers.ParseTempoChangesFromChartSection(sections[NamedSection.SyncTrack]);
 
-            Console.WriteLine(bpm.Length); // 7
+            Console.WriteLine(tempoChanges.Length); // 7
 
-            Assert.That(bpm.Length, Is.EqualTo(7));
+            Assert.That(tempoChanges.Length, Is.EqualTo(7));
         }
 
         [Test]
@@ -77,11 +77,11 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
-        public void TestParseTimeSignaturesFromChartSection()
+        public void TestParseTimeSignatureChangesFromChartSection()
         {
             var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
 
-            var timeSignatures = Parsers.ParseTimeSignaturesFromChartSection(sections[NamedSection.SyncTrack]);
+            var timeSignatures = Parsers.ParseTimeSignatureChangesFromChartSection(sections[NamedSection.SyncTrack]);
 
             Assert.That(timeSignatures.Length, Is.EqualTo(4));
         }

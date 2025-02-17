@@ -1,4 +1,4 @@
-#### `Parsers.ParseBpmFromChartSection`
+#### `Parsers.ParseTimeSignatureChangesFromChartSection`
 
 > Languages: `C#` `C++` `GDScript`
 
@@ -10,9 +10,9 @@ using RhythmGameUtilities;
 
 var sections = Parsers.ParseSectionsFromChart(contents);
 
-var bpm = Parsers.ParseBpmFromChartSection(sections[NamedSection.SyncTrack]);
+var timeSignatureChanges = Parsers.ParseTimeSignatureChangesFromChartSection(sections[NamedSection.SyncTrack]);
 
-Console.WriteLine(bpm.Length); // 7
+Console.WriteLine(timeSignatureChanges.Length); // 4
 ```
 
 ##### C++
@@ -31,10 +31,10 @@ int main()
 
     auto sections = ParseSectionsFromChart(content.c_str());
 
-    auto bpm = ParseBpmFromChartSection(
+    auto timeSignatureChanges = ParseTimeSignatureChangesFromChartSection(
         sections.at(ToString(NamedSection::SyncTrack)));
 
-    std::cout << size(bpm) << std::endl; // 7
+    std::cout << size(timeSignatureChanges) << std::endl; // 4
 
     return 0;
 }
@@ -51,7 +51,7 @@ func _ready() -> void:
 
 	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
 
-	var bpm = rhythm_game_utilities.parse_bpm_from_chart_section(sections["SyncTrack"])
+	var time_signature_changes = rhythm_game_utilities.parse_time_signature_changes_from_chart_section(sections["SyncTrack"])
 
-	print(bpm)
+	print(time_signature_changes)
 ```

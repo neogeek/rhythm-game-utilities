@@ -14,14 +14,14 @@ namespace RhythmGameUtilities.Tests
             const int resolution = 192;
             const int positionDelta = 50;
 
-            var bpmChanges = new Tempo[] { new() { Position = 0, BPM = 120000 } };
+            var tempoChanges = new Tempo[] { new() { Position = 0, BPM = 120000 } };
 
             var timeSignatureChanges = new TimeSignature[] { new() { Position = 0, Numerator = 4, Denominator = 2 } };
 
             var note = new Note { Position = 750 };
 
             var currentPosition =
-                Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges, timeSignatureChanges);
+                Utilities.ConvertSecondsToTicks(seconds, resolution, tempoChanges, timeSignatureChanges);
 
             var value = Utilities.CalculateAccuracyRatio(note.Position, currentPosition, positionDelta);
 
@@ -41,7 +41,7 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestCalculateBeatBars()
         {
-            var bpmChanges = new Tempo[]
+            var tempoChanges = new Tempo[]
             {
                 new() { Position = 0, BPM = 88000 }, new() { Position = 3840, BPM = 112000 },
                 new() { Position = 9984, BPM = 89600 }, new() { Position = 22272, BPM = 112000 },
@@ -49,7 +49,7 @@ namespace RhythmGameUtilities.Tests
                 new() { Position = 42240, BPM = 111980 }
             };
 
-            var beatBars = Utilities.CalculateBeatBars(bpmChanges);
+            var beatBars = Utilities.CalculateBeatBars(tempoChanges);
 
             Console.WriteLine(beatBars.Length); // 440
 
@@ -62,7 +62,7 @@ namespace RhythmGameUtilities.Tests
             const int seconds = 5;
             const int resolution = 192;
 
-            var bpmChanges = new Tempo[]
+            var tempoChanges = new Tempo[]
             {
                 new() { Position = 0, BPM = 88000 }, new() { Position = 3840, BPM = 112000 },
                 new() { Position = 9984, BPM = 89600 }, new() { Position = 22272, BPM = 112000 },
@@ -72,7 +72,7 @@ namespace RhythmGameUtilities.Tests
 
             var timeSignatureChanges = new TimeSignature[] { new() { Position = 0, Numerator = 4, Denominator = 2 } };
 
-            var ticks = Utilities.ConvertSecondsToTicks(seconds, resolution, bpmChanges, timeSignatureChanges);
+            var ticks = Utilities.ConvertSecondsToTicks(seconds, resolution, tempoChanges, timeSignatureChanges);
 
             Console.WriteLine(ticks); // 1408
 

@@ -69,14 +69,14 @@ auto contents = R"([Song]
   1248 = E soloend
 })";
 
-void testParseBpmFromChartSection()
+void testParseTempoChangesFromChartSection()
 {
     auto sections = ParseSectionsFromChart(contents);
 
-    auto bpm = ParseBpmFromChartSection(
+    auto tempoChanges = ParseTempoChangesFromChartSection(
         sections.at(ToString(NamedSection::SyncTrack)));
 
-    assert(bpm.size() == 7);
+    assert(tempoChanges.size() == 7);
 
     std::cout << ".";
 }
@@ -135,14 +135,14 @@ void testParseSectionsFromChart()
     std::cout << ".";
 }
 
-void testParseTimeSignaturesFromChartSection()
+void testParseTimeSignatureChangesFromChartSection()
 {
     auto sections = ParseSectionsFromChart(contents);
 
-    auto timeSignatures = ParseTimeSignaturesFromChartSection(
+    auto timeSignatureChanges = ParseTimeSignatureChangesFromChartSection(
         sections.at(ToString(NamedSection::SyncTrack)));
 
-    assert(timeSignatures.size() == 4);
+    assert(timeSignatureChanges.size() == 4);
 
     std::cout << ".";
 }
@@ -171,12 +171,12 @@ void testParseValuesFromChartSection()
 
 int main()
 {
-    testParseBpmFromChartSection();
+    testParseTempoChangesFromChartSection();
     testParseLyricsFromChartSection();
     testParseMetaDataFromChartSection();
     testParseNotesFromChartSection();
     testParseSectionsFromChart();
-    testParseTimeSignaturesFromChartSection();
+    testParseTimeSignatureChangesFromChartSection();
 
     testParseValuesFromChartSection();
 

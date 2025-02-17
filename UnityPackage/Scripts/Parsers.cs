@@ -110,7 +110,7 @@ namespace RhythmGameUtilities
                 .ToDictionary(item => item.Key, x => x.Value[0]);
         }
 
-        public static TimeSignature[] ParseTimeSignaturesFromChartSection(
+        public static TimeSignature[] ParseTimeSignatureChangesFromChartSection(
             KeyValuePair<string, string[]>[] section)
         {
             return section
@@ -124,7 +124,7 @@ namespace RhythmGameUtilities
                     }).ToArray();
         }
 
-        public static Tempo[] ParseBpmFromChartSection(
+        public static Tempo[] ParseTempoChangesFromChartSection(
             KeyValuePair<string, string[]>[] section)
         {
             return section

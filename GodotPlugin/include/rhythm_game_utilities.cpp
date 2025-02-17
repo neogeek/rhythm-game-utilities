@@ -22,8 +22,8 @@ void rhythm_game_utilities::_bind_methods()
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
-        D_METHOD("parse_bpm_from_chart_section", "section"),
-        &rhythm_game_utilities::parse_bpm_from_chart_section);
+        D_METHOD("parse_tempo_changes_from_chart_section", "section"),
+        &rhythm_game_utilities::parse_tempo_changes_from_chart_section);
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
@@ -47,8 +47,9 @@ void rhythm_game_utilities::_bind_methods()
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
-        D_METHOD("parse_time_signatures_from_chart_section", "section"),
-        &rhythm_game_utilities::parse_time_signatures_from_chart_section);
+        D_METHOD("parse_time_signature_changes_from_chart_section", "section"),
+        &rhythm_game_utilities::
+            parse_time_signature_changes_from_chart_section);
 
     // Utilities
 
@@ -59,7 +60,7 @@ void rhythm_game_utilities::_bind_methods()
         &rhythm_game_utilities::calculate_accuracy_ratio);
 
     ClassDB::bind_static_method("rhythm_game_utilities",
-                                D_METHOD("calculate_beat_bars", "bpm_changes",
+                                D_METHOD("calculate_beat_bars", "tempo_changes",
                                          "resolution", "ts",
                                          "include_half_notes"),
                                 &rhythm_game_utilities::calculate_beat_bars);
@@ -67,7 +68,7 @@ void rhythm_game_utilities::_bind_methods()
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
         D_METHOD("convert_seconds_to_ticks", "seconds", "resolution",
-                 "bpm_changes", "time_signature_changes"),
+                 "tempo_changes", "time_signature_changes"),
         &rhythm_game_utilities::convert_seconds_to_ticks);
 
     ClassDB::bind_static_method(
@@ -105,24 +106,26 @@ float rhythm_game_utilities::lerp(float a, float b, float t)
 
 // Parsers
 
-Array rhythm_game_utilities::parse_bpm_from_chart_section(Array section)
+Array rhythm_game_utilities::parse_tempo_changes_from_chart_section(
+    Array section)
 {
-    auto bpm_changes_internal = RhythmGameUtilities::ParseBpmFromChartSection(
-        convert_section_to_section_internal(section));
+    auto tempo_changes_internal =
+        RhythmGameUtilities::ParseTempoChangesFromChartSection(
+            convert_section_to_section_internal(section));
 
-    Array bpm_changes;
+    Array tempo_changes;
 
-    for (auto &bpm_change_internal : bpm_changes_internal)
+    for (auto &tempo_change_internal : tempo_changes_internal)
     {
-        Dictionary bpm_change;
+        Dictionary tempo_change;
 
-        bpm_change["position"] = bpm_change_internal.Position;
-        bpm_change["bpm"] = bpm_change_internal.BPM;
+        tempo_change["position"] = tempo_change_internal.Position;
+        tempo_change["bpm"] = tempo_change_internal.BPM;
 
-        bpm_changes.append(bpm_change);
+        tempo_changes.append(tempo_change);
     }
 
-    return bpm_changes;
+    return tempo_changes;
 }
 
 Dictionary rhythm_game_utilities::parse_lyrics_from_chart_section(Array section)
@@ -219,27 +222,30 @@ Dictionary rhythm_game_utilities::parse_sections_from_chart(String contents)
     return sections;
 }
 
-Array rhythm_game_utilities::parse_time_signatures_from_chart_section(
+Array rhythm_game_utilities::parse_time_signature_changes_from_chart_section(
     Array section)
 {
-    auto time_signatures_internal =
-        RhythmGameUtilities::ParseTimeSignaturesFromChartSection(
+    auto time_signature_changes_internal =
+        RhythmGameUtilities::ParseTimeSignatureChangesFromChartSection(
             convert_section_to_section_internal(section));
 
-    Array time_signatures;
+    Array time_signature_changes;
 
-    for (auto &time_signature_internal : time_signatures_internal)
+    for (auto &time_signature_change_internal : time_signature_changes_internal)
     {
-        Dictionary time_signature;
+        Dictionary time_signature_change;
 
-        time_signature["position"] = time_signature_internal.Position;
-        time_signature["numerator"] = time_signature_internal.Numerator;
-        time_signature["denominator"] = time_signature_internal.Denominator;
+        time_signature_change["position"] =
+            time_signature_change_internal.Position;
+        time_signature_change["numerator"] =
+            time_signature_change_internal.Numerator;
+        time_signature_change["denominator"] =
+            time_signature_change_internal.Denominator;
 
-        time_signatures.append(time_signature);
+        time_signature_changes.append(time_signature_change);
     }
 
-    return time_signatures;
+    return time_signature_changes;
 }
 
 // Utilities
@@ -252,30 +258,30 @@ float rhythm_game_utilities::calculate_accuracy_ratio(int position,
                                                        current_position, delta);
 }
 
-Array rhythm_game_utilities::calculate_beat_bars(Array bpm_changes,
+Array rhythm_game_utilities::calculate_beat_bars(Array tempo_changes,
                                                  int resolution, int ts,
                                                  bool include_half_notes)
 {
-    std::vector<RhythmGameUtilities::Tempo> bpm_changes_internal;
-    bpm_changes_internal.reserve(bpm_changes.size());
+    std::vector<RhythmGameUtilities::Tempo> tempo_changes_internal;
+    tempo_changes_internal.reserve(tempo_changes.size());
 
-    for (auto i = 0; i < bpm_changes.size(); i += 1)
+    for (auto i = 0; i < tempo_changes.size(); i += 1)
     {
-        RhythmGameUtilities::Tempo bpm_change_internal;
+        RhythmGameUtilities::Tempo tempo_change_internal;
 
-        if (bpm_changes[i].get_type() == Variant::DICTIONARY)
+        if (tempo_changes[i].get_type() == Variant::DICTIONARY)
         {
-            Dictionary variant = bpm_changes[i];
+            Dictionary variant = tempo_changes[i];
 
-            bpm_change_internal.Position = variant["position"];
-            bpm_change_internal.BPM = variant["bpm"];
+            tempo_change_internal.Position = variant["position"];
+            tempo_change_internal.BPM = variant["bpm"];
         }
 
-        bpm_changes_internal.push_back(bpm_change_internal);
+        tempo_changes_internal.push_back(tempo_change_internal);
     }
 
     auto beat_bars_internal = RhythmGameUtilities::CalculateBeatBars(
-        bpm_changes_internal, resolution, ts, include_half_notes);
+        tempo_changes_internal, resolution, ts, include_half_notes);
 
     Array beat_bars_dictionary_array;
 
@@ -293,25 +299,25 @@ Array rhythm_game_utilities::calculate_beat_bars(Array bpm_changes,
 }
 
 int rhythm_game_utilities::convert_seconds_to_ticks(
-    float seconds, int resolution, Array bpm_changes,
+    float seconds, int resolution, Array tempo_changes,
     Array time_signature_changes)
 {
-    std::vector<RhythmGameUtilities::Tempo> bpm_changes_internal;
-    bpm_changes_internal.reserve(bpm_changes.size());
+    std::vector<RhythmGameUtilities::Tempo> tempo_changes_internal;
+    tempo_changes_internal.reserve(tempo_changes.size());
 
-    for (auto i = 0; i < bpm_changes.size(); i += 1)
+    for (auto i = 0; i < tempo_changes.size(); i += 1)
     {
-        RhythmGameUtilities::Tempo bpm_change_internal;
+        RhythmGameUtilities::Tempo tempo_change_internal;
 
-        if (bpm_changes[i].get_type() == Variant::DICTIONARY)
+        if (tempo_changes[i].get_type() == Variant::DICTIONARY)
         {
-            Dictionary variant = bpm_changes[i];
+            Dictionary variant = tempo_changes[i];
 
-            bpm_change_internal.Position = variant["position"];
-            bpm_change_internal.BPM = variant["bpm"];
+            tempo_change_internal.Position = variant["position"];
+            tempo_change_internal.BPM = variant["bpm"];
         }
 
-        bpm_changes_internal.push_back(bpm_change_internal);
+        tempo_changes_internal.push_back(tempo_change_internal);
     }
 
     std::vector<RhythmGameUtilities::TimeSignature>
@@ -335,7 +341,7 @@ int rhythm_game_utilities::convert_seconds_to_ticks(
     }
 
     return RhythmGameUtilities::ConvertSecondsToTicks(
-        seconds, resolution, bpm_changes_internal,
+        seconds, resolution, tempo_changes_internal,
         time_signature_changes_internal);
 }
 

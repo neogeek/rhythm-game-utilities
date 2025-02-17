@@ -11,8 +11,8 @@ namespace RhythmGameUtilities
         public static extern float ConvertTickToPosition(int tick, int resolution);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int ConvertSecondsToTicksInternal(float seconds, int resolution, Tempo[] bpmChanges,
-            int bpmChangesSize, TimeSignature[] timeSignatures, int timeSignaturesSize);
+        public static extern int ConvertSecondsToTicksInternal(float seconds, int resolution, Tempo[] tempoChanges,
+            int tempoChangesSize, TimeSignature[] timeSignatures, int timeSignaturesSize);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
         public static extern bool IsOnTheBeat(int bpm, float currentTime, float delta);
@@ -24,7 +24,7 @@ namespace RhythmGameUtilities
         public static extern float CalculateAccuracyRatio(int position, int currentPosition, int delta);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CalculateBeatBarsInternal(Tempo[] bpmChanges, int bpmChangesSize, int resolution,
+        public static extern IntPtr CalculateBeatBarsInternal(Tempo[] tempoChanges, int tempoChangesSize, int resolution,
             int ts,
             bool includeHalfNotes, out int size);
 
@@ -50,12 +50,12 @@ namespace RhythmGameUtilities
         /// </summary>
         /// <param name="seconds">The seconds to generate ticks with.</param>
         /// <param name="resolution">The resolution of the song.</param>
-        /// <param name="bpmChanges">All BPM changes within the song.</param>
+        /// <param name="tempoChanges">All tempo changes within the song.</param>
         /// <param name="timeSignatureChanges">All time signature changes within the song.</param>
-        public static int ConvertSecondsToTicks(float seconds, int resolution, Tempo[] bpmChanges,
+        public static int ConvertSecondsToTicks(float seconds, int resolution, Tempo[] tempoChanges,
             TimeSignature[] timeSignatureChanges)
         {
-            return UtilitiesInternal.ConvertSecondsToTicksInternal(seconds, resolution, bpmChanges, bpmChanges.Length,
+            return UtilitiesInternal.ConvertSecondsToTicksInternal(seconds, resolution, tempoChanges, tempoChanges.Length,
                 timeSignatureChanges, timeSignatureChanges.Length);
         }
 
@@ -80,10 +80,10 @@ namespace RhythmGameUtilities
             return UtilitiesInternal.RoundUpToTheNearestMultiplier(value, multiplier);
         }
 
-        public static BeatBar[] CalculateBeatBars(Tempo[] bpmChanges, int resolution = 192, int ts = 4,
+        public static BeatBar[] CalculateBeatBars(Tempo[] tempoChanges, int resolution = 192, int ts = 4,
             bool includeHalfNotes = true)
         {
-            var ptrArray = UtilitiesInternal.CalculateBeatBarsInternal(bpmChanges, bpmChanges.Length, resolution, ts,
+            var ptrArray = UtilitiesInternal.CalculateBeatBarsInternal(tempoChanges, tempoChanges.Length, resolution, ts,
                 includeHalfNotes,
                 out var size);
 
