@@ -24,7 +24,7 @@ _Prototype game built using these utilities._
 ## Social
 
 - Star [this repo on GitHub](https://github.com/neogeek/rhythm-game-utilities) for updates
-- Follow me on [Bluesky](https://bsky.app/profile/scottdoxey.com) or [Twitter](https://twitter.com/neogeek)
+- Follow me on [Bluesky](https://bsky.app/profile/scottdoxey.com)
 - Join the [Discord](https://discord.gg/nNtFsfd)
 - Follow me on [GitHub](https://github.com/neogeek/)
 
