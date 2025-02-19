@@ -45,7 +45,6 @@ int ConvertSecondsToTicks(float seconds, int resolution,
     auto remainingSeconds = seconds;
     auto previousTick = 0;
     auto previousBPM = tempoChangesIterator->BPM / 1000.0;
-    auto previousTimeSignature = timeSignatureIterator->Numerator;
 
     while (remainingSeconds > 0)
     {
@@ -82,7 +81,6 @@ int ConvertSecondsToTicks(float seconds, int resolution,
 
         if (nextChangeTick == nextTimeSignatureChange)
         {
-            previousTimeSignature = timeSignatureIterator->Numerator;
             ++timeSignatureIterator;
         }
     }
@@ -147,7 +145,6 @@ std::vector<BeatBar> CalculateBeatBars(std::vector<Tempo> tempoChanges,
         for (auto tick = startTick; tick < endTick; tick += resolution)
         {
 
-            auto position = tick;
             auto bpm = tempoChangePositions[startTick];
 
             beatBars.push_back({tick, bpm});
