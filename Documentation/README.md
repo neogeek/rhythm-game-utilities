@@ -1,7 +1,7 @@
 > [!CAUTION]
 > This package is in early development and should not be used in production.
 
-![Rhythm Game Utilities](https://github.com/neogeek/rhythm-game-utilities/blob/main/cover.png?raw=true)
+![Rhythm Game Utilities](https://github.com/neogeek/rhythm-game-utilities/blob/main/cover.svg?raw=true)
 
 [![Tests](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/test.workflow.yml/badge.svg)](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/test.workflow.yml)
 [![Build](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/build.workflow.yml/badge.svg)](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/build.workflow.yml)
