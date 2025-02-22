@@ -19,17 +19,17 @@ graph LR;
 
     subgraph parsersGraph ["Parsers"]
         parseSectionsFromChart["ParseSectionsFromChart()"]
-        parseBpmFromChartSection["ParseTempoChangesFromChartSection()"]
+        parseTempoChangesFromChartSection["ParseTempoChangesFromChartSection()"]
         parseLyricsFromChartSection["ParseLyricsFromChartSection()"]
         parseMetaDataFromChartSection["ParseMetaDataFromChartSection()"]
         parseNotesFromChartSection["ParseNotesFromChartSection()"]
-        parseTimeSignaturesFromChartSection["ParseTimeSignatureChangesFromChartSection()"]
+        parseTimeSignaturesChangesFromChartSection["ParseTimeSignatureChangesFromChartSection()"]
 
-        parseSectionsFromChart-->parseBpmFromChartSection
+        parseSectionsFromChart-->parseTempoChangesFromChartSection
         parseSectionsFromChart-->parseLyricsFromChartSection
         parseSectionsFromChart-->parseMetaDataFromChartSection
         parseSectionsFromChart-->parseNotesFromChartSection
-        parseSectionsFromChart-->parseTimeSignaturesFromChartSection
+        parseSectionsFromChart-->parseTimeSignaturesChangesFromChartSection
     end
 
     subgraph utilitiesGraph ["Utilities"]
@@ -47,11 +47,12 @@ graph LR;
     parseNotesFromChartSection-->calculateAccuracyRatio
     convertSecondsToTicks-->calculateAccuracyRatio
 
-    parseBpmFromChartSection-->calculateBeatBars
     parseMetaDataFromChartSection-->calculateBeatBars
+    parseTempoChangesFromChartSection-->calculateBeatBars
 
     parseMetaDataFromChartSection-->convertSecondsToTicks
-    parseBpmFromChartSection-->convertSecondsToTicks
+    parseTempoChangesFromChartSection-->convertSecondsToTicks
+    parseTimeSignaturesChangesFromChartSection-->convertSecondsToTicks
 
     parseMetaDataFromChartSection-->convertTickToPosition
 
