@@ -1123,16 +1123,17 @@ graph LR;
 
     subgraph parsersGraph ["Parsers"]
         parseSectionsFromChart["ParseSectionsFromChart()"]
-        parseTempoChangesFromChartSection["ParseTempoChangesFromChartSection()"]
+
         parseLyricsFromChartSection["ParseLyricsFromChartSection()"]
         parseMetaDataFromChartSection["ParseMetaDataFromChartSection()"]
         parseNotesFromChartSection["ParseNotesFromChartSection()"]
+        parseTempoChangesFromChartSection["ParseTempoChangesFromChartSection()"]
         parseTimeSignaturesChangesFromChartSection["ParseTimeSignatureChangesFromChartSection()"]
 
-        parseSectionsFromChart-->parseTempoChangesFromChartSection
         parseSectionsFromChart-->parseLyricsFromChartSection
         parseSectionsFromChart-->parseMetaDataFromChartSection
         parseSectionsFromChart-->parseNotesFromChartSection
+        parseSectionsFromChart-->parseTempoChangesFromChartSection
         parseSectionsFromChart-->parseTimeSignaturesChangesFromChartSection
     end
 
@@ -1147,9 +1148,9 @@ graph LR;
 
     file-->parseSectionsFromChart
 
+    convertSecondsToTicks-->calculateAccuracyRatio
     parseMetaDataFromChartSection-->calculateAccuracyRatio
     parseNotesFromChartSection-->calculateAccuracyRatio
-    convertSecondsToTicks-->calculateAccuracyRatio
 
     parseMetaDataFromChartSection-->calculateBeatBars
     parseTempoChangesFromChartSection-->calculateBeatBars
