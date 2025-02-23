@@ -22,7 +22,7 @@ typedef enum Difficulty
 
 } DifficultyType;
 
-std::string ToString(Difficulty difficulty)
+inline std::string ToString(Difficulty difficulty)
 {
     switch (difficulty)
     {

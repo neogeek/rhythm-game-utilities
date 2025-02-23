@@ -13,12 +13,6 @@
 
 #include "Common.hpp"
 
-#ifdef _WIN32
-#define PACKAGE_API __declspec(dllexport)
-#else
-#define PACKAGE_API
-#endif
-
 namespace RhythmGameUtilities
 {
 
@@ -34,9 +28,10 @@ const float SECONDS_PER_MINUTE = 60.0f;
  * @public
  */
 
-int ConvertSecondsToTicks(float seconds, int resolution,
-                          std::vector<Tempo> tempoChanges,
-                          std::vector<TimeSignature> timeSignatureChanges)
+inline int
+ConvertSecondsToTicks(float seconds, int resolution,
+                      std::vector<Tempo> tempoChanges,
+                      std::vector<TimeSignature> timeSignatureChanges)
 {
     auto tempoChangesIterator = tempoChanges.begin();
     auto timeSignatureIterator = timeSignatureChanges.begin();
@@ -99,7 +94,7 @@ int ConvertSecondsToTicks(float seconds, int resolution,
  * @public
  */
 
-std::vector<std::tuple<int, int>>
+inline std::vector<std::tuple<int, int>>
 GenerateAdjacentKeyPairs(std::map<int, int> keyValuePairs)
 {
     auto adjacentKeyPairs = std::vector<std::tuple<int, int>>();
@@ -122,9 +117,9 @@ GenerateAdjacentKeyPairs(std::map<int, int> keyValuePairs)
     return adjacentKeyPairs;
 }
 
-std::vector<BeatBar> CalculateBeatBars(std::vector<Tempo> tempoChanges,
-                                       int resolution, int ts,
-                                       bool includeHalfNotes)
+inline std::vector<BeatBar> CalculateBeatBars(std::vector<Tempo> tempoChanges,
+                                              int resolution, int ts,
+                                              bool includeHalfNotes)
 {
     std::vector<BeatBar> beatBars;
 
@@ -159,8 +154,8 @@ std::vector<BeatBar> CalculateBeatBars(std::vector<Tempo> tempoChanges,
     return beatBars;
 }
 
-std::optional<Note> FindPositionNearGivenTick(std::vector<Note> notes, int tick,
-                                              int delta = 50)
+inline std::optional<Note> FindPositionNearGivenTick(std::vector<Note> notes,
+                                                     int tick, int delta = 50)
 {
     auto left = 0;
     auto right = static_cast<int>(notes.size()) - 1;
@@ -188,77 +183,73 @@ std::optional<Note> FindPositionNearGivenTick(std::vector<Note> notes, int tick,
     return std::nullopt;
 }
 
-extern "C"
+/**
+ * Convert a tick to a 2D/3D position.
+ *
+ * @param tick The tick.
+ * @param resolution The resolution of the song.
+ * @public
+ */
+
+inline float ConvertTickToPosition(int tick, int resolution)
 {
-    /**
-     * Convert a tick to a 2D/3D position.
-     *
-     * @param tick The tick.
-     * @param resolution The resolution of the song.
-     * @public
-     */
+    return tick / static_cast<float>(resolution);
+}
 
-    PACKAGE_API float ConvertTickToPosition(int tick, int resolution)
-    {
-        return tick / static_cast<float>(resolution);
-    }
+/**
+ * Checks to see if the current time of a game or audio file is on the beat.
+ *
+ * @param bpm The base BPM for a song.
+ * @param currentTime A timestamp to compare to the BPM.
+ * @param delta The plus/minus delta to test the current time against.
+ * @public
+ */
 
-    /**
-     * Checks to see if the current time of a game or audio file is on the beat.
-     *
-     * @param bpm The base BPM for a song.
-     * @param currentTime A timestamp to compare to the BPM.
-     * @param delta The plus/minus delta to test the current time against.
-     * @public
-     */
+inline bool IsOnTheBeat(int bpm, float currentTime, float delta = 0.05f)
+{
+    auto beatInterval = SECONDS_PER_MINUTE / static_cast<float>(bpm);
 
-    PACKAGE_API bool IsOnTheBeat(int bpm, float currentTime,
-                                 float delta = 0.05f)
-    {
-        auto beatInterval = SECONDS_PER_MINUTE / static_cast<float>(bpm);
+    auto beatFraction = currentTime / beatInterval;
 
-        auto beatFraction = currentTime / beatInterval;
+    auto difference = std::abs(beatFraction - std::round(beatFraction));
 
-        auto difference = std::abs(beatFraction - std::round(beatFraction));
+    auto result = difference < delta;
 
-        auto result = difference < delta;
+    return result;
+}
 
-        return result;
-    }
+/**
+ * Rounds a value up the nearest multiplier.
+ *
+ * @param value The value to round.
+ * @param multiplier The multiplier to round using.
+ * @public
+ */
 
-    /**
-     * Rounds a value up the nearest multiplier.
-     *
-     * @param value The value to round.
-     * @param multiplier The multiplier to round using.
-     * @public
-     */
+inline int RoundUpToTheNearestMultiplier(int value, int multiplier)
+{
+    return static_cast<int>(std::ceil(static_cast<float>(value) / multiplier) *
+                            multiplier);
+}
 
-    PACKAGE_API int RoundUpToTheNearestMultiplier(int value, int multiplier)
-    {
-        return static_cast<int>(
-            std::ceil(static_cast<float>(value) / multiplier) * multiplier);
-    }
+/**
+ * Calculated the accuracy ratio of the current position against a static
+ * position.
+ *
+ * @param position The position to test against.
+ * @param currentPosition The current position.
+ * @param delta The plus/minus delta to test the current position against.
+ * @public
+ */
 
-    /**
-     * Calculated the accuracy ratio of the current position against a static
-     * position.
-     *
-     * @param position The position to test against.
-     * @param currentPosition The current position.
-     * @param delta The plus/minus delta to test the current position against.
-     * @public
-     */
+inline float CalculateAccuracyRatio(int position, int currentPosition,
+                                    int delta = 50)
+{
+    auto diff = position - currentPosition;
 
-    PACKAGE_API float CalculateAccuracyRatio(int position, int currentPosition,
-                                             int delta = 50)
-    {
-        auto diff = position - currentPosition;
+    auto ratio = InverseLerp(delta, 0, std::abs(diff));
 
-        auto ratio = InverseLerp(delta, 0, std::abs(diff));
-
-        return ratio;
-    }
+    return ratio;
 }
 
 } // namespace RhythmGameUtilities

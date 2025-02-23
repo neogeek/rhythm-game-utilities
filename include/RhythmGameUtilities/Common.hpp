@@ -51,7 +51,7 @@ extern "C"
  * @private
  */
 
-std::string Trim(const char *contents)
+inline std::string Trim(const char *contents)
 {
     return std::regex_replace(contents, std::regex("^\\s+|\\s+$"), "");
 }
@@ -64,7 +64,8 @@ std::string Trim(const char *contents)
  * @private
  */
 
-std::vector<std::string> Split(const char *contents, const char delimiter)
+inline std::vector<std::string> Split(const char *contents,
+                                      const char delimiter)
 {
     auto parts = std::vector<std::string>();
 
@@ -80,8 +81,8 @@ std::vector<std::string> Split(const char *contents, const char delimiter)
     return parts;
 }
 
-std::vector<std::string> FindAllMatches(const char *contents,
-                                        std::regex pattern)
+inline std::vector<std::string> FindAllMatches(const char *contents,
+                                               std::regex pattern)
 {
     auto currentMatch =
         std::cregex_iterator(contents, contents + strlen(contents), pattern);
@@ -101,8 +102,8 @@ std::vector<std::string> FindAllMatches(const char *contents,
     return matches;
 }
 
-std::vector<std::string> FindMatchGroups(const char *contents,
-                                         std::regex pattern)
+inline std::vector<std::string> FindMatchGroups(const char *contents,
+                                                std::regex pattern)
 {
     auto currentMatch =
         std::cregex_iterator(contents, contents + strlen(contents), pattern);

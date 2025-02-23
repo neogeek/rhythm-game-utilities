@@ -15,9 +15,8 @@ namespace RhythmGameUtilities
 
 extern "C"
 {
-    PACKAGE_API
-    ChartSectionInternal *ParseSectionsFromChartInternal(const char *contents,
-                                                         int *outSize)
+    PACKAGE_API ChartSectionInternal *
+    ParseSectionsFromChartInternal(const char *contents, int *outSize)
     {
         auto internalSections = ParseSectionsFromChart(contents);
 

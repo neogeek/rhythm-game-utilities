@@ -1,11 +1,5 @@
 #pragma once
 
-#include <map>
-
-#include "Structs/BeatBar.h"
-#include "Structs/Tempo.h"
-#include "Structs/TimeSignature.h"
-
 #include "Utilities.hpp"
 
 #ifdef _WIN32
@@ -70,6 +64,30 @@ extern "C"
         }
 
         return beatBars;
+    }
+
+    PACKAGE_API float ConvertTickToPositionInternal(int tick, int resolution)
+    {
+        return ConvertTickToPosition(tick, resolution);
+    }
+
+    PACKAGE_API bool IsOnTheBeatInternal(int bpm, float currentTime,
+                                         float delta = 0.05f)
+    {
+        return IsOnTheBeat(bpm, currentTime, delta);
+    }
+
+    PACKAGE_API int RoundUpToTheNearestMultiplierInternal(int value,
+                                                          int multiplier)
+    {
+        return RoundUpToTheNearestMultiplier(value, multiplier);
+    }
+
+    PACKAGE_API float CalculateAccuracyRatioInternal(int position,
+                                                     int currentPosition,
+                                                     int delta = 50)
+    {
+        return CalculateAccuracyRatio(position, currentPosition, delta);
     }
 }
 
