@@ -15,12 +15,6 @@
 
 #include "Common.hpp"
 
-#ifdef _WIN32
-#define PACKAGE_API __declspec(dllexport)
-#else
-#define PACKAGE_API
-#endif
-
 namespace RhythmGameUtilities
 {
 
@@ -45,8 +39,8 @@ std::regex CHART_SECTION_LINE_PATTERN("([^=]+)\\s*=([^\\r\\n]+)");
 
 std::regex JSON_VALUE_PATTERN("(\"[^\"]+\"|\\S+)");
 
-std::map<std::string,
-         std::vector<std::pair<std::string, std::vector<std::string>>>>
+inline std::map<std::string,
+                std::vector<std::pair<std::string, std::vector<std::string>>>>
 ParseSectionsFromChart(const char *contents)
 {
     auto matches = FindAllMatches(contents, CHART_SECTION_PATTERN);
@@ -93,7 +87,7 @@ ParseSectionsFromChart(const char *contents)
     return sections;
 }
 
-std::map<std::string, std::string> ParseMetaDataFromChartSection(
+inline std::map<std::string, std::string> ParseMetaDataFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
     auto data = std::map<std::string, std::string>();
@@ -106,7 +100,7 @@ std::map<std::string, std::string> ParseMetaDataFromChartSection(
     return data;
 }
 
-std::vector<TimeSignature> ParseTimeSignatureChangesFromChartSection(
+inline std::vector<TimeSignature> ParseTimeSignatureChangesFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
     auto timeSignaturesChanges = std::vector<TimeSignature>();
@@ -127,7 +121,7 @@ std::vector<TimeSignature> ParseTimeSignatureChangesFromChartSection(
     return timeSignaturesChanges;
 }
 
-std::vector<Tempo> ParseTempoChangesFromChartSection(
+inline std::vector<Tempo> ParseTempoChangesFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
     auto tempoChanges = std::vector<Tempo>();
@@ -146,7 +140,7 @@ std::vector<Tempo> ParseTempoChangesFromChartSection(
     return tempoChanges;
 }
 
-std::vector<Note> ParseNotesFromChartSection(
+inline std::vector<Note> ParseNotesFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
     auto notes = std::vector<Note>();
@@ -164,7 +158,7 @@ std::vector<Note> ParseNotesFromChartSection(
     return notes;
 }
 
-std::map<int, std::string> ParseLyricsFromChartSection(
+inline std::map<int, std::string> ParseLyricsFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
 {
     auto lyrics = std::map<int, std::string>();

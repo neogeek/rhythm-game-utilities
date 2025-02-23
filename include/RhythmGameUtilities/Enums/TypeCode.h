@@ -22,7 +22,7 @@ typedef enum TypeCode
 
 } TypeCodeType;
 
-std::string ToString(TypeCode typeCode)
+inline std::string ToString(TypeCode typeCode)
 {
     switch (typeCode)
     {

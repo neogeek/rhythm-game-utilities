@@ -17,7 +17,7 @@ typedef enum NamedSection
     Events
 } NamedSectionType;
 
-std::string ToString(NamedSection namedSection)
+inline std::string ToString(NamedSection namedSection)
 {
     switch (namedSection)
     {

@@ -8,20 +8,20 @@ namespace RhythmGameUtilities
     {
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-        public static extern float ConvertTickToPosition(int tick, int resolution);
+        public static extern float ConvertTickToPositionInternal(int tick, int resolution);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
         public static extern int ConvertSecondsToTicksInternal(float seconds, int resolution, Tempo[] tempoChanges,
             int tempoChangesSize, TimeSignature[] timeSignatures, int timeSignaturesSize);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-        public static extern bool IsOnTheBeat(int bpm, float currentTime, float delta);
+        public static extern bool IsOnTheBeatInternal(int bpm, float currentTime, float delta);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int RoundUpToTheNearestMultiplier(int value, int multiplier);
+        public static extern int RoundUpToTheNearestMultiplierInternal(int value, int multiplier);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-        public static extern float CalculateAccuracyRatio(int position, int currentPosition, int delta);
+        public static extern float CalculateAccuracyRatioInternal(int position, int currentPosition, int delta);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr CalculateBeatBarsInternal(Tempo[] tempoChanges, int tempoChangesSize, int resolution,
@@ -42,7 +42,7 @@ namespace RhythmGameUtilities
         /// <param name="resolution">The resolution of the song.</param>
         public static float ConvertTickToPosition(int tick, int resolution)
         {
-            return UtilitiesInternal.ConvertTickToPosition(tick, resolution);
+            return UtilitiesInternal.ConvertTickToPositionInternal(tick, resolution);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace RhythmGameUtilities
         /// <param name="delta">The plus/minus delta to test the current time against.</param>
         public static bool IsOnTheBeat(int bpm, float currentTime, float delta = 0.05f)
         {
-            return UtilitiesInternal.IsOnTheBeat(bpm, currentTime, delta);
+            return UtilitiesInternal.IsOnTheBeatInternal(bpm, currentTime, delta);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace RhythmGameUtilities
         /// <param name="multiplier">The multiplier to round using.</param>
         public static int RoundUpToTheNearestMultiplier(int value, int multiplier)
         {
-            return UtilitiesInternal.RoundUpToTheNearestMultiplier(value, multiplier);
+            return UtilitiesInternal.RoundUpToTheNearestMultiplierInternal(value, multiplier);
         }
 
         public static BeatBar[] CalculateBeatBars(Tempo[] tempoChanges, int resolution = 192, int ts = 4,
@@ -140,7 +140,7 @@ namespace RhythmGameUtilities
         /// <param name="delta">The plus/minus delta to test the current position against.</param>
         public static float CalculateAccuracyRatio(int position, int currentPosition, int delta = 50)
         {
-            return UtilitiesInternal.CalculateAccuracyRatio(position, currentPosition, delta);
+            return UtilitiesInternal.CalculateAccuracyRatioInternal(position, currentPosition, delta);
         }
 
     }
