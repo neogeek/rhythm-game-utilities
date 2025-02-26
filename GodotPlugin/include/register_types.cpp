@@ -1,6 +1,7 @@
 #include "register_types.h"
 
 #include "rhythm_game_utilities.h"
+#include "song.h"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/class_db.hpp>
@@ -17,6 +18,7 @@ void initialize_rhythm_game_utilities(ModuleInitializationLevel p_level)
     }
 
     ClassDB::register_class<rhythm_game_utilities>(true);
+    ClassDB::register_class<Song>();
 }
 
 void terminate_rhythm_game_utilities(ModuleInitializationLevel p_level)
