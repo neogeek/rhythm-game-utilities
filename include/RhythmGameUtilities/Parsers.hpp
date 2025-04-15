@@ -30,12 +30,12 @@ typedef struct
     int lineCount;
 } ChartSectionInternal;
 
-std::regex CHART_SECTION_PATTERN("\\[([a-z]+)\\]\\s*\\{([^\\}]+)\\}",
+std::regex CHART_SECTION_PATTERN(R"(\[([a-z]+)\]\s*\{([^\}]+)\})",
                                  std::regex_constants::icase);
 
-std::regex CHART_SECTION_LINE_PATTERN("([^=]+)\\s*=([^\\r\\n]+)");
+std::regex CHART_SECTION_LINE_PATTERN(R"(([^=]+)\s*=([^\r\n]+))");
 
-std::regex JSON_VALUE_PATTERN("(\"[^\"]+\"|\\S+)");
+std::regex JSON_VALUE_PATTERN(R"(("[^"]+"|\S+))");
 
 inline std::map<std::string,
                 std::vector<std::pair<std::string, std::vector<std::string>>>>
