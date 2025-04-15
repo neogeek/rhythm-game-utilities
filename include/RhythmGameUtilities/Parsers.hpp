@@ -5,13 +5,13 @@
 #include <string>
 #include <vector>
 
-#include "Enums/Difficulty.h"
-#include "Enums/NamedSection.h"
-#include "Enums/TypeCode.h"
+#include "Enums/Difficulty.hpp"
+#include "Enums/NamedSection.hpp"
+#include "Enums/TypeCode.hpp"
 
-#include "Structs/Note.h"
-#include "Structs/Tempo.h"
-#include "Structs/TimeSignature.h"
+#include "Structs/Note.hpp"
+#include "Structs/Tempo.hpp"
+#include "Structs/TimeSignature.hpp"
 
 #include "Common.hpp"
 

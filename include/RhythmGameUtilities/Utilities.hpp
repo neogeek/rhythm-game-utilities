@@ -6,10 +6,10 @@
 #include <optional>
 #include <vector>
 
-#include "Structs/BeatBar.h"
-#include "Structs/Note.h"
-#include "Structs/Tempo.h"
-#include "Structs/TimeSignature.h"
+#include "Structs/BeatBar.hpp"
+#include "Structs/Note.hpp"
+#include "Structs/Tempo.hpp"
+#include "Structs/TimeSignature.hpp"
 
 #include "Common.hpp"
 
