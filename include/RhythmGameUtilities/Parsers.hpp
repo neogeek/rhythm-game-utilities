@@ -76,7 +76,7 @@ ParseSectionsFromChart(const char *contents)
                     std::regex_replace(values[k], std::regex("^\"|\"$"), "");
             }
 
-            items.push_back(std::make_pair(key, values));
+            items.emplace_back(key, values);
         }
 
         sections.insert({parts[1].c_str(), items});

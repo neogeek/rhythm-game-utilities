@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <cmath>
 
 #ifdef _WIN32
@@ -23,10 +24,10 @@ extern "C"
      * @public
      */
 
-    PACKAGE_API int **ConvertSamplesToWaveform(float *samples, int size,
+    PACKAGE_API int **ConvertSamplesToWaveform(const float *samples, int size,
                                                int width, int height)
     {
-        auto waveform = new int *[width];
+        auto *waveform = new int *[width];
 
         auto step = floor(size / width);
         auto amp = height / 2;
@@ -40,19 +41,12 @@ extern "C"
 
             for (auto j = 0; j < step; j += 1)
             {
-                auto index = static_cast<int>(x * step + j);
+                auto index = static_cast<int>((x * step) + j);
 
                 auto datum = samples[index];
 
-                if (datum < min)
-                {
-                    min = datum;
-                }
-
-                if (datum > max)
-                {
-                    max = datum;
-                }
+                min = std::min(datum, min);
+                max = std::max(datum, max);
             }
 
             auto minY = static_cast<int>((1 + min) * amp);

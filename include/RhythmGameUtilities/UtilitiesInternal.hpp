@@ -55,7 +55,7 @@ extern "C"
 
         *outSize = internalBeatBars.size();
 
-        auto beatBars =
+        auto *beatBars =
             (BeatBar *)malloc(internalBeatBars.size() * sizeof(BeatBar));
 
         for (auto i = 0; i < internalBeatBars.size(); i += 1)

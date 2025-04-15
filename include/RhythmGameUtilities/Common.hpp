@@ -26,7 +26,7 @@ extern "C"
 
     PACKAGE_API float Lerp(float a, float b, float t)
     {
-        return (1 - t) * a + b * t;
+        return ((1 - t) * a) + (b * t);
     }
 
     /**
@@ -82,7 +82,7 @@ inline std::vector<std::string> Split(const char *contents,
 }
 
 inline std::vector<std::string> FindAllMatches(const char *contents,
-                                               std::regex pattern)
+                                               const std::regex &pattern)
 {
     auto currentMatch =
         std::cregex_iterator(contents, contents + strlen(contents), pattern);
@@ -103,14 +103,14 @@ inline std::vector<std::string> FindAllMatches(const char *contents,
 }
 
 inline std::vector<std::string> FindMatchGroups(const char *contents,
-                                                std::regex pattern)
+                                                const std::regex &pattern)
 {
     auto currentMatch =
         std::cregex_iterator(contents, contents + strlen(contents), pattern);
 
     auto matches = std::vector<std::string>();
 
-    auto match = *currentMatch;
+    const auto &match = *currentMatch;
 
     for (auto i = 0; i < match.size(); i += 1)
     {

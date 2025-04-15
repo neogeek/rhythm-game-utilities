@@ -95,7 +95,7 @@ ConvertSecondsToTicks(float seconds, int resolution,
  */
 
 inline std::vector<std::tuple<int, int>>
-GenerateAdjacentKeyPairs(std::map<int, int> keyValuePairs)
+GenerateAdjacentKeyPairs(const std::map<int, int> &keyValuePairs)
 {
     auto adjacentKeyPairs = std::vector<std::tuple<int, int>>();
 
@@ -110,16 +110,15 @@ GenerateAdjacentKeyPairs(std::map<int, int> keyValuePairs)
 
     for (auto i = 0; i < sortedKeys.size() - 1; i += 1)
     {
-        adjacentKeyPairs.push_back(
-            std::make_tuple(sortedKeys[i], sortedKeys[i + 1]));
+        adjacentKeyPairs.emplace_back(sortedKeys[i], sortedKeys[i + 1]);
     }
 
     return adjacentKeyPairs;
 }
 
-inline std::vector<BeatBar> CalculateBeatBars(std::vector<Tempo> tempoChanges,
-                                              int resolution, int ts,
-                                              bool includeHalfNotes)
+inline std::vector<BeatBar>
+CalculateBeatBars(const std::vector<Tempo> &tempoChanges, int resolution,
+                  int ts, bool includeHalfNotes)
 {
     std::vector<BeatBar> beatBars;
 
@@ -146,7 +145,7 @@ inline std::vector<BeatBar> CalculateBeatBars(std::vector<Tempo> tempoChanges,
 
             if (includeHalfNotes && tick != endTick)
             {
-                beatBars.push_back({tick + resolution / 2, bpm});
+                beatBars.push_back({tick + (resolution / 2), bpm});
             }
         }
     }

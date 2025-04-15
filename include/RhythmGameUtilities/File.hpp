@@ -22,7 +22,7 @@ inline std::vector<uint8_t> ReadBytesFromFile(const char *path)
 
     if (!file.is_open())
     {
-        std::cerr << "Failed to open " << path << "." << std::endl;
+        std::cerr << "Failed to open " << path << ".\n";
     }
 
     auto fileSize = file.tellg();
@@ -49,13 +49,13 @@ inline std::string ReadStringFromFile(const char *path)
 
     if (!file)
     {
-        std::cerr << "Failed to open " << path << "." << std::endl;
+        std::cerr << "Failed to open " << path << ".\n";
 
         return "";
     }
 
-    return std::string((std::istreambuf_iterator<char>(file)),
-                       std::istreambuf_iterator<char>());
+    return {(std::istreambuf_iterator<char>(file)),
+            std::istreambuf_iterator<char>()};
 }
 
 } // namespace RhythmGameUtilities

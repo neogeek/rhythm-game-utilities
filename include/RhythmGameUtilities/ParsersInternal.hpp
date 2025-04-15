@@ -22,33 +22,33 @@ extern "C"
 
         *outSize = internalSections.size();
 
-        auto sections = (ChartSectionInternal *)malloc(
+        auto *sections = (ChartSectionInternal *)malloc(
             internalSections.size() * sizeof(ChartSectionInternal));
 
         int i = 0;
 
-        for (auto section = internalSections.begin();
-             section != internalSections.end(); section++)
+        for (auto &internalSection : internalSections)
         {
-            auto nameLength = section->first.size() + 1;
+            auto nameLength = internalSection.first.size() + 1;
             sections[i].name = (char *)malloc(nameLength);
-            strncpy(sections[i].name, section->first.c_str(), nameLength - 1);
+            strncpy(sections[i].name, internalSection.first.c_str(),
+                    nameLength - 1);
             sections[i].name[nameLength - 1] = '\0';
 
             sections[i].lines = (KeyValuePairInternal *)malloc(
-                section->second.size() * sizeof(KeyValuePairInternal));
+                internalSection.second.size() * sizeof(KeyValuePairInternal));
 
-            sections[i].lineCount = section->second.size();
+            sections[i].lineCount = internalSection.second.size();
 
-            for (auto j = 0; j < section->second.size(); j += 1)
+            for (auto j = 0; j < internalSection.second.size(); j += 1)
             {
-                auto keyLength = section->second[j].first.size() + 1;
+                auto keyLength = internalSection.second[j].first.size() + 1;
                 sections[i].lines[j].key = (char *)malloc(keyLength);
                 strncpy(sections[i].lines[j].key,
-                        section->second[j].first.c_str(), keyLength - 1);
+                        internalSection.second[j].first.c_str(), keyLength - 1);
                 sections[i].lines[j].key[keyLength - 1] = '\0';
 
-                auto values = section->second[j].second;
+                auto values = internalSection.second[j].second;
 
                 for (auto k = 0; k < values.size(); k += 1)
                 {
