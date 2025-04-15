@@ -1,7 +1,6 @@
 #include <cassert>
 #include <cmath>
 #include <iostream>
-#include <tuple>
 
 #include "RhythmGameUtilities/Common.hpp"
 

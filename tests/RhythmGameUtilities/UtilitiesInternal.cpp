@@ -1,7 +1,6 @@
 #include <cassert>
 #include <cmath>
 #include <iostream>
-#include <tuple>
 
 #include "RhythmGameUtilities/Structs/Tempo.hpp"
 #include "RhythmGameUtilities/Structs/TimeSignature.hpp"

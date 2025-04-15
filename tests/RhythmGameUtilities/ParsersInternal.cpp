@@ -2,6 +2,8 @@
 #include <cstring>
 #include <iostream>
 
+#include "RhythmGameUtilities/Enums/Difficulty.hpp"
+#include "RhythmGameUtilities/Enums/NamedSection.hpp"
 #include "RhythmGameUtilities/ParsersInternal.hpp"
 
 using namespace RhythmGameUtilities;

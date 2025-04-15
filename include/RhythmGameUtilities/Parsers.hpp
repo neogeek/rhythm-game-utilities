@@ -5,8 +5,6 @@
 #include <string>
 #include <vector>
 
-#include "Enums/Difficulty.hpp"
-#include "Enums/NamedSection.hpp"
 #include "Enums/TypeCode.hpp"
 
 #include "Structs/Note.hpp"
