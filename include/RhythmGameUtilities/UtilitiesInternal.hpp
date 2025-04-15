@@ -72,7 +72,7 @@ extern "C"
     }
 
     PACKAGE_API bool IsOnTheBeatInternal(int bpm, float currentTime,
-                                         float delta = 0.05f)
+                                         float delta = 0.05F)
     {
         return IsOnTheBeat(bpm, currentTime, delta);
     }

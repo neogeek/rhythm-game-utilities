@@ -35,8 +35,8 @@ extern "C"
         {
             waveform[x] = new int[height];
 
-            auto min = 1.0f;
-            auto max = -1.0f;
+            auto min = 1.0F;
+            auto max = -1.0F;
 
             for (auto j = 0; j < step; j += 1)
             {

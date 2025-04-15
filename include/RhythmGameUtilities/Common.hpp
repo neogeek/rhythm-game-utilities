@@ -40,7 +40,7 @@ extern "C"
 
     PACKAGE_API float InverseLerp(float a, float b, float v)
     {
-        return std::clamp(((v - a) / (b - a)), 0.0f, 1.0f);
+        return std::clamp(((v - a) / (b - a)), 0.0F, 1.0F);
     }
 }
 

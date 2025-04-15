@@ -16,7 +16,7 @@
 namespace RhythmGameUtilities
 {
 
-const float SECONDS_PER_MINUTE = 60.0f;
+const float SECONDS_PER_MINUTE = 60.0F;
 
 /**
  * Convert seconds to ticks.
@@ -205,7 +205,7 @@ inline float ConvertTickToPosition(int tick, int resolution)
  * @public
  */
 
-inline bool IsOnTheBeat(int bpm, float currentTime, float delta = 0.05f)
+inline bool IsOnTheBeat(int bpm, float currentTime, float delta = 0.05F)
 {
     auto beatInterval = SECONDS_PER_MINUTE / static_cast<float>(bpm);
 
