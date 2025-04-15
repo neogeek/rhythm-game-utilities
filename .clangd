@@ -2,3 +2,8 @@ CompileFlags:
   Add:
     - '-std=c++17'
     - '-Iinclude'
+Diagnostics:
+  UnusedIncludes: Strict
+  ClangTidy:
+    Add: [performance-*, modernize-*, readability-*]
+    Remove: [readability-identifier-length]
