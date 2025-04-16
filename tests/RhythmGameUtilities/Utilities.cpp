@@ -3,8 +3,8 @@
 #include <iostream>
 #include <tuple>
 
-#include "RhythmGameUtilities/Structs/Tempo.h"
-#include "RhythmGameUtilities/Structs/TimeSignature.h"
+#include "RhythmGameUtilities/Structs/Tempo.hpp"
+#include "RhythmGameUtilities/Structs/TimeSignature.hpp"
 
 #include "RhythmGameUtilities/Utilities.hpp"
 

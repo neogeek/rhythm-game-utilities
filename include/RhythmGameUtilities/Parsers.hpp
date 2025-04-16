@@ -5,13 +5,11 @@
 #include <string>
 #include <vector>
 
-#include "Enums/Difficulty.h"
-#include "Enums/NamedSection.h"
-#include "Enums/TypeCode.h"
+#include "Enums/TypeCode.hpp"
 
-#include "Structs/Note.h"
-#include "Structs/Tempo.h"
-#include "Structs/TimeSignature.h"
+#include "Structs/Note.hpp"
+#include "Structs/Tempo.hpp"
+#include "Structs/TimeSignature.hpp"
 
 #include "Common.hpp"
 
@@ -32,12 +30,12 @@ typedef struct
     int lineCount;
 } ChartSectionInternal;
 
-std::regex CHART_SECTION_PATTERN("\\[([a-z]+)\\]\\s*\\{([^\\}]+)\\}",
+std::regex CHART_SECTION_PATTERN(R"(\[([a-z]+)\]\s*\{([^\}]+)\})",
                                  std::regex_constants::icase);
 
-std::regex CHART_SECTION_LINE_PATTERN("([^=]+)\\s*=([^\\r\\n]+)");
+std::regex CHART_SECTION_LINE_PATTERN(R"(([^=]+)\s*=([^\r\n]+))");
 
-std::regex JSON_VALUE_PATTERN("(\"[^\"]+\"|\\S+)");
+std::regex JSON_VALUE_PATTERN(R"(("[^"]+"|\S+))");
 
 inline std::map<std::string,
                 std::vector<std::pair<std::string, std::vector<std::string>>>>
@@ -78,7 +76,7 @@ ParseSectionsFromChart(const char *contents)
                     std::regex_replace(values[k], std::regex("^\"|\"$"), "");
             }
 
-            items.push_back(std::make_pair(key, values));
+            items.emplace_back(key, values);
         }
 
         sections.insert({parts[1].c_str(), items});

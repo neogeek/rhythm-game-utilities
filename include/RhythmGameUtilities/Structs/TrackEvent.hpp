@@ -1,13 +1,13 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 namespace RhythmGameUtilities
 {
 
 struct TrackEvent
 {
-
     int Position;
 
     std::string TypeCode;

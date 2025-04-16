@@ -5,7 +5,6 @@ namespace RhythmGameUtilities
 
 struct Note
 {
-
     int Position;
 
     int HandPosition;

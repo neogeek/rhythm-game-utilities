@@ -1,1 +1,3 @@
-Checks: '-*,clang-analyzer-*,-clang-analyzer-cplusplus*'
+Checks: 'performance-*,modernize-*,readability-*,-readability-identifier-length'
+CheckOptions:
+  UnusedIncludes: Strict

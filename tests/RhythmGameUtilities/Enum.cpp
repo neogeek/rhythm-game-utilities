@@ -1,9 +1,9 @@
 #include <cassert>
 #include <iostream>
 
-#include "RhythmGameUtilities/Enums/Difficulty.h"
-#include "RhythmGameUtilities/Enums/NamedSection.h"
-#include "RhythmGameUtilities/Enums/TypeCode.h"
+#include "RhythmGameUtilities/Enums/Difficulty.hpp"
+#include "RhythmGameUtilities/Enums/NamedSection.hpp"
+#include "RhythmGameUtilities/Enums/TypeCode.hpp"
 
 using namespace RhythmGameUtilities;
 
