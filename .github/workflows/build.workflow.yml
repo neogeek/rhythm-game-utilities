@@ -17,12 +17,9 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
-
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
@@ -31,35 +28,22 @@ jobs:
           mkdir -p build
           g++ -std=c++17 -shared -fPIC -o build/libRhythmGameUtilities.so include/RhythmGameUtilities/RhythmGameUtilities.cpp
 
-      - name: Copy Release
-        run: |
-          mkdir -p UnityPackage/Libs/Linux
-          mkdir -p RhythmGameUtilities/Libs/Linux
-          cp build/libRhythmGameUtilities.so UnityPackage/Libs/Linux
-          cp build/libRhythmGameUtilities.so RhythmGameUtilities/Libs/Linux
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: build-linux-files
+          path: build/
+          retention-days: 1
 
-      - name: Setup git
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-
-      - name: Git commit changes
-        run: |
-          git pull
-          git add UnityPackage/Libs/Linux/libRhythmGameUtilities.so
-          git add RhythmGameUtilities/Libs/Linux/libRhythmGameUtilities.so
-          git commit -m "Updated libRhythmGameUtilities.so [skip ci]" || exit 0
-          git push
   build-macos:
     runs-on: macos-latest
-    needs: build-linux
 
     permissions:
       contents: write
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
@@ -71,35 +55,22 @@ jobs:
           lipo -create -output build/libRhythmGameUtilities.dylib build/libRhythmGameUtilities-arm64.dylib build/libRhythmGameUtilities-x86_64.dylib
           lipo -info build/libRhythmGameUtilities.dylib
 
-      - name: Copy Release
-        run: |
-          mkdir -p UnityPackage/Libs/macOS
-          mkdir -p RhythmGameUtilities/Libs/macOS
-          cp build/libRhythmGameUtilities.dylib UnityPackage/Libs/macOS
-          cp build/libRhythmGameUtilities.dylib RhythmGameUtilities/Libs/macOS
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: build-macos-files
+          path: build/
+          retention-days: 1
 
-      - name: Setup git
-        run: |
-          git config user.name 'github-actions[bot]'
-          git config user.email 'github-actions[bot]@users.noreply.github.com'
-
-      - name: Git commit changes
-        run: |
-          git pull
-          git add UnityPackage/Libs/macOS/libRhythmGameUtilities.dylib
-          git add RhythmGameUtilities/Libs/macOS/libRhythmGameUtilities.dylib
-          git commit -m "Updated libRhythmGameUtilities.dylib [skip ci]" || exit 0
-          git push
   build-windows:
     runs-on: windows-latest
-    needs: build-macos
 
     permissions:
       contents: write
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           ref: ${{ github.event.pull_request.head.ref }}
 
@@ -112,25 +83,55 @@ jobs:
           link /DLL /MACHINE:X64 /OUT:build\libRhythmGameUtilities.dll /IMPLIB:build\libRhythmGameUtilities.lib build\RhythmGameUtilities.obj
           del build\RhythmGameUtilities.obj
 
-      - name: Copy Release
-        shell: cmd
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: build-windows-files
+          path: build/
+          retention-days: 1
+
+  commit-changes:
+    needs: [build-linux, build-macos, build-windows]
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4.2.1
+        with:
+          path: artifacts/
+
+      - name: Move artifacts to build directory
         run: |
-          mkdir UnityPackage/Libs/Windows
-          mkdir RhythmGameUtilities/Libs/Windows
-          cp build/libRhythmGameUtilities.dll UnityPackage/Libs/Windows
-          cp build/libRhythmGameUtilities.dll RhythmGameUtilities/Libs/Windows
+          mkdir -p UnityPackage/Libs/Linux
+          mkdir -p RhythmGameUtilities/Libs/Linux
+          mkdir -p UnityPackage/Libs/macOS
+          mkdir -p RhythmGameUtilities/Libs/macOS
+          mkdir -p UnityPackage/Libs/Windows
+          mkdir -p RhythmGameUtilities/Libs/Windows
+          cp artifacts/build-linux-files/libRhythmGameUtilities.so UnityPackage/Libs/Linux/
+          cp artifacts/build-linux-files/libRhythmGameUtilities.so RhythmGameUtilities/Libs/Linux/
+          cp artifacts/build-macos-files/libRhythmGameUtilities.dylib UnityPackage/Libs/macOS/
+          cp artifacts/build-macos-files/libRhythmGameUtilities.dylib RhythmGameUtilities/Libs/macOS/
+          cp artifacts/build-windows-files/libRhythmGameUtilities.dll UnityPackage/Libs/Windows/
+          cp artifacts/build-windows-files/libRhythmGameUtilities.dll RhythmGameUtilities/Libs/Windows/
 
       - name: Setup git
-        shell: cmd
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
 
       - name: Git commit changes
-        shell: cmd
         run: |
           git pull
-          git add UnityPackage/Libs/Windows/libRhythmGameUtilities.dll
-          git add RhythmGameUtilities/Libs/Windows/libRhythmGameUtilities.dll
-          git commit -m "Updated libRhythmGameUtilities.dll [skip ci]" || exit 0
+          git add UnityPackage/
+          git add RhythmGameUtilities/
+          git commit -m "Updated build files [skip ci]" || exit 0
           git push
