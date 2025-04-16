@@ -5,7 +5,6 @@ namespace RhythmGameUtilities
 
 struct BeatBar
 {
-
     int Position;
 
     int BPM;

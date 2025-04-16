@@ -8,7 +8,6 @@ namespace RhythmGameUtilities
 
 struct TrackEvent
 {
-
     int Position;
 
     std::string TypeCode;
