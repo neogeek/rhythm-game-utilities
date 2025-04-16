@@ -7,10 +7,10 @@ namespace RhythmGameUtilities
     {
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-        public static extern float LerpInternal(float a, float b, float t);
+        public static extern float Lerp(float a, float b, float t);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-        public static extern float InverseLerpInternal(float a, float b, float v);
+        public static extern float InverseLerp(float a, float b, float v);
 
     }
 
@@ -25,7 +25,7 @@ namespace RhythmGameUtilities
         /// <param name="t">The value used for interpolation.</param>
         public static float Lerp(float a, float b, float t)
         {
-            return CommonInternal.LerpInternal(a, b, t);
+            return CommonInternal.Lerp(a, b, t);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace RhythmGameUtilities
         /// <param name="v">The value in the middle.</param>
         public static float InverseLerp(float a, float b, float v)
         {
-            return CommonInternal.InverseLerpInternal(a, b, v);
+            return CommonInternal.InverseLerp(a, b, v);
         }
 
     }
