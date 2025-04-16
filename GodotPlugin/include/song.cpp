@@ -1,9 +1,9 @@
-#include "song.h"
+#include "song.hpp"
 
-#include "rhythm_game_utilities.h"
+#include "rhythm_game_utilities.hpp"
 
-#include <RhythmGameUtilities/Enums/Difficulty.h>
-#include <RhythmGameUtilities/Enums/NamedSection.h>
+#include <RhythmGameUtilities/Enums/Difficulty.hpp>
+#include <RhythmGameUtilities/Enums/NamedSection.hpp>
 
 void Song::_bind_methods()
 {

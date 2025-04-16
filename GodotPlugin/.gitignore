@@ -1,4 +1,7 @@
 addons/
 
-*.os
-*.dblite
+.scons_cache/
+
+.sconsign.dblite
+
+include/*.os

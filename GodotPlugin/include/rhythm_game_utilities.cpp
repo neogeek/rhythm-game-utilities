@@ -1,4 +1,4 @@
-#include "rhythm_game_utilities.h"
+#include "rhythm_game_utilities.hpp"
 
 #include "utilities.hpp"
 
@@ -189,18 +189,17 @@ Dictionary rhythm_game_utilities::parse_sections_from_chart(String contents)
     auto sections_internal =
         RhythmGameUtilities::ParseSectionsFromChart(contents.utf8().get_data());
 
-    for (auto section_internal = sections_internal.begin();
-         section_internal != sections_internal.end(); section_internal++)
+    for (auto &section_internal : sections_internal)
     {
-        auto section_key = godot::String(section_internal->first.c_str());
+        auto section_key = godot::String(section_internal.first.c_str());
 
         Array section_items;
 
-        for (auto i = 0; i < section_internal->second.size(); i += 1)
+        for (auto i = 0; i < section_internal.second.size(); i += 1)
         {
             Dictionary section_item;
 
-            auto temp = section_internal->second[i];
+            auto temp = section_internal.second[i];
 
             auto key = godot::Variant(temp.first.c_str());
 

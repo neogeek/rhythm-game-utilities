@@ -1,7 +1,7 @@
-#include "register_types.h"
+#include "register_types.hpp"
 
-#include "rhythm_game_utilities.h"
-#include "song.h"
+#include "rhythm_game_utilities.hpp"
+#include "song.hpp"
 
 #include <gdextension_interface.h>
 #include <godot_cpp/core/class_db.hpp>
@@ -21,7 +21,7 @@ void initialize_rhythm_game_utilities(ModuleInitializationLevel p_level)
     ClassDB::register_class<Song>();
 }
 
-void terminate_rhythm_game_utilities(ModuleInitializationLevel p_level)
+void uninitialize_rhythm_game_utilities(ModuleInitializationLevel p_level)
 {
     if (p_level != MODULE_INITIALIZATION_LEVEL_SCENE)
     {
@@ -40,7 +40,10 @@ extern "C"
             p_get_proc_address, p_library, r_initialization);
 
         init_obj.register_initializer(initialize_rhythm_game_utilities);
-        init_obj.register_terminator(terminate_rhythm_game_utilities);
+        init_obj.register_terminator(uninitialize_rhythm_game_utilities);
+
+        init_obj.set_minimum_library_initialization_level(
+            MODULE_INITIALIZATION_LEVEL_SCENE);
 
         return init_obj.init();
     }

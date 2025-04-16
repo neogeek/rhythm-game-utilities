@@ -54,7 +54,7 @@ class rhythm_game_utilities : public Object
                                                     int delta = 50);
 
     static bool is_on_the_beat(int bpm, float current_time,
-                               float delta = 0.05f);
+                               float delta = 0.05F);
 
     static int round_up_to_the_nearest_multiplier(int value, int multiplier);
 };
