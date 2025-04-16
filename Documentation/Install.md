@@ -21,7 +21,7 @@
 
 #### GDScript
 
-Download and install the latest release (coming soon).
+Download and install the latest release from <https://github.com/rhythm-game-utilities/godot-plugin>.
 
 #### C#
 

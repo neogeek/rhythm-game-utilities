@@ -106,7 +106,7 @@ This library aims to offer support for multiple platforms through a single codeb
 
 #### GDScript
 
-Download and install the latest release (coming soon).
+Download and install the latest release from <https://github.com/rhythm-game-utilities/godot-plugin>.
 
 #### C#
 
