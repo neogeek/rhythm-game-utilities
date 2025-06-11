@@ -37,9 +37,9 @@ std::regex CHART_SECTION_LINE_PATTERN(R"(([^=]+)\s*=([^\r\n]+))");
 
 std::regex JSON_VALUE_PATTERN(R"(("[^"]+"|\S+))");
 
-inline std::map<std::string,
+inline auto ParseSectionsFromChart(const char *contents)
+    -> std::map<std::string,
                 std::vector<std::pair<std::string, std::vector<std::string>>>>
-ParseSectionsFromChart(const char *contents)
 {
     auto matches = FindAllMatches(contents, CHART_SECTION_PATTERN);
 
@@ -85,8 +85,9 @@ ParseSectionsFromChart(const char *contents)
     return sections;
 }
 
-inline std::map<std::string, std::string> ParseMetaDataFromChartSection(
+inline auto ParseMetaDataFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
+    -> std::map<std::string, std::string>
 {
     auto data = std::map<std::string, std::string>();
 
@@ -98,8 +99,9 @@ inline std::map<std::string, std::string> ParseMetaDataFromChartSection(
     return data;
 }
 
-inline std::vector<TimeSignature> ParseTimeSignatureChangesFromChartSection(
+inline auto ParseTimeSignatureChangesFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
+    -> std::vector<TimeSignature>
 {
     auto timeSignaturesChanges = std::vector<TimeSignature>();
 
@@ -119,8 +121,9 @@ inline std::vector<TimeSignature> ParseTimeSignatureChangesFromChartSection(
     return timeSignaturesChanges;
 }
 
-inline std::vector<Tempo> ParseTempoChangesFromChartSection(
+inline auto ParseTempoChangesFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
+    -> std::vector<Tempo>
 {
     auto tempoChanges = std::vector<Tempo>();
 
@@ -138,8 +141,9 @@ inline std::vector<Tempo> ParseTempoChangesFromChartSection(
     return tempoChanges;
 }
 
-inline std::vector<Note> ParseNotesFromChartSection(
+inline auto ParseNotesFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
+    -> std::vector<Note>
 {
     auto notes = std::vector<Note>();
 
@@ -156,8 +160,9 @@ inline std::vector<Note> ParseNotesFromChartSection(
     return notes;
 }
 
-inline std::map<int, std::string> ParseLyricsFromChartSection(
+inline auto ParseLyricsFromChartSection(
     std::vector<std::pair<std::string, std::vector<std::string>>> section)
+    -> std::map<int, std::string>
 {
     auto lyrics = std::map<int, std::string>();
 

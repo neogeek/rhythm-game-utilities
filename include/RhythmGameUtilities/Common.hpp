@@ -24,7 +24,7 @@ extern "C"
      * @public
      */
 
-    PACKAGE_API float Lerp(float a, float b, float t)
+    PACKAGE_API auto Lerp(float a, float b, float t) -> float
     {
         return ((1 - t) * a) + (b * t);
     }
@@ -38,7 +38,7 @@ extern "C"
      * @public
      */
 
-    PACKAGE_API float InverseLerp(float a, float b, float v)
+    PACKAGE_API auto InverseLerp(float a, float b, float v) -> float
     {
         return std::clamp((v - a) / (b - a), 0.0F, 1.0F);
     }
@@ -51,7 +51,7 @@ extern "C"
  * @private
  */
 
-inline std::string Trim(const char *contents)
+inline auto Trim(const char *contents) -> std::string
 {
     return std::regex_replace(contents, std::regex("^\\s+|\\s+$"), "");
 }
@@ -64,8 +64,8 @@ inline std::string Trim(const char *contents)
  * @private
  */
 
-inline std::vector<std::string> Split(const char *contents,
-                                      const char delimiter)
+inline auto Split(const char *contents, const char delimiter)
+    -> std::vector<std::string>
 {
     auto parts = std::vector<std::string>();
 
@@ -81,8 +81,8 @@ inline std::vector<std::string> Split(const char *contents,
     return parts;
 }
 
-inline std::vector<std::string> FindAllMatches(const char *contents,
-                                               const std::regex &pattern)
+inline auto FindAllMatches(const char *contents, const std::regex &pattern)
+    -> std::vector<std::string>
 {
     auto currentMatch =
         std::cregex_iterator(contents, contents + strlen(contents), pattern);
@@ -102,8 +102,8 @@ inline std::vector<std::string> FindAllMatches(const char *contents,
     return matches;
 }
 
-inline std::vector<std::string> FindMatchGroups(const char *contents,
-                                                const std::regex &pattern)
+inline auto FindMatchGroups(const char *contents, const std::regex &pattern)
+    -> std::vector<std::string>
 {
     auto currentMatch =
         std::cregex_iterator(contents, contents + strlen(contents), pattern);

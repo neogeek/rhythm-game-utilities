@@ -20,7 +20,7 @@ typedef enum TypeCode
     EventMarker
 } TypeCodeType;
 
-inline std::string ToString(TypeCode typeCode)
+inline auto ToString(TypeCode typeCode) -> std::string
 {
     switch (typeCode)
     {

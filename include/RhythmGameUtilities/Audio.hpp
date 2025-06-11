@@ -24,8 +24,8 @@ extern "C"
      * @public
      */
 
-    PACKAGE_API int **ConvertSamplesToWaveform(const float *samples, int size,
-                                               int width, int height)
+    PACKAGE_API auto ConvertSamplesToWaveform(const float *samples, int size,
+                                              int width, int height) -> int **
     {
         auto *waveform = new int *[width];
 

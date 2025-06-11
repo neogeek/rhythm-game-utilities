@@ -20,7 +20,7 @@ typedef enum Difficulty
     Expert
 } DifficultyType;
 
-inline std::string ToString(Difficulty difficulty)
+inline auto ToString(Difficulty difficulty) -> std::string
 {
     switch (difficulty)
     {

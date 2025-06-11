@@ -13,11 +13,11 @@ namespace RhythmGameUtilities
 
 extern "C"
 {
-    PACKAGE_API int
+    PACKAGE_API auto
     ConvertSecondsToTicksInternal(float seconds, int resolution,
                                   Tempo *tempoChanges, int tempoChangesSize,
                                   TimeSignature *timeSignaturesChanges,
-                                  int timeSignaturesChangesSize)
+                                  int timeSignaturesChangesSize) -> int
     {
         std::vector<Tempo> tempoChangesVector;
 
@@ -37,11 +37,11 @@ extern "C"
                                      timeSignatureChangesVector);
     }
 
-    PACKAGE_API BeatBar *CalculateBeatBarsInternal(Tempo *tempoChanges,
-                                                   int tempoChangesSize,
-                                                   int resolution, int ts,
-                                                   bool includeHalfNotes,
-                                                   int *outSize)
+    PACKAGE_API auto CalculateBeatBarsInternal(Tempo *tempoChanges,
+                                               int tempoChangesSize,
+                                               int resolution, int ts,
+                                               bool includeHalfNotes,
+                                               int *outSize) -> BeatBar *
     {
         std::vector<Tempo> tempoChangesVector;
 
@@ -66,26 +66,28 @@ extern "C"
         return beatBars;
     }
 
-    PACKAGE_API float ConvertTickToPositionInternal(int tick, int resolution)
+    PACKAGE_API auto ConvertTickToPositionInternal(int tick, int resolution)
+        -> float
     {
         return ConvertTickToPosition(tick, resolution);
     }
 
-    PACKAGE_API bool IsOnTheBeatInternal(int bpm, float currentTime,
-                                         float delta = 0.05F)
+    PACKAGE_API auto IsOnTheBeatInternal(int bpm, float currentTime,
+                                         float delta = 0.05F) -> bool
     {
         return IsOnTheBeat(bpm, currentTime, delta);
     }
 
-    PACKAGE_API int RoundUpToTheNearestMultiplierInternal(int value,
-                                                          int multiplier)
+    PACKAGE_API auto RoundUpToTheNearestMultiplierInternal(int value,
+                                                           int multiplier)
+        -> int
     {
         return RoundUpToTheNearestMultiplier(value, multiplier);
     }
 
-    PACKAGE_API float CalculateAccuracyRatioInternal(int position,
-                                                     int currentPosition,
-                                                     int delta = 50)
+    PACKAGE_API auto CalculateAccuracyRatioInternal(int position,
+                                                    int currentPosition,
+                                                    int delta = 50) -> float
     {
         return CalculateAccuracyRatio(position, currentPosition, delta);
     }

@@ -28,10 +28,10 @@ const float SECONDS_PER_MINUTE = 60.0F;
  * @public
  */
 
-inline int
+inline auto
 ConvertSecondsToTicks(float seconds, int resolution,
                       std::vector<Tempo> tempoChanges,
-                      std::vector<TimeSignature> timeSignatureChanges)
+                      std::vector<TimeSignature> timeSignatureChanges) -> int
 {
     auto tempoChangesIterator = tempoChanges.begin();
     auto timeSignatureIterator = timeSignatureChanges.begin();
@@ -94,8 +94,8 @@ ConvertSecondsToTicks(float seconds, int resolution,
  * @public
  */
 
-inline std::vector<std::tuple<int, int>>
-GenerateAdjacentKeyPairs(const std::map<int, int> &keyValuePairs)
+inline auto GenerateAdjacentKeyPairs(const std::map<int, int> &keyValuePairs)
+    -> std::vector<std::tuple<int, int>>
 {
     auto adjacentKeyPairs = std::vector<std::tuple<int, int>>();
 
@@ -116,9 +116,9 @@ GenerateAdjacentKeyPairs(const std::map<int, int> &keyValuePairs)
     return adjacentKeyPairs;
 }
 
-inline std::vector<BeatBar>
-CalculateBeatBars(const std::vector<Tempo> &tempoChanges, int resolution,
-                  int ts, bool includeHalfNotes)
+inline auto CalculateBeatBars(const std::vector<Tempo> &tempoChanges,
+                              int resolution, int ts, bool includeHalfNotes)
+    -> std::vector<BeatBar>
 {
     std::vector<BeatBar> beatBars;
 
@@ -153,8 +153,8 @@ CalculateBeatBars(const std::vector<Tempo> &tempoChanges, int resolution,
     return beatBars;
 }
 
-inline std::optional<Note> FindPositionNearGivenTick(std::vector<Note> notes,
-                                                     int tick, int delta = 50)
+inline auto FindPositionNearGivenTick(std::vector<Note> notes, int tick,
+                                      int delta = 50) -> std::optional<Note>
 {
     auto left = 0;
     auto right = static_cast<int>(notes.size()) - 1;
@@ -190,7 +190,7 @@ inline std::optional<Note> FindPositionNearGivenTick(std::vector<Note> notes,
  * @public
  */
 
-inline float ConvertTickToPosition(int tick, int resolution)
+inline auto ConvertTickToPosition(int tick, int resolution) -> float
 {
     return tick / static_cast<float>(resolution);
 }
@@ -204,7 +204,7 @@ inline float ConvertTickToPosition(int tick, int resolution)
  * @public
  */
 
-inline bool IsOnTheBeat(int bpm, float currentTime, float delta = 0.05F)
+inline auto IsOnTheBeat(int bpm, float currentTime, float delta = 0.05F) -> bool
 {
     auto beatInterval = SECONDS_PER_MINUTE / static_cast<float>(bpm);
 
@@ -225,7 +225,7 @@ inline bool IsOnTheBeat(int bpm, float currentTime, float delta = 0.05F)
  * @public
  */
 
-inline int RoundUpToTheNearestMultiplier(int value, int multiplier)
+inline auto RoundUpToTheNearestMultiplier(int value, int multiplier) -> int
 {
     return static_cast<int>(std::ceil(static_cast<float>(value) / multiplier) *
                             multiplier);
@@ -241,8 +241,8 @@ inline int RoundUpToTheNearestMultiplier(int value, int multiplier)
  * @public
  */
 
-inline float CalculateAccuracyRatio(int position, int currentPosition,
-                                    int delta = 50)
+inline auto CalculateAccuracyRatio(int position, int currentPosition,
+                                   int delta = 50) -> float
 {
     auto diff = position - currentPosition;
 
