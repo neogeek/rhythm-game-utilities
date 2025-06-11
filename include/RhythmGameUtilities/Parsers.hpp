@@ -16,19 +16,19 @@
 namespace RhythmGameUtilities
 {
 
-typedef struct
+using KeyValuePairInternal = struct
 {
     char *key;
     char *values[10];
     int valueCount;
-} KeyValuePairInternal;
+};
 
-typedef struct
+using ChartSectionInternal = struct
 {
     char *name;
     KeyValuePairInternal *lines;
     int lineCount;
-} ChartSectionInternal;
+};
 
 std::regex CHART_SECTION_PATTERN(R"(\[([a-z]+)\]\s*\{([^\}]+)\})",
                                  std::regex_constants::icase);

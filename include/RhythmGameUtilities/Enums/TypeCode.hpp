@@ -5,8 +5,7 @@
 namespace RhythmGameUtilities
 {
 
-typedef enum TypeCode
-{
+using TypeCode = enum : uint8_t {
     /// BPM Marker
     BPM_Marker,
 
@@ -18,7 +17,7 @@ typedef enum TypeCode
 
     /// Event Marker
     EventMarker
-} TypeCodeType;
+};
 
 inline auto ToString(TypeCode typeCode) -> std::string
 {
