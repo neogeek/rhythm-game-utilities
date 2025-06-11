@@ -1,7 +1,5 @@
 #pragma once
 
-#include <map>
-
 #include "Structs/Note.hpp"
 
 #include "Midi.hpp"
@@ -18,8 +16,8 @@ namespace RhythmGameUtilities
 extern "C"
 {
 
-    PACKAGE_API Note *ReadMidiDataInternal(const uint8_t *data, int dataSize,
-                                           int *outSize)
+    PACKAGE_API auto ReadMidiDataInternal(const uint8_t *data, int dataSize,
+                                          int *outSize) -> Note *
     {
         std::vector<uint8_t> byteVector(data, data + dataSize);
 
@@ -27,7 +25,7 @@ extern "C"
 
         *outSize = internalNotes.size();
 
-        auto notes = (Note *)malloc(internalNotes.size() * sizeof(Note));
+        auto *notes = (Note *)malloc(internalNotes.size() * sizeof(Note));
 
         for (auto i = 0; i < internalNotes.size(); i += 1)
         {
@@ -37,14 +35,14 @@ extern "C"
         return notes;
     }
 
-    PACKAGE_API Note *ReadMidiFileInternal(const std::string &path,
-                                           int *outSize)
+    PACKAGE_API auto ReadMidiFileInternal(const std::string &path, int *outSize)
+        -> Note *
     {
         auto internalNotes = ReadMidiFile(path);
 
         *outSize = internalNotes.size();
 
-        auto notes = (Note *)malloc(internalNotes.size() * sizeof(Note));
+        auto *notes = (Note *)malloc(internalNotes.size() * sizeof(Note));
 
         for (auto i = 0; i < internalNotes.size(); i += 1)
         {
