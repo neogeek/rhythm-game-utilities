@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include <cstdint>
 #include <fstream>
 #include <sstream>
@@ -11,27 +13,27 @@
 namespace RhythmGameUtilities
 {
 
-template <typename T> T ByteSwap(T value, int length = 8)
+template <typename T> inline auto ByteSwap(T value, int length = 8) -> T
 {
     return (value >> length) | (value << length);
 }
 
 template <typename T>
-T ReadChunk(std::istringstream &stream, int length = sizeof(T))
+inline auto ReadChunk(std::istringstream &stream, int length = sizeof(T)) -> T
 {
     T chunk{};
     stream.read(reinterpret_cast<char *>(&chunk), length);
     return chunk;
 }
 
-std::string ReadString(std::istringstream &stream, int length)
+inline auto ReadString(std::istringstream &stream, int length) -> std::string
 {
     std::string chunk(length, '\0');
-    stream.read(&chunk[0], length);
+    stream.read(chunk.data(), length);
     return stream.gcount() == length ? chunk : "";
 }
 
-uint32_t ReadVarLen(std::istringstream &stream)
+inline auto ReadVarLen(std::istringstream &stream) -> uint32_t
 {
     uint32_t value = 0;
     uint8_t byte = 0;
@@ -39,15 +41,20 @@ uint32_t ReadVarLen(std::istringstream &stream)
     {
         byte = ReadChunk<uint8_t>(stream);
         value = (value << 7) | (byte & 0x7F);
-    } while (byte & 0x80);
+    } while ((byte & 0x80) > 0);
     return value;
 }
 
-auto STATUS_NOTE_EVENT = 0x90;
-auto STATUS_META_EVENT = 0xFF;
-auto TYPE_END_OF_TRACK = 0x2F;
+const auto TYPE_END_OF_TRACK = 0x2F;
 
-std::vector<Note> ReadMidiData(const std::vector<uint8_t> &data)
+const auto SYSTEM_COMMAND = 0xF0;
+const auto NOTE_OFF_COMMAND = 0x80;
+const auto NOTE_ON_COMMAND = 0x90;
+const auto CONTROL_CHANGE_COMMAND = 0xB0;
+const auto PROGRAM_CHANGE_COMMAND = 0xC0;
+const auto CHANNEL_PRESSURE_COMMAND = 0xD0;
+
+inline auto ReadMidiData(const std::vector<uint8_t> &data) -> std::vector<Note>
 {
     std::istringstream stream(std::string(data.begin(), data.end()),
                               std::ios::binary);
@@ -81,7 +88,7 @@ std::vector<Note> ReadMidiData(const std::vector<uint8_t> &data)
 
             auto status = ReadChunk<uint8_t>(stream);
 
-            if ((status & 0xF0) == STATUS_NOTE_EVENT)
+            if ((status & SYSTEM_COMMAND) == NOTE_ON_COMMAND)
             {
                 Note note{.Position = static_cast<int>(absoluteTick),
                           .HandPosition = ReadChunk<uint8_t>(stream)};
@@ -90,7 +97,7 @@ std::vector<Note> ReadMidiData(const std::vector<uint8_t> &data)
 
                 notes.push_back(note);
             }
-            else if (status == STATUS_META_EVENT)
+            else if ((status & SYSTEM_COMMAND) == SYSTEM_COMMAND)
             {
                 auto type = ReadChunk<uint8_t>(stream);
 
@@ -103,7 +110,8 @@ std::vector<Note> ReadMidiData(const std::vector<uint8_t> &data)
                     break;
                 }
             }
-            else if ((status & 0xF0) == 0xC0 || (status & 0xF0) == 0xD0)
+            else if ((status & SYSTEM_COMMAND) == PROGRAM_CHANGE_COMMAND ||
+                     (status & SYSTEM_COMMAND) == CHANNEL_PRESSURE_COMMAND)
             {
                 stream.seekg(1, std::ios::cur);
             }
@@ -117,7 +125,7 @@ std::vector<Note> ReadMidiData(const std::vector<uint8_t> &data)
     return notes;
 }
 
-std::vector<Note> ReadMidiFile(const std::string &path)
+auto ReadMidiFile(const std::string &path) -> std::vector<Note>
 {
     std::ifstream file(path, std::ios::binary | std::ios::ate);
 
