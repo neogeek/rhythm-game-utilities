@@ -101,6 +101,8 @@ inline auto GenerateAdjacentKeyPairs(const std::map<int, int> &keyValuePairs)
 
     std::vector<int> keys;
 
+    keys.reserve(keyValuePairs.size());
+
     for (auto item : keyValuePairs)
     {
         keys.push_back(item.first);
