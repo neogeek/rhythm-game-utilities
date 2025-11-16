@@ -15,6 +15,7 @@ namespace RhythmGameUtilities
             int tempoChangesSize, TimeSignature[] timeSignatures, int timeSignaturesSize);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
+        [return : MarshalAs(UnmanagedType.I1)]
         public static extern bool IsOnTheBeatInternal(int bpm, float currentTime, float delta);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
