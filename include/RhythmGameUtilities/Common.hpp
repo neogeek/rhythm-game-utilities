@@ -84,19 +84,16 @@ inline auto Split(const char *contents, const char delimiter)
 inline auto FindAllMatches(const char *contents, const std::regex &pattern)
     -> std::vector<std::string>
 {
-    auto currentMatch =
-        std::cregex_iterator(contents, contents + strlen(contents), pattern);
-    auto lastMatch = std::cregex_iterator();
-
     auto matches = std::vector<std::string>();
 
-    while (currentMatch != lastMatch)
+    auto begin =
+        std::cregex_iterator(contents, contents + strlen(contents), pattern);
+
+    auto end = std::cregex_iterator();
+
+    for (auto iterator = begin; iterator != end; iterator++)
     {
-        auto match = *currentMatch;
-
-        matches.push_back(match.str(0));
-
-        currentMatch++;
+        matches.push_back(iterator->str(0));
     }
 
     return matches;
@@ -105,12 +102,17 @@ inline auto FindAllMatches(const char *contents, const std::regex &pattern)
 inline auto FindMatchGroups(const char *contents, const std::regex &pattern)
     -> std::vector<std::string>
 {
-    auto currentMatch =
-        std::cregex_iterator(contents, contents + strlen(contents), pattern);
-
     auto matches = std::vector<std::string>();
 
-    const auto &match = *currentMatch;
+    auto iterator =
+        std::cregex_iterator(contents, contents + strlen(contents), pattern);
+
+    if (iterator == std::cregex_iterator())
+    {
+        return matches;
+    }
+
+    const auto &match = *iterator;
 
     for (auto i = 0; i < match.size(); i += 1)
     {
