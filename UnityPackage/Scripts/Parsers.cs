@@ -115,13 +115,12 @@ namespace RhythmGameUtilities
         {
             return section
                 .Where(item => item.Value.Length >= 2 && item.Value[0] == TypeCode.TimeSignatureMarker)
-                .OrderBy(item => int.Parse(item.Key)).Select(
-                    item => new TimeSignature
-                    {
-                        Position = int.Parse(item.Key),
-                        Numerator = int.Parse(item.Value.Skip(1).First()),
-                        Denominator = item.Value.Length > 2 ? int.Parse(item.Value.Skip(2).First()) : 2
-                    }).ToArray();
+                .OrderBy(item => int.Parse(item.Key)).Select(item => new TimeSignature
+                {
+                    Position = int.Parse(item.Key),
+                    Numerator = int.Parse(item.Value.Skip(1).First()),
+                    Denominator = item.Value.Length > 2 ? int.Parse(item.Value.Skip(2).First()) : 2
+                }).ToArray();
         }
 
         public static Tempo[] ParseTempoChangesFromChartSection(
@@ -130,15 +129,15 @@ namespace RhythmGameUtilities
             return section
                 .Where(item => item.Value[0] == TypeCode.BPM_Marker)
                 .Select(item => new KeyValuePair<int, int>(int.Parse(item.Key), int.Parse(item.Value.Skip(1).First())))
-                .OrderBy(item => item.Key).Select(
-                    item => new Tempo { Position = item.Key, BPM = item.Value }).ToArray();
+                .OrderBy(item => item.Key).Select(item => new Tempo { Position = item.Key, BPM = item.Value })
+                .ToArray();
         }
 
         public static Note[] ParseNotesFromChartSection(KeyValuePair<string, string[]>[] section)
         {
             return section
-                .Where(item => item.Value.Length == 3 && item.Value[0] == TypeCode.NoteMarker).Select(
-                    item => new Note
+                .Where(item => item.Value.Length == 3 && item.Value[0] == TypeCode.NoteMarker).Select(item =>
+                    new Note
                     {
                         Position = int.Parse(item.Key),
                         HandPosition = int.Parse(item.Value.Skip(1).First()),
@@ -151,10 +150,9 @@ namespace RhythmGameUtilities
         {
             return section
                 .Where(item => item.Value[0] == TypeCode.EventMarker)
-                .Select(
-                    item => new KeyValuePair<int, string>(int.Parse(item.Key),
-                        JSON_VALUE_PATTERN.Matches(item.Value.Skip(1).First()).Select(part => part.Value.Trim('"'))
-                            .First()))
+                .Select(item => new KeyValuePair<int, string>(int.Parse(item.Key),
+                    JSON_VALUE_PATTERN.Matches(item.Value.Skip(1).First()).Select(part => part.Value.Trim('"'))
+                        .First()))
                 .Where(item => item.Value.StartsWith("lyric"))
                 .ToDictionary(item => item.Key, x => x.Value);
         }

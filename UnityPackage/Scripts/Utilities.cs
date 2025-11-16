@@ -15,6 +15,7 @@ namespace RhythmGameUtilities
             int tempoChangesSize, TimeSignature[] timeSignatures, int timeSignaturesSize);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
+        [return : MarshalAs(UnmanagedType.I1)]
         public static extern bool IsOnTheBeatInternal(int bpm, float currentTime, float delta);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
@@ -24,7 +25,8 @@ namespace RhythmGameUtilities
         public static extern float CalculateAccuracyRatioInternal(int position, int currentPosition, int delta);
 
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-        public static extern IntPtr CalculateBeatBarsInternal(Tempo[] tempoChanges, int tempoChangesSize, int resolution,
+        public static extern IntPtr CalculateBeatBarsInternal(Tempo[] tempoChanges, int tempoChangesSize,
+            int resolution,
             int ts,
             bool includeHalfNotes, out int size);
 
@@ -55,7 +57,8 @@ namespace RhythmGameUtilities
         public static int ConvertSecondsToTicks(float seconds, int resolution, Tempo[] tempoChanges,
             TimeSignature[] timeSignatureChanges)
         {
-            return UtilitiesInternal.ConvertSecondsToTicksInternal(seconds, resolution, tempoChanges, tempoChanges.Length,
+            return UtilitiesInternal.ConvertSecondsToTicksInternal(seconds, resolution, tempoChanges,
+                tempoChanges.Length,
                 timeSignatureChanges, timeSignatureChanges.Length);
         }
 
@@ -83,7 +86,8 @@ namespace RhythmGameUtilities
         public static BeatBar[] CalculateBeatBars(Tempo[] tempoChanges, int resolution = 192, int ts = 4,
             bool includeHalfNotes = true)
         {
-            var ptrArray = UtilitiesInternal.CalculateBeatBarsInternal(tempoChanges, tempoChanges.Length, resolution, ts,
+            var ptrArray = UtilitiesInternal.CalculateBeatBarsInternal(tempoChanges, tempoChanges.Length, resolution,
+                ts,
                 includeHalfNotes,
                 out var size);
 
