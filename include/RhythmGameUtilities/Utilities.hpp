@@ -111,20 +111,16 @@ inline auto GenerateAdjacentKeyPairs(const std::map<int, int> &keyValuePairs)
 {
     auto adjacentKeyPairs = std::vector<std::tuple<int, int>>();
 
-    std::vector<int> keys;
+    adjacentKeyPairs.reserve(keyValuePairs.size() - 1);
 
-    keys.reserve(keyValuePairs.size());
+    auto current = keyValuePairs.begin();
+    auto next = std::next(current);
 
-    for (auto item : keyValuePairs)
+    while (next != keyValuePairs.end())
     {
-        keys.push_back(item.first);
-    }
-
-    std::vector<int> sortedKeys(keys.begin(), keys.end());
-
-    for (auto i = 0; i < sortedKeys.size() - 1; i += 1)
-    {
-        adjacentKeyPairs.emplace_back(sortedKeys[i], sortedKeys[i + 1]);
+        adjacentKeyPairs.emplace_back(current->first, next->first);
+        current++;
+        next++;
     }
 
     return adjacentKeyPairs;
