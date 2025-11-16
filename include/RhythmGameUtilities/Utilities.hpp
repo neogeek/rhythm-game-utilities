@@ -67,7 +67,7 @@ ConvertSecondsToTicks(float seconds, int resolution,
 
         int nextChangeTick = std::min(nextTempoChange, nextTimeSignatureChange);
 
-        float ticksPerSecond = resolution * previousBPM / SECONDS_PER_MINUTE;
+        float ticksPerSecond = CalculateTicksPerSecond(previousBPM, resolution);
         float timeForSegment = (nextChangeTick - previousTick) / ticksPerSecond;
 
         if (remainingSeconds <= timeForSegment)
