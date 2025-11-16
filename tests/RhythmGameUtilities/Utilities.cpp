@@ -123,6 +123,15 @@ void testIsOnTheBeat()
     std::cout << ".";
 }
 
+void testIsOnTheBeatContinued()
+{
+    assert(IsOnTheBeat(120, 10) == true);
+    assert(IsOnTheBeat(60, 1) == true);
+    assert(IsOnTheBeat(60, 1.5f) == false);
+
+    std::cout << ".";
+}
+
 void testRoundUpToTheNearestMultiplier()
 {
     auto value = RoundUpToTheNearestMultiplier(12, 10);
@@ -156,6 +165,7 @@ int main()
     testCalculateTicksPerSecond();
     testFindPositionNearGivenTick();
     testIsOnTheBeat();
+    testIsOnTheBeatContinued();
     testRoundUpToTheNearestMultiplier();
     testGenerateAdjacentKeyPairs();
 
