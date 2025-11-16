@@ -41,10 +41,9 @@ inline auto CalculateTicksPerSecond(int bpm, int resolution) -> float
  * @public
  */
 
-inline auto
-ConvertSecondsToTicks(float seconds, int resolution,
-                      std::vector<Tempo> tempoChanges,
-                      std::vector<TimeSignature> timeSignatureChanges) -> int
+inline auto ConvertSecondsToTicks(
+    float seconds, int resolution, const std::vector<Tempo> &tempoChanges,
+    const std::vector<TimeSignature> &timeSignatureChanges) -> int
 {
     auto tempoChangesIterator = tempoChanges.begin();
     auto timeSignatureIterator = timeSignatureChanges.begin();
@@ -168,7 +167,7 @@ inline auto CalculateBeatBars(const std::vector<Tempo> &tempoChanges,
     return beatBars;
 }
 
-inline auto FindPositionNearGivenTick(std::vector<Note> notes, int tick,
+inline auto FindPositionNearGivenTick(const std::vector<Note> &notes, int tick,
                                       int delta = 50) -> std::optional<Note>
 {
     auto left = 0;

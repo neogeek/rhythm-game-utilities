@@ -86,12 +86,12 @@ inline auto ParseSectionsFromChart(const char *contents)
 }
 
 inline auto ParseMetaDataFromChartSection(
-    std::vector<std::pair<std::string, std::vector<std::string>>> section)
-    -> std::map<std::string, std::string>
+    const std::vector<std::pair<std::string, std::vector<std::string>>>
+        &section) -> std::map<std::string, std::string>
 {
     auto data = std::map<std::string, std::string>();
 
-    for (auto &line : section)
+    for (const auto &line : section)
     {
         data.insert({line.first, line.second.front()});
     }
@@ -100,12 +100,12 @@ inline auto ParseMetaDataFromChartSection(
 }
 
 inline auto ParseTimeSignatureChangesFromChartSection(
-    std::vector<std::pair<std::string, std::vector<std::string>>> section)
-    -> std::vector<TimeSignature>
+    const std::vector<std::pair<std::string, std::vector<std::string>>>
+        &section) -> std::vector<TimeSignature>
 {
     auto timeSignaturesChanges = std::vector<TimeSignature>();
 
-    for (auto &line : section)
+    for (const auto &line : section)
     {
         if (line.second.front() == ToString(TypeCode::TimeSignatureMarker))
         {
@@ -122,12 +122,12 @@ inline auto ParseTimeSignatureChangesFromChartSection(
 }
 
 inline auto ParseTempoChangesFromChartSection(
-    std::vector<std::pair<std::string, std::vector<std::string>>> section)
-    -> std::vector<Tempo>
+    const std::vector<std::pair<std::string, std::vector<std::string>>>
+        &section) -> std::vector<Tempo>
 {
     auto tempoChanges = std::vector<Tempo>();
 
-    for (auto &line : section)
+    for (const auto &line : section)
     {
         if (line.second.front() == ToString(TypeCode::BPM_Marker))
         {
@@ -142,12 +142,12 @@ inline auto ParseTempoChangesFromChartSection(
 }
 
 inline auto ParseNotesFromChartSection(
-    std::vector<std::pair<std::string, std::vector<std::string>>> section)
-    -> std::vector<Note>
+    const std::vector<std::pair<std::string, std::vector<std::string>>>
+        &section) -> std::vector<Note>
 {
     auto notes = std::vector<Note>();
 
-    for (auto &line : section)
+    for (const auto &line : section)
     {
         if (line.second.front() == ToString(TypeCode::NoteMarker))
         {
@@ -161,12 +161,12 @@ inline auto ParseNotesFromChartSection(
 }
 
 inline auto ParseLyricsFromChartSection(
-    std::vector<std::pair<std::string, std::vector<std::string>>> section)
-    -> std::map<int, std::string>
+    const std::vector<std::pair<std::string, std::vector<std::string>>>
+        &section) -> std::map<int, std::string>
 {
     auto lyrics = std::map<int, std::string>();
 
-    for (auto &line : section)
+    for (const auto &line : section)
     {
         if (line.second.back().rfind("lyric", 0) == 0)
         {
