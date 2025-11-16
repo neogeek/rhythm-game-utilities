@@ -208,15 +208,9 @@ inline auto ConvertTickToPosition(int tick, int resolution) -> float
 
 inline auto IsOnTheBeat(int bpm, float currentTime, float delta = 0.05F) -> bool
 {
-    auto beatInterval = SECONDS_PER_MINUTE / static_cast<float>(bpm);
+    const float beatsElapsed = currentTime * bpm / SECONDS_PER_MINUTE;
 
-    auto beatFraction = currentTime / beatInterval;
-
-    auto difference = std::abs(beatFraction - std::round(beatFraction));
-
-    auto result = difference < delta;
-
-    return result;
+    return std::abs(beatsElapsed - std::round(beatsElapsed)) < delta;
 }
 
 /**
