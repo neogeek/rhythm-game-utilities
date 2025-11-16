@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFrameworks>net5.0</TargetFrameworks>
-        <LangVersion>9.0</LangVersion>
+        <LangVersion>10.0</LangVersion>
         <AssemblyVersion>1.0.0</AssemblyVersion>
         <PackageId>com.neogeek.rhythm-game-utilities</PackageId>
         <Version>1.0.0-alpha.4</Version>

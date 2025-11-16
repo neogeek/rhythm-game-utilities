@@ -18,7 +18,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v5.0.0
         with:
-          dotnet-version: 9.0
+          dotnet-version: 10.0
 
       - name: Install dependencies
         run: dotnet restore
