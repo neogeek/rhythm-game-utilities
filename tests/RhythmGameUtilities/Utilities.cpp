@@ -79,6 +79,18 @@ void testConvertTickToPosition()
     std::cout << ".";
 }
 
+void testCalculateTicksPerSecond()
+{
+    const int bpm = 120;
+    const int resolution = 192;
+
+    auto ticks = CalculateTicksPerSecond(bpm, resolution);
+
+    assert(ticks == 384);
+
+    std::cout << ".";
+}
+
 void testFindPositionNearGivenTick()
 {
     std::vector<Note> notes = {{768, 0, 0},  {960, 0, 0},  {1152, 0, 0},
@@ -141,6 +153,7 @@ int main()
     testCalculateBeatBars();
     testConvertSecondsToTicks();
     testConvertTickToPosition();
+    testCalculateTicksPerSecond();
     testFindPositionNearGivenTick();
     testIsOnTheBeat();
     testRoundUpToTheNearestMultiplier();

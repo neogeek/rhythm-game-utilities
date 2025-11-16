@@ -19,6 +19,19 @@ namespace RhythmGameUtilities
 const float SECONDS_PER_MINUTE = 60.0F;
 
 /**
+ * Calculate ticks per second.
+ *
+ * @param bpm The base BPM for a song.
+ * @param resolution The resolution of the song.
+ * @public
+ */
+
+inline auto CalculateTicksPerSecond(int bpm, int resolution) -> float
+{
+    return resolution * bpm / SECONDS_PER_MINUTE;
+}
+
+/**
  * Convert seconds to ticks.
  *
  * @param seconds The seconds to generate ticks with.
