@@ -51,6 +51,8 @@ extern "C"
 
         return notes;
     }
+
+    PACKAGE_API void FreeNotes(Note *notes) { free(notes); }
 }
 
 } // namespace RhythmGameUtilities

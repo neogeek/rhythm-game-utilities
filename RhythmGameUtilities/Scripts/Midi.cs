@@ -14,6 +14,8 @@ namespace RhythmGameUtilities
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr ReadMidiFileInternal(string filename, out int size);
 
+        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void FreeNotes(IntPtr notes);
     }
 
     public static class Midi
@@ -35,7 +37,7 @@ namespace RhythmGameUtilities
                 notes.Add(note);
             }
 
-            Marshal.FreeHGlobal(ptrArray);
+            MidiInternal.FreeNotes(ptrArray);
 
             return notes.ToArray();
         }
@@ -56,7 +58,7 @@ namespace RhythmGameUtilities
                 notes.Add(note);
             }
 
-            Marshal.FreeHGlobal(ptrArray);
+            MidiInternal.FreeNotes(ptrArray);
 
             return notes.ToArray();
         }
