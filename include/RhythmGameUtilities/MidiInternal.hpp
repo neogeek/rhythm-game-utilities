@@ -35,10 +35,10 @@ extern "C"
         return notes;
     }
 
-    PACKAGE_API auto ReadMidiFileInternal(const std::string &path, int *outSize)
+    PACKAGE_API auto ReadMidiFileInternal(const char *path, size_t *outSize)
         -> Note *
     {
-        auto internalNotes = ReadMidiFile(path);
+        auto internalNotes = ReadMidiFile(std::string(path));
 
         *outSize = internalNotes.size();
 
