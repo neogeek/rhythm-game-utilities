@@ -96,8 +96,8 @@ inline auto ReadMidiData(const std::vector<uint8_t> &data) -> std::vector<Note>
 
             if ((status & SYSTEM_COMMAND) == NOTE_ON_COMMAND)
             {
-                Note note{.Position = static_cast<int>(absoluteTick),
-                          .HandPosition = ReadChunk<uint8_t>(stream)};
+                Note note{static_cast<int>(absoluteTick),
+                          ReadChunk<uint8_t>(stream)};
 
                 auto velocity = ReadChunk<uint8_t>(stream);
 
