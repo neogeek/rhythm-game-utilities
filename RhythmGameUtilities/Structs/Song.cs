@@ -22,6 +22,15 @@ namespace RhythmGameUtilities
 
         public BeatBar[] beatBars { get; private set; }
 
+        public Song(int resolution, Tempo[] tempoChanges, TimeSignature[] timeSignatureChanges,
+            Dictionary<Difficulty, Note[]> difficulties)
+        {
+            this.resolution = resolution;
+            this.tempoChanges = tempoChanges;
+            this.timeSignatureChanges = timeSignatureChanges;
+            this.difficulties = difficulties;
+        }
+
         public Song(string contents)
         {
             _sections = Parsers.ParseSectionsFromChart(contents);
