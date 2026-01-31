@@ -51,7 +51,7 @@ inline auto ReadVarLen(std::istringstream &stream) -> uint32_t
     return value;
 }
 
-const auto TYPE_END_OF_TRACK = 0x2F;
+const auto END_OF_TRACK = 0x2F;
 
 const auto SYSTEM_COMMAND = 0xF0;
 const auto NOTE_OFF_COMMAND = 0x80;
@@ -111,7 +111,7 @@ inline auto ReadMidiData(const std::vector<uint8_t> &data) -> std::vector<Note>
 
                 stream.seekg(length, std::ios::cur);
 
-                if (type == TYPE_END_OF_TRACK)
+                if (type == END_OF_TRACK)
                 {
                     break;
                 }
