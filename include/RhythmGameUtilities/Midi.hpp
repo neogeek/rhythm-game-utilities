@@ -13,9 +13,15 @@
 namespace RhythmGameUtilities
 {
 
-template <typename T> inline auto ByteSwap(T value, int length = 8) -> T
+inline auto ByteSwap(uint16_t value) -> uint16_t
 {
-    return (value >> length) | (value << length);
+    return (value >> 8) | (value << 8);
+}
+
+inline auto ByteSwap(uint32_t value) -> uint32_t
+{
+    return ((value >> 24) & 0xFF) | ((value >> 8) & 0xFF00) |
+           ((value << 8) & 0xFF0000) | ((value << 24) & 0xFF000000);
 }
 
 template <typename T>
