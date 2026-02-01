@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - 'include/**/*'
-      - '!**/*.md'
+      - "include/**/*"
+      - "!**/*.md"
   workflow_dispatch:
 
 concurrency:
@@ -84,8 +84,61 @@ jobs:
           path: build/
           retention-days: 1
 
+  build-webgl:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v5.0.0
+        with:
+          fetch-depth: 0
+
+      - name: Cache Emscripten
+        id: cache-emscripten
+        uses: actions/cache@v4
+        with:
+          path: ./emsdk
+          key: ${{ runner.os }}-emsdk-3.1.38
+
+      - name: Install Emscripten
+        if: steps.cache-emscripten.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd ./emsdk
+          ./emsdk install 3.1.38
+
+      - name: Activate Emscripten
+        shell: bash
+        run: |
+          cd ./emsdk
+          ./emsdk activate 3.1.38
+
+      - name: Setup Emscripten Environment
+        shell: bash
+        run: |
+          cd ./emsdk
+          chmod +x emsdk_env.sh
+          source ./emsdk_env.sh
+          echo "${EMSDK}" >> $GITHUB_PATH
+          echo "${EMSDK}/upstream/emscripten" >> $GITHUB_PATH
+          echo "${EMSDK}/node/${EMSDK_NODE##*/}/bin" >> $GITHUB_PATH
+
+      - name: Build WebGL
+        run: |
+          mkdir -p build
+          em++ -std=c++17 -O3 -c include/RhythmGameUtilities/RhythmGameUtilities.cpp -o build/RhythmGameUtilities.o
+          emar rcs build/libRhythmGameUtilities.a build/RhythmGameUtilities.o
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: build-webgl-files
+          path: build/
+          retention-days: 1
+
   commit-changes:
-    needs: [build-linux, build-macos, build-windows]
+    needs: [build-linux, build-macos, build-windows, build-webgl]
     runs-on: ubuntu-latest
 
     permissions:
@@ -110,12 +163,16 @@ jobs:
           mkdir -p RhythmGameUtilities/Libs/macOS
           mkdir -p UnityPackage/Libs/Windows
           mkdir -p RhythmGameUtilities/Libs/Windows
+          mkdir -p UnityPackage/Libs/WebGL
+          mkdir -p RhythmGameUtilities/Libs/WebGL
           cp artifacts/build-linux-files/libRhythmGameUtilities.so UnityPackage/Libs/Linux/
           cp artifacts/build-linux-files/libRhythmGameUtilities.so RhythmGameUtilities/Libs/Linux/
           cp artifacts/build-macos-files/libRhythmGameUtilities.dylib UnityPackage/Libs/macOS/
           cp artifacts/build-macos-files/libRhythmGameUtilities.dylib RhythmGameUtilities/Libs/macOS/
           cp artifacts/build-windows-files/libRhythmGameUtilities.dll UnityPackage/Libs/Windows/
           cp artifacts/build-windows-files/libRhythmGameUtilities.dll RhythmGameUtilities/Libs/Windows/
+          cp artifacts/build-webgl-files/libRhythmGameUtilities.a UnityPackage/Libs/WebGL/
+          cp artifacts/build-webgl-files/libRhythmGameUtilities.a RhythmGameUtilities/Libs/WebGL/
 
       - name: Setup git
         run: |

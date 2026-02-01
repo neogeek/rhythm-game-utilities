@@ -7,14 +7,14 @@ namespace RhythmGameUtilities
     {
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
+        [DllImport("__Internal")]
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern float Lerp(float a, float b, float t);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
+        [DllImport("__Internal")]
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif

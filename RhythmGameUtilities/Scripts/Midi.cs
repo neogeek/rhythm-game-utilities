@@ -9,21 +9,21 @@ namespace RhythmGameUtilities
     {
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
+        [DllImport("__Internal")]
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern IntPtr ReadMidiDataInternal(byte[] bytes, int dataSize, out int size);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
+        [DllImport("__Internal")]
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern IntPtr ReadMidiFileInternal(string filename, out int size);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
+        [DllImport("__Internal")]
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif

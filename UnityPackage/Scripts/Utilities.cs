@@ -8,14 +8,14 @@ namespace RhythmGameUtilities
     {
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
+        [DllImport("__Internal")]
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern float ConvertTickToPositionInternal(int tick, int resolution);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
+        [DllImport("__Internal")]
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
@@ -23,7 +23,7 @@ namespace RhythmGameUtilities
             int tempoChangesSize, TimeSignature[] timeSignatures, int timeSignaturesSize);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
+        [DllImport("__Internal")]
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
@@ -31,21 +31,21 @@ namespace RhythmGameUtilities
         public static extern bool IsOnTheBeatInternal(int bpm, float currentTime, float delta);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
+        [DllImport("__Internal")]
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern int RoundUpToTheNearestMultiplierInternal(int value, int multiplier);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
+        [DllImport("__Internal")]
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern float CalculateAccuracyRatioInternal(int position, int currentPosition, int delta);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-    [DllImport("__Internal")]
+        [DllImport("__Internal")]
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
