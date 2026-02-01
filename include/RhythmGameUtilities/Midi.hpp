@@ -67,21 +67,21 @@ inline auto ReadMidiData(const std::vector<uint8_t> &data) -> std::vector<Note>
 
     if (ReadString(stream, 4) != "MThd")
     {
-        throw std::runtime_error("Invalid MIDI file header");
+        return {};
     }
+
+    std::vector<Note> notes;
 
     auto headerLength = ByteSwap(ReadChunk<uint32_t>(stream));
     auto format = ByteSwap(ReadChunk<uint16_t>(stream));
     auto tracks = ByteSwap(ReadChunk<uint16_t>(stream));
     auto resolution = ByteSwap(ReadChunk<uint16_t>(stream));
 
-    std::vector<Note> notes;
-
     for (int t = 0; t < tracks; t += 1)
     {
         if (ReadString(stream, 4) != "MTrk")
         {
-            throw std::runtime_error("Invalid track header");
+            return notes;
         }
 
         auto trackLength = ByteSwap(ReadChunk<uint32_t>(stream));
@@ -137,7 +137,7 @@ auto ReadMidiFile(const std::string &path) -> std::vector<Note>
 
     if (!file.is_open())
     {
-        throw std::runtime_error("Cannot open MIDI file");
+        return {};
     }
 
     auto fileSize = file.tellg();
