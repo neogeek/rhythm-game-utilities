@@ -35,7 +35,11 @@ namespace RhythmGameUtilities
     internal static class ParsersInternal
     {
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")]
+#else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern IntPtr ParseSectionsFromChartInternal(string contents, out int size);
 
     }

@@ -8,14 +8,27 @@ namespace RhythmGameUtilities
     internal static class MidiInternal
     {
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")]
+#else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern IntPtr ReadMidiDataInternal(byte[] bytes, int dataSize, out int size);
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")]
+#else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern IntPtr ReadMidiFileInternal(string filename, out int size);
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+    [DllImport("__Internal")]
+#else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern void FreeNotes(IntPtr notes);
+
     }
 
     public static class Midi
