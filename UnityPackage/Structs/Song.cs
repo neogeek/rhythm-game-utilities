@@ -61,11 +61,7 @@ namespace RhythmGameUtilities
         {
             var lastTick = Utilities.ConvertSecondsToTicks(songLength, resolution, tempoChanges, timeSignatureChanges);
 
-            tempoChanges = Parsers.ParseTempoChangesFromChartSection(_sections
-                .First(section => section.Key == NamedSection.SyncTrack)
-                .Value);
-
-            tempoChanges = tempoChanges.Concat(new Tempo[]
+            beatBars = Utilities.CalculateBeatBars(tempoChanges.Concat(new Tempo[]
                 {
                     new()
                     {
@@ -73,9 +69,7 @@ namespace RhythmGameUtilities
                         BPM = tempoChanges.Last().BPM
                     }
                 })
-                .ToArray();
-
-            beatBars = Utilities.CalculateBeatBars(tempoChanges, includeHalfNotes : true);
+                .ToArray(), includeHalfNotes : true);
         }
 
     }
