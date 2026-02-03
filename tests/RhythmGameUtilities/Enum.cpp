@@ -36,7 +36,7 @@ void testTypeCode()
     std::cout << ".";
 }
 
-int main()
+auto main() -> int
 {
     testDifficulty();
     testNamedSection();

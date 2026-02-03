@@ -18,7 +18,7 @@ void testCalculateAccuracyRatioInternal()
     std::vector<Tempo> tempoChanges = {{0, 120000}};
     std::vector<TimeSignature> timeSignatureChanges = {{0, 4}};
 
-    auto note = new Note{750};
+    auto *note = new Note{750};
     auto currentPosition = ConvertSecondsToTicksInternal(
         seconds, resolution, &tempoChanges[0], tempoChanges.size(),
         &timeSignatureChanges[0], timeSignatureChanges.size());
@@ -39,7 +39,7 @@ void testCalculateBeatBarsInternal()
 
     int outSize;
 
-    auto beatBars = CalculateBeatBarsInternal(
+    auto *beatBars = CalculateBeatBarsInternal(
         &tempoChanges[0], tempoChanges.size(), 192, 4, true, &outSize);
 
     assert(outSize == 440);
@@ -78,7 +78,7 @@ void testIsOnTheBeatInternal()
 {
     const int bpm = 120;
     const float currentTime = 10;
-    const float delta = 0.05f;
+    const float delta = 0.05F;
 
     auto isOnTheBeat = IsOnTheBeatInternal(bpm, currentTime, delta);
 
@@ -96,7 +96,7 @@ void testRoundUpToTheNearestMultiplierInternal()
     std::cout << ".";
 }
 
-int main()
+auto main() -> int
 {
     testCalculateAccuracyRatioInternal();
     testCalculateBeatBarsInternal();

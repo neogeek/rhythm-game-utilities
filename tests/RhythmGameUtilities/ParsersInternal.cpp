@@ -71,8 +71,8 @@ auto contents = R"([Song]
   1248 = E soloend
 })";
 
-ChartSectionInternal *FindSection(ChartSectionInternal *sections, int size,
-                                  std::string name)
+auto FindSection(ChartSectionInternal *sections, int size, std::string name)
+    -> ChartSectionInternal *
 {
     for (auto i = 0; i < size; i += 1)
     {
@@ -89,18 +89,18 @@ void testParseSectionsFromChartInternal()
 {
     int size = 0;
 
-    auto sections = ParseSectionsFromChartInternal(contents, &size);
+    auto *sections = ParseSectionsFromChartInternal(contents, &size);
 
     assert(size == 4);
 
-    auto song = FindSection(sections, size, ToString(NamedSection::Song));
+    auto *song = FindSection(sections, size, ToString(NamedSection::Song));
 
-    auto syncTrack =
+    auto *syncTrack =
         FindSection(sections, size, ToString(NamedSection::SyncTrack));
 
-    auto events = FindSection(sections, size, ToString(NamedSection::Events));
+    auto *events = FindSection(sections, size, ToString(NamedSection::Events));
 
-    auto expertSingle =
+    auto *expertSingle =
         FindSection(sections, size, ToString(Difficulty::Expert) + "Single");
 
     assert(song != nullptr);
@@ -119,11 +119,11 @@ void testParseValuesFromChartSectionInternal()
 {
     int size = 0;
 
-    auto sections = ParseSectionsFromChartInternal(contents, &size);
+    auto *sections = ParseSectionsFromChartInternal(contents, &size);
 
     assert(size == 4);
 
-    auto song = FindSection(sections, size, ToString(NamedSection::Song));
+    auto *song = FindSection(sections, size, ToString(NamedSection::Song));
 
     assert(song->lineCount == 12);
 
@@ -139,7 +139,7 @@ void testParseValuesFromChartSectionInternal()
     std::cout << ".";
 }
 
-int main()
+auto main() -> int
 {
     testParseSectionsFromChartInternal();
     testParseValuesFromChartSectionInternal();

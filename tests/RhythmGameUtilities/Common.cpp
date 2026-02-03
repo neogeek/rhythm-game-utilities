@@ -55,7 +55,7 @@ void testFindAllMatches()
 
 void testFindMatchGroups()
 {
-    std::regex pattern("(\\w+)\\s+(\\w+)\\s+(\\w+)\\s+(\\w+)");
+    std::regex pattern(R"((\w+)\s+(\w+)\s+(\w+)\s+(\w+))");
 
     auto sections = FindMatchGroups("this is a test", pattern);
 
@@ -64,7 +64,7 @@ void testFindMatchGroups()
     std::cout << ".";
 }
 
-int main()
+auto main() -> int
 {
     testInverseLerp();
     testLerp();

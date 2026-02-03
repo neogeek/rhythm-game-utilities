@@ -19,7 +19,7 @@ void testReadStringFromFile()
     std::cout << ".";
 }
 
-int main()
+auto main() -> int
 {
     testReadBytesFromFile();
     testReadStringFromFile();

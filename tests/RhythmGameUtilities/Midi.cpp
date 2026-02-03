@@ -47,7 +47,7 @@ void testReadNotesFromMidiData()
     std::cout << ".";
 }
 
-int main()
+auto main() -> int
 {
     testReadNotesFromMidiData();
 

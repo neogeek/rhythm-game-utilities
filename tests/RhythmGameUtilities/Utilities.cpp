@@ -19,7 +19,7 @@ void testCalculateAccuracyRatio()
     std::vector<Tempo> tempoChanges = {{0, 120000}};
     std::vector<TimeSignature> timeSignatureChanges = {{0, 4}};
 
-    auto note = new Note{750};
+    auto *note = new Note{750};
     auto currentPosition = ConvertSecondsToTicks(
         seconds, resolution, tempoChanges, timeSignatureChanges);
 
@@ -114,7 +114,7 @@ void testIsOnTheBeat()
 {
     const int bpm = 120;
     const float currentTime = 10;
-    const float delta = 0.05f;
+    const float delta = 0.05F;
 
     auto isOnTheBeat = IsOnTheBeat(bpm, currentTime, delta);
 
@@ -156,7 +156,7 @@ void testGenerateAdjacentKeyPairs()
     std::cout << ".";
 }
 
-int main()
+auto main() -> int
 {
     testCalculateAccuracyRatio();
     testCalculateBeatBars();
