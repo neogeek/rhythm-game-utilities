@@ -60,7 +60,8 @@ const auto CONTROL_CHANGE_COMMAND = 0xB0;
 const auto PROGRAM_CHANGE_COMMAND = 0xC0;
 const auto CHANNEL_PRESSURE_COMMAND = 0xD0;
 
-inline auto ReadMidiData(const std::vector<uint8_t> &data) -> std::vector<Note>
+inline auto ReadNotesFromMidiData(const std::vector<uint8_t> &data)
+    -> std::vector<Note>
 {
     std::istringstream stream(std::string(data.begin(), data.end()),
                               std::ios::binary);

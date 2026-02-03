@@ -16,12 +16,13 @@ namespace RhythmGameUtilities
 extern "C"
 {
 
-    PACKAGE_API auto ReadMidiDataInternal(const uint8_t *data, int dataSize,
-                                          int *outSize) -> Note *
+    PACKAGE_API auto ReadNotesFromMidiDataInternal(const uint8_t *data,
+                                                   int dataSize, int *outSize)
+        -> Note *
     {
         std::vector<uint8_t> byteVector(data, data + dataSize);
 
-        auto internalNotes = ReadMidiData(byteVector);
+        auto internalNotes = ReadNotesFromMidiData(byteVector);
 
         *outSize = internalNotes.size();
 

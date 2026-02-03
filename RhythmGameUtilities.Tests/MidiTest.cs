@@ -8,14 +8,14 @@ namespace RhythmGameUtilities.Tests
     {
 
         [Test]
-        public void TestReadMidiData()
+        public void TestReadNotesFromMidiData()
         {
             var directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             var path = Path.GetFullPath(Path.Combine(directory, "../../../Mocks/song.mid"));
 
             var content = File.ReadAllBytes(path);
 
-            var notes = Midi.ReadMidiData(content);
+            var notes = Midi.ReadNotesFromMidiData(content);
 
             Assert.That(notes.Length, Is.EqualTo(10));
 

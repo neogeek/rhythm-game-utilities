@@ -6,11 +6,11 @@
 
 using namespace RhythmGameUtilities;
 
-void testReadMidiData()
+void testReadNotesFromMidiData()
 {
     auto bytes = ReadBytesFromFile("./tests/Mocks/song.mid");
 
-    auto notes = ReadMidiData(bytes);
+    auto notes = ReadNotesFromMidiData(bytes);
 
     assert(size(notes) == 10);
 
@@ -49,7 +49,7 @@ void testReadMidiData()
 
 int main()
 {
-    testReadMidiData();
+    testReadNotesFromMidiData();
 
     return 0;
 }

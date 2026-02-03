@@ -13,7 +13,7 @@ namespace RhythmGameUtilities
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
-        public static extern IntPtr ReadMidiDataInternal(byte[] bytes, int dataSize, out int size);
+        public static extern IntPtr ReadNotesFromMidiDataInternal(byte[] bytes, int dataSize, out int size);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
         [DllImport("__Internal")]
@@ -27,11 +27,11 @@ namespace RhythmGameUtilities
     public static class Midi
     {
 
-        public static Note[] ReadMidiData(byte[] bytes)
+        public static Note[] ReadNotesFromMidiData(byte[] bytes)
         {
             var notes = new List<Note>();
 
-            var ptrArray = MidiInternal.ReadMidiDataInternal(bytes, bytes.Length, out var size);
+            var ptrArray = MidiInternal.ReadNotesFromMidiDataInternal(bytes, bytes.Length, out var size);
 
             var noteSize = Marshal.SizeOf(typeof(Note));
 
