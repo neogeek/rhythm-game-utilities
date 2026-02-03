@@ -8,6 +8,19 @@ namespace RhythmGameUtilities.Tests
     {
 
         [Test]
+        public void TestReadResolutionFromMidiData()
+        {
+            var directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var path = Path.GetFullPath(Path.Combine(directory, "../../../Mocks/song.mid"));
+
+            var content = File.ReadAllBytes(path);
+
+            var resolution = Midi.ReadResolutionFromMidiData(content);
+
+            Assert.That(resolution, Is.EqualTo(480));
+        }
+
+        [Test]
         public void TestReadNotesFromMidiData()
         {
             var directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);

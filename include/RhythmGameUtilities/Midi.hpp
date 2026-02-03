@@ -107,6 +107,22 @@ inline auto SkipMidiEvent(std::istringstream &stream, uint8_t status) -> void
     }
 }
 
+inline auto ReadResolutionFromMidiData(const std::vector<uint8_t> &data)
+    -> uint16_t
+{
+    auto stream = std::istringstream(std::string(data.begin(), data.end()),
+                                     std::ios::binary);
+
+    auto header = ReadMidiHeader(stream);
+
+    if (!header)
+    {
+        return 0;
+    }
+
+    return header->resolution;
+}
+
 inline auto ReadNotesFromMidiData(const std::vector<uint8_t> &data)
     -> std::vector<Note>
 {

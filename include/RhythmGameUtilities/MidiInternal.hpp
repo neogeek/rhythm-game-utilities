@@ -36,6 +36,16 @@ extern "C"
         return notes;
     }
 
+    PACKAGE_API auto ReadResolutionFromMidiDataInternal(const uint8_t *data,
+                                                        int dataSize,
+                                                        int *outSize)
+        -> uint16_t
+    {
+        std::vector<uint8_t> byteVector(data, data + dataSize);
+
+        return ReadResolutionFromMidiData(byteVector);
+    }
+
     PACKAGE_API void FreeNotes(Note *notes) { free(notes); }
 }
 

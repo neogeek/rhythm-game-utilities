@@ -6,6 +6,17 @@
 
 using namespace RhythmGameUtilities;
 
+void testReadResolutionFromMidiData()
+{
+    auto bytes = ReadBytesFromFile("./tests/Mocks/song.mid");
+
+    auto resolution = ReadResolutionFromMidiData(bytes);
+
+    assert(resolution == 480);
+
+    std::cout << ".";
+}
+
 void testReadNotesFromMidiData()
 {
     auto bytes = ReadBytesFromFile("./tests/Mocks/song.mid");
@@ -49,6 +60,7 @@ void testReadNotesFromMidiData()
 
 auto main() -> int
 {
+    testReadResolutionFromMidiData();
     testReadNotesFromMidiData();
 
     return 0;
