@@ -1,9 +1,7 @@
 #pragma once
 
-#include <iostream>
-
 #include <cstdint>
-#include <fstream>
+#include <optional>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -34,7 +32,7 @@ inline auto ReadChunk(std::istringstream &stream, int length = sizeof(T)) -> T
 
 inline auto ReadString(std::istringstream &stream, int length) -> std::string
 {
-    std::string chunk(length, '\0');
+    auto chunk = std::string(length, '\0');
     stream.read(chunk.data(), length);
     return stream.gcount() == length ? chunk : "";
 }
@@ -51,41 +49,87 @@ inline auto ReadVarLen(std::istringstream &stream) -> uint32_t
     return value;
 }
 
-const auto END_OF_TRACK = 0x2F;
+constexpr auto END_OF_TRACK = 0x2F;
+constexpr auto SYSTEM_COMMAND = 0xF0;
+constexpr auto NOTE_ON_COMMAND = 0x90;
+constexpr auto PROGRAM_CHANGE_COMMAND = 0xC0;
+constexpr auto CHANNEL_PRESSURE_COMMAND = 0xD0;
 
-const auto SYSTEM_COMMAND = 0xF0;
-const auto NOTE_OFF_COMMAND = 0x80;
-const auto NOTE_ON_COMMAND = 0x90;
-const auto CONTROL_CHANGE_COMMAND = 0xB0;
-const auto PROGRAM_CHANGE_COMMAND = 0xC0;
-const auto CHANNEL_PRESSURE_COMMAND = 0xD0;
+struct MidiHeader
+{
+    uint32_t length;
+    uint16_t format;
+    uint16_t trackCount;
+    uint16_t resolution;
+};
+
+inline auto ReadMidiHeader(std::istringstream &stream)
+    -> std::optional<MidiHeader>
+{
+    if (ReadString(stream, 4) != "MThd")
+    {
+        return std::nullopt;
+    }
+
+    return MidiHeader{ByteSwap(ReadChunk<uint32_t>(stream)),
+                      ByteSwap(ReadChunk<uint16_t>(stream)),
+                      ByteSwap(ReadChunk<uint16_t>(stream)),
+                      ByteSwap(ReadChunk<uint16_t>(stream))};
+}
+
+inline auto ReadNoteOnEvent(std::istringstream &stream, uint32_t tick) -> Note
+{
+    auto noteValue = ReadChunk<uint8_t>(stream);
+    auto velocity = ReadChunk<uint8_t>(stream);
+
+    return Note{static_cast<int>(tick), noteValue};
+}
+
+inline auto HandleSystemEvent(std::istringstream &stream) -> bool
+{
+    auto type = ReadChunk<uint8_t>(stream);
+
+    stream.seekg(ReadVarLen(stream), std::ios::cur);
+
+    return type == END_OF_TRACK;
+}
+
+inline auto SkipMidiEvent(std::istringstream &stream, uint8_t status) -> void
+{
+    if ((status & SYSTEM_COMMAND) == PROGRAM_CHANGE_COMMAND ||
+        (status & SYSTEM_COMMAND) == CHANNEL_PRESSURE_COMMAND)
+    {
+        stream.seekg(1, std::ios::cur);
+    }
+    else
+    {
+        stream.seekg(2, std::ios::cur);
+    }
+}
 
 inline auto ReadNotesFromMidiData(const std::vector<uint8_t> &data)
     -> std::vector<Note>
 {
-    std::istringstream stream(std::string(data.begin(), data.end()),
-                              std::ios::binary);
+    auto stream = std::istringstream(std::string(data.begin(), data.end()),
+                                     std::ios::binary);
 
-    if (ReadString(stream, 4) != "MThd")
+    auto header = ReadMidiHeader(stream);
+
+    if (!header)
     {
         return {};
     }
 
-    std::vector<Note> notes;
+    auto notes = std::vector<Note>{};
 
-    auto headerLength = ByteSwap(ReadChunk<uint32_t>(stream));
-    auto format = ByteSwap(ReadChunk<uint16_t>(stream));
-    auto tracks = ByteSwap(ReadChunk<uint16_t>(stream));
-    auto resolution = ByteSwap(ReadChunk<uint16_t>(stream));
-
-    for (int t = 0; t < tracks; t += 1)
+    for (auto t = 0; t < header->trackCount; t += 1)
     {
         if (ReadString(stream, 4) != "MTrk")
         {
             return notes;
         }
 
-        auto trackLength = ByteSwap(ReadChunk<uint32_t>(stream));
+        stream.seekg(4, std::ios::cur);
 
         uint32_t absoluteTick = 0;
 
@@ -97,34 +141,18 @@ inline auto ReadNotesFromMidiData(const std::vector<uint8_t> &data)
 
             if ((status & SYSTEM_COMMAND) == NOTE_ON_COMMAND)
             {
-                Note note{static_cast<int>(absoluteTick),
-                          ReadChunk<uint8_t>(stream)};
-
-                auto velocity = ReadChunk<uint8_t>(stream);
-
-                notes.push_back(note);
+                notes.push_back(ReadNoteOnEvent(stream, absoluteTick));
             }
             else if ((status & SYSTEM_COMMAND) == SYSTEM_COMMAND)
             {
-                auto type = ReadChunk<uint8_t>(stream);
-
-                auto length = ReadVarLen(stream);
-
-                stream.seekg(length, std::ios::cur);
-
-                if (type == END_OF_TRACK)
+                if (HandleSystemEvent(stream))
                 {
                     break;
                 }
             }
-            else if ((status & SYSTEM_COMMAND) == PROGRAM_CHANGE_COMMAND ||
-                     (status & SYSTEM_COMMAND) == CHANNEL_PRESSURE_COMMAND)
-            {
-                stream.seekg(1, std::ios::cur);
-            }
             else
             {
-                stream.seekg(2, std::ios::cur);
+                SkipMidiEvent(stream, status);
             }
         }
     }
