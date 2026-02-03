@@ -35,23 +35,6 @@ extern "C"
         return notes;
     }
 
-    PACKAGE_API auto ReadMidiFileInternal(const char *path, size_t *outSize)
-        -> Note *
-    {
-        auto internalNotes = ReadMidiFile(std::string(path));
-
-        *outSize = internalNotes.size();
-
-        auto *notes = (Note *)malloc(internalNotes.size() * sizeof(Note));
-
-        for (auto i = 0; i < internalNotes.size(); i += 1)
-        {
-            notes[i] = internalNotes[i];
-        }
-
-        return notes;
-    }
-
     PACKAGE_API void FreeNotes(Note *notes) { free(notes); }
 }
 

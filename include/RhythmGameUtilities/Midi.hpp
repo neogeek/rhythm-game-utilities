@@ -131,24 +131,4 @@ inline auto ReadMidiData(const std::vector<uint8_t> &data) -> std::vector<Note>
     return notes;
 }
 
-auto ReadMidiFile(const std::string &path) -> std::vector<Note>
-{
-    std::ifstream file(path, std::ios::binary | std::ios::ate);
-
-    if (!file.is_open())
-    {
-        return {};
-    }
-
-    auto fileSize = file.tellg();
-
-    std::vector<uint8_t> buffer(static_cast<size_t>(fileSize));
-
-    file.seekg(0, std::ios::beg);
-
-    file.read(reinterpret_cast<char *>(buffer.data()), fileSize);
-
-    return ReadMidiData(buffer);
-}
-
 } // namespace RhythmGameUtilities
