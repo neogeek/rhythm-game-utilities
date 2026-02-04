@@ -21,6 +21,37 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
+        public void TestReadTempoChangesFromMidiData()
+        {
+            var directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var path = Path.GetFullPath(Path.Combine(directory, "../../../Mocks/song.mid"));
+
+            var content = File.ReadAllBytes(path);
+
+            var tempoChanges = Midi.ReadTempoChangesFromMidiData(content);
+
+            Assert.That(tempoChanges.Length, Is.EqualTo(1));
+            Assert.That(tempoChanges[0].Position, Is.EqualTo(0));
+            Assert.That(tempoChanges[0].BPM, Is.EqualTo(120000));
+        }
+
+        [Test]
+        public void TestReadTimeSignatureChangesFromMidiData()
+        {
+            var directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            var path = Path.GetFullPath(Path.Combine(directory, "../../../Mocks/song.mid"));
+
+            var content = File.ReadAllBytes(path);
+
+            var timeSignatureChanges = Midi.ReadTimeSignatureChangesFromMidiData(content);
+
+            Assert.That(timeSignatureChanges.Length, Is.EqualTo(1));
+            Assert.That(timeSignatureChanges[0].Position, Is.EqualTo(0));
+            Assert.That(timeSignatureChanges[0].Numerator, Is.EqualTo(4));
+            Assert.That(timeSignatureChanges[0].Denominator, Is.EqualTo(4));
+        }
+
+        [Test]
         public void TestReadNotesFromMidiData()
         {
             var directory = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);

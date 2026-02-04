@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Structs/Note.hpp"
+#include "Structs/Tempo.hpp"
+#include "Structs/TimeSignature.hpp"
 
 #include "Midi.hpp"
 
@@ -15,6 +17,59 @@ namespace RhythmGameUtilities
 
 extern "C"
 {
+
+    PACKAGE_API auto ReadResolutionFromMidiDataInternal(const uint8_t *data,
+                                                        int dataSize,
+                                                        int *outSize)
+        -> uint16_t
+    {
+        std::vector<uint8_t> byteVector(data, data + dataSize);
+
+        return ReadResolutionFromMidiData(byteVector);
+    }
+
+    PACKAGE_API auto ReadTempoChangesFromMidiDataInternal(const uint8_t *data,
+                                                          int dataSize,
+                                                          int *outSize)
+        -> Tempo *
+    {
+        std::vector<uint8_t> byteVector(data, data + dataSize);
+
+        auto internalTempoChanges = ReadTempoChangesFromMidiData(byteVector);
+
+        *outSize = internalTempoChanges.size();
+
+        auto *tempoChanges =
+            (Tempo *)malloc(internalTempoChanges.size() * sizeof(Tempo));
+
+        for (auto i = 0; i < internalTempoChanges.size(); i += 1)
+        {
+            tempoChanges[i] = internalTempoChanges[i];
+        }
+
+        return tempoChanges;
+    }
+
+    PACKAGE_API auto ReadTimeSignatureChangesFromMidiDataInternal(
+        const uint8_t *data, int dataSize, int *outSize) -> TimeSignature *
+    {
+        std::vector<uint8_t> byteVector(data, data + dataSize);
+
+        auto internalTimeSignatureChanges =
+            ReadTimeSignatureChangesFromMidiData(byteVector);
+
+        *outSize = internalTimeSignatureChanges.size();
+
+        auto *timeSignatureChanges = (TimeSignature *)malloc(
+            internalTimeSignatureChanges.size() * sizeof(TimeSignature));
+
+        for (auto i = 0; i < internalTimeSignatureChanges.size(); i += 1)
+        {
+            timeSignatureChanges[i] = internalTimeSignatureChanges[i];
+        }
+
+        return timeSignatureChanges;
+    }
 
     PACKAGE_API auto ReadNotesFromMidiDataInternal(const uint8_t *data,
                                                    int dataSize, int *outSize)
@@ -34,16 +89,6 @@ extern "C"
         }
 
         return notes;
-    }
-
-    PACKAGE_API auto ReadResolutionFromMidiDataInternal(const uint8_t *data,
-                                                        int dataSize,
-                                                        int *outSize)
-        -> uint16_t
-    {
-        std::vector<uint8_t> byteVector(data, data + dataSize);
-
-        return ReadResolutionFromMidiData(byteVector);
     }
 
     PACKAGE_API void FreeNotes(Note *notes) { free(notes); }

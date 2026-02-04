@@ -7,6 +7,8 @@
 #include <vector>
 
 #include "Structs/Note.hpp"
+#include "Structs/Tempo.hpp"
+#include "Structs/TimeSignature.hpp"
 
 namespace RhythmGameUtilities
 {
@@ -43,14 +45,21 @@ inline auto ReadVarLen(std::istringstream &stream) -> uint32_t
     uint8_t byte = 0;
     do
     {
+        if (!stream.good())
+        {
+            return value;
+        }
         byte = ReadChunk<uint8_t>(stream);
         value = (value << 7) | (byte & 0x7F);
     } while ((byte & 0x80) > 0);
     return value;
 }
 
+constexpr auto META_EVENT = 0xFF;
 constexpr auto END_OF_TRACK = 0x2F;
 constexpr auto SYSTEM_COMMAND = 0xF0;
+constexpr auto TEMPO_CHANGE = 0x51;
+constexpr auto TIME_SIGNATURE_CHANGE = 0x58;
 constexpr auto NOTE_ON_COMMAND = 0x90;
 constexpr auto PROGRAM_CHANGE_COMMAND = 0xC0;
 constexpr auto CHANNEL_PRESSURE_COMMAND = 0xD0;
@@ -77,6 +86,17 @@ inline auto ReadMidiHeader(std::istringstream &stream)
                       ByteSwap(ReadChunk<uint16_t>(stream))};
 }
 
+inline auto CreateMidiStream(const std::vector<uint8_t> &data)
+    -> std::pair<std::istringstream, std::optional<MidiHeader>>
+{
+    auto stream = std::istringstream(std::string(data.begin(), data.end()),
+                                     std::ios::binary);
+
+    auto header = ReadMidiHeader(stream);
+
+    return {std::move(stream), header};
+}
+
 inline auto ReadNoteOnEvent(std::istringstream &stream, uint32_t tick) -> Note
 {
     auto noteValue = ReadChunk<uint8_t>(stream);
@@ -85,19 +105,16 @@ inline auto ReadNoteOnEvent(std::istringstream &stream, uint32_t tick) -> Note
     return Note{static_cast<int>(tick), noteValue};
 }
 
-inline auto HandleSystemEvent(std::istringstream &stream) -> bool
-{
-    auto type = ReadChunk<uint8_t>(stream);
-
-    stream.seekg(ReadVarLen(stream), std::ios::cur);
-
-    return type == END_OF_TRACK;
-}
-
 inline auto SkipMidiEvent(std::istringstream &stream, uint8_t status) -> void
 {
-    if ((status & SYSTEM_COMMAND) == PROGRAM_CHANGE_COMMAND ||
-        (status & SYSTEM_COMMAND) == CHANNEL_PRESSURE_COMMAND)
+    if ((status & SYSTEM_COMMAND) == SYSTEM_COMMAND)
+    {
+        auto length = ReadVarLen(stream);
+
+        stream.seekg(length, std::ios::cur);
+    }
+    else if ((status & SYSTEM_COMMAND) == PROGRAM_CHANGE_COMMAND ||
+             (status & SYSTEM_COMMAND) == CHANNEL_PRESSURE_COMMAND)
     {
         stream.seekg(1, std::ios::cur);
     }
@@ -107,29 +124,169 @@ inline auto SkipMidiEvent(std::istringstream &stream, uint8_t status) -> void
     }
 }
 
+inline auto ReadMetaEventHeader(std::istringstream &stream)
+    -> std::pair<uint8_t, uint32_t>
+{
+    auto type = ReadChunk<uint8_t>(stream);
+
+    auto length = ReadVarLen(stream);
+
+    return {type, length};
+}
+
 inline auto ReadResolutionFromMidiData(const std::vector<uint8_t> &data)
     -> uint16_t
 {
-    auto stream = std::istringstream(std::string(data.begin(), data.end()),
-                                     std::ios::binary);
+    auto [stream, header] = CreateMidiStream(data);
 
-    auto header = ReadMidiHeader(stream);
+    return header ? header->resolution : 0;
+}
+
+inline auto ReadTempoChangesFromMidiData(const std::vector<uint8_t> &data)
+    -> std::vector<Tempo>
+{
+    auto [stream, header] = CreateMidiStream(data);
 
     if (!header)
     {
-        return 0;
+        return {};
     }
 
-    return header->resolution;
+    auto tempoChanges = std::vector<Tempo>{};
+
+    for (auto t = 0; t < header->trackCount; t += 1)
+    {
+        if (ReadString(stream, 4) != "MTrk")
+        {
+            return tempoChanges;
+        }
+
+        stream.seekg(4, std::ios::cur);
+
+        uint32_t tick = 0;
+
+        while (true)
+        {
+            if (!stream.good())
+            {
+                break;
+            }
+
+            tick += ReadVarLen(stream);
+
+            auto status = ReadChunk<uint8_t>(stream);
+
+            if (status == META_EVENT)
+            {
+                auto [type, length] = ReadMetaEventHeader(stream);
+
+                if (type == TEMPO_CHANGE && length == 3)
+                {
+                    auto b1 = static_cast<uint32_t>(ReadChunk<uint8_t>(stream));
+                    auto b2 = static_cast<uint32_t>(ReadChunk<uint8_t>(stream));
+                    auto b3 = static_cast<uint32_t>(ReadChunk<uint8_t>(stream));
+
+                    uint32_t microsecondsPerBeat = (b1 << 16) | (b2 << 8) | b3;
+
+                    int bpm = 60000000000 / microsecondsPerBeat;
+
+                    tempoChanges.push_back({static_cast<int>(tick), bpm});
+                }
+                else if (type == END_OF_TRACK)
+                {
+                    break;
+                }
+                else
+                {
+                    stream.seekg(length, std::ios::cur);
+                }
+            }
+            else
+            {
+                SkipMidiEvent(stream, status);
+            }
+        }
+    }
+
+    if (tempoChanges.empty())
+    {
+        tempoChanges.push_back({0, 120000});
+    }
+
+    return tempoChanges;
+}
+
+inline auto
+ReadTimeSignatureChangesFromMidiData(const std::vector<uint8_t> &data)
+    -> std::vector<TimeSignature>
+{
+    auto [stream, header] = CreateMidiStream(data);
+
+    if (!header)
+    {
+        return {};
+    }
+
+    auto timeSignatureChanges = std::vector<TimeSignature>{};
+
+    for (auto t = 0; t < header->trackCount; t += 1)
+    {
+        if (ReadString(stream, 4) != "MTrk")
+        {
+            return timeSignatureChanges;
+        }
+
+        stream.seekg(4, std::ios::cur);
+
+        uint32_t tick = 0;
+
+        while (true)
+        {
+            if (!stream.good())
+            {
+                break;
+            }
+
+            tick += ReadVarLen(stream);
+
+            auto status = ReadChunk<uint8_t>(stream);
+
+            if (status == META_EVENT)
+            {
+                auto [type, length] = ReadMetaEventHeader(stream);
+
+                if (type == TIME_SIGNATURE_CHANGE && length >= 2)
+                {
+                    auto numerator = ReadChunk<uint8_t>(stream);
+                    auto denominator =
+                        static_cast<uint8_t>(1 << ReadChunk<uint8_t>(stream));
+                    stream.seekg(length - 2, std::ios::cur);
+                    timeSignatureChanges.push_back(
+                        {static_cast<int>(tick), numerator, denominator});
+                }
+                else if (type == END_OF_TRACK)
+                {
+                    break;
+                }
+                else
+                {
+                    stream.seekg(length, std::ios::cur);
+                }
+            }
+            else
+            {
+                SkipMidiEvent(stream, status);
+            }
+        }
+    }
+
+    return timeSignatureChanges;
 }
 
 inline auto ReadNotesFromMidiData(const std::vector<uint8_t> &data)
     -> std::vector<Note>
 {
-    auto stream = std::istringstream(std::string(data.begin(), data.end()),
-                                     std::ios::binary);
-
-    auto header = ReadMidiHeader(stream);
+    auto [stream, header] = CreateMidiStream(data);
 
     if (!header)
     {
@@ -147,24 +304,33 @@ inline auto ReadNotesFromMidiData(const std::vector<uint8_t> &data)
 
         stream.seekg(4, std::ios::cur);
 
-        uint32_t absoluteTick = 0;
+        uint32_t tick = 0;
 
         while (true)
         {
-            absoluteTick += ReadVarLen(stream);
+            if (!stream.good())
+            {
+                break;
+            }
+
+            tick += ReadVarLen(stream);
 
             auto status = ReadChunk<uint8_t>(stream);
 
             if ((status & SYSTEM_COMMAND) == NOTE_ON_COMMAND)
             {
-                notes.push_back(ReadNoteOnEvent(stream, absoluteTick));
+                notes.push_back(ReadNoteOnEvent(stream, tick));
             }
-            else if ((status & SYSTEM_COMMAND) == SYSTEM_COMMAND)
+            else if (status == META_EVENT)
             {
-                if (HandleSystemEvent(stream))
+                auto [type, length] = ReadMetaEventHeader(stream);
+
+                if (type == END_OF_TRACK)
                 {
                     break;
                 }
+
+                stream.seekg(length, std::ios::cur);
             }
             else
             {

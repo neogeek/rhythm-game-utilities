@@ -17,6 +17,33 @@ void testReadResolutionFromMidiData()
     std::cout << ".";
 }
 
+void testReadTempoChangesFromMidiData()
+{
+    auto bytes = ReadBytesFromFile("./tests/Mocks/song.mid");
+
+    auto tempChanges = ReadTempoChangesFromMidiData(bytes);
+
+    assert(size(tempChanges) == 1);
+    assert(tempChanges[0].Position == 0);
+    assert(tempChanges[0].BPM == 120000);
+
+    std::cout << ".";
+}
+void testReadTimeSignatureChangesFromMidiData()
+{
+    auto bytes = ReadBytesFromFile("./tests/Mocks/song.mid");
+
+    auto timeSignatureChanges = ReadTimeSignatureChangesFromMidiData(bytes);
+
+    assert(size(timeSignatureChanges) == 1);
+
+    assert(timeSignatureChanges[0].Position == 0);
+    assert(timeSignatureChanges[0].Numerator == 4);
+    assert(timeSignatureChanges[0].Denominator == 4);
+
+    std::cout << ".";
+}
+
 void testReadNotesFromMidiData()
 {
     auto bytes = ReadBytesFromFile("./tests/Mocks/song.mid");
@@ -61,6 +88,8 @@ void testReadNotesFromMidiData()
 auto main() -> int
 {
     testReadResolutionFromMidiData();
+    testReadTempoChangesFromMidiData();
+    testReadTimeSignatureChangesFromMidiData();
     testReadNotesFromMidiData();
 
     return 0;
