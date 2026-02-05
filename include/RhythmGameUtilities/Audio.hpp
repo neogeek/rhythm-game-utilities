@@ -74,7 +74,7 @@ extern "C"
     {
         if (waveform != nullptr)
         {
-            for (int x = 0; x < width; x += 1)
+            for (auto x = 0; x < width; x += 1)
             {
                 free(waveform[x]);
             }
