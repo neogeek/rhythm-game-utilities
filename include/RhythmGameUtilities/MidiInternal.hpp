@@ -50,6 +50,11 @@ extern "C"
         return tempoChanges;
     }
 
+    PACKAGE_API void FreeTempoChanges(Tempo *tempoChanges)
+    {
+        free(tempoChanges);
+    }
+
     PACKAGE_API auto ReadTimeSignatureChangesFromMidiDataInternal(
         const uint8_t *data, int dataSize, int *outSize) -> TimeSignature *
     {
@@ -69,6 +74,12 @@ extern "C"
         }
 
         return timeSignatureChanges;
+    }
+
+    PACKAGE_API void
+    FreeTimeSignatureChanges(TimeSignature *timeSignatureChanges)
+    {
+        free(timeSignatureChanges);
     }
 
     PACKAGE_API auto ReadNotesFromMidiDataInternal(const uint8_t *data,
