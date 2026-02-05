@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 
 #ifdef _WIN32
 #define PACKAGE_API __declspec(dllexport)
@@ -27,14 +28,14 @@ extern "C"
     PACKAGE_API auto ConvertSamplesToWaveform(const float *samples, int size,
                                               int width, int height) -> int **
     {
-        auto *waveform = new int *[width];
+        auto *waveform = static_cast<int **>(malloc(width * sizeof(int *)));
 
         auto step = floor(size / width);
         auto amp = height / 2;
 
         for (auto x = 0; x < width; x += 1)
         {
-            waveform[x] = new int[height];
+            waveform[x] = static_cast<int *>(malloc(height * sizeof(int)));
 
             auto min = 1.0F;
             auto max = -1.0F;
@@ -75,10 +76,10 @@ extern "C"
         {
             for (int x = 0; x < width; x += 1)
             {
-                delete[] waveform[x];
+                free(waveform[x]);
             }
 
-            delete[] waveform;
+            free(waveform);
         }
     }
 }
