@@ -45,6 +45,11 @@ inline auto ConvertSecondsToTicks(
     float seconds, int resolution, const std::vector<Tempo> &tempoChanges,
     const std::vector<TimeSignature> &timeSignatureChanges) -> int
 {
+    if (tempoChanges.empty())
+    {
+        return 0;
+    }
+
     auto tempoChangesIterator = tempoChanges.begin();
     auto timeSignatureIterator = timeSignatureChanges.begin();
 
