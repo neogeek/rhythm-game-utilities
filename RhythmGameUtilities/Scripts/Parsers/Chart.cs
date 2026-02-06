@@ -44,7 +44,7 @@ namespace RhythmGameUtilities
 
     }
 
-    public static class Parsers
+    public static class Chart
     {
 
         private static readonly Regex JSON_VALUE_PATTERN = new(@"(""[^""]+""|\S+)");

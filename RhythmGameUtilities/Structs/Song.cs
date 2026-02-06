@@ -33,26 +33,26 @@ namespace RhythmGameUtilities
 
         public Song(string contents)
         {
-            _sections = Parsers.ParseSectionsFromChart(contents);
+            _sections = Chart.ParseSectionsFromChart(contents);
 
-            metaData = Parsers.ParseMetaDataFromChartSection(_sections
+            metaData = Chart.ParseMetaDataFromChartSection(_sections
                 .First(section => section.Key == NamedSection.Song)
                 .Value);
 
             resolution = int.Parse(metaData["Resolution"]);
 
-            tempoChanges = Parsers.ParseTempoChangesFromChartSection(_sections
+            tempoChanges = Chart.ParseTempoChangesFromChartSection(_sections
                 .First(section => section.Key == NamedSection.SyncTrack)
                 .Value);
 
-            timeSignatureChanges = Parsers.ParseTimeSignatureChangesFromChartSection(_sections[NamedSection.SyncTrack]);
+            timeSignatureChanges = Chart.ParseTimeSignatureChangesFromChartSection(_sections[NamedSection.SyncTrack]);
 
             difficulties = Enum.GetValues(typeof(Difficulty))
                 .Cast<Difficulty>()
                 .Where(difficulty => _sections.ToDictionary(item => item.Key, item => item.Value)
                     .ContainsKey($"{difficulty}Single"))
                 .ToDictionary(difficulty => difficulty,
-                    difficulty => Parsers.ParseNotesFromChartSection(_sections[$"{difficulty}Single"]));
+                    difficulty => Chart.ParseNotesFromChartSection(_sections[$"{difficulty}Single"]));
 
             beatBars = Utilities.CalculateBeatBars(tempoChanges, includeHalfNotes : true);
         }

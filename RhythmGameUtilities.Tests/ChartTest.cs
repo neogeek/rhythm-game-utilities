@@ -4,15 +4,15 @@ using NUnit.Framework;
 namespace RhythmGameUtilities.Tests
 {
 
-    public class ParsersTest
+    public class ChartTest
     {
 
         [Test]
         public void TestParseTempoChangesFromChartSection()
         {
-            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+            var sections = Chart.ParseSectionsFromChart(Mocks.SONG_CHART);
 
-            var tempoChanges = Parsers.ParseTempoChangesFromChartSection(sections[NamedSection.SyncTrack]);
+            var tempoChanges = Chart.ParseTempoChangesFromChartSection(sections[NamedSection.SyncTrack]);
 
             Console.WriteLine(tempoChanges.Length); // 7
 
@@ -22,9 +22,9 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestParseLyricsFromChartSection()
         {
-            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+            var sections = Chart.ParseSectionsFromChart(Mocks.SONG_CHART);
 
-            var lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.Events]);
+            var lyrics = Chart.ParseLyricsFromChartSection(sections[NamedSection.Events]);
 
             Console.WriteLine(lyrics.Count); // 12
 
@@ -34,9 +34,9 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestParseMetaDataFromChartSection()
         {
-            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+            var sections = Chart.ParseSectionsFromChart(Mocks.SONG_CHART);
 
-            var metaData = Parsers.ParseMetaDataFromChartSection(sections[NamedSection.Song]);
+            var metaData = Chart.ParseMetaDataFromChartSection(sections[NamedSection.Song]);
 
             Console.WriteLine(metaData["Name"]); // Example Song
             Console.WriteLine(metaData["Resolution"]); // 192
@@ -50,9 +50,9 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestParseNotesFromChartSection()
         {
-            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+            var sections = Chart.ParseSectionsFromChart(Mocks.SONG_CHART);
 
-            var notes = Parsers.ParseNotesFromChartSection(sections[$"{Difficulty.Expert}Single"]);
+            var notes = Chart.ParseNotesFromChartSection(sections[$"{Difficulty.Expert}Single"]);
 
             Assert.That(notes.Length, Is.EqualTo(8));
         }
@@ -60,7 +60,7 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestParseSectionsFromChart()
         {
-            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+            var sections = Chart.ParseSectionsFromChart(Mocks.SONG_CHART);
 
             Console.WriteLine(sections.Count); // 4
 
@@ -79,9 +79,9 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestParseTimeSignatureChangesFromChartSection()
         {
-            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+            var sections = Chart.ParseSectionsFromChart(Mocks.SONG_CHART);
 
-            var timeSignatures = Parsers.ParseTimeSignatureChangesFromChartSection(sections[NamedSection.SyncTrack]);
+            var timeSignatures = Chart.ParseTimeSignatureChangesFromChartSection(sections[NamedSection.SyncTrack]);
 
             Assert.That(timeSignatures.Length, Is.EqualTo(4));
         }
@@ -89,7 +89,7 @@ namespace RhythmGameUtilities.Tests
         [Test]
         public void TestParseValuesFromChartSection()
         {
-            var sections = Parsers.ParseSectionsFromChart(Mocks.SONG_CHART);
+            var sections = Chart.ParseSectionsFromChart(Mocks.SONG_CHART);
 
             Assert.That(sections.ContainsKey(NamedSection.Song), Is.True);
             Assert.That(sections[NamedSection.Song][0].Key, Is.EqualTo("Name"));
