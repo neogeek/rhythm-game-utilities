@@ -6,9 +6,9 @@
 #include <string>
 #include <vector>
 
-#include "Structs/Note.hpp"
-#include "Structs/Tempo.hpp"
-#include "Structs/TimeSignature.hpp"
+#include "../Structs/Note.hpp"
+#include "../Structs/Tempo.hpp"
+#include "../Structs/TimeSignature.hpp"
 
 namespace RhythmGameUtilities
 {

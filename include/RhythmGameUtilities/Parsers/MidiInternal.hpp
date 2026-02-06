@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Structs/Note.hpp"
-#include "Structs/Tempo.hpp"
-#include "Structs/TimeSignature.hpp"
+#include "../Structs/Note.hpp"
+#include "../Structs/Tempo.hpp"
+#include "../Structs/TimeSignature.hpp"
 
-#include "Midi.hpp"
+#include "./Midi.hpp"
 
 #ifdef _WIN32
 #define PACKAGE_API __declspec(dllexport)

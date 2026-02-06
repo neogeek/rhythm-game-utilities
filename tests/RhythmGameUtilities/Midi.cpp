@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "RhythmGameUtilities/File.hpp"
-#include "RhythmGameUtilities/Midi.hpp"
+#include "RhythmGameUtilities/Parsers/Midi.hpp"
 
 using namespace RhythmGameUtilities;
 
