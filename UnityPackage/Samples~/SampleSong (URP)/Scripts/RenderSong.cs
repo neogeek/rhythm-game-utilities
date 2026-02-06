@@ -151,7 +151,7 @@ namespace RhythmGameUtilities
                 }
             }
 
-            for (var x = 0; x < 5; x += 1)
+            for (var x = 0; x < _trackLaneCount; x += 1)
             {
                 Graphics.DrawMeshInstanced(_mesh, 0, _materials[x], laneArray[x]);
             }
