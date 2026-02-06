@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -9,36 +10,61 @@ namespace RhythmGameUtilities
     public static class CommonUtilities
     {
 
-        public static async Task<string> LoadTextFileFromPath(string path)
+        private static string GetAbsoluteUrl(string path)
         {
-            using var request = UnityWebRequest.Get(path);
-
-            request.downloadHandler = new DownloadHandlerBuffer();
-
-            await request.SendWebRequest();
-
-            if (request.result == UnityWebRequest.Result.Success)
+            if (Application.platform == RuntimePlatform.WebGLPlayer)
             {
-                return request.downloadHandler.text;
+                return path;
             }
 
-            throw new FileNotFoundException(request.result.ToString());
+            return path.Contains("://") ? path : $"file://{path}";
         }
 
-        public static async Task<AudioClip> LoadAudioFileFromPath(string path,
-            AudioType audioType = AudioType.OGGVORBIS)
+        public static async Task<byte[]> LoadDataFileFromPath(string path)
+        {
+            using var request = UnityWebRequest.Get(GetAbsoluteUrl(path));
+
+            var operation = request.SendWebRequest();
+
+            while (!operation.isDone) await Task.Yield();
+
+            return request.result == UnityWebRequest.Result.Success
+                ? request.downloadHandler.data
+                : throw new Exception($"Failed to load data: {request.error}");
+        }
+
+        public static async Task<string> LoadTextFileFromPath(string path)
+        {
+            using var request = UnityWebRequest.Get(GetAbsoluteUrl(path));
+
+            var operation = request.SendWebRequest();
+
+            while (!operation.isDone) await Task.Yield();
+
+            return request.result == UnityWebRequest.Result.Success
+                ? request.downloadHandler.text
+                : throw new Exception($"Failed to load text: {request.error}");
+        }
+
+        public static async Task<AudioClip> LoadAudioFileFromPath(string path)
         {
             using var request =
-                UnityWebRequestMultimedia.GetAudioClip(path, audioType);
+                UnityWebRequestMultimedia.GetAudioClip(GetAbsoluteUrl(path), GetAudioTypeFromPath(path));
 
-            await request.SendWebRequest();
+            var operation = request.SendWebRequest();
 
-            if (request.result == UnityWebRequest.Result.Success)
-            {
-                return DownloadHandlerAudioClip.GetContent(request);
-            }
+            while (!operation.isDone) await Task.Yield();
 
-            throw new FileNotFoundException(request.result.ToString());
+            return request.result == UnityWebRequest.Result.Success
+                ? DownloadHandlerAudioClip.GetContent(request)
+                : throw new Exception($"Failed to load audio: {request.error}");
+        }
+
+        public static AudioType GetAudioTypeFromPath(string path)
+        {
+            var extension = Path.GetExtension(path);
+
+            return extension switch { "wav" => AudioType.WAV, "mp3" => AudioType.MPEG, var _ => AudioType.OGGVORBIS };
         }
 
     }

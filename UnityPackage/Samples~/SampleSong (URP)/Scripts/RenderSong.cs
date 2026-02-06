@@ -39,15 +39,18 @@ namespace RhythmGameUtilities
         [SerializeField]
         private float _distance = 50;
 
+        [SerializeField]
+        private int _trackLaneCount = 5;
+
         private readonly Vector3 _noteScale = new(0.5f, 0.1f, 0.35f);
 
         private readonly Vector3 _noteScaleFlat = new(0.5f, 0.05f, 0.35f);
 
-        private readonly Vector3 _beatBarScaleFull = new(5, 0.03f, 0.1f);
+        private readonly Vector3 _beatBarScaleFull = new(0, 0.03f, 0.1f);
 
-        private readonly Vector3 _beatBarScaleHalf = new(5, 0.03f, 0.05f);
+        private readonly Vector3 _beatBarScaleHalf = new(0, 0.03f, 0.05f);
 
-        private readonly Vector3 _beatBarScaleQuarter = new(5, 0.03f, 0.01f);
+        private readonly Vector3 _beatBarScaleQuarter = new(0, 0.03f, 0.01f);
 
         private Song _song;
 
@@ -90,34 +93,42 @@ namespace RhythmGameUtilities
 
         private void RenderTrack()
         {
+            var trackWidth = _trackLaneCount * 1f;
+
+            var trackSeparators = 2 + _trackLaneCount - 1;
+
             Graphics.DrawMesh(_mesh,
-                Matrix4x4.TRS(new Vector3(2.5f, -0.05f, _distance / 2), Quaternion.identity,
-                    new Vector3(5f, 0.1f, _distance)),
+                Matrix4x4.TRS(new Vector3(0, -0.05f, _distance / 2), Quaternion.identity,
+                    new Vector3(trackWidth, 0.1f, _distance)),
                 _trackMaterial, 0);
 
-            Graphics.DrawMesh(_mesh,
-                Matrix4x4.TRS(new Vector3(-0.05f, -0.025f, _distance / 2), Quaternion.identity,
-                    new Vector3(0.1f, 0.15f, _distance)),
-                _beatBarMaterial, 0);
-
-            Graphics.DrawMesh(_mesh,
-                Matrix4x4.TRS(new Vector3(5.05f, -0.025f, _distance / 2), Quaternion.identity,
-                    new Vector3(0.1f, 0.15f, _distance)),
-                _beatBarMaterial, 0);
+            for (var i = 0; i < trackSeparators; i += 1)
+            {
+                Graphics.DrawMesh(_mesh,
+                    Matrix4x4.TRS(new Vector3(-(trackWidth / 2) + 0.05f + (i * 1), -0.025f, _distance / 2),
+                        Quaternion.identity,
+                        new Vector3(i == 0 || i == trackSeparators - 1 ? 0.1f : 0.05f, 0.15f, _distance)),
+                    _beatBarMaterial, 0);
+            }
         }
 
         private void RenderHitNotes()
         {
-            for (var x = 0; x < 5; x += 1)
+            var trackWidth = _trackLaneCount * 1f;
+
+            for (var x = 0; x < _trackLaneCount; x += 1)
             {
                 Graphics.DrawMesh(_mesh,
-                    Matrix4x4.TRS(new Vector3(x + 0.5f, 0.025f, 0), Quaternion.identity, _noteScaleFlat),
+                    Matrix4x4.TRS(new Vector3(-(trackWidth / 2) + x + 0.5f, 0.025f, 0), Quaternion.identity,
+                        _noteScaleFlat),
                     _materials[x], 0);
             }
         }
 
         private void RenderNotes(Note[] notes, int resolution, int tickOffset)
         {
+            var trackWidth = _trackLaneCount * 1f;
+
             var laneArray = new Dictionary<int, List<Matrix4x4>>();
 
             for (var x = 0; x < 5; x += 1)
@@ -135,7 +146,7 @@ namespace RhythmGameUtilities
                 if (position > 0 && position < _distance)
                 {
                     laneArray[notes[i].HandPosition].Add(Matrix4x4.TRS(
-                        new Vector3(notes[i].HandPosition + 0.5f, 0.05f, position),
+                        new Vector3(-(trackWidth / 2) + notes[i].HandPosition + 0.5f, 0.05f, position),
                         Quaternion.identity, _noteScale));
                 }
             }
@@ -148,6 +159,8 @@ namespace RhythmGameUtilities
 
         private void RenderBeatBars(BeatBar[] beatBars, int resolution, int tickOffset)
         {
+            var trackWidth = _trackLaneCount * 1f;
+
             var beatBarMatrix = new List<Matrix4x4>();
             var beatBarHalfMatrix = new List<Matrix4x4>();
             var beatBarQuarterMatrix = new List<Matrix4x4>();
@@ -169,18 +182,18 @@ namespace RhythmGameUtilities
 
                 if (x % 8 == 0)
                 {
-                    beatBarMatrix.Add(Matrix4x4.TRS(new Vector3(2.5f, 0.015f, position), Quaternion.identity,
-                        _beatBarScaleFull));
+                    beatBarMatrix.Add(Matrix4x4.TRS(new Vector3(0, 0.015f, position), Quaternion.identity,
+                        _beatBarScaleFull + new Vector3(trackWidth, 0, 0)));
                 }
                 else if (x % 2 == 0)
                 {
-                    beatBarHalfMatrix.Add(Matrix4x4.TRS(new Vector3(2.5f, 0.015f, position), Quaternion.identity,
-                        _beatBarScaleHalf));
+                    beatBarHalfMatrix.Add(Matrix4x4.TRS(new Vector3(0, 0.015f, position), Quaternion.identity,
+                        _beatBarScaleHalf + new Vector3(trackWidth, 0, 0)));
                 }
                 else
                 {
-                    beatBarQuarterMatrix.Add(Matrix4x4.TRS(new Vector3(2.5f, 0.015f, position), Quaternion.identity,
-                        _beatBarScaleQuarter));
+                    beatBarQuarterMatrix.Add(Matrix4x4.TRS(new Vector3(0, 0.015f, position), Quaternion.identity,
+                        _beatBarScaleQuarter + new Vector3(trackWidth, 0, 0)));
                 }
             }
 
