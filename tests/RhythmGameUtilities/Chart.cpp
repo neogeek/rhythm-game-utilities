@@ -4,7 +4,7 @@
 
 #include "RhythmGameUtilities/Enums/Difficulty.hpp"
 #include "RhythmGameUtilities/Enums/NamedSection.hpp"
-#include "RhythmGameUtilities/Parsers.hpp"
+#include "RhythmGameUtilities/Parsers/Chart.hpp"
 
 using namespace RhythmGameUtilities;
 

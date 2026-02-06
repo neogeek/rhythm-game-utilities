@@ -5,13 +5,13 @@
 #include <string>
 #include <vector>
 
-#include "Enums/TypeCode.hpp"
+#include "../Enums/TypeCode.hpp"
 
-#include "Structs/Note.hpp"
-#include "Structs/Tempo.hpp"
-#include "Structs/TimeSignature.hpp"
+#include "../Structs/Note.hpp"
+#include "../Structs/Tempo.hpp"
+#include "../Structs/TimeSignature.hpp"
 
-#include "Common.hpp"
+#include "../Common.hpp"
 
 namespace RhythmGameUtilities
 {
