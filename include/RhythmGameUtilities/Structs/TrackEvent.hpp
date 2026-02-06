@@ -12,7 +12,7 @@ struct TrackEvent
 
     std::string TypeCode;
 
-    std::vector<std::string> *Values;
+    std::vector<std::string> Values;
 };
 
 } // namespace RhythmGameUtilities
