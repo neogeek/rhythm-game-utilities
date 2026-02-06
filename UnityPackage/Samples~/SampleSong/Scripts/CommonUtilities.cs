@@ -64,7 +64,7 @@ namespace RhythmGameUtilities
         {
             var extension = Path.GetExtension(path);
 
-            return extension switch { "wav" => AudioType.WAV, "mp3" => AudioType.MPEG, var _ => AudioType.OGGVORBIS };
+            return extension switch { ".wav" => AudioType.WAV, ".mp3" => AudioType.MPEG, var _ => AudioType.OGGVORBIS };
         }
 
     }
