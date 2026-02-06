@@ -30,12 +30,12 @@ using ChartSectionInternal = struct
     int lineCount;
 };
 
-std::regex CHART_SECTION_PATTERN(R"(\[([a-z]+)\]\s*\{([^\}]+)\})",
-                                 std::regex_constants::icase);
+inline std::regex CHART_SECTION_PATTERN(R"(\[([a-z]+)\]\s*\{([^\}]+)\})",
+                                        std::regex_constants::icase);
 
-std::regex CHART_SECTION_LINE_PATTERN(R"(([^=]+)\s*=([^\r\n]+))");
+inline std::regex CHART_SECTION_LINE_PATTERN(R"(([^=]+)\s*=([^\r\n]+))");
 
-std::regex JSON_VALUE_PATTERN(R"(("[^"]+"|\S+))");
+inline std::regex JSON_VALUE_PATTERN(R"(("[^"]+"|\S+))");
 
 inline auto ParseSectionsFromChart(const char *contents)
     -> std::map<std::string,
