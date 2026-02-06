@@ -15,15 +15,10 @@ test: build ## Run tests
 	dotnet test RhythmGameUtilities.Tests/*.csproj
 
 copy: ## Copy files from project to UnityPackage
-	(cd RhythmGameUtilities && find . -type f -name "*.cs" -not -path '*/obj/*' -not -path '*/bin/*' -exec cp {} ../UnityPackage/{} \;)
-	(cd RhythmGameUtilities.Tests && find . -type f -name "*.cs" -not -path '*/obj/*' -not -path '*/bin/*' -exec cp {} ../UnityPackage/Editor/Tests/{} \;)
-	cp LICENSE ./UnityPackage/
-	cp README.md ./RhythmGameUtilities/
-	cp README.md ./UnityPackage/
-	cp screenshot.png ./UnityPackage/
+	./bin/copy.sh
 
 rcopy: ## Copy files from UnityPackage back to project
-	(cd UnityPackage && find . -type f -name "*.cs" -not -path '*/Editor/*' -not -path '*/Samples~/*' -exec cp {} ../RhythmGameUtilities/{} \;)
+	./bin/rcopy.sh
 
 clean: ## Clean project
 	git clean -xdf
