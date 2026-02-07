@@ -1,7 +1,9 @@
 #pragma once
 
-#include <map>
+#include <vector>
 
+#include <godot_cpp/classes/object.hpp>
+#include <godot_cpp/variant/array.hpp>
 #include <godot_cpp/variant/dictionary.hpp>
 
 using namespace godot;
