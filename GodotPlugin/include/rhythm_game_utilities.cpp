@@ -3,7 +3,7 @@
 #include "utilities.hpp"
 
 #include <RhythmGameUtilities/Common.hpp>
-#include <RhythmGameUtilities/Parsers.hpp>
+#include <RhythmGameUtilities/Parsers/Chart.hpp>
 #include <RhythmGameUtilities/Utilities.hpp>
 
 void rhythm_game_utilities::_bind_methods()
