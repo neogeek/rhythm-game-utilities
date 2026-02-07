@@ -92,13 +92,13 @@ Dictionary Song::get_meta_data() { return meta_data; }
 
 void Song::set_resolution(int value) { resolution = value; }
 
-int Song::get_resolution() { return resolution; }
+auto Song::get_resolution() -> int { return resolution; }
 
 // tempo_changes
 
 void Song::set_tempo_changes(Array value) { tempo_changes = value; }
 
-Array Song::get_tempo_changes() { return tempo_changes; }
+auto Song::get_tempo_changes() -> Array { return tempo_changes; }
 
 // time_signature_changes
 
@@ -107,19 +107,22 @@ void Song::set_time_signature_changes(Array value)
     time_signature_changes = value;
 }
 
-Array Song::get_time_signature_changes() { return time_signature_changes; }
+auto Song::get_time_signature_changes() -> Array
+{
+    return time_signature_changes;
+}
 
 // difficulties
 
 void Song::set_difficulties(Dictionary value) { difficulties = value; }
 
-Dictionary Song::get_difficulties() { return difficulties; }
+auto Song::get_difficulties() -> Dictionary { return difficulties; }
 
 // beat_bars
 
 void Song::set_beat_bars(Array value) { beat_bars = value; }
 
-Array Song::get_beat_bars() { return beat_bars; }
+auto Song::get_beat_bars() -> Array { return beat_bars; }
 
 void Song::load_song(const String contents)
 {

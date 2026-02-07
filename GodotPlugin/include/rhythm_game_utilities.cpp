@@ -94,20 +94,20 @@ void rhythm_game_utilities::_bind_methods()
 
 // Common
 
-float rhythm_game_utilities::inverse_lerp(float a, float b, float v)
+auto rhythm_game_utilities::inverse_lerp(float a, float b, float v) -> float
 {
     return RhythmGameUtilities::InverseLerp(a, b, v);
 }
 
-float rhythm_game_utilities::lerp(float a, float b, float t)
+auto rhythm_game_utilities::lerp(float a, float b, float t) -> float
 {
     return RhythmGameUtilities::Lerp(a, b, t);
 }
 
 // Parsers
 
-Array rhythm_game_utilities::parse_tempo_changes_from_chart_section(
-    Array section)
+auto rhythm_game_utilities::parse_tempo_changes_from_chart_section(
+    Array section) -> Array
 {
     auto tempo_changes_internal =
         RhythmGameUtilities::ParseTempoChangesFromChartSection(
@@ -115,7 +115,7 @@ Array rhythm_game_utilities::parse_tempo_changes_from_chart_section(
 
     Array tempo_changes;
 
-    for (auto &tempo_change_internal : tempo_changes_internal)
+    for (const auto &tempo_change_internal : tempo_changes_internal)
     {
         Dictionary tempo_change;
 
@@ -128,14 +128,15 @@ Array rhythm_game_utilities::parse_tempo_changes_from_chart_section(
     return tempo_changes;
 }
 
-Dictionary rhythm_game_utilities::parse_lyrics_from_chart_section(Array section)
+auto rhythm_game_utilities::parse_lyrics_from_chart_section(Array section)
+    -> Dictionary
 {
     auto lyrics_internal = RhythmGameUtilities::ParseLyricsFromChartSection(
         convert_section_to_section_internal(section));
 
     Dictionary lyrics;
 
-    for (auto const &[key, val] : lyrics_internal)
+    for (const auto &[key, val] : lyrics_internal)
     {
         lyrics[key] = godot::String(lyrics_internal[key].c_str());
     }
@@ -143,8 +144,8 @@ Dictionary rhythm_game_utilities::parse_lyrics_from_chart_section(Array section)
     return lyrics;
 }
 
-Dictionary
-rhythm_game_utilities::parse_meta_data_from_chart_section(Array section)
+auto rhythm_game_utilities::parse_meta_data_from_chart_section(Array section)
+    -> Dictionary
 {
     auto meta_data_internal =
         RhythmGameUtilities::ParseMetaDataFromChartSection(
@@ -152,7 +153,7 @@ rhythm_game_utilities::parse_meta_data_from_chart_section(Array section)
 
     Dictionary meta_data;
 
-    for (auto const &[key, val] : meta_data_internal)
+    for (const auto &[key, val] : meta_data_internal)
     {
         meta_data[godot::String(key.c_str())] =
             godot::String(meta_data_internal[key].c_str());
@@ -161,14 +162,15 @@ rhythm_game_utilities::parse_meta_data_from_chart_section(Array section)
     return meta_data;
 }
 
-Array rhythm_game_utilities::parse_notes_from_chart_section(Array section)
+auto rhythm_game_utilities::parse_notes_from_chart_section(Array section)
+    -> Array
 {
     auto notes_internal = RhythmGameUtilities::ParseNotesFromChartSection(
         convert_section_to_section_internal(section));
 
     Array notes;
 
-    for (auto &note_internal : notes_internal)
+    for (const auto &note_internal : notes_internal)
     {
         Dictionary note;
 
@@ -182,14 +184,15 @@ Array rhythm_game_utilities::parse_notes_from_chart_section(Array section)
     return notes;
 }
 
-Dictionary rhythm_game_utilities::parse_sections_from_chart(String contents)
+auto rhythm_game_utilities::parse_sections_from_chart(String contents)
+    -> Dictionary
 {
     Dictionary sections;
 
     auto sections_internal =
         RhythmGameUtilities::ParseSectionsFromChart(contents.utf8().get_data());
 
-    for (auto &section_internal : sections_internal)
+    for (const auto &section_internal : sections_internal)
     {
         auto section_key = godot::String(section_internal.first.c_str());
 
@@ -221,8 +224,8 @@ Dictionary rhythm_game_utilities::parse_sections_from_chart(String contents)
     return sections;
 }
 
-Array rhythm_game_utilities::parse_time_signature_changes_from_chart_section(
-    Array section)
+auto rhythm_game_utilities::parse_time_signature_changes_from_chart_section(
+    Array section) -> Array
 {
     auto time_signature_changes_internal =
         RhythmGameUtilities::ParseTimeSignatureChangesFromChartSection(
@@ -230,7 +233,8 @@ Array rhythm_game_utilities::parse_time_signature_changes_from_chart_section(
 
     Array time_signature_changes;
 
-    for (auto &time_signature_change_internal : time_signature_changes_internal)
+    for (const auto &time_signature_change_internal :
+         time_signature_changes_internal)
     {
         Dictionary time_signature_change;
 
@@ -249,17 +253,18 @@ Array rhythm_game_utilities::parse_time_signature_changes_from_chart_section(
 
 // Utilities
 
-float rhythm_game_utilities::calculate_accuracy_ratio(int position,
-                                                      int current_position,
-                                                      int delta)
+auto rhythm_game_utilities::calculate_accuracy_ratio(int position,
+                                                     int current_position,
+                                                     int delta) -> float
 {
     return RhythmGameUtilities::CalculateAccuracyRatio(position,
                                                        current_position, delta);
 }
 
-Array rhythm_game_utilities::calculate_beat_bars(Array tempo_changes,
-                                                 int resolution, int ts,
-                                                 bool include_half_notes)
+auto rhythm_game_utilities::calculate_beat_bars(Array tempo_changes,
+                                                int resolution, int ts,
+                                                bool include_half_notes)
+    -> Array
 {
     std::vector<RhythmGameUtilities::Tempo> tempo_changes_internal;
     tempo_changes_internal.reserve(tempo_changes.size());
@@ -284,7 +289,7 @@ Array rhythm_game_utilities::calculate_beat_bars(Array tempo_changes,
 
     Array beat_bars_dictionary_array;
 
-    for (auto &beat_bar_internal : beat_bars_internal)
+    for (const auto &beat_bar_internal : beat_bars_internal)
     {
         Dictionary beat_bar_dictionary;
 
@@ -297,9 +302,9 @@ Array rhythm_game_utilities::calculate_beat_bars(Array tempo_changes,
     return beat_bars_dictionary_array;
 }
 
-int rhythm_game_utilities::convert_seconds_to_ticks(
+auto rhythm_game_utilities::convert_seconds_to_ticks(
     float seconds, int resolution, Array tempo_changes,
-    Array time_signature_changes)
+    Array time_signature_changes) -> int
 {
     std::vector<RhythmGameUtilities::Tempo> tempo_changes_internal;
     tempo_changes_internal.reserve(tempo_changes.size());
@@ -344,14 +349,15 @@ int rhythm_game_utilities::convert_seconds_to_ticks(
         time_signature_changes_internal);
 }
 
-float rhythm_game_utilities::convert_tick_to_position(int tick, int resolution)
+auto rhythm_game_utilities::convert_tick_to_position(int tick, int resolution)
+    -> float
 {
     return RhythmGameUtilities::ConvertTickToPosition(tick, resolution);
 }
 
-Dictionary rhythm_game_utilities::find_position_near_given_tick(Array notes,
-                                                                int tick,
-                                                                int delta)
+auto rhythm_game_utilities::find_position_near_given_tick(Array notes, int tick,
+                                                          int delta)
+    -> Dictionary
 {
     std::vector<RhythmGameUtilities::Note> notes_internal;
     notes_internal.reserve(notes.size());
@@ -387,14 +393,15 @@ Dictionary rhythm_game_utilities::find_position_near_given_tick(Array notes,
     return note;
 }
 
-bool rhythm_game_utilities::is_on_the_beat(int bpm, float current_time,
-                                           float delta)
+auto rhythm_game_utilities::is_on_the_beat(int bpm, float current_time,
+                                           float delta) -> bool
 {
     return RhythmGameUtilities::IsOnTheBeat(bpm, current_time, delta);
 }
 
-int rhythm_game_utilities::round_up_to_the_nearest_multiplier(int value,
-                                                              int multiplier)
+auto rhythm_game_utilities::round_up_to_the_nearest_multiplier(int value,
+                                                               int multiplier)
+    -> int
 {
     return RhythmGameUtilities::RoundUpToTheNearestMultiplier(value,
                                                               multiplier);

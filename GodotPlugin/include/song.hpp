@@ -24,25 +24,25 @@ class Song : public Object
     Array beat_bars;
 
     void set_sections(Dictionary value);
-    Dictionary get_sections();
+    auto get_sections() -> Dictionary;
 
     void set_meta_data(Dictionary value);
-    Dictionary get_meta_data();
+    auto get_meta_data() -> Dictionary;
 
     void set_resolution(int value);
-    int get_resolution();
+    auto get_resolution() -> int;
 
     void set_tempo_changes(Array value);
-    Array get_tempo_changes();
+    auto get_tempo_changes() -> Array;
 
     void set_time_signature_changes(Array value);
-    Array get_time_signature_changes();
+    auto get_time_signature_changes() -> Array;
 
     void set_difficulties(Dictionary value);
-    Dictionary get_difficulties();
+    auto get_difficulties() -> Dictionary;
 
     void set_beat_bars(Array value);
-    Array get_beat_bars();
+    auto get_beat_bars() -> Array;
 
-    void load_song(const String contents);
+    void load_song(String contents);
 };

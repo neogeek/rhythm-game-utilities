@@ -8,8 +8,8 @@
 
 using namespace godot;
 
-std::vector<std::pair<std::string, std::vector<std::string>>>
-convert_section_to_section_internal(Array section)
+auto convert_section_to_section_internal(Array section)
+    -> std::vector<std::pair<std::string, std::vector<std::string>>>
 {
     std::vector<std::pair<std::string, std::vector<std::string>>>
         section_internal;
@@ -35,12 +35,12 @@ convert_section_to_section_internal(Array section)
                     {
                         String value = values[k];
 
-                        values_internal.push_back(value.utf8().get_data());
+                        values_internal.emplace_back(value.utf8().get_data());
                     }
                 }
 
-                section_internal.push_back(
-                    std::make_pair(key.utf8().get_data(), values_internal));
+                section_internal.emplace_back(key.utf8().get_data(),
+                                              values_internal);
             }
         }
     }

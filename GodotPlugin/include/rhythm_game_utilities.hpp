@@ -18,43 +18,45 @@ class rhythm_game_utilities : public Object
   public:
     // Common
 
-    static float inverse_lerp(float a, float b, float v);
+    static auto inverse_lerp(float a, float b, float v) -> float;
 
-    static float lerp(float a, float b, float t);
+    static auto lerp(float a, float b, float t) -> float;
 
     // Parsers
 
-    static Array parse_tempo_changes_from_chart_section(Array section);
+    static auto parse_tempo_changes_from_chart_section(Array section) -> Array;
 
-    static Dictionary parse_lyrics_from_chart_section(Array section);
+    static auto parse_lyrics_from_chart_section(Array section) -> Dictionary;
 
-    static Dictionary parse_meta_data_from_chart_section(Array section);
+    static auto parse_meta_data_from_chart_section(Array section) -> Dictionary;
 
-    static Array parse_notes_from_chart_section(Array section);
+    static auto parse_notes_from_chart_section(Array section) -> Array;
 
-    static Dictionary parse_sections_from_chart(String contents);
+    static auto parse_sections_from_chart(String contents) -> Dictionary;
 
-    static Array parse_time_signature_changes_from_chart_section(Array section);
+    static auto parse_time_signature_changes_from_chart_section(Array section)
+        -> Array;
 
     // Utilities
 
-    static float calculate_accuracy_ratio(int position, int current_position,
-                                          int delta = 50);
+    static auto calculate_accuracy_ratio(int position, int current_position,
+                                         int delta = 50) -> float;
 
-    static Array calculate_beat_bars(Array tempo_changes, int resolution,
-                                     int ts, bool include_half_notes);
+    static auto calculate_beat_bars(Array tempo_changes, int resolution, int ts,
+                                    bool include_half_notes) -> Array;
 
-    static int convert_seconds_to_ticks(float seconds, int resolution,
-                                        Array tempo_changes,
-                                        Array time_signature_changes);
+    static auto convert_seconds_to_ticks(float seconds, int resolution,
+                                         Array tempo_changes,
+                                         Array time_signature_changes) -> int;
 
-    static float convert_tick_to_position(int tick, int resolution);
+    static auto convert_tick_to_position(int tick, int resolution) -> float;
 
-    static Dictionary find_position_near_given_tick(Array notes, int tick,
-                                                    int delta = 50);
+    static auto find_position_near_given_tick(Array notes, int tick,
+                                              int delta = 50) -> Dictionary;
 
-    static bool is_on_the_beat(int bpm, float current_time,
-                               float delta = 0.05F);
+    static auto is_on_the_beat(int bpm, float current_time, float delta = 0.05F)
+        -> bool;
 
-    static int round_up_to_the_nearest_multiplier(int value, int multiplier);
+    static auto round_up_to_the_nearest_multiplier(int value, int multiplier)
+        -> int;
 };
