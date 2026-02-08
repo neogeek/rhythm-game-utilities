@@ -64,6 +64,8 @@ constexpr auto NOTE_ON_COMMAND = 0x90;
 constexpr auto PROGRAM_CHANGE_COMMAND = 0xC0;
 constexpr auto CHANNEL_PRESSURE_COMMAND = 0xD0;
 
+using MidiEventType = enum : uint8_t { Meta, NoteOn };
+
 struct MidiHeader
 {
     uint32_t length;
@@ -97,41 +99,74 @@ inline auto CreateMidiStream(const std::vector<uint8_t> &data)
     return {std::move(stream), header};
 }
 
-inline auto ReadNoteOnEvent(std::istringstream &stream, uint32_t tick) -> Note
+template <typename Callback>
+inline auto ForEachMidiEvent(const std::vector<uint8_t> &data,
+                             Callback &&callback) -> bool
 {
-    auto noteValue = ReadChunk<uint8_t>(stream);
-    auto velocity = ReadChunk<uint8_t>(stream);
+    auto [stream, header] = CreateMidiStream(data);
 
-    return Note{static_cast<int>(tick), noteValue};
-}
-
-inline auto SkipMidiEvent(std::istringstream &stream, uint8_t status) -> void
-{
-    if ((status & SYSTEM_COMMAND) == SYSTEM_COMMAND)
+    if (!header)
     {
-        auto length = ReadVarLen(stream);
-
-        stream.seekg(length, std::ios::cur);
+        return false;
     }
-    else if ((status & SYSTEM_COMMAND) == PROGRAM_CHANGE_COMMAND ||
-             (status & SYSTEM_COMMAND) == CHANNEL_PRESSURE_COMMAND)
+
+    for (auto t = 0; t < header->trackCount; t += 1)
     {
-        stream.seekg(1, std::ios::cur);
+        if (ReadString(stream, 4) != "MTrk")
+        {
+            break;
+        }
+
+        stream.seekg(4, std::ios::cur);
+
+        uint32_t tick = 0;
+
+        while (stream.good())
+        {
+            tick += ReadVarLen(stream);
+
+            auto status = ReadChunk<uint8_t>(stream);
+
+            if (status == META_EVENT)
+            {
+                auto type = ReadChunk<uint8_t>(stream);
+
+                auto length = ReadVarLen(stream);
+
+                if (type == END_OF_TRACK)
+                {
+                    break;
+                }
+
+                auto posBefore = stream.tellg();
+
+                callback(MidiEventType::Meta, tick, type, length, stream);
+
+                auto consumed = static_cast<int>(stream.tellg() - posBefore);
+
+                if (consumed < static_cast<int>(length))
+                {
+                    stream.seekg(length - consumed, std::ios::cur);
+                }
+            }
+            else if ((status & SYSTEM_COMMAND) == NOTE_ON_COMMAND)
+            {
+                callback(MidiEventType::NoteOn, tick, uint8_t{0}, uint32_t{0},
+                         stream);
+            }
+            else if ((status & SYSTEM_COMMAND) == PROGRAM_CHANGE_COMMAND ||
+                     (status & SYSTEM_COMMAND) == CHANNEL_PRESSURE_COMMAND)
+            {
+                stream.seekg(1, std::ios::cur);
+            }
+            else
+            {
+                stream.seekg(2, std::ios::cur);
+            }
+        }
     }
-    else
-    {
-        stream.seekg(2, std::ios::cur);
-    }
-}
 
-inline auto ReadMetaEventHeader(std::istringstream &stream)
-    -> std::pair<uint8_t, uint32_t>
-{
-    auto type = ReadChunk<uint8_t>(stream);
-
-    auto length = ReadVarLen(stream);
-
-    return {type, length};
+    return true;
 }
 
 inline auto ReadResolutionFromMidiData(const std::vector<uint8_t> &data)
@@ -145,68 +180,27 @@ inline auto ReadResolutionFromMidiData(const std::vector<uint8_t> &data)
 inline auto ReadTempoChangesFromMidiData(const std::vector<uint8_t> &data)
     -> std::vector<Tempo>
 {
-    auto [stream, header] = CreateMidiStream(data);
-
-    if (!header)
-    {
-        return {};
-    }
-
     auto tempoChanges = std::vector<Tempo>{};
 
-    for (auto t = 0; t < header->trackCount; t += 1)
-    {
-        if (ReadString(stream, 4) != "MTrk")
+    ForEachMidiEvent(
+        data,
+        [&](MidiEventType eventType, uint32_t tick, uint8_t metaType,
+            uint32_t length, std::istringstream &stream)
         {
-            return tempoChanges;
-        }
-
-        stream.seekg(4, std::ios::cur);
-
-        uint32_t tick = 0;
-
-        while (true)
-        {
-            if (!stream.good())
+            if (eventType == MidiEventType::Meta && metaType == TEMPO_CHANGE &&
+                length == 3)
             {
-                break;
+                auto b1 = static_cast<uint32_t>(ReadChunk<uint8_t>(stream));
+                auto b2 = static_cast<uint32_t>(ReadChunk<uint8_t>(stream));
+                auto b3 = static_cast<uint32_t>(ReadChunk<uint8_t>(stream));
+
+                auto microsecondsPerBeat = (b1 << 16) | (b2 << 8) | b3;
+
+                tempoChanges.push_back(
+                    {static_cast<int>(tick),
+                     static_cast<int>(60000000000 / microsecondsPerBeat)});
             }
-
-            tick += ReadVarLen(stream);
-
-            auto status = ReadChunk<uint8_t>(stream);
-
-            if (status == META_EVENT)
-            {
-                auto [type, length] = ReadMetaEventHeader(stream);
-
-                if (type == TEMPO_CHANGE && length == 3)
-                {
-                    auto b1 = static_cast<uint32_t>(ReadChunk<uint8_t>(stream));
-                    auto b2 = static_cast<uint32_t>(ReadChunk<uint8_t>(stream));
-                    auto b3 = static_cast<uint32_t>(ReadChunk<uint8_t>(stream));
-
-                    uint32_t microsecondsPerBeat = (b1 << 16) | (b2 << 8) | b3;
-
-                    int bpm = 60000000000 / microsecondsPerBeat;
-
-                    tempoChanges.push_back({static_cast<int>(tick), bpm});
-                }
-                else if (type == END_OF_TRACK)
-                {
-                    break;
-                }
-                else
-                {
-                    stream.seekg(length, std::ios::cur);
-                }
-            }
-            else
-            {
-                SkipMidiEvent(stream, status);
-            }
-        }
-    }
+        });
 
     if (tempoChanges.empty())
     {
@@ -220,65 +214,24 @@ inline auto
 ReadTimeSignatureChangesFromMidiData(const std::vector<uint8_t> &data)
     -> std::vector<TimeSignature>
 {
-    auto [stream, header] = CreateMidiStream(data);
-
-    if (!header)
-    {
-        return {};
-    }
-
     auto timeSignatureChanges = std::vector<TimeSignature>{};
 
-    for (auto t = 0; t < header->trackCount; t += 1)
-    {
-        if (ReadString(stream, 4) != "MTrk")
+    ForEachMidiEvent(
+        data,
+        [&](MidiEventType eventType, uint32_t tick, uint8_t metaType,
+            uint32_t length, std::istringstream &stream)
         {
-            return timeSignatureChanges;
-        }
-
-        stream.seekg(4, std::ios::cur);
-
-        uint32_t tick = 0;
-
-        while (true)
-        {
-            if (!stream.good())
+            if (eventType == MidiEventType::Meta &&
+                metaType == TIME_SIGNATURE_CHANGE && length >= 2)
             {
-                break;
+                auto numerator = ReadChunk<uint8_t>(stream);
+                auto denominator =
+                    static_cast<uint8_t>(1 << ReadChunk<uint8_t>(stream));
+
+                timeSignatureChanges.push_back(
+                    {static_cast<int>(tick), numerator, denominator});
             }
-
-            tick += ReadVarLen(stream);
-
-            auto status = ReadChunk<uint8_t>(stream);
-
-            if (status == META_EVENT)
-            {
-                auto [type, length] = ReadMetaEventHeader(stream);
-
-                if (type == TIME_SIGNATURE_CHANGE && length >= 2)
-                {
-                    auto numerator = ReadChunk<uint8_t>(stream);
-                    auto denominator =
-                        static_cast<uint8_t>(1 << ReadChunk<uint8_t>(stream));
-                    stream.seekg(length - 2, std::ios::cur);
-                    timeSignatureChanges.push_back(
-                        {static_cast<int>(tick), numerator, denominator});
-                }
-                else if (type == END_OF_TRACK)
-                {
-                    break;
-                }
-                else
-                {
-                    stream.seekg(length, std::ios::cur);
-                }
-            }
-            else
-            {
-                SkipMidiEvent(stream, status);
-            }
-        }
-    }
+        });
 
     return timeSignatureChanges;
 }
@@ -286,58 +239,22 @@ ReadTimeSignatureChangesFromMidiData(const std::vector<uint8_t> &data)
 inline auto ReadNotesFromMidiData(const std::vector<uint8_t> &data)
     -> std::vector<Note>
 {
-    auto [stream, header] = CreateMidiStream(data);
-
-    if (!header)
-    {
-        return {};
-    }
-
     auto notes = std::vector<Note>{};
 
-    for (auto t = 0; t < header->trackCount; t += 1)
-    {
-        if (ReadString(stream, 4) != "MTrk")
-        {
-            return notes;
-        }
+    ForEachMidiEvent(data,
+                     [&](MidiEventType eventType, uint32_t tick, uint8_t,
+                         uint32_t, std::istringstream &stream)
+                     {
+                         if (eventType == MidiEventType::NoteOn)
+                         {
+                             auto noteValue = ReadChunk<uint8_t>(stream);
 
-        stream.seekg(4, std::ios::cur);
+                             stream.seekg(1, std::ios::cur);
 
-        uint32_t tick = 0;
-
-        while (true)
-        {
-            if (!stream.good())
-            {
-                break;
-            }
-
-            tick += ReadVarLen(stream);
-
-            auto status = ReadChunk<uint8_t>(stream);
-
-            if ((status & SYSTEM_COMMAND) == NOTE_ON_COMMAND)
-            {
-                notes.push_back(ReadNoteOnEvent(stream, tick));
-            }
-            else if (status == META_EVENT)
-            {
-                auto [type, length] = ReadMetaEventHeader(stream);
-
-                if (type == END_OF_TRACK)
-                {
-                    break;
-                }
-
-                stream.seekg(length, std::ios::cur);
-            }
-            else
-            {
-                SkipMidiEvent(stream, status);
-            }
-        }
-    }
+                             notes.push_back(
+                                 Note{static_cast<int>(tick), noteValue});
+                         }
+                     });
 
     return notes;
 }
