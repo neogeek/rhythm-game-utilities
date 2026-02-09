@@ -2,29 +2,8 @@
 
 #include "rhythm_game_utilities.hpp"
 
-#include <RhythmGameUtilities/Enums/Difficulty.hpp>
-#include <RhythmGameUtilities/Enums/NamedSection.hpp>
-
 void Song::_bind_methods()
 {
-    // sections
-
-    ClassDB::bind_method(D_METHOD("set_sections", "sections"),
-                         &Song::set_sections);
-    ClassDB::bind_method(D_METHOD("get_sections"), &Song::get_sections);
-
-    ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "sections"), "set_sections",
-                 "get_sections");
-
-    // meta_data
-
-    ClassDB::bind_method(D_METHOD("set_meta_data", "meta_data"),
-                         &Song::set_meta_data);
-    ClassDB::bind_method(D_METHOD("get_meta_data"), &Song::get_meta_data);
-
-    ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "meta_data"),
-                 "set_meta_data", "get_meta_data");
-
     // resolution
 
     ClassDB::bind_method(D_METHOD("set_resolution", "resolution"),
@@ -55,14 +34,13 @@ void Song::_bind_methods()
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "time_signature_changes"),
                  "set_time_signature_changes", "get_time_signature_changes");
 
-    // difficulties
+    // notes
 
-    ClassDB::bind_method(D_METHOD("set_difficulties", "difficulties"),
-                         &Song::set_difficulties);
-    ClassDB::bind_method(D_METHOD("get_difficulties"), &Song::get_difficulties);
+    ClassDB::bind_method(D_METHOD("set_notes", "notes"), &Song::set_notes);
+    ClassDB::bind_method(D_METHOD("get_notes"), &Song::get_notes);
 
-    ADD_PROPERTY(PropertyInfo(Variant::DICTIONARY, "difficulties"),
-                 "set_difficulties", "get_difficulties");
+    ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "notes"), "set_notes",
+                 "get_notes");
 
     // beat_bars
 
@@ -73,20 +51,13 @@ void Song::_bind_methods()
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "beat_bars"), "set_beat_bars",
                  "get_beat_bars");
 
-    ClassDB::bind_method(D_METHOD("load_song", "contents"), &Song::load_song);
+    ClassDB::bind_method(
+        D_METHOD("load_song_from_chart", "contents", "difficulty"),
+        &Song::load_song_from_chart);
+
+    ClassDB::bind_method(D_METHOD("load_song_from_midi", "data"),
+                         &Song::load_song_from_midi);
 }
-
-// sections
-
-void Song::set_sections(Dictionary value) { sections = value; }
-
-Dictionary Song::get_sections() { return sections; }
-
-// meta_data
-
-void Song::set_meta_data(Dictionary value) { meta_data = value; }
-
-Dictionary Song::get_meta_data() { return meta_data; }
 
 // resolution
 
@@ -112,11 +83,11 @@ auto Song::get_time_signature_changes() -> Array
     return time_signature_changes;
 }
 
-// difficulties
+// notes
 
-void Song::set_difficulties(Dictionary value) { difficulties = value; }
+void Song::set_notes(Array value) { notes = value; }
 
-auto Song::get_difficulties() -> Dictionary { return difficulties; }
+auto Song::get_notes() -> Array { return notes; }
 
 // beat_bars
 
@@ -124,49 +95,40 @@ void Song::set_beat_bars(Array value) { beat_bars = value; }
 
 auto Song::get_beat_bars() -> Array { return beat_bars; }
 
-void Song::load_song(const String contents)
+// load_song_from_chart
+
+void Song::load_song_from_chart(const String &contents, const int &difficulty)
 {
-    sections = rhythm_game_utilities::parse_sections_from_chart(contents);
-
-    meta_data = rhythm_game_utilities::parse_meta_data_from_chart_section(
-        sections[godot::String(RhythmGameUtilities::ToString(
-                                   RhythmGameUtilities::NamedSection::Song)
-                                   .c_str())]);
-
-    resolution = int(meta_data["Resolution"]);
+    resolution =
+        rhythm_game_utilities::read_resolution_from_chart_data(contents);
 
     tempo_changes =
-        rhythm_game_utilities::parse_tempo_changes_from_chart_section(
-            sections[godot::String(
-                RhythmGameUtilities::ToString(
-                    RhythmGameUtilities::NamedSection::SyncTrack)
-                    .c_str())]);
+        rhythm_game_utilities::read_tempo_changes_from_chart_data(contents);
 
     time_signature_changes =
-        rhythm_game_utilities::parse_time_signature_changes_from_chart_section(
-            sections[godot::String(
-                RhythmGameUtilities::ToString(
-                    RhythmGameUtilities::NamedSection::SyncTrack)
-                    .c_str())]);
+        rhythm_game_utilities::read_time_signature_changes_from_chart_data(
+            contents);
 
-    for (int difficultyInt = RhythmGameUtilities::Difficulty::Easy;
-         difficultyInt <= RhythmGameUtilities::Difficulty::Expert;
-         difficultyInt += 1)
-    {
-        auto difficulty =
-            static_cast<RhythmGameUtilities::Difficulty>(difficultyInt);
+    notes =
+        rhythm_game_utilities::read_notes_from_chart_data(contents, difficulty);
 
-        auto key = godot::String(
-            RhythmGameUtilities::ToString(difficulty).append("Single").c_str());
+    beat_bars = rhythm_game_utilities::calculate_beat_bars(tempo_changes,
+                                                           resolution, 4, true);
+}
 
-        if (sections.has(key))
-        {
-            difficulties[godot::String(
-                RhythmGameUtilities::ToString(difficulty).c_str())] =
-                rhythm_game_utilities::parse_notes_from_chart_section(
-                    sections[key]);
-        }
-    }
+// load_song_from_midi
+
+void Song::load_song_from_midi(const Variant &data)
+{
+    resolution = rhythm_game_utilities::read_resolution_from_midi_data(data);
+
+    tempo_changes =
+        rhythm_game_utilities::read_tempo_changes_from_midi_data(data);
+
+    time_signature_changes =
+        rhythm_game_utilities::read_time_signature_changes_from_midi_data(data);
+
+    notes = rhythm_game_utilities::read_notes_from_midi_data(data);
 
     beat_bars = rhythm_game_utilities::calculate_beat_bars(tempo_changes,
                                                            resolution, 4, true);

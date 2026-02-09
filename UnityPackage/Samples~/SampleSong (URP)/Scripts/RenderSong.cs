@@ -62,11 +62,11 @@ namespace RhythmGameUtilities
                 await CommonUtilities.LoadTextFileFromPath(
                     $"file://{HttpUtility.UrlPathEncode(Path.Join(path, "notes.chart"))}");
 
-            _song = new Song(contents);
+            _song = Song.FromChartData(contents, Difficulty.Easy);
 
             _audioSource.clip =
                 await CommonUtilities.LoadAudioFileFromPath(
-                    $"file://{HttpUtility.UrlPathEncode(Path.Join(path, _song.metaData["MusicStream"]))}");
+                    $"file://{HttpUtility.UrlPathEncode(Path.Join(path, "song.ogg"))}");
 
             _song.RecalculateBeatBarsWithSongLength(_audioSource.clip.length);
 
@@ -78,7 +78,7 @@ namespace RhythmGameUtilities
             RenderTrack();
             RenderHitNotes();
 
-            if (_song?.difficulties?[Difficulty.Easy] == null)
+            if (_song?.notes == null)
             {
                 return;
             }
@@ -87,7 +87,7 @@ namespace RhythmGameUtilities
                 Utilities.ConvertSecondsToTicks(_audioSource.time, _song.resolution, _song.tempoChanges,
                     _song.timeSignatureChanges);
 
-            RenderNotes(_song.difficulties[Difficulty.Easy], _song.resolution, tickOffset);
+            RenderNotes(_song.notes, _song.resolution, tickOffset);
             RenderBeatBars(_song.beatBars, _song.resolution, tickOffset);
         }
 

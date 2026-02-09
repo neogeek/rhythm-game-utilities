@@ -5,6 +5,9 @@
 #include <godot_cpp/variant/array.hpp>
 #include <godot_cpp/variant/dictionary.hpp>
 
+#include <RhythmGameUtilities/Enums/Difficulty.hpp>
+#include <RhythmGameUtilities/Enums/NamedSection.hpp>
+
 using namespace godot;
 
 class Song : public Object
@@ -15,19 +18,11 @@ class Song : public Object
     static void _bind_methods();
 
   public:
-    Dictionary sections;
-    Dictionary meta_data;
     int resolution;
     Array tempo_changes;
     Array time_signature_changes;
-    Dictionary difficulties;
+    Array notes;
     Array beat_bars;
-
-    void set_sections(Dictionary value);
-    auto get_sections() -> Dictionary;
-
-    void set_meta_data(Dictionary value);
-    auto get_meta_data() -> Dictionary;
 
     void set_resolution(int value);
     auto get_resolution() -> int;
@@ -38,11 +33,13 @@ class Song : public Object
     void set_time_signature_changes(Array value);
     auto get_time_signature_changes() -> Array;
 
-    void set_difficulties(Dictionary value);
-    auto get_difficulties() -> Dictionary;
+    void set_notes(Array value);
+    auto get_notes() -> Array;
 
     void set_beat_bars(Array value);
     auto get_beat_bars() -> Array;
 
-    void load_song(String contents);
+    void load_song_from_chart(const String &contents, const int &difficulty);
+
+    void load_song_from_midi(const Variant &data);
 };

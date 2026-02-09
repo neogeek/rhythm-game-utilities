@@ -6,6 +6,12 @@
 #include <godot_cpp/variant/dictionary.hpp>
 #include <godot_cpp/variant/string.hpp>
 
+#include <RhythmGameUtilities/Common.hpp>
+#include <RhythmGameUtilities/Enums/Difficulty.hpp>
+#include <RhythmGameUtilities/Parsers/Chart.hpp>
+#include <RhythmGameUtilities/Parsers/Midi.hpp>
+#include <RhythmGameUtilities/Utilities.hpp>
+
 using namespace godot;
 
 class rhythm_game_utilities : public Object
@@ -16,26 +22,46 @@ class rhythm_game_utilities : public Object
     static void _bind_methods();
 
   public:
+    // Enums
+
+    enum Difficulty
+    {
+        Easy,
+        Medium,
+        Hard,
+        Expert
+    };
+
     // Common
 
     static auto inverse_lerp(float a, float b, float v) -> float;
 
     static auto lerp(float a, float b, float t) -> float;
 
-    // Parsers
+    // Parsers (Chart)
 
-    static auto parse_tempo_changes_from_chart_section(Array section) -> Array;
+    static auto read_resolution_from_chart_data(const String &contents) -> int;
 
-    static auto parse_lyrics_from_chart_section(Array section) -> Dictionary;
-
-    static auto parse_meta_data_from_chart_section(Array section) -> Dictionary;
-
-    static auto parse_notes_from_chart_section(Array section) -> Array;
-
-    static auto parse_sections_from_chart(String contents) -> Dictionary;
-
-    static auto parse_time_signature_changes_from_chart_section(Array section)
+    static auto read_tempo_changes_from_chart_data(const String &contents)
         -> Array;
+
+    static auto
+    read_time_signature_changes_from_chart_data(const String &contents)
+        -> Array;
+
+    static auto read_notes_from_chart_data(const String &contents,
+                                           int difficulty) -> Array;
+
+    // Parsers (Midi)
+
+    static auto read_resolution_from_midi_data(const Variant &data) -> int;
+
+    static auto read_tempo_changes_from_midi_data(const Variant &data) -> Array;
+
+    static auto read_time_signature_changes_from_midi_data(const Variant &data)
+        -> Array;
+
+    static auto read_notes_from_midi_data(const Variant &data) -> Array;
 
     // Utilities
 
@@ -60,3 +86,5 @@ class rhythm_game_utilities : public Object
     static auto round_up_to_the_nearest_multiplier(int value, int multiplier)
         -> int;
 };
+
+VARIANT_ENUM_CAST(rhythm_game_utilities::Difficulty);

@@ -3,7 +3,6 @@
 #include <iostream>
 
 #include "RhythmGameUtilities/Enums/Difficulty.hpp"
-#include "RhythmGameUtilities/Enums/NamedSection.hpp"
 #include "RhythmGameUtilities/Parsers/Chart.hpp"
 
 using namespace RhythmGameUtilities;
@@ -71,116 +70,58 @@ auto contents = R"([Song]
   1248 = E soloend
 })";
 
-void testParseTempoChangesFromChartSection()
+void testReadResolutionFromChartData()
 {
-    auto sections = ParseSectionsFromChart(contents);
+    auto resolution = ReadResolutionFromChartData(contents);
 
-    auto tempoChanges = ParseTempoChangesFromChartSection(
-        sections.at(ToString(NamedSection::SyncTrack)));
+    assert(resolution == 192);
+
+    std::cout << ".";
+}
+
+void testReadTempoChangesFromChartData()
+{
+    auto tempoChanges = ReadTempoChangesFromChartData(contents);
 
     assert(tempoChanges.size() == 7);
 
     std::cout << ".";
 }
 
-void testParseLyricsFromChartSection()
+void testReadTimeSignatureChangesFromChartData()
 {
-    auto sections = ParseSectionsFromChart(contents);
-
-    auto lyrics = ParseLyricsFromChartSection(
-        sections.at(ToString(NamedSection::Events)));
-
-    assert(lyrics.size() == 12);
-
-    std::cout << ".";
-}
-
-void testParseMetaDataFromChartSection()
-{
-    auto sections = ParseSectionsFromChart(contents);
-
-    auto metaData = ParseMetaDataFromChartSection(
-        sections.at(ToString(NamedSection::Song)));
-
-    assert(metaData.size() == 12);
-
-    assert(metaData.at("Name") == "Example Song");
-    assert(metaData.at("Resolution") == "192");
-    assert(metaData.at("MusicStream") == "Example Song.ogg");
-
-    std::cout << ".";
-}
-
-void testParseNotesFromChartSection()
-{
-    auto sections = ParseSectionsFromChart(contents);
-
-    auto notes = ParseNotesFromChartSection(
-        sections.at(ToString(Difficulty::Expert) + "Single"));
-
-    assert(notes.size() == 8);
-
-    std::cout << ".";
-}
-
-void testParseSectionsFromChart()
-{
-    auto sections = ParseSectionsFromChart(contents);
-
-    assert(sections.size() == 4);
-
-    assert(sections.find(ToString(NamedSection::Song)) != sections.end());
-    assert(sections.find(ToString(NamedSection::SyncTrack)) != sections.end());
-    assert(sections.find(ToString(Difficulty::Expert) + "Single") !=
-           sections.end());
-
-    std::cout << ".";
-}
-
-void testParseTimeSignatureChangesFromChartSection()
-{
-    auto sections = ParseSectionsFromChart(contents);
-
-    auto timeSignatureChanges = ParseTimeSignatureChangesFromChartSection(
-        sections.at(ToString(NamedSection::SyncTrack)));
+    auto timeSignatureChanges = ReadTimeSignatureChangesFromChartData(contents);
 
     assert(timeSignatureChanges.size() == 4);
 
     std::cout << ".";
 }
 
-void testParseValuesFromChartSection()
+void testReadNotesFromChartData()
 {
-    auto sections = ParseSectionsFromChart(contents);
+    auto notes = ReadNotesFromChartData(contents, Difficulty::Expert);
 
-    assert(sections.size() == 4);
+    assert(notes.size() == 8);
 
-    auto values = sections.at(ToString(NamedSection::Song));
+    std::cout << ".";
+}
 
-    assert(values.size() == 12);
+void testReadLyricsFromChartData()
+{
+    auto lyrics = ReadLyricsFromChartData(contents);
 
-    assert(values[0].first == "Name");
-    assert(values[0].second[0] == "Example Song");
-
-    assert(values[6].first == "Resolution");
-    assert(values[6].second[0] == "192");
-
-    assert(values[11].first == "MusicStream");
-    assert(values[11].second[0] == "Example Song.ogg");
+    assert(lyrics.size() == 12);
 
     std::cout << ".";
 }
 
 auto main() -> int
 {
-    testParseTempoChangesFromChartSection();
-    testParseLyricsFromChartSection();
-    testParseMetaDataFromChartSection();
-    testParseNotesFromChartSection();
-    testParseSectionsFromChart();
-    testParseTimeSignatureChangesFromChartSection();
-
-    testParseValuesFromChartSection();
+    testReadResolutionFromChartData();
+    testReadTempoChangesFromChartData();
+    testReadTimeSignatureChangesFromChartData();
+    testReadNotesFromChartData();
+    testReadLyricsFromChartData();
 
     return 0;
 }

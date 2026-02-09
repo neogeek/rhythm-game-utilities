@@ -1,13 +1,15 @@
 #include "rhythm_game_utilities.hpp"
-
-#include "utilities.hpp"
-
-#include <RhythmGameUtilities/Common.hpp>
-#include <RhythmGameUtilities/Parsers/Chart.hpp>
-#include <RhythmGameUtilities/Utilities.hpp>
+#include "godot_cpp/variant/variant.hpp"
 
 void rhythm_game_utilities::_bind_methods()
 {
+    // Enums
+
+    BIND_ENUM_CONSTANT(Easy);
+    BIND_ENUM_CONSTANT(Medium);
+    BIND_ENUM_CONSTANT(Hard);
+    BIND_ENUM_CONSTANT(Expert);
+
     // Common
 
     ClassDB::bind_static_method("rhythm_game_utilities",
@@ -18,38 +20,49 @@ void rhythm_game_utilities::_bind_methods()
                                 D_METHOD("lerp", "a", "b", "t"),
                                 &rhythm_game_utilities::lerp);
 
-    // Parsers
+    // Parsers (Chart)
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
-        D_METHOD("parse_tempo_changes_from_chart_section", "section"),
-        &rhythm_game_utilities::parse_tempo_changes_from_chart_section);
+        D_METHOD("read_resolution_from_chart_data", "contents"),
+        &rhythm_game_utilities::read_resolution_from_chart_data);
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
-        D_METHOD("parse_lyrics_from_chart_section", "section"),
-        &rhythm_game_utilities::parse_lyrics_from_chart_section);
+        D_METHOD("read_tempo_changes_from_chart_data", "contents"),
+        &rhythm_game_utilities::read_tempo_changes_from_chart_data);
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
-        D_METHOD("parse_meta_data_from_chart_section", "section"),
-        &rhythm_game_utilities::parse_meta_data_from_chart_section);
+        D_METHOD("read_time_signature_changes_from_chart_data", "contents"),
+        &rhythm_game_utilities::read_time_signature_changes_from_chart_data);
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
-        D_METHOD("parse_notes_from_chart_section", "section"),
-        &rhythm_game_utilities::parse_notes_from_chart_section);
+        D_METHOD("read_notes_from_chart_data", "contents", "difficulty"),
+        &rhythm_game_utilities::read_notes_from_chart_data);
+
+    // Parsers (Midi)
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
-        D_METHOD("parse_sections_from_chart", "contents"),
-        &rhythm_game_utilities::parse_sections_from_chart);
+        D_METHOD("read_resolution_from_midi_data", "contents"),
+        &rhythm_game_utilities::read_resolution_from_midi_data);
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
-        D_METHOD("parse_time_signature_changes_from_chart_section", "section"),
-        &rhythm_game_utilities::
-            parse_time_signature_changes_from_chart_section);
+        D_METHOD("read_tempo_changes_from_midi_data", "contents"),
+        &rhythm_game_utilities::read_tempo_changes_from_midi_data);
+
+    ClassDB::bind_static_method(
+        "rhythm_game_utilities",
+        D_METHOD("read_time_signature_changes_from_midi_data", "contents"),
+        &rhythm_game_utilities::read_time_signature_changes_from_midi_data);
+
+    ClassDB::bind_static_method(
+        "rhythm_game_utilities",
+        D_METHOD("read_notes_from_midi_data", "contents"),
+        &rhythm_game_utilities::read_notes_from_midi_data);
 
     // Utilities
 
@@ -104,14 +117,23 @@ auto rhythm_game_utilities::lerp(float a, float b, float t) -> float
     return RhythmGameUtilities::Lerp(a, b, t);
 }
 
-// Parsers
+// Parsers (Chart)
 
-auto rhythm_game_utilities::parse_tempo_changes_from_chart_section(
-    Array section) -> Array
+auto rhythm_game_utilities::read_resolution_from_chart_data(
+    const String &contents) -> int
+{
+    auto resolution = RhythmGameUtilities::ReadResolutionFromChartData(
+        contents.utf8().get_data());
+
+    return resolution;
+}
+
+auto rhythm_game_utilities::read_tempo_changes_from_chart_data(
+    const String &contents) -> Array
 {
     auto tempo_changes_internal =
-        RhythmGameUtilities::ParseTempoChangesFromChartSection(
-            convert_section_to_section_internal(section));
+        RhythmGameUtilities::ReadTempoChangesFromChartData(
+            contents.utf8().get_data());
 
     Array tempo_changes;
 
@@ -128,108 +150,12 @@ auto rhythm_game_utilities::parse_tempo_changes_from_chart_section(
     return tempo_changes;
 }
 
-auto rhythm_game_utilities::parse_lyrics_from_chart_section(Array section)
-    -> Dictionary
-{
-    auto lyrics_internal = RhythmGameUtilities::ParseLyricsFromChartSection(
-        convert_section_to_section_internal(section));
-
-    Dictionary lyrics;
-
-    for (const auto &[key, val] : lyrics_internal)
-    {
-        lyrics[key] = godot::String(lyrics_internal[key].c_str());
-    }
-
-    return lyrics;
-}
-
-auto rhythm_game_utilities::parse_meta_data_from_chart_section(Array section)
-    -> Dictionary
-{
-    auto meta_data_internal =
-        RhythmGameUtilities::ParseMetaDataFromChartSection(
-            convert_section_to_section_internal(section));
-
-    Dictionary meta_data;
-
-    for (const auto &[key, val] : meta_data_internal)
-    {
-        meta_data[godot::String(key.c_str())] =
-            godot::String(meta_data_internal[key].c_str());
-    }
-
-    return meta_data;
-}
-
-auto rhythm_game_utilities::parse_notes_from_chart_section(Array section)
-    -> Array
-{
-    auto notes_internal = RhythmGameUtilities::ParseNotesFromChartSection(
-        convert_section_to_section_internal(section));
-
-    Array notes;
-
-    for (const auto &note_internal : notes_internal)
-    {
-        Dictionary note;
-
-        note["position"] = note_internal.Position;
-        note["hand_position"] = note_internal.HandPosition;
-        note["length"] = note_internal.Length;
-
-        notes.append(note);
-    }
-
-    return notes;
-}
-
-auto rhythm_game_utilities::parse_sections_from_chart(String contents)
-    -> Dictionary
-{
-    Dictionary sections;
-
-    auto sections_internal =
-        RhythmGameUtilities::ParseSectionsFromChart(contents.utf8().get_data());
-
-    for (const auto &section_internal : sections_internal)
-    {
-        auto section_key = godot::String(section_internal.first.c_str());
-
-        Array section_items;
-
-        for (auto i = 0; i < section_internal.second.size(); i += 1)
-        {
-            Dictionary section_item;
-
-            auto temp = section_internal.second[i];
-
-            auto key = godot::Variant(temp.first.c_str());
-
-            Array values;
-
-            for (auto j = 0; j < temp.second.size(); j += 1)
-            {
-                values.append(godot::Variant(temp.second[j].c_str()));
-            }
-
-            section_item[key] = values;
-
-            section_items.append(section_item);
-        }
-
-        sections[section_key] = section_items;
-    }
-
-    return sections;
-}
-
-auto rhythm_game_utilities::parse_time_signature_changes_from_chart_section(
-    Array section) -> Array
+auto rhythm_game_utilities::read_time_signature_changes_from_chart_data(
+    const String &contents) -> Array
 {
     auto time_signature_changes_internal =
-        RhythmGameUtilities::ParseTimeSignatureChangesFromChartSection(
-            convert_section_to_section_internal(section));
+        RhythmGameUtilities::ReadTimeSignatureChangesFromChartData(
+            contents.utf8().get_data());
 
     Array time_signature_changes;
 
@@ -249,6 +175,150 @@ auto rhythm_game_utilities::parse_time_signature_changes_from_chart_section(
     }
 
     return time_signature_changes;
+}
+
+auto rhythm_game_utilities::read_notes_from_chart_data(const String &contents,
+                                                       int difficulty) -> Array
+{
+    auto notes_internal = RhythmGameUtilities::ReadNotesFromChartData(
+        contents.utf8().get_data(),
+        static_cast<RhythmGameUtilities::Difficulty>(difficulty));
+
+    Array notes;
+
+    for (const auto &note_internal : notes_internal)
+    {
+        Dictionary note;
+
+        note["position"] = note_internal.Position;
+        note["hand_position"] = note_internal.HandPosition;
+        note["length"] = note_internal.Length;
+
+        notes.append(note);
+    }
+
+    return notes;
+}
+
+// Parsers (Midi)
+
+auto rhythm_game_utilities::read_resolution_from_midi_data(const Variant &data)
+    -> int
+{
+    std::vector<uint8_t> buffer;
+
+    if (data.get_type() == Variant::PACKED_BYTE_ARRAY)
+    {
+        PackedByteArray bytes = data;
+
+        buffer.resize(bytes.size());
+
+        std::copy(bytes.ptr(), bytes.ptr() + bytes.size(), buffer.begin());
+    }
+
+    return RhythmGameUtilities::ReadResolutionFromMidiData(buffer);
+}
+
+auto rhythm_game_utilities::read_tempo_changes_from_midi_data(
+    const Variant &data) -> Array
+{
+
+    std::vector<uint8_t> buffer;
+
+    if (data.get_type() == Variant::PACKED_BYTE_ARRAY)
+    {
+        PackedByteArray bytes = data;
+
+        buffer.resize(bytes.size());
+
+        std::copy(bytes.ptr(), bytes.ptr() + bytes.size(), buffer.begin());
+    }
+
+    auto tempo_changes_internal =
+        RhythmGameUtilities::ReadTempoChangesFromMidiData(buffer);
+
+    Array tempo_changes;
+
+    for (const auto &tempo_change_internal : tempo_changes_internal)
+    {
+        Dictionary tempo_change;
+
+        tempo_change["position"] = tempo_change_internal.Position;
+        tempo_change["bpm"] = tempo_change_internal.BPM;
+
+        tempo_changes.append(tempo_change);
+    }
+
+    return tempo_changes;
+}
+
+auto rhythm_game_utilities::read_time_signature_changes_from_midi_data(
+    const Variant &data) -> Array
+{
+    std::vector<uint8_t> buffer;
+
+    if (data.get_type() == Variant::PACKED_BYTE_ARRAY)
+    {
+        PackedByteArray bytes = data;
+
+        buffer.resize(bytes.size());
+
+        std::copy(bytes.ptr(), bytes.ptr() + bytes.size(), buffer.begin());
+    }
+
+    auto time_signature_changes_internal =
+        RhythmGameUtilities::ReadTimeSignatureChangesFromMidiData(buffer);
+
+    Array time_signature_changes;
+
+    for (const auto &time_signature_change_internal :
+         time_signature_changes_internal)
+    {
+        Dictionary time_signature_change;
+
+        time_signature_change["position"] =
+            time_signature_change_internal.Position;
+        time_signature_change["numerator"] =
+            time_signature_change_internal.Numerator;
+        time_signature_change["denominator"] =
+            time_signature_change_internal.Denominator;
+
+        time_signature_changes.append(time_signature_change);
+    }
+
+    return time_signature_changes;
+}
+
+auto rhythm_game_utilities::read_notes_from_midi_data(const Variant &data)
+    -> Array
+{
+    std::vector<uint8_t> buffer;
+
+    if (data.get_type() == Variant::PACKED_BYTE_ARRAY)
+    {
+        PackedByteArray bytes = data;
+
+        buffer.resize(bytes.size());
+
+        std::copy(bytes.ptr(), bytes.ptr() + bytes.size(), buffer.begin());
+    }
+
+    auto notes_internal = RhythmGameUtilities::ReadNotesFromMidiData(buffer);
+
+    Array notes;
+
+    for (const auto &note_internal : notes_internal)
+    {
+        Dictionary note;
+
+        note["position"] = note_internal.Position;
+        note["hand_position"] = note_internal.HandPosition;
+        note["length"] = note_internal.Length;
+
+        notes.append(note);
+    }
+
+    return notes;
 }
 
 // Utilities
