@@ -6,6 +6,12 @@
 #include <godot_cpp/variant/dictionary.hpp>
 #include <godot_cpp/variant/string.hpp>
 
+#include <RhythmGameUtilities/Common.hpp>
+#include <RhythmGameUtilities/Enums/Difficulty.hpp>
+#include <RhythmGameUtilities/Parsers/Chart.hpp>
+#include <RhythmGameUtilities/Parsers/Midi.hpp>
+#include <RhythmGameUtilities/Utilities.hpp>
+
 using namespace godot;
 
 class rhythm_game_utilities : public Object
@@ -16,45 +22,69 @@ class rhythm_game_utilities : public Object
     static void _bind_methods();
 
   public:
+    // Enums
+
+    enum Difficulty
+    {
+        Easy,
+        Medium,
+        Hard,
+        Expert
+    };
+
     // Common
 
-    static float inverse_lerp(float a, float b, float v);
+    static auto inverse_lerp(float a, float b, float v) -> float;
 
-    static float lerp(float a, float b, float t);
+    static auto lerp(float a, float b, float t) -> float;
 
-    // Parsers
+    // Parsers (Chart)
 
-    static Array parse_tempo_changes_from_chart_section(Array section);
+    static auto read_resolution_from_chart_data(const String &contents) -> int;
 
-    static Dictionary parse_lyrics_from_chart_section(Array section);
+    static auto read_tempo_changes_from_chart_data(const String &contents)
+        -> Array;
 
-    static Dictionary parse_meta_data_from_chart_section(Array section);
+    static auto
+    read_time_signature_changes_from_chart_data(const String &contents)
+        -> Array;
 
-    static Array parse_notes_from_chart_section(Array section);
+    static auto read_notes_from_chart_data(const String &contents,
+                                           int difficulty) -> Array;
 
-    static Dictionary parse_sections_from_chart(String contents);
+    // Parsers (Midi)
 
-    static Array parse_time_signature_changes_from_chart_section(Array section);
+    static auto read_resolution_from_midi_data(const Variant &data) -> int;
+
+    static auto read_tempo_changes_from_midi_data(const Variant &data) -> Array;
+
+    static auto read_time_signature_changes_from_midi_data(const Variant &data)
+        -> Array;
+
+    static auto read_notes_from_midi_data(const Variant &data) -> Array;
 
     // Utilities
 
-    static float calculate_accuracy_ratio(int position, int current_position,
-                                          int delta = 50);
+    static auto calculate_accuracy_ratio(int position, int current_position,
+                                         int delta = 50) -> float;
 
-    static Array calculate_beat_bars(Array tempo_changes, int resolution,
-                                     int ts, bool include_half_notes);
+    static auto calculate_beat_bars(Array tempo_changes, int resolution, int ts,
+                                    bool include_half_notes) -> Array;
 
-    static int convert_seconds_to_ticks(float seconds, int resolution,
-                                        Array tempo_changes,
-                                        Array time_signature_changes);
+    static auto convert_seconds_to_ticks(float seconds, int resolution,
+                                         Array tempo_changes,
+                                         Array time_signature_changes) -> int;
 
-    static float convert_tick_to_position(int tick, int resolution);
+    static auto convert_tick_to_position(int tick, int resolution) -> float;
 
-    static Dictionary find_position_near_given_tick(Array notes, int tick,
-                                                    int delta = 50);
+    static auto find_position_near_given_tick(Array notes, int tick,
+                                              int delta = 50) -> Dictionary;
 
-    static bool is_on_the_beat(int bpm, float current_time,
-                               float delta = 0.05F);
+    static auto is_on_the_beat(int bpm, float current_time, float delta = 0.05F)
+        -> bool;
 
-    static int round_up_to_the_nearest_multiplier(int value, int multiplier);
+    static auto round_up_to_the_nearest_multiplier(int value, int multiplier)
+        -> int;
 };
+
+VARIANT_ENUM_CAST(rhythm_game_utilities::Difficulty);

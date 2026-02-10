@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "../Enums/Difficulty.hpp"
+#include "../Enums/NamedSection.hpp"
 #include "../Enums/TypeCode.hpp"
 
 #include "../Structs/Note.hpp"
@@ -16,19 +18,11 @@
 namespace RhythmGameUtilities
 {
 
-using KeyValuePairInternal = struct
-{
-    char *key;
-    char *values[10];
-    int valueCount;
-};
-
-using ChartSectionInternal = struct
-{
-    char *name;
-    KeyValuePairInternal *lines;
-    int lineCount;
-};
+inline std::map<
+    size_t,
+    std::map<std::string,
+             std::vector<std::pair<std::string, std::vector<std::string>>>>>
+    parsedChartCache;
 
 inline std::regex CHART_SECTION_PATTERN(R"(\[([a-z]+)\]\s*\{([^\}]+)\})",
                                         std::regex_constants::icase);
@@ -41,6 +35,15 @@ inline auto ParseSectionsFromChart(const char *contents)
     -> std::map<std::string,
                 std::vector<std::pair<std::string, std::vector<std::string>>>>
 {
+    auto cacheKey = std::hash<std::string>{}(contents);
+
+    auto match = parsedChartCache.find(cacheKey);
+
+    if (match != parsedChartCache.end())
+    {
+        return match->second;
+    }
+
     auto matches = FindAllMatches(contents, CHART_SECTION_PATTERN);
 
     std::map<std::string,
@@ -82,27 +85,64 @@ inline auto ParseSectionsFromChart(const char *contents)
         sections.insert({parts[1].c_str(), items});
     }
 
+    parsedChartCache.insert_or_assign(cacheKey, sections);
+
     return sections;
 }
 
-inline auto ParseMetaDataFromChartSection(
-    const std::vector<std::pair<std::string, std::vector<std::string>>>
-        &section) -> std::map<std::string, std::string>
+inline auto ReadResolutionFromChartData(const char *contents) -> uint16_t
 {
+    auto sections = ParseSectionsFromChart(contents);
+
+    auto section = sections.at(ToString(NamedSection::Song));
+
     auto data = std::map<std::string, std::string>();
 
     for (const auto &line : section)
     {
-        data.insert({line.first, line.second.front()});
+        std::string key = line.first;
+        std::transform(key.begin(), key.end(), key.begin(),
+                       [](unsigned char c) { return std::tolower(c); });
+
+        if (key == "resolution")
+        {
+            return std::stoi(line.second.front());
+        }
     }
 
-    return data;
+    return 0;
 }
 
-inline auto ParseTimeSignatureChangesFromChartSection(
-    const std::vector<std::pair<std::string, std::vector<std::string>>>
-        &section) -> std::vector<TimeSignature>
+inline auto ReadTempoChangesFromChartData(const char *contents)
+    -> std::vector<Tempo>
 {
+    auto sections = ParseSectionsFromChart(contents);
+
+    auto section = sections.at(ToString(NamedSection::SyncTrack));
+
+    auto tempoChanges = std::vector<Tempo>();
+
+    for (const auto &line : section)
+    {
+        if (line.second.front() == ToString(TypeCode::BPM_Marker))
+        {
+            auto position = std::stoi(line.first);
+            auto bpm = std::stoi(line.second.at(1));
+
+            tempoChanges.push_back({position, bpm});
+        }
+    }
+
+    return tempoChanges;
+}
+
+inline auto ReadTimeSignatureChangesFromChartData(const char *contents)
+    -> std::vector<TimeSignature>
+{
+    auto sections = ParseSectionsFromChart(contents);
+
+    auto section = sections.at(ToString(NamedSection::SyncTrack));
+
     auto timeSignaturesChanges = std::vector<TimeSignature>();
 
     for (const auto &line : section)
@@ -121,30 +161,13 @@ inline auto ParseTimeSignatureChangesFromChartSection(
     return timeSignaturesChanges;
 }
 
-inline auto ParseTempoChangesFromChartSection(
-    const std::vector<std::pair<std::string, std::vector<std::string>>>
-        &section) -> std::vector<Tempo>
+inline auto ReadNotesFromChartData(const char *contents, Difficulty difficulty)
+    -> std::vector<Note>
 {
-    auto tempoChanges = std::vector<Tempo>();
+    auto sections = ParseSectionsFromChart(contents);
 
-    for (const auto &line : section)
-    {
-        if (line.second.front() == ToString(TypeCode::BPM_Marker))
-        {
-            auto position = std::stoi(line.first);
-            auto bpm = std::stoi(line.second.at(1));
+    auto section = sections.at(ToString(difficulty) + "Single");
 
-            tempoChanges.push_back({position, bpm});
-        }
-    }
-
-    return tempoChanges;
-}
-
-inline auto ParseNotesFromChartSection(
-    const std::vector<std::pair<std::string, std::vector<std::string>>>
-        &section) -> std::vector<Note>
-{
     auto notes = std::vector<Note>();
 
     for (const auto &line : section)
@@ -160,10 +183,13 @@ inline auto ParseNotesFromChartSection(
     return notes;
 }
 
-inline auto ParseLyricsFromChartSection(
-    const std::vector<std::pair<std::string, std::vector<std::string>>>
-        &section) -> std::map<int, std::string>
+inline auto ReadLyricsFromChartData(const char *contents)
+    -> std::map<int, std::string>
 {
+    auto sections = ParseSectionsFromChart(contents);
+
+    auto section = sections.at(ToString(NamedSection::Events));
+
     auto lyrics = std::map<int, std::string>();
 
     for (const auto &line : section)

@@ -6,7 +6,8 @@ The current architecture for this project looks like this:
 
 ```mermaid
 graph LR;
-    file[/"song.chart"/]
+    chart_file[/"song.chart"/]
+    midi_file[/"song.mid"/]
 
     subgraph audioGraph ["Audio"]
         convertSamplesToWaveform["ConvertSamplesToWaveform()"]
@@ -18,19 +19,25 @@ graph LR;
     end
 
     subgraph parsersGraph ["Parsers"]
-        parseSectionsFromChart["ParseSectionsFromChart()"]
+        readResolutionFromChartData["ReadResolutionFromChartData()"]
+        readTempoChangesFromChartData["ReadTempoChangesFromChartData()"]
+        readTimeSignaturesChangesFromChartData["ReadTimeSignaturesChangesFromChartData()"]
+        readNotesFromChartData["ReadNotesFromChartData()"]
 
-        parseLyricsFromChartSection["ParseLyricsFromChartSection()"]
-        parseMetaDataFromChartSection["ParseMetaDataFromChartSection()"]
-        parseNotesFromChartSection["ParseNotesFromChartSection()"]
-        parseTempoChangesFromChartSection["ParseTempoChangesFromChartSection()"]
-        parseTimeSignaturesChangesFromChartSection["ParseTimeSignatureChangesFromChartSection()"]
+        chart_file-->readResolutionFromChartData
+        chart_file-->readTempoChangesFromChartData
+        chart_file-->readTimeSignaturesChangesFromChartData
+        chart_file-->readNotesFromChartData
 
-        parseSectionsFromChart-->parseLyricsFromChartSection
-        parseSectionsFromChart-->parseMetaDataFromChartSection
-        parseSectionsFromChart-->parseNotesFromChartSection
-        parseSectionsFromChart-->parseTempoChangesFromChartSection
-        parseSectionsFromChart-->parseTimeSignaturesChangesFromChartSection
+        readResolutionFromMidiData["ReadResolutionFromMidiData()"]
+        readTempoChangesFromMidiData["ReadTempoChangesFromMidiData()"]
+        readTimeSignaturesChangesFromMidiData["ReadTimeSignaturesChangesFromMidiData()"]
+        readNotesFromMidiData["ReadNotesFromMidiData()"]
+
+        midi_file-->readResolutionFromMidiData
+        midi_file-->readTempoChangesFromMidiData
+        midi_file-->readTimeSignaturesChangesFromMidiData
+        midi_file-->readNotesFromMidiData
     end
 
     subgraph utilitiesGraph ["Utilities"]
@@ -42,22 +49,21 @@ graph LR;
         roundUpToTheNearestMultiplier["RoundUpToTheNearestMultiplier()"]
     end
 
-    file-->parseSectionsFromChart
-
     convertSecondsToTicks-->calculateAccuracyRatio
-    parseMetaDataFromChartSection-->calculateAccuracyRatio
-    parseNotesFromChartSection-->calculateAccuracyRatio
 
-    parseMetaDataFromChartSection-->calculateBeatBars
-    parseTempoChangesFromChartSection-->calculateBeatBars
+    readTempoChangesFromChartData-->calculateBeatBars
+    readTempoChangesFromChartData-->convertSecondsToTicks
 
-    parseMetaDataFromChartSection-->convertSecondsToTicks
-    parseTempoChangesFromChartSection-->convertSecondsToTicks
-    parseTimeSignaturesChangesFromChartSection-->convertSecondsToTicks
+    readTempoChangesFromMidiData-->calculateBeatBars
+    readTempoChangesFromMidiData-->convertSecondsToTicks
 
-    parseMetaDataFromChartSection-->convertTickToPosition
+    readTimeSignaturesChangesFromChartData-->convertSecondsToTicks
 
-    parseMetaDataFromChartSection-->isOnTheBeat
+    readTimeSignaturesChangesFromMidiData-->convertSecondsToTicks
+
+    readNotesFromChartData-->calculateAccuracyRatio
+
+    readNotesFromMidiData-->calculateAccuracyRatio
 ```
 
 ### Unity Plugin

@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace RhythmGameUtilities
@@ -8,53 +6,56 @@ namespace RhythmGameUtilities
     public class Song
     {
 
-        private readonly Dictionary<string, KeyValuePair<string, string[]>[]> _sections;
+        public int resolution;
 
-        public Dictionary<string, string> metaData { get; }
+        public Tempo[] tempoChanges;
 
-        public int resolution { get; }
+        public TimeSignature[] timeSignatureChanges;
 
-        public Tempo[] tempoChanges { get; private set; }
+        public Note[] notes;
 
-        public TimeSignature[] timeSignatureChanges { get; }
+        public BeatBar[] beatBars;
 
-        public Dictionary<Difficulty, Note[]> difficulties { get; private set; }
+        public Song()
+        {
 
-        public BeatBar[] beatBars { get; private set; }
+        }
 
         public Song(int resolution, Tempo[] tempoChanges, TimeSignature[] timeSignatureChanges,
-            Dictionary<Difficulty, Note[]> difficulties)
+            Note[] notes)
         {
             this.resolution = resolution;
             this.tempoChanges = tempoChanges;
             this.timeSignatureChanges = timeSignatureChanges;
-            this.difficulties = difficulties;
+            this.notes = notes;
         }
 
-        public Song(string contents)
+        public static Song FromChartData(string contents, Difficulty difficulty)
         {
-            _sections = Chart.ParseSectionsFromChart(contents);
+            var tempoChanges = Chart.ReadTempoChangesFromChartData(contents);
 
-            metaData = Chart.ParseMetaDataFromChartSection(_sections
-                .First(section => section.Key == NamedSection.Song)
-                .Value);
+            return new Song
+            {
+                resolution = Chart.ReadResolutionFromChartData(contents),
+                tempoChanges = tempoChanges,
+                timeSignatureChanges = Chart.ReadTimeSignatureChangesFromChartData(contents),
+                notes = Chart.ReadNotesFromChartData(contents, difficulty),
+                beatBars = Utilities.CalculateBeatBars(tempoChanges, includeHalfNotes : true)
+            };
+        }
 
-            resolution = int.Parse(metaData["Resolution"]);
+        public static Song FromMidiData(byte[] data)
+        {
+            var tempoChanges = Midi.ReadTempoChangesFromMidiData(data);
 
-            tempoChanges = Chart.ParseTempoChangesFromChartSection(_sections
-                .First(section => section.Key == NamedSection.SyncTrack)
-                .Value);
-
-            timeSignatureChanges = Chart.ParseTimeSignatureChangesFromChartSection(_sections[NamedSection.SyncTrack]);
-
-            difficulties = Enum.GetValues(typeof(Difficulty))
-                .Cast<Difficulty>()
-                .Where(difficulty => _sections.ToDictionary(item => item.Key, item => item.Value)
-                    .ContainsKey($"{difficulty}Single"))
-                .ToDictionary(difficulty => difficulty,
-                    difficulty => Chart.ParseNotesFromChartSection(_sections[$"{difficulty}Single"]));
-
-            beatBars = Utilities.CalculateBeatBars(tempoChanges, includeHalfNotes : true);
+            return new Song
+            {
+                resolution = Midi.ReadResolutionFromMidiData(data),
+                tempoChanges = tempoChanges,
+                timeSignatureChanges = Midi.ReadTimeSignatureChangesFromMidiData(data),
+                notes = Midi.ReadNotesFromMidiData(data),
+                beatBars = Utilities.CalculateBeatBars(tempoChanges, includeHalfNotes : true)
+            };
         }
 
         public void RecalculateBeatBarsWithSongLength(float songLength)

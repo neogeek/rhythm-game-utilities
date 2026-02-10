@@ -2,6 +2,8 @@
 
 #include <cstring>
 
+#include "../Enums/Difficulty.hpp"
+
 #include "Chart.hpp"
 
 #ifdef _WIN32
@@ -15,59 +17,66 @@ namespace RhythmGameUtilities
 
 extern "C"
 {
-    PACKAGE_API auto ParseSectionsFromChartInternal(const char *contents,
-                                                    int *outSize)
-        -> ChartSectionInternal *
+    PACKAGE_API auto ReadResolutionFromChartDataInternal(const char *contents)
+        -> uint16_t
     {
-        auto internalSections = ParseSectionsFromChart(contents);
+        return ReadResolutionFromChartData(contents);
+    }
 
-        *outSize = internalSections.size();
+    PACKAGE_API auto ReadTempoChangesFromChartDataInternal(const char *contents,
+                                                           int *outSize)
+        -> Tempo *
+    {
+        auto internalTempoChanges = ReadTempoChangesFromChartData(contents);
 
-        auto *sections = (ChartSectionInternal *)malloc(
-            internalSections.size() * sizeof(ChartSectionInternal));
+        *outSize = internalTempoChanges.size();
 
-        int i = 0;
+        auto *tempoChanges =
+            (Tempo *)malloc(internalTempoChanges.size() * sizeof(Tempo));
 
-        for (auto &internalSection : internalSections)
+        for (auto i = 0; i < internalTempoChanges.size(); i += 1)
         {
-            auto nameLength = internalSection.first.size() + 1;
-            sections[i].name = (char *)malloc(nameLength);
-            strncpy(sections[i].name, internalSection.first.c_str(),
-                    nameLength - 1);
-            sections[i].name[nameLength - 1] = '\0';
-
-            sections[i].lines = (KeyValuePairInternal *)malloc(
-                internalSection.second.size() * sizeof(KeyValuePairInternal));
-
-            sections[i].lineCount = internalSection.second.size();
-
-            for (auto j = 0; j < internalSection.second.size(); j += 1)
-            {
-                auto keyLength = internalSection.second[j].first.size() + 1;
-                sections[i].lines[j].key = (char *)malloc(keyLength);
-                strncpy(sections[i].lines[j].key,
-                        internalSection.second[j].first.c_str(), keyLength - 1);
-                sections[i].lines[j].key[keyLength - 1] = '\0';
-
-                auto values = internalSection.second[j].second;
-
-                for (auto k = 0; k < values.size(); k += 1)
-                {
-                    auto valueLength = values[k].size() + 1;
-                    sections[i].lines[j].values[k] =
-                        (char *)malloc(valueLength);
-                    strncpy(sections[i].lines[j].values[k], values[k].c_str(),
-                            values[k].size());
-                    sections[i].lines[j].values[k][valueLength - 1] = '\0';
-                }
-
-                sections[i].lines[j].valueCount = values.size();
-            }
-
-            i += 1;
+            tempoChanges[i] = internalTempoChanges[i];
         }
 
-        return sections;
+        return tempoChanges;
+    }
+
+    PACKAGE_API auto ReadTimeSignatureChangesFromChartDataInternal(
+        const char *contents, int *outSize) -> TimeSignature *
+    {
+        auto internalTimeSignatureChanges =
+            ReadTimeSignatureChangesFromChartData(contents);
+
+        *outSize = internalTimeSignatureChanges.size();
+
+        auto *timeSignatureChanges = (TimeSignature *)malloc(
+            internalTimeSignatureChanges.size() * sizeof(TimeSignature));
+
+        for (auto i = 0; i < internalTimeSignatureChanges.size(); i += 1)
+        {
+            timeSignatureChanges[i] = internalTimeSignatureChanges[i];
+        }
+
+        return timeSignatureChanges;
+    }
+
+    PACKAGE_API auto ReadNotesFromChartDataInternal(const char *contents,
+                                                    Difficulty difficulty,
+                                                    int *outSize) -> Note *
+    {
+        auto internalNotes = ReadNotesFromChartData(contents, difficulty);
+
+        *outSize = internalNotes.size();
+
+        auto *notes = (Note *)malloc(internalNotes.size() * sizeof(Note));
+
+        for (auto i = 0; i < internalNotes.size(); i += 1)
+        {
+            notes[i] = internalNotes[i];
+        }
+
+        return notes;
     }
 }
 

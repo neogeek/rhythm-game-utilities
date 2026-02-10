@@ -15,34 +15,28 @@ class Song : public Object
     static void _bind_methods();
 
   public:
-    Dictionary sections;
-    Dictionary meta_data;
     int resolution;
     Array tempo_changes;
     Array time_signature_changes;
-    Dictionary difficulties;
+    Array notes;
     Array beat_bars;
 
-    void set_sections(Dictionary value);
-    Dictionary get_sections();
-
-    void set_meta_data(Dictionary value);
-    Dictionary get_meta_data();
-
     void set_resolution(int value);
-    int get_resolution();
+    auto get_resolution() -> int;
 
     void set_tempo_changes(Array value);
-    Array get_tempo_changes();
+    auto get_tempo_changes() -> Array;
 
     void set_time_signature_changes(Array value);
-    Array get_time_signature_changes();
+    auto get_time_signature_changes() -> Array;
 
-    void set_difficulties(Dictionary value);
-    Dictionary get_difficulties();
+    void set_notes(Array value);
+    auto get_notes() -> Array;
 
     void set_beat_bars(Array value);
-    Array get_beat_bars();
+    auto get_beat_bars() -> Array;
 
-    void load_song(const String contents);
+    void load_song_from_chart(const String &contents, const int &difficulty);
+
+    void load_song_from_midi(const Variant &data);
 };

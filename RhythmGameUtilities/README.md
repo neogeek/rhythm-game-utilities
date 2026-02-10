@@ -33,19 +33,20 @@ _Prototype game built using these utilities._
 - [Platforms](#platforms)
 - [Install](#install)
 - [API](#api)
-
   1. [Audio](#audio)
      1. [ConvertSamplesToWaveform](#audioconvertsamplestowaveform)
   1. [Common](#common)
      1. [InverseLerp](#commoninverselerp)
      1. [Lerp](#commonlerp)
   1. [Parsers](#parsers)
-     1. [ParseTempoChangesFromChartSection](#parsersparsetempochangesfromchartsection)
-     1. [ParseLyricsFromChartSection](#parsersparselyricsfromchartsection)
-     1. [ParseMetaDataFromChartSection](#parsersparsemetadatafromchartsection)
-     1. [ParseNotesFromChartSection](#parsersparsenotesfromchartsection)
-     1. [ParseSectionsFromChart](#parsersparsesectionsfromchart)
-     1. [ParseTimeSignatureChangesFromChartSection](#parsersparsetimesignaturechangesfromchartsection)
+     1. [ReadNotesFromChartData](#chartreadnotesfromchartdata)
+     1. [ReadResolutionFromChartData](#chartreadresolutionfromchartdata)
+     1. [ReadTempoChangesFromChartData](#chartreadtempochangesfromchartdata)
+     1. [ReadTimeSignatureChangesFromChartData](#chartreadtimesignaturechangesfromchartdata)
+     1. [ReadNotesFromMidiData](#midireadnotesfrommididata)
+     1. [ReadResolutionFromMidiData](#midireadresolutionfrommididata)
+     1. [ReadTempoChangesFromMidiData](#midireadtempochangesfrommididata)
+     1. [ReadTimeSignatureChangesFromMidiData](#midireadtimesignaturechangesfrommididata)
   1. [Utilities](#utilities)
      1. [CalculateAccuracyRatio](#utilitiescalculateaccuracyratio)
      1. [CalculateBeatBars](#utilitiescalculatebeatbars)
@@ -271,11 +272,11 @@ func _ready() -> void:
 	print(value) # 5
 ```
 
-### `Parsers`
+### Parsers
 
 Read more about `.chart` files: <https://github.com/TheNathannator/GuitarGame_ChartFormats/blob/main/doc/FileFormats/.chart/Core%20Infrastructure.md>
 
-#### `Parsers.ParseLyricsFromChartSection`
+#### `Chart.ReadNotesFromChartData`
 
 > Languages: `C#` `C++` `GDScript`
 
@@ -283,131 +284,12 @@ Read more about `.chart` files: <https://github.com/TheNathannator/GuitarGame_Ch
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var sections = Parsers.ParseSectionsFromChart(contents);
+var contents = File.ReadAllText("./song.chart");
 
-var lyrics = Parsers.ParseLyricsFromChartSection(sections[NamedSection.Events]);
-
-Console.WriteLine(lyrics.Count); // 12
-```
-
-##### C++
-
-```cpp
-#include <iostream>
-
-#include "RhythmGameUtilities/File.hpp"
-#include "RhythmGameUtilities/Parsers.hpp"
-
-using namespace RhythmGameUtilities;
-
-int main()
-{
-    auto content = ReadStringFromFile("./song.chart");
-
-    auto sections = ParseSectionsFromChart(content.c_str());
-
-    auto lyrics = ParseLyricsFromChartSection(
-        sections.at(ToString(NamedSection::Events)));
-
-    std::cout << size(lyrics) << std::endl; // 12
-
-    return 0;
-}
-```
-
-##### GDScript
-
-```gdscript
-extends Node
-
-func _ready() -> void:
-	var file = FileAccess.open("res://song.chart", FileAccess.READ)
-	var content = file.get_as_text()
-
-	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
-
-	var lyrics = rhythm_game_utilities.parse_lyrics_from_chart_section(sections["Events"])
-
-	print(lyrics)
-```
-
-#### `Parsers.ParseMetaDataFromChartSection`
-
-> Languages: `C#` `C++` `GDScript`
-
-##### C#
-
-```csharp
-using System;
-using RhythmGameUtilities;
-
-var sections = Parsers.ParseSectionsFromChart(contents);
-
-var metaData = Parsers.ParseMetaDataFromChartSection(sections[NamedSection.Song]);
-
-Console.WriteLine(metaData["Name"]); // Example Song
-Console.WriteLine(metaData["Resolution"]); // 192
-Console.WriteLine(metaData["MusicStream"]); // Example Song.ogg
-```
-
-##### C++
-
-```cpp
-#include <iostream>
-
-#include "RhythmGameUtilities/File.hpp"
-#include "RhythmGameUtilities/Parsers.hpp"
-
-using namespace RhythmGameUtilities;
-
-int main()
-{
-    auto content = ReadStringFromFile("./song.chart");
-
-    auto sections = ParseSectionsFromChart(content.c_str());
-
-    auto metaData = ParseMetaDataFromChartSection(
-        sections.at(ToString(NamedSection::Song)));
-
-    std::cout << metaData["Name"] << std::endl; // Example Song
-    std::cout << metaData["Resolution"] << std::endl; // 192
-    std::cout << metaData["MusicStream"] << std::endl; // Example Song.ogg
-
-    return 0;
-}
-```
-
-##### GDScript
-
-```gdscript
-extends Node
-
-func _ready() -> void:
-	var file = FileAccess.open("res://song.chart", FileAccess.READ)
-	var content = file.get_as_text()
-
-	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
-
-	var meta_data = rhythm_game_utilities.parse_meta_data_from_chart_section(sections["Song"])
-
-	print(meta_data)
-```
-
-#### `Parsers.ParseNotesFromChartSection`
-
-> Languages: `C#` `C++` `GDScript`
-
-##### C#
-
-```csharp
-using System;
-using RhythmGameUtilities;
-
-var sections = Parsers.ParseSectionsFromChart(contents);
-
-var notes = Parsers.ParseNotesFromChartSection(sections[$"{Difficulty.Expert}Single"]);
+var notes = Chart.ReadNotesFromChartData(contents, Difficulty.Expert);
 
 Console.WriteLine(notes.Length); // 8
 ```
@@ -418,20 +300,17 @@ Console.WriteLine(notes.Length); // 8
 #include <iostream>
 
 #include "RhythmGameUtilities/File.hpp"
-#include "RhythmGameUtilities/Parsers.hpp"
+#include "RhythmGameUtilities/Parsers/Chart.hpp"
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
-    auto content = ReadStringFromFile("./song.chart");
+    auto contents = ReadStringFromFile("./song.chart");
 
-    auto sections = ParseSectionsFromChart(content.c_str());
+    auto notes = ReadNotesFromChartData(contents.c_str(), Difficulty::Expert);
 
-    auto notes = ParseNotesFromChartSection(
-        sections.at(ToString(Difficulty::Expert) + "Single"));
-
-    for (auto &note : notes)
+    for (const auto &note : notes)
     {
         if (note.HandPosition > 5)
         {
@@ -452,16 +331,14 @@ extends Node
 
 func _ready() -> void:
 	var file = FileAccess.open("res://song.chart", FileAccess.READ)
-	var content = file.get_as_text()
+	var contents = file.get_as_text()
 
-	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
-
-	var notes = rhythm_game_utilities.parse_notes_from_chart_section(sections["ExpertSingle"])
+	var notes = rhythm_game_utilities.read_notes_from_chart_data(contents, rhythm_game_utilities.Expert)
 
 	print(notes)
 ```
 
-#### `Parsers.ParseSectionsFromChart`
+#### `Chart.ReadResolutionFromChartData`
 
 > Languages: `C#` `C++` `GDScript`
 
@@ -469,11 +346,14 @@ func _ready() -> void:
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var sections = Parsers.ParseSectionsFromChart(contents);
+var contents = File.ReadAllText("./song.chart");
 
-Console.WriteLine(sections.Count); // 4
+var resolution = Chart.ReadResolutionFromChartData(contents);
+
+Console.WriteLine(resolution); // 192
 ```
 
 ##### C++
@@ -482,17 +362,17 @@ Console.WriteLine(sections.Count); // 4
 #include <iostream>
 
 #include "RhythmGameUtilities/File.hpp"
-#include "RhythmGameUtilities/Parsers.hpp"
+#include "RhythmGameUtilities/Parsers/Chart.hpp"
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
-    auto content = ReadStringFromFile("./song.chart");
+    auto contents = ReadStringFromFile("./song.chart");
 
-    auto sections = ParseSectionsFromChart(content.c_str());
+    auto resolution = ReadResolutionFromChartData(contents.c_str());
 
-    std::cout << size(sections) << std::endl; // 4
+    std::cout << resolution << std::endl;
 
     return 0;
 }
@@ -505,14 +385,14 @@ extends Node
 
 func _ready() -> void:
 	var file = FileAccess.open("res://song.chart", FileAccess.READ)
-	var content = file.get_as_text()
+	var contents = file.get_as_text()
 
-	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+	var resolution = rhythm_game_utilities.read_resolution_from_chart_data(contents)
 
-	print(sections)
+	print(resolution)
 ```
 
-#### `Parsers.ParseTempoChangesFromChartSection`
+#### `Chart.ReadTempoChangesFromChartData`
 
 > Languages: `C#` `C++` `GDScript`
 
@@ -520,11 +400,12 @@ func _ready() -> void:
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var sections = Parsers.ParseSectionsFromChart(contents);
+var contents = File.ReadAllText("./song.chart");
 
-var tempoChanges = Parsers.ParseTempoChangesFromChartSection(sections[NamedSection.SyncTrack]);
+var tempoChanges = Chart.ReadTempoChangesFromChartData(contents);
 
 Console.WriteLine(tempoChanges.Length); // 7
 ```
@@ -535,18 +416,15 @@ Console.WriteLine(tempoChanges.Length); // 7
 #include <iostream>
 
 #include "RhythmGameUtilities/File.hpp"
-#include "RhythmGameUtilities/Parsers.hpp"
+#include "RhythmGameUtilities/Parsers/Chart.hpp"
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
-    auto content = ReadStringFromFile("./song.chart");
+    auto contents = ReadStringFromFile("./song.chart");
 
-    auto sections = ParseSectionsFromChart(content.c_str());
-
-    auto tempoChanges = ParseTempoChangesFromChartSection(
-        sections.at(ToString(NamedSection::SyncTrack)));
+    auto tempoChanges = ReadTempoChangesFromChartData(contents.c_str());
 
     std::cout << size(tempoChanges) << std::endl; // 7
 
@@ -561,16 +439,14 @@ extends Node
 
 func _ready() -> void:
 	var file = FileAccess.open("res://song.chart", FileAccess.READ)
-	var content = file.get_as_text()
+	var contents = file.get_as_text()
 
-	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
-
-	var tempo_changes = rhythm_game_utilities.parse_tempo_changes_from_chart_section(sections["SyncTrack"])
+	var tempo_changes = rhythm_game_utilities.read_tempo_changes_from_chart_data(contents)
 
 	print(tempo_changes)
 ```
 
-#### `Parsers.ParseTimeSignatureChangesFromChartSection`
+#### `Chart.ReadTimeSignatureChangesFromChartData`
 
 > Languages: `C#` `C++` `GDScript`
 
@@ -578,11 +454,12 @@ func _ready() -> void:
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var sections = Parsers.ParseSectionsFromChart(contents);
+var contents = File.ReadAllText("./song.chart");
 
-var timeSignatureChanges = Parsers.ParseTimeSignatureChangesFromChartSection(sections[NamedSection.SyncTrack]);
+var timeSignatureChanges = Chart.ReadTimeSignatureChangesFromChartData(contents);
 
 Console.WriteLine(timeSignatureChanges.Length); // 4
 ```
@@ -593,18 +470,15 @@ Console.WriteLine(timeSignatureChanges.Length); // 4
 #include <iostream>
 
 #include "RhythmGameUtilities/File.hpp"
-#include "RhythmGameUtilities/Parsers.hpp"
+#include "RhythmGameUtilities/Parsers/Chart.hpp"
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
-    auto content = ReadStringFromFile("./song.chart");
+    auto contents = ReadStringFromFile("./song.chart");
 
-    auto sections = ParseSectionsFromChart(content.c_str());
-
-    auto timeSignatureChanges = ParseTimeSignatureChangesFromChartSection(
-        sections.at(ToString(NamedSection::SyncTrack)));
+    auto timeSignatureChanges = ReadTimeSignatureChangesFromChartData(contents.c_str());
 
     std::cout << size(timeSignatureChanges) << std::endl; // 4
 
@@ -619,11 +493,233 @@ extends Node
 
 func _ready() -> void:
 	var file = FileAccess.open("res://song.chart", FileAccess.READ)
-	var content = file.get_as_text()
+	var contents = file.get_as_text()
 
-	var sections = rhythm_game_utilities.parse_sections_from_chart(content)
+	var time_signature_changes = rhythm_game_utilities.read_time_signature_changes_from_chart_data(contents)
 
-	var time_signature_changes = rhythm_game_utilities.parse_time_signature_changes_from_chart_section(sections["SyncTrack"])
+	print(time_signature_changes)
+```
+
+#### `Midi.ReadNotesFromMidiData`
+
+> Languages: `C#` `C++` `GDScript`
+
+##### C#
+
+```csharp
+using System;
+using System.IO;
+using RhythmGameUtilities;
+
+var bytes = File.ReadAllBytes("./song.mid");
+
+var notes = Midi.ReadNotesFromMidiData(bytes);
+
+Console.WriteLine(notes.Length); // 8
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/File.hpp"
+#include "RhythmGameUtilities/Parsers/Midi.hpp"
+
+using namespace RhythmGameUtilities;
+
+auto main() -> int
+{
+    auto bytes = ReadBytesFromFile("./song.mid");
+
+    auto notes = ReadNotesFromMidiData(bytes);
+
+    for (const auto &note : notes)
+    {
+        if (note.HandPosition > 5)
+        {
+            continue;
+        }
+
+        std::cout << note.Position << " " << note.HandPosition << std::endl;
+    }
+
+    return 0;
+}
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.mid", FileAccess.READ)
+	var bytes = file.get_buffer(file.get_length())
+
+	var notes = rhythm_game_utilities.read_notes_from_midi_data(bytes)
+
+	print(notes)
+```
+
+#### `Midi.ReadResolutionFromMidiData`
+
+> Languages: `C#` `C++` `GDScript`
+
+##### C#
+
+```csharp
+using System;
+using System.IO;
+using RhythmGameUtilities;
+
+var bytes = File.ReadAllBytes("./song.mid");
+
+var resolution = Midi.ReadResolutionFromMidiData(bytes);
+
+Console.WriteLine(resolution); // 192
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/File.hpp"
+#include "RhythmGameUtilities/Parsers/Midi.hpp"
+
+using namespace RhythmGameUtilities;
+
+auto main() -> int
+{
+    auto bytes = ReadBytesFromFile("./song.mid");
+
+    auto resolution = ReadResolutionFromMidiData(bytes);
+
+    std::cout << resolution << std::endl;
+
+    return 0;
+}
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.mid", FileAccess.READ)
+	var bytes = file.get_buffer(file.get_length())
+
+	var resolution = rhythm_game_utilities.read_resolution_from_midi_data(bytes)
+
+	print(resolution)
+```
+
+#### `Midi.ReadTempoChangesFromMidiData`
+
+> Languages: `C#` `C++` `GDScript`
+
+##### C#
+
+```csharp
+using System;
+using System.IO;
+using RhythmGameUtilities;
+
+var bytes = File.ReadAllBytes("./song.mid");
+
+var tempoChanges = Midi.ReadTempoChangesFromMidiData(bytes);
+
+Console.WriteLine(tempoChanges.Length); // 7
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/File.hpp"
+#include "RhythmGameUtilities/Parsers/Midi.hpp"
+
+using namespace RhythmGameUtilities;
+
+auto main() -> int
+{
+    auto bytes = ReadBytesFromFile("./song.mid");
+
+    auto tempoChanges = ReadTempoChangesFromMidiData(bytes);
+
+    std::cout << size(tempoChanges) << std::endl; // 7
+
+    return 0;
+}
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.mid", FileAccess.READ)
+	var bytes = file.get_buffer(file.get_length())
+
+	var tempo_changes = rhythm_game_utilities.read_tempo_changes_from_midi_data(bytes)
+
+	print(tempo_changes)
+```
+
+#### `Midi.ReadTimeSignatureChangesFromMidiData`
+
+> Languages: `C#` `C++` `GDScript`
+
+##### C#
+
+```csharp
+using System;
+using System.IO;
+using RhythmGameUtilities;
+
+var bytes = File.ReadAllBytes("./song.mid");
+
+var timeSignatureChanges = Midi.ReadTimeSignatureChangesFromMidiData(bytes);
+
+Console.WriteLine(timeSignatureChanges.Length); // 4
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/File.hpp"
+#include "RhythmGameUtilities/Parsers/Midi.hpp"
+
+using namespace RhythmGameUtilities;
+
+auto main() -> int
+{
+    auto bytes = ReadBytesFromFile("./song.mid");
+
+    auto timeSignatureChanges = ReadTimeSignatureChangesFromMidiData(bytes);
+
+    std::cout << size(timeSignatureChanges) << std::endl; // 4
+
+    return 0;
+}
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var file = FileAccess.open("res://song.mid", FileAccess.READ)
+	var bytes = file.get_buffer(file.get_length())
+
+	var time_signature_changes = rhythm_game_utilities.read_time_signature_changes_from_midi_data(bytes)
 
 	print(time_signature_changes)
 ```
@@ -1110,7 +1206,8 @@ The current architecture for this project looks like this:
 
 ```mermaid
 graph LR;
-    file[/"song.chart"/]
+    chart_file[/"song.chart"/]
+    midi_file[/"song.mid"/]
 
     subgraph audioGraph ["Audio"]
         convertSamplesToWaveform["ConvertSamplesToWaveform()"]
@@ -1122,19 +1219,25 @@ graph LR;
     end
 
     subgraph parsersGraph ["Parsers"]
-        parseSectionsFromChart["ParseSectionsFromChart()"]
+        readResolutionFromChartData["ReadResolutionFromChartData()"]
+        readTempoChangesFromChartData["ReadTempoChangesFromChartData()"]
+        readTimeSignaturesChangesFromChartData["ReadTimeSignaturesChangesFromChartData()"]
+        readNotesFromChartData["ReadNotesFromChartData()"]
 
-        parseLyricsFromChartSection["ParseLyricsFromChartSection()"]
-        parseMetaDataFromChartSection["ParseMetaDataFromChartSection()"]
-        parseNotesFromChartSection["ParseNotesFromChartSection()"]
-        parseTempoChangesFromChartSection["ParseTempoChangesFromChartSection()"]
-        parseTimeSignaturesChangesFromChartSection["ParseTimeSignatureChangesFromChartSection()"]
+        chart_file-->readResolutionFromChartData
+        chart_file-->readTempoChangesFromChartData
+        chart_file-->readTimeSignaturesChangesFromChartData
+        chart_file-->readNotesFromChartData
 
-        parseSectionsFromChart-->parseLyricsFromChartSection
-        parseSectionsFromChart-->parseMetaDataFromChartSection
-        parseSectionsFromChart-->parseNotesFromChartSection
-        parseSectionsFromChart-->parseTempoChangesFromChartSection
-        parseSectionsFromChart-->parseTimeSignaturesChangesFromChartSection
+        readResolutionFromMidiData["ReadResolutionFromMidiData()"]
+        readTempoChangesFromMidiData["ReadTempoChangesFromMidiData()"]
+        readTimeSignaturesChangesFromMidiData["ReadTimeSignaturesChangesFromMidiData()"]
+        readNotesFromMidiData["ReadNotesFromMidiData()"]
+
+        midi_file-->readResolutionFromMidiData
+        midi_file-->readTempoChangesFromMidiData
+        midi_file-->readTimeSignaturesChangesFromMidiData
+        midi_file-->readNotesFromMidiData
     end
 
     subgraph utilitiesGraph ["Utilities"]
@@ -1146,22 +1249,21 @@ graph LR;
         roundUpToTheNearestMultiplier["RoundUpToTheNearestMultiplier()"]
     end
 
-    file-->parseSectionsFromChart
-
     convertSecondsToTicks-->calculateAccuracyRatio
-    parseMetaDataFromChartSection-->calculateAccuracyRatio
-    parseNotesFromChartSection-->calculateAccuracyRatio
 
-    parseMetaDataFromChartSection-->calculateBeatBars
-    parseTempoChangesFromChartSection-->calculateBeatBars
+    readTempoChangesFromChartData-->calculateBeatBars
+    readTempoChangesFromChartData-->convertSecondsToTicks
 
-    parseMetaDataFromChartSection-->convertSecondsToTicks
-    parseTempoChangesFromChartSection-->convertSecondsToTicks
-    parseTimeSignaturesChangesFromChartSection-->convertSecondsToTicks
+    readTempoChangesFromMidiData-->calculateBeatBars
+    readTempoChangesFromMidiData-->convertSecondsToTicks
 
-    parseMetaDataFromChartSection-->convertTickToPosition
+    readTimeSignaturesChangesFromChartData-->convertSecondsToTicks
 
-    parseMetaDataFromChartSection-->isOnTheBeat
+    readTimeSignaturesChangesFromMidiData-->convertSecondsToTicks
+
+    readNotesFromChartData-->calculateAccuracyRatio
+
+    readNotesFromMidiData-->calculateAccuracyRatio
 ```
 
 ### Unity Plugin
