@@ -2,6 +2,12 @@
 
 #include "rhythm_game_utilities.hpp"
 
+#include <RhythmGameUtilities/Common.hpp>
+#include <RhythmGameUtilities/Enums/Difficulty.hpp>
+#include <RhythmGameUtilities/Parsers/Chart.hpp>
+#include <RhythmGameUtilities/Parsers/Midi.hpp>
+#include <RhythmGameUtilities/Utilities.hpp>
+
 void rhythm_game_utilities::_bind_methods()
 {
     // Enums

@@ -6,12 +6,6 @@
 #include <godot_cpp/variant/dictionary.hpp>
 #include <godot_cpp/variant/string.hpp>
 
-#include <RhythmGameUtilities/Common.hpp>
-#include <RhythmGameUtilities/Enums/Difficulty.hpp>
-#include <RhythmGameUtilities/Parsers/Chart.hpp>
-#include <RhythmGameUtilities/Parsers/Midi.hpp>
-#include <RhythmGameUtilities/Utilities.hpp>
-
 using namespace godot;
 
 class rhythm_game_utilities : public Object
