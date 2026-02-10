@@ -5,9 +5,6 @@
 #include <godot_cpp/variant/array.hpp>
 #include <godot_cpp/variant/dictionary.hpp>
 
-#include <RhythmGameUtilities/Enums/Difficulty.hpp>
-#include <RhythmGameUtilities/Enums/NamedSection.hpp>
-
 using namespace godot;
 
 class Song : public Object
