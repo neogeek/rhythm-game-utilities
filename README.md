@@ -284,11 +284,12 @@ Read more about `.chart` files: <https://github.com/TheNathannator/GuitarGame_Ch
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllText(path);
+var contents = File.ReadAllText("./song.chart");
 
-var notes = Chart.ReadNotesFromChartData(contents, Difficulty::Expert);
+var notes = Chart.ReadNotesFromChartData(contents, Difficulty.Expert);
 
 Console.WriteLine(notes.Length); // 8
 ```
@@ -345,9 +346,10 @@ func _ready() -> void:
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllText(path);
+var contents = File.ReadAllText("./song.chart");
 
 var resolution = Chart.ReadResolutionFromChartData(contents);
 
@@ -398,9 +400,10 @@ func _ready() -> void:
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllText(path);
+var contents = File.ReadAllText("./song.chart");
 
 var tempoChanges = Chart.ReadTempoChangesFromChartData(contents);
 
@@ -451,9 +454,10 @@ func _ready() -> void:
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllText(path);
+var contents = File.ReadAllText("./song.chart");
 
 var timeSignatureChanges = Chart.ReadTimeSignatureChangesFromChartData(contents);
 
@@ -504,11 +508,12 @@ func _ready() -> void:
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllBytes(path);
+var contents = File.ReadAllBytes("./song.mid");
 
-var notes = Midi.ReadNotesFromMidiData(contents, Difficulty::Expert);
+var notes = Midi.ReadNotesFromMidiData(contents);
 
 Console.WriteLine(notes.Length); // 8
 ```
@@ -527,7 +532,7 @@ int main()
 {
     auto contents = ReadBytesFromFile("./song.mid");
 
-    auto notes = ReadNotesFromMidiData(contents, Difficulty::Expert);
+    auto notes = ReadNotesFromMidiData(contents);
 
     for (const auto &note : notes)
     {
@@ -565,9 +570,10 @@ func _ready() -> void:
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllBytes(path);
+var contents = File.ReadAllBytes("./song.mid");
 
 var resolution = Midi.ReadResolutionFromMidiData(contents);
 
@@ -618,9 +624,10 @@ func _ready() -> void:
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllBytes(path);
+var contents = File.ReadAllBytes("./song.mid");
 
 var tempoChanges = Midi.ReadTempoChangesFromMidiData(contents);
 
@@ -671,9 +678,10 @@ func _ready() -> void:
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllBytes(path);
+var contents = File.ReadAllBytes("./song.mid");
 
 var timeSignatureChanges = Midi.ReadTimeSignatureChangesFromMidiData(contents);
 

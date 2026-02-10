@@ -6,11 +6,12 @@
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllBytes(path);
+var contents = File.ReadAllBytes("./song.mid");
 
-var notes = Midi.ReadNotesFromMidiData(contents, Difficulty::Expert);
+var notes = Midi.ReadNotesFromMidiData(contents);
 
 Console.WriteLine(notes.Length); // 8
 ```
@@ -29,7 +30,7 @@ int main()
 {
     auto contents = ReadBytesFromFile("./song.mid");
 
-    auto notes = ReadNotesFromMidiData(contents, Difficulty::Expert);
+    auto notes = ReadNotesFromMidiData(contents);
 
     for (const auto &note : notes)
     {

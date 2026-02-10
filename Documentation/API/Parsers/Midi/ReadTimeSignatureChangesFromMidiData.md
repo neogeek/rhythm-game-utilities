@@ -6,9 +6,10 @@
 
 ```csharp
 using System;
+using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllBytes(path);
+var contents = File.ReadAllBytes("./song.mid");
 
 var timeSignatureChanges = Midi.ReadTimeSignatureChangesFromMidiData(contents);
 
