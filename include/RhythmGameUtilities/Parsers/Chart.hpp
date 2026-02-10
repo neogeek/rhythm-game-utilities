@@ -18,6 +18,12 @@
 namespace RhythmGameUtilities
 {
 
+inline std::map<
+    size_t,
+    std::map<std::string,
+             std::vector<std::pair<std::string, std::vector<std::string>>>>>
+    parsedChartCache;
+
 inline std::regex CHART_SECTION_PATTERN(R"(\[([a-z]+)\]\s*\{([^\}]+)\})",
                                         std::regex_constants::icase);
 
@@ -29,6 +35,15 @@ inline auto ParseSectionsFromChart(const char *contents)
     -> std::map<std::string,
                 std::vector<std::pair<std::string, std::vector<std::string>>>>
 {
+    auto cacheKey = std::hash<std::string>{}(contents);
+
+    auto match = parsedChartCache.find(cacheKey);
+
+    if (match != parsedChartCache.end())
+    {
+        return match->second;
+    }
+
     auto matches = FindAllMatches(contents, CHART_SECTION_PATTERN);
 
     std::map<std::string,
@@ -69,6 +84,8 @@ inline auto ParseSectionsFromChart(const char *contents)
 
         sections.insert({parts[1].c_str(), items});
     }
+
+    parsedChartCache.insert_or_assign(cacheKey, sections);
 
     return sections;
 }
