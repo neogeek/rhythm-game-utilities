@@ -1,5 +1,6 @@
-#include "rhythm_game_utilities.hpp"
 #include "godot_cpp/variant/variant.hpp"
+
+#include "rhythm_game_utilities.hpp"
 
 void rhythm_game_utilities::_bind_methods()
 {
