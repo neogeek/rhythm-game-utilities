@@ -28,7 +28,7 @@ Download and install the latest release from <https://github.com/rhythm-game-uti
 Install the nuget package [com.neogeek.rhythm-game-utilities](https://www.nuget.org/packages/com.neogeek.rhythm-game-utilities/) via the CLI or from within your IDE.
 
 ```bash
-dotnet add package com.neogeek.rhythm-game-utilities --version 1.0.0-alpha.4
+dotnet add package com.neogeek.rhythm-game-utilities --version 1.0.0-alpha.5
 ```
 
 ### SDL
@@ -60,5 +60,5 @@ dotnet add package com.neogeek.rhythm-game-utilities --version 1.0.0-alpha.4
 Install the nuget package [com.neogeek.rhythm-game-utilities](https://www.nuget.org/packages/com.neogeek.rhythm-game-utilities/) via the CLI or from within your IDE.
 
 ```bash
-dotnet add package com.neogeek.rhythm-game-utilities --version 1.0.0-alpha.4
+dotnet add package com.neogeek.rhythm-game-utilities --version 1.0.0-alpha.5
 ```

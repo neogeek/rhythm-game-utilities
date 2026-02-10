@@ -4,7 +4,7 @@
         <LangVersion>10.0</LangVersion>
         <AssemblyVersion>1.0.0</AssemblyVersion>
         <PackageId>com.neogeek.rhythm-game-utilities</PackageId>
-        <Version>1.0.0-alpha.4</Version>
+        <Version>1.0.0-alpha.5</Version>
         <Title>Rhythm Game Utilities</Title>
         <Description>A collection of utilities for creating rhythm games.</Description>
         <Authors>neogeek</Authors>
