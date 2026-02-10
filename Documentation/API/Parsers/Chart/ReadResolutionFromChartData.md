@@ -26,7 +26,7 @@ Console.WriteLine(resolution); // 192
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
     auto contents = ReadStringFromFile("./song.chart");
 

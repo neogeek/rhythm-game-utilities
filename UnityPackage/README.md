@@ -304,7 +304,7 @@ Console.WriteLine(notes.Length); // 8
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
     auto contents = ReadStringFromFile("./song.chart");
 
@@ -366,7 +366,7 @@ Console.WriteLine(resolution); // 192
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
     auto contents = ReadStringFromFile("./song.chart");
 
@@ -420,7 +420,7 @@ Console.WriteLine(tempoChanges.Length); // 7
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
     auto contents = ReadStringFromFile("./song.chart");
 
@@ -474,7 +474,7 @@ Console.WriteLine(timeSignatureChanges.Length); // 4
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
     auto contents = ReadStringFromFile("./song.chart");
 
@@ -528,7 +528,7 @@ Console.WriteLine(notes.Length); // 8
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
     auto contents = ReadBytesFromFile("./song.mid");
 
@@ -590,9 +590,9 @@ Console.WriteLine(resolution); // 192
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
-    auto contents = ReadByteFromfile("./song.mid");
+    auto contents = ReadBytesFromFile("./song.mid");
 
     auto resolution = ReadResolutionFromMidiData(contents);
 
@@ -644,9 +644,9 @@ Console.WriteLine(tempoChanges.Length); // 7
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
-    auto contents = ReadByteFromfile("./song.mid");
+    auto contents = ReadBytesFromFile("./song.mid");
 
     auto tempoChanges = ReadTempoChangesFromMidiData(contents);
 
@@ -698,11 +698,11 @@ Console.WriteLine(timeSignatureChanges.Length); // 4
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
-    auto contents = ReadStringFromFile("./song.mid");
+    auto contents = ReadBytesFromFile("./song.mid");
 
-    auto timeSignatureChanges = ReadTimeSignatureChangesFromMidiData(contents.c_str());
+    auto timeSignatureChanges = ReadTimeSignatureChangesFromMidiData(contents);
 
     std::cout << size(timeSignatureChanges) << std::endl; // 4
 

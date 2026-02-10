@@ -26,9 +26,9 @@ Console.WriteLine(resolution); // 192
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
-    auto contents = ReadByteFromfile("./song.mid");
+    auto contents = ReadBytesFromFile("./song.mid");
 
     auto resolution = ReadResolutionFromMidiData(contents);
 

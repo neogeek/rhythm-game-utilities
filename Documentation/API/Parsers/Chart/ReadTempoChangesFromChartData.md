@@ -26,7 +26,7 @@ Console.WriteLine(tempoChanges.Length); // 7
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
     auto contents = ReadStringFromFile("./song.chart");
 

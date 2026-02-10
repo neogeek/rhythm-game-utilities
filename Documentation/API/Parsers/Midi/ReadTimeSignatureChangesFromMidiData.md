@@ -26,11 +26,11 @@ Console.WriteLine(timeSignatureChanges.Length); // 4
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
-    auto contents = ReadStringFromFile("./song.mid");
+    auto contents = ReadBytesFromFile("./song.mid");
 
-    auto timeSignatureChanges = ReadTimeSignatureChangesFromMidiData(contents.c_str());
+    auto timeSignatureChanges = ReadTimeSignatureChangesFromMidiData(contents);
 
     std::cout << size(timeSignatureChanges) << std::endl; // 4
 

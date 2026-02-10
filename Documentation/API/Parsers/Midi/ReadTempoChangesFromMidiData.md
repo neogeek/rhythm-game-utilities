@@ -26,9 +26,9 @@ Console.WriteLine(tempoChanges.Length); // 7
 
 using namespace RhythmGameUtilities;
 
-int main()
+auto main() -> int
 {
-    auto contents = ReadByteFromfile("./song.mid");
+    auto contents = ReadBytesFromFile("./song.mid");
 
     auto tempoChanges = ReadTempoChangesFromMidiData(contents);
 
