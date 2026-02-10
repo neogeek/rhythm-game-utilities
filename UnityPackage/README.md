@@ -511,9 +511,9 @@ using System;
 using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllBytes("./song.mid");
+var bytes = File.ReadAllBytes("./song.mid");
 
-var notes = Midi.ReadNotesFromMidiData(contents);
+var notes = Midi.ReadNotesFromMidiData(bytes);
 
 Console.WriteLine(notes.Length); // 8
 ```
@@ -530,9 +530,9 @@ using namespace RhythmGameUtilities;
 
 auto main() -> int
 {
-    auto contents = ReadBytesFromFile("./song.mid");
+    auto bytes = ReadBytesFromFile("./song.mid");
 
-    auto notes = ReadNotesFromMidiData(contents);
+    auto notes = ReadNotesFromMidiData(bytes);
 
     for (const auto &note : notes)
     {
@@ -555,9 +555,9 @@ extends Node
 
 func _ready() -> void:
 	var file = FileAccess.open("res://song.mid", FileAccess.READ)
-	var contents = file.get_buffer(file.get_length())
+	var bytes = file.get_buffer(file.get_length())
 
-	var notes = rhythm_game_utilities.read_notes_from_midi_data(contents)
+	var notes = rhythm_game_utilities.read_notes_from_midi_data(bytes)
 
 	print(notes)
 ```
@@ -573,9 +573,9 @@ using System;
 using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllBytes("./song.mid");
+var bytes = File.ReadAllBytes("./song.mid");
 
-var resolution = Midi.ReadResolutionFromMidiData(contents);
+var resolution = Midi.ReadResolutionFromMidiData(bytes);
 
 Console.WriteLine(resolution); // 192
 ```
@@ -592,9 +592,9 @@ using namespace RhythmGameUtilities;
 
 auto main() -> int
 {
-    auto contents = ReadBytesFromFile("./song.mid");
+    auto bytes = ReadBytesFromFile("./song.mid");
 
-    auto resolution = ReadResolutionFromMidiData(contents);
+    auto resolution = ReadResolutionFromMidiData(bytes);
 
     std::cout << resolution << std::endl;
 
@@ -609,9 +609,9 @@ extends Node
 
 func _ready() -> void:
 	var file = FileAccess.open("res://song.mid", FileAccess.READ)
-	var contents = file.get_buffer(file.get_length())
+	var bytes = file.get_buffer(file.get_length())
 
-	var resolution = rhythm_game_utilities.read_resolution_from_midi_data(contents)
+	var resolution = rhythm_game_utilities.read_resolution_from_midi_data(bytes)
 
 	print(resolution)
 ```
@@ -627,9 +627,9 @@ using System;
 using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllBytes("./song.mid");
+var bytes = File.ReadAllBytes("./song.mid");
 
-var tempoChanges = Midi.ReadTempoChangesFromMidiData(contents);
+var tempoChanges = Midi.ReadTempoChangesFromMidiData(bytes);
 
 Console.WriteLine(tempoChanges.Length); // 7
 ```
@@ -646,9 +646,9 @@ using namespace RhythmGameUtilities;
 
 auto main() -> int
 {
-    auto contents = ReadBytesFromFile("./song.mid");
+    auto bytes = ReadBytesFromFile("./song.mid");
 
-    auto tempoChanges = ReadTempoChangesFromMidiData(contents);
+    auto tempoChanges = ReadTempoChangesFromMidiData(bytes);
 
     std::cout << size(tempoChanges) << std::endl; // 7
 
@@ -663,9 +663,9 @@ extends Node
 
 func _ready() -> void:
 	var file = FileAccess.open("res://song.mid", FileAccess.READ)
-	var contents = file.get_buffer(file.get_length())
+	var bytes = file.get_buffer(file.get_length())
 
-	var tempo_changes = rhythm_game_utilities.read_tempo_changes_from_midi_data(contents)
+	var tempo_changes = rhythm_game_utilities.read_tempo_changes_from_midi_data(bytes)
 
 	print(tempo_changes)
 ```
@@ -681,9 +681,9 @@ using System;
 using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllBytes("./song.mid");
+var bytes = File.ReadAllBytes("./song.mid");
 
-var timeSignatureChanges = Midi.ReadTimeSignatureChangesFromMidiData(contents);
+var timeSignatureChanges = Midi.ReadTimeSignatureChangesFromMidiData(bytes);
 
 Console.WriteLine(timeSignatureChanges.Length); // 4
 ```
@@ -700,9 +700,9 @@ using namespace RhythmGameUtilities;
 
 auto main() -> int
 {
-    auto contents = ReadBytesFromFile("./song.mid");
+    auto bytes = ReadBytesFromFile("./song.mid");
 
-    auto timeSignatureChanges = ReadTimeSignatureChangesFromMidiData(contents);
+    auto timeSignatureChanges = ReadTimeSignatureChangesFromMidiData(bytes);
 
     std::cout << size(timeSignatureChanges) << std::endl; // 4
 
@@ -717,9 +717,9 @@ extends Node
 
 func _ready() -> void:
 	var file = FileAccess.open("res://song.mid", FileAccess.READ)
-	var contents = file.get_buffer(file.get_length())
+	var bytes = file.get_buffer(file.get_length())
 
-	var time_signature_changes = rhythm_game_utilities.read_time_signature_changes_from_midi_data(contents)
+	var time_signature_changes = rhythm_game_utilities.read_time_signature_changes_from_midi_data(bytes)
 
 	print(time_signature_changes)
 ```

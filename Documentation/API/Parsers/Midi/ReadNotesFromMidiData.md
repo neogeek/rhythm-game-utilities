@@ -9,9 +9,9 @@ using System;
 using System.IO;
 using RhythmGameUtilities;
 
-var contents = File.ReadAllBytes("./song.mid");
+var bytes = File.ReadAllBytes("./song.mid");
 
-var notes = Midi.ReadNotesFromMidiData(contents);
+var notes = Midi.ReadNotesFromMidiData(bytes);
 
 Console.WriteLine(notes.Length); // 8
 ```
@@ -28,9 +28,9 @@ using namespace RhythmGameUtilities;
 
 auto main() -> int
 {
-    auto contents = ReadBytesFromFile("./song.mid");
+    auto bytes = ReadBytesFromFile("./song.mid");
 
-    auto notes = ReadNotesFromMidiData(contents);
+    auto notes = ReadNotesFromMidiData(bytes);
 
     for (const auto &note : notes)
     {
@@ -53,9 +53,9 @@ extends Node
 
 func _ready() -> void:
 	var file = FileAccess.open("res://song.mid", FileAccess.READ)
-	var contents = file.get_buffer(file.get_length())
+	var bytes = file.get_buffer(file.get_length())
 
-	var notes = rhythm_game_utilities.read_notes_from_midi_data(contents)
+	var notes = rhythm_game_utilities.read_notes_from_midi_data(bytes)
 
 	print(notes)
 ```
