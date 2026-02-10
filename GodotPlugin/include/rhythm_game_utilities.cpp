@@ -47,22 +47,21 @@ void rhythm_game_utilities::_bind_methods()
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
-        D_METHOD("read_resolution_from_midi_data", "contents"),
+        D_METHOD("read_resolution_from_midi_data", "data"),
         &rhythm_game_utilities::read_resolution_from_midi_data);
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
-        D_METHOD("read_tempo_changes_from_midi_data", "contents"),
+        D_METHOD("read_tempo_changes_from_midi_data", "data"),
         &rhythm_game_utilities::read_tempo_changes_from_midi_data);
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
-        D_METHOD("read_time_signature_changes_from_midi_data", "contents"),
+        D_METHOD("read_time_signature_changes_from_midi_data", "data"),
         &rhythm_game_utilities::read_time_signature_changes_from_midi_data);
 
     ClassDB::bind_static_method(
-        "rhythm_game_utilities",
-        D_METHOD("read_notes_from_midi_data", "contents"),
+        "rhythm_game_utilities", D_METHOD("read_notes_from_midi_data", "data"),
         &rhythm_game_utilities::read_notes_from_midi_data);
 
     // Utilities
