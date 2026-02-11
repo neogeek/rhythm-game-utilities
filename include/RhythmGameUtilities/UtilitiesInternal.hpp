@@ -16,8 +16,8 @@ extern "C"
     PACKAGE_API auto
     ConvertSecondsToTicksInternal(float seconds, int resolution,
                                   Tempo *tempoChanges, int tempoChangesSize,
-                                  TimeSignature *timeSignaturesChanges,
-                                  int timeSignaturesChangesSize) -> int
+                                  TimeSignature *timeSignatureChanges,
+                                  int timeSignatureChangesSize) -> int
     {
         std::vector<Tempo> tempoChangesVector;
 
@@ -28,9 +28,9 @@ extern "C"
 
         std::vector<TimeSignature> timeSignatureChangesVector;
 
-        for (auto i = 0; i < timeSignaturesChangesSize; i += 1)
+        for (auto i = 0; i < timeSignatureChangesSize; i += 1)
         {
-            timeSignatureChangesVector.push_back(timeSignaturesChanges[i]);
+            timeSignatureChangesVector.push_back(timeSignatureChanges[i]);
         }
 
         return ConvertSecondsToTicks(seconds, resolution, tempoChangesVector,

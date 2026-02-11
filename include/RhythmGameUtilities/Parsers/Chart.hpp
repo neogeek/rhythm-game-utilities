@@ -143,7 +143,7 @@ inline auto ReadTimeSignatureChangesFromChartData(const char *contents)
 
     auto section = sections.at(ToString(NamedSection::SyncTrack));
 
-    auto timeSignaturesChanges = std::vector<TimeSignature>();
+    auto timeSignatureChanges = std::vector<TimeSignature>();
 
     for (const auto &line : section)
     {
@@ -154,11 +154,11 @@ inline auto ReadTimeSignatureChangesFromChartData(const char *contents)
             auto denominator =
                 line.second.size() > 2 ? std::stoi(line.second.at(2)) : 2;
 
-            timeSignaturesChanges.push_back({position, numerator, denominator});
+            timeSignatureChanges.push_back({position, numerator, denominator});
         }
     }
 
-    return timeSignaturesChanges;
+    return timeSignatureChanges;
 }
 
 inline auto ReadNotesFromChartData(const char *contents, Difficulty difficulty)
