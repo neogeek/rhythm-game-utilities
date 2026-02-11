@@ -1222,22 +1222,22 @@ graph LR;
     subgraph parsersGraph ["Parsers"]
         readResolutionFromChartData["ReadResolutionFromChartData()"]
         readTempoChangesFromChartData["ReadTempoChangesFromChartData()"]
-        readTimeSignaturesChangesFromChartData["ReadTimeSignaturesChangesFromChartData()"]
+        readTimeSignatureChangesFromChartData["ReadTimeSignatureChangesFromChartData()"]
         readNotesFromChartData["ReadNotesFromChartData()"]
 
         chart_file-->readResolutionFromChartData
         chart_file-->readTempoChangesFromChartData
-        chart_file-->readTimeSignaturesChangesFromChartData
+        chart_file-->readTimeSignatureChangesFromChartData
         chart_file-->readNotesFromChartData
 
         readResolutionFromMidiData["ReadResolutionFromMidiData()"]
         readTempoChangesFromMidiData["ReadTempoChangesFromMidiData()"]
-        readTimeSignaturesChangesFromMidiData["ReadTimeSignaturesChangesFromMidiData()"]
+        readTimeSignatureChangesFromMidiData["ReadTimeSignatureChangesFromMidiData()"]
         readNotesFromMidiData["ReadNotesFromMidiData()"]
 
         midi_file-->readResolutionFromMidiData
         midi_file-->readTempoChangesFromMidiData
-        midi_file-->readTimeSignaturesChangesFromMidiData
+        midi_file-->readTimeSignatureChangesFromMidiData
         midi_file-->readNotesFromMidiData
     end
 
@@ -1258,9 +1258,9 @@ graph LR;
     readTempoChangesFromMidiData-->calculateBeatBars
     readTempoChangesFromMidiData-->convertSecondsToTicks
 
-    readTimeSignaturesChangesFromChartData-->convertSecondsToTicks
+    readTimeSignatureChangesFromChartData-->convertSecondsToTicks
 
-    readTimeSignaturesChangesFromMidiData-->convertSecondsToTicks
+    readTimeSignatureChangesFromMidiData-->convertSecondsToTicks
 
     readNotesFromChartData-->calculateAccuracyRatio
 
