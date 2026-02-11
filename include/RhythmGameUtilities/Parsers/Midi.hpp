@@ -207,6 +207,10 @@ inline auto ReadTempoChangesFromMidiData(const std::vector<uint8_t> &data)
         tempoChanges.push_back({0, 120000});
     }
 
+    std::sort(tempoChanges.begin(), tempoChanges.end(),
+              [](const Tempo &a, const Tempo &b)
+              { return a.Position < b.Position; });
+
     return tempoChanges;
 }
 
@@ -233,6 +237,10 @@ ReadTimeSignatureChangesFromMidiData(const std::vector<uint8_t> &data)
             }
         });
 
+    std::sort(timeSignatureChanges.begin(), timeSignatureChanges.end(),
+              [](const TimeSignature &a, const TimeSignature &b)
+              { return a.Position < b.Position; });
+
     return timeSignatureChanges;
 }
 
@@ -255,6 +263,17 @@ inline auto ReadNotesFromMidiData(const std::vector<uint8_t> &data)
                                  Note{static_cast<int>(tick), noteValue});
                          }
                      });
+
+    std::sort(notes.begin(), notes.end(),
+              [](const Note &a, const Note &b)
+              {
+                  if (a.Position != b.Position)
+                  {
+                      return a.Position < b.Position;
+                  }
+
+                  return a.HandPosition < b.HandPosition;
+              });
 
     return notes;
 }

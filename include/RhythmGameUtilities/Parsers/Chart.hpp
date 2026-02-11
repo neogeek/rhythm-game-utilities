@@ -133,6 +133,10 @@ inline auto ReadTempoChangesFromChartData(const char *contents)
         }
     }
 
+    std::sort(tempoChanges.begin(), tempoChanges.end(),
+              [](const Tempo &a, const Tempo &b)
+              { return a.Position < b.Position; });
+
     return tempoChanges;
 }
 
@@ -158,6 +162,10 @@ inline auto ReadTimeSignatureChangesFromChartData(const char *contents)
         }
     }
 
+    std::sort(timeSignatureChanges.begin(), timeSignatureChanges.end(),
+              [](const TimeSignature &a, const TimeSignature &b)
+              { return a.Position < b.Position; });
+
     return timeSignatureChanges;
 }
 
@@ -179,6 +187,17 @@ inline auto ReadNotesFromChartData(const char *contents, Difficulty difficulty)
                              std::stoi(line.second.at(2))});
         }
     }
+
+    std::sort(notes.begin(), notes.end(),
+              [](const Note &a, const Note &b)
+              {
+                  if (a.Position != b.Position)
+                  {
+                      return a.Position < b.Position;
+                  }
+
+                  return a.HandPosition < b.HandPosition;
+              });
 
     return notes;
 }
