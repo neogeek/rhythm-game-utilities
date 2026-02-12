@@ -115,17 +115,7 @@ namespace RhythmGameUtilities
                 includeHalfNotes,
                 out var size);
 
-            var beatBarSize = Marshal.SizeOf(typeof(BeatBar));
-
-            var beatBars = new BeatBar[size];
-
-            for (var i = 0; i < size; i += 1)
-            {
-                var beatBarSizePtr = new IntPtr(ptrArray.ToInt64() + beatBarSize * i);
-                var beatBar = Marshal.PtrToStructure<BeatBar>(beatBarSizePtr);
-
-                beatBars[i] = beatBar;
-            }
+            var beatBars = InternalUtilities.CaptureArrayFromInternalMethod<BeatBar>(ptrArray, size);
 
             Marshal.FreeHGlobal(ptrArray);
 
