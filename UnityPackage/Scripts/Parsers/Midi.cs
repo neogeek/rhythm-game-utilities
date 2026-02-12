@@ -70,44 +70,24 @@ namespace RhythmGameUtilities
 
         public static Tempo[] ReadTempoChangesFromMidiData(byte[] bytes)
         {
-            var tempoChanges = new List<Tempo>();
-
             var ptrArray = MidiInternal.ReadTempoChangesFromMidiDataInternal(bytes, bytes.Length, out var size);
 
-            var tempoSize = Marshal.SizeOf(typeof(Tempo));
-
-            for (var i = 0; i < size; i += 1)
-            {
-                var noteSizePtr = new IntPtr(ptrArray.ToInt64() + tempoSize * i);
-                var tempoChange = Marshal.PtrToStructure<Tempo>(noteSizePtr);
-
-                tempoChanges.Add(tempoChange);
-            }
+            var tempoChanges = InternalUtilities.CaptureArrayFromInternalMethod<Tempo>(ptrArray, size);
 
             MidiInternal.FreeTempoChanges(ptrArray);
 
-            return tempoChanges.ToArray();
+            return tempoChanges;
         }
 
         public static TimeSignature[] ReadTimeSignatureChangesFromMidiData(byte[] bytes)
         {
-            var timeSignatureChanges = new List<TimeSignature>();
-
             var ptrArray = MidiInternal.ReadTimeSignatureChangesFromMidiDataInternal(bytes, bytes.Length, out var size);
 
-            var timeSignatureSize = Marshal.SizeOf(typeof(TimeSignature));
-
-            for (var i = 0; i < size; i += 1)
-            {
-                var noteSizePtr = new IntPtr(ptrArray.ToInt64() + timeSignatureSize * i);
-                var note = Marshal.PtrToStructure<TimeSignature>(noteSizePtr);
-
-                timeSignatureChanges.Add(note);
-            }
+            var timeSignatureChanges = InternalUtilities.CaptureArrayFromInternalMethod<TimeSignature>(ptrArray, size);
 
             MidiInternal.FreeTimeSignatureChanges(ptrArray);
 
-            return timeSignatureChanges.ToArray();
+            return timeSignatureChanges;
         }
 
         public static Note[] ReadNotesFromMidiData(byte[] bytes)

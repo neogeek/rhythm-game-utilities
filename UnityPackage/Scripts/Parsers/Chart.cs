@@ -69,66 +69,36 @@ namespace RhythmGameUtilities
 
         public static Tempo[] ReadTempoChangesFromChartData(string contents)
         {
-            var tempoChanges = new List<Tempo>();
-
             var ptrArray = ChartInternal.ReadTempoChangesFromChartDataInternal(contents, out var size);
 
-            var tempoSize = Marshal.SizeOf(typeof(Tempo));
-
-            for (var i = 0; i < size; i += 1)
-            {
-                var noteSizePtr = new IntPtr(ptrArray.ToInt64() + tempoSize * i);
-                var tempoChange = Marshal.PtrToStructure<Tempo>(noteSizePtr);
-
-                tempoChanges.Add(tempoChange);
-            }
+            var tempoChanges = InternalUtilities.CaptureArrayFromInternalMethod<Tempo>(ptrArray, size);
 
             ChartInternal.FreeTempoChanges(ptrArray);
 
-            return tempoChanges.ToArray();
+            return tempoChanges;
         }
 
         public static TimeSignature[] ReadTimeSignatureChangesFromChartData(string contents)
         {
-            var timeSignatureChanges = new List<TimeSignature>();
-
             var ptrArray =
                 ChartInternal.ReadTimeSignatureChangesFromChartDataInternal(contents, out var size);
 
-            var timeSignatureSize = Marshal.SizeOf(typeof(TimeSignature));
-
-            for (var i = 0; i < size; i += 1)
-            {
-                var noteSizePtr = new IntPtr(ptrArray.ToInt64() + timeSignatureSize * i);
-                var note = Marshal.PtrToStructure<TimeSignature>(noteSizePtr);
-
-                timeSignatureChanges.Add(note);
-            }
+            var timeSignatureChanges = InternalUtilities.CaptureArrayFromInternalMethod<TimeSignature>(ptrArray, size);
 
             ChartInternal.FreeTimeSignatureChanges(ptrArray);
 
-            return timeSignatureChanges.ToArray();
+            return timeSignatureChanges;
         }
 
         public static Note[] ReadNotesFromChartData(string contents, Difficulty difficulty)
         {
-            var notes = new List<Note>();
-
             var ptrArray = ChartInternal.ReadNotesFromChartDataInternal(contents, difficulty, out var size);
 
-            var noteSize = Marshal.SizeOf(typeof(Note));
-
-            for (var i = 0; i < size; i += 1)
-            {
-                var noteSizePtr = new IntPtr(ptrArray.ToInt64() + noteSize * i);
-                var note = Marshal.PtrToStructure<Note>(noteSizePtr);
-
-                notes.Add(note);
-            }
+            var notes = InternalUtilities.CaptureArrayFromInternalMethod<Note>(ptrArray, size);
 
             ChartInternal.FreeNotes(ptrArray);
 
-            return notes.ToArray();
+            return notes;
         }
 
     }
