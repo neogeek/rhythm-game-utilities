@@ -92,23 +92,13 @@ namespace RhythmGameUtilities
 
         public static Note[] ReadNotesFromMidiData(byte[] bytes)
         {
-            var notes = new List<Note>();
-
             var ptrArray = MidiInternal.ReadNotesFromMidiDataInternal(bytes, bytes.Length, out var size);
 
-            var noteSize = Marshal.SizeOf(typeof(Note));
-
-            for (var i = 0; i < size; i += 1)
-            {
-                var noteSizePtr = new IntPtr(ptrArray.ToInt64() + noteSize * i);
-                var note = Marshal.PtrToStructure<Note>(noteSizePtr);
-
-                notes.Add(note);
-            }
+            var notes = InternalUtilities.CaptureArrayFromInternalMethod<Note>(ptrArray, size);
 
             MidiInternal.FreeNotes(ptrArray);
 
-            return notes.ToArray();
+            return notes;
         }
 
     }
