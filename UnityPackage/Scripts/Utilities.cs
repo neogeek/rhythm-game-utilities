@@ -117,7 +117,7 @@ namespace RhythmGameUtilities
 
             var beatBars = InternalUtilities.CaptureArrayFromInternalMethod<BeatBar>(ptrArray, size);
 
-            Marshal.FreeHGlobal(ptrArray);
+            InternalUtilities.FreeBeatBars(ptrArray);
 
             return beatBars;
         }

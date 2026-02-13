@@ -26,13 +26,6 @@ namespace RhythmGameUtilities
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
-        public static extern void FreeTempoChanges(IntPtr tempoChanges);
-
-#if UNITY_WEBGL && !UNITY_EDITOR
-        [DllImport("__Internal")]
-#else
-        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-#endif
         public static extern IntPtr ReadTimeSignatureChangesFromMidiDataInternal(byte[] bytes, int dataSize,
             out int size);
 
@@ -41,21 +34,7 @@ namespace RhythmGameUtilities
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
-        public static extern void FreeTimeSignatureChanges(IntPtr timeSignatureChanges);
-
-#if UNITY_WEBGL && !UNITY_EDITOR
-        [DllImport("__Internal")]
-#else
-        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-#endif
         public static extern IntPtr ReadNotesFromMidiDataInternal(byte[] bytes, int dataSize, out int size);
-
-#if UNITY_WEBGL && !UNITY_EDITOR
-        [DllImport("__Internal")]
-#else
-        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-#endif
-        public static extern void FreeNotes(IntPtr notes);
 
     }
 
@@ -73,7 +52,7 @@ namespace RhythmGameUtilities
 
             var tempoChanges = InternalUtilities.CaptureArrayFromInternalMethod<Tempo>(ptrArray, size);
 
-            MidiInternal.FreeTempoChanges(ptrArray);
+            InternalUtilities.FreeTempoChanges(ptrArray);
 
             return tempoChanges;
         }
@@ -84,7 +63,7 @@ namespace RhythmGameUtilities
 
             var timeSignatureChanges = InternalUtilities.CaptureArrayFromInternalMethod<TimeSignature>(ptrArray, size);
 
-            MidiInternal.FreeTimeSignatureChanges(ptrArray);
+            InternalUtilities.FreeTimeSignatureChanges(ptrArray);
 
             return timeSignatureChanges;
         }
@@ -95,7 +74,7 @@ namespace RhythmGameUtilities
 
             var notes = InternalUtilities.CaptureArrayFromInternalMethod<Note>(ptrArray, size);
 
-            MidiInternal.FreeNotes(ptrArray);
+            InternalUtilities.FreeNotes(ptrArray);
 
             return notes;
         }
