@@ -54,6 +54,16 @@ namespace RhythmGameUtilities
             int ts,
             bool includeHalfNotes, out int size);
 
+#if UNITY_WEBGL && !UNITY_EDITOR
+        [DllImport("__Internal")]
+#else
+        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
+#endif
+        public static extern IntPtr FindPositionsNearGivenTickInternal(Note[] notes, int notesSize,
+            int tick,
+            int delta,
+            out int size);
+
     }
 
     public static class Utilities
@@ -122,32 +132,17 @@ namespace RhythmGameUtilities
             return beatBars;
         }
 
-        public static Note? FindPositionNearGivenTick(Note[] notes, int tick, int delta = 50)
+        public static Note[] FindPositionsNearGivenTick(Note[] notes, int tick, int delta = 50)
         {
-            var left = 0;
-            var right = notes.Length - 1;
+            var ptrArray = UtilitiesInternal.FindPositionsNearGivenTickInternal(notes, notes.Length, tick,
+                delta,
+                out var size);
 
-            while (left <= right)
-            {
-                var mid = (left + right) / 2;
+            var foundPositions = InternalUtilities.CaptureArrayFromInternalMethod<Note>(ptrArray, size);
 
-                var currentPosition = notes[mid].Position;
+            InternalUtilities.FreeNotes(ptrArray);
 
-                if (currentPosition + delta < tick)
-                {
-                    left = mid + 1;
-                }
-                else if (currentPosition - delta > tick)
-                {
-                    right = mid - 1;
-                }
-                else
-                {
-                    return notes[mid];
-                }
-            }
-
-            return null;
+            return foundPositions;
         }
 
         /// <summary>

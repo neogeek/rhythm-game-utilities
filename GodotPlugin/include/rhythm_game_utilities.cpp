@@ -97,8 +97,8 @@ void rhythm_game_utilities::_bind_methods()
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
-        D_METHOD("find_position_near_given_tick", "notes", "tick", "delta"),
-        &rhythm_game_utilities::find_position_near_given_tick);
+        D_METHOD("find_positions_near_given_tick", "notes", "tick", "delta"),
+        &rhythm_game_utilities::find_positions_near_given_tick);
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
@@ -431,9 +431,9 @@ auto rhythm_game_utilities::convert_tick_to_position(int tick, int resolution)
     return RhythmGameUtilities::ConvertTickToPosition(tick, resolution);
 }
 
-auto rhythm_game_utilities::find_position_near_given_tick(Array notes, int tick,
-                                                          int delta)
-    -> Dictionary
+auto rhythm_game_utilities::find_positions_near_given_tick(Array notes,
+                                                           int tick, int delta)
+    -> Array
 {
     std::vector<RhythmGameUtilities::Note> notes_internal;
     notes_internal.reserve(notes.size());
@@ -454,19 +454,25 @@ auto rhythm_game_utilities::find_position_near_given_tick(Array notes, int tick,
         notes_internal.push_back(note_internal);
     }
 
-    auto note_internal = RhythmGameUtilities::FindPositionNearGivenTick(
-        notes_internal, tick, delta);
+    auto matched_notes_internal =
+        RhythmGameUtilities::FindPositionsNearGivenTick(notes_internal, tick,
+                                                        delta);
 
-    Dictionary note;
+    Array matched_notes_dictionary_array;
 
-    if (note_internal)
+    for (const auto &matched_note_internal : matched_notes_internal)
     {
-        note["position"] = note_internal->Position;
-        note["hand_position"] = note_internal->HandPosition;
-        note["length"] = note_internal->Length;
+        Dictionary matched_note_dictionary;
+
+        matched_note_dictionary["position"] = matched_note_internal.Position;
+        matched_note_dictionary["hand_position"] =
+            matched_note_internal.HandPosition;
+        matched_note_dictionary["length"] = matched_note_internal.Length;
+
+        matched_notes_dictionary_array.append(matched_note_dictionary);
     }
 
-    return note;
+    return matched_notes_dictionary_array;
 }
 
 auto rhythm_game_utilities::is_on_the_beat(int bpm, float current_time,

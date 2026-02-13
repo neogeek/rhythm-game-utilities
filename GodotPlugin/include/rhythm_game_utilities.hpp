@@ -71,8 +71,8 @@ class rhythm_game_utilities : public Object
 
     static auto convert_tick_to_position(int tick, int resolution) -> float;
 
-    static auto find_position_near_given_tick(Array notes, int tick,
-                                              int delta = 50) -> Dictionary;
+    static auto find_positions_near_given_tick(Array notes, int tick,
+                                               int delta = 50) -> Array;
 
     static auto is_on_the_beat(int bpm, float current_time, float delta = 0.05F)
         -> bool;

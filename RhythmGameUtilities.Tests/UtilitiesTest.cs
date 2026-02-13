@@ -93,7 +93,7 @@ namespace RhythmGameUtilities.Tests
         }
 
         [Test]
-        public void TestFindPositionNearGivenTick()
+        public void TestFindPositionsNearGivenTick()
         {
             var notes = new Note[]
             {
@@ -103,18 +103,18 @@ namespace RhythmGameUtilities.Tests
                 new() { Position = 3072 }, new() { Position = 3264 }
             };
 
-            var note = Utilities.FindPositionNearGivenTick(notes, 750);
+            var note = Utilities.FindPositionsNearGivenTick(notes, 750);
 
             if (note != null)
             {
-                Console.Write(note.Value.Position); // 768
+                Console.Write(note[0].Position); // 768
             }
 
             Assert.That(note, Is.Not.Null);
         }
 
         [Test]
-        public void TestFindPositionNearGivenTickContinued()
+        public void TestFindPositionsNearGivenTickContinued()
         {
             var notes = new Note[]
             {
@@ -124,10 +124,10 @@ namespace RhythmGameUtilities.Tests
                 new() { Position = 3072 }, new() { Position = 3264 }
             };
 
-            Assert.That(Utilities.FindPositionNearGivenTick(notes, 100), Is.Null);
-            Assert.That(Utilities.FindPositionNearGivenTick(notes, 750), Is.Not.Null);
-            Assert.That(Utilities.FindPositionNearGivenTick(notes, 1500), Is.Not.Null);
-            Assert.That(Utilities.FindPositionNearGivenTick(notes, 3200), Is.Null);
+            Assert.That(Utilities.FindPositionsNearGivenTick(notes, 100), Is.Empty);
+            Assert.That(Utilities.FindPositionsNearGivenTick(notes, 750), Is.Not.Empty);
+            Assert.That(Utilities.FindPositionsNearGivenTick(notes, 1500), Is.Not.Empty);
+            Assert.That(Utilities.FindPositionsNearGivenTick(notes, 3200), Is.Empty);
         }
 
         [Test]
