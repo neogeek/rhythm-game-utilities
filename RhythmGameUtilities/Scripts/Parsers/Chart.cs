@@ -26,13 +26,6 @@ namespace RhythmGameUtilities
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
-        public static extern void FreeTempoChanges(IntPtr tempoChanges);
-
-#if UNITY_WEBGL && !UNITY_EDITOR
-        [DllImport("__Internal")]
-#else
-        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-#endif
         public static extern IntPtr ReadTimeSignatureChangesFromChartDataInternal(string contents, out int _);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
@@ -40,21 +33,7 @@ namespace RhythmGameUtilities
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
-        public static extern void FreeTimeSignatureChanges(IntPtr tempoChanges);
-
-#if UNITY_WEBGL && !UNITY_EDITOR
-        [DllImport("__Internal")]
-#else
-        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-#endif
         public static extern IntPtr ReadNotesFromChartDataInternal(string contents, Difficulty difficulty, out int _);
-
-#if UNITY_WEBGL && !UNITY_EDITOR
-        [DllImport("__Internal")]
-#else
-        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
-#endif
-        public static extern void FreeNotes(IntPtr tempoChanges);
 
     }
 
@@ -72,7 +51,7 @@ namespace RhythmGameUtilities
 
             var tempoChanges = InternalUtilities.CaptureArrayFromInternalMethod<Tempo>(ptrArray, size);
 
-            ChartInternal.FreeTempoChanges(ptrArray);
+            InternalUtilities.FreeTempoChanges(ptrArray);
 
             return tempoChanges;
         }
@@ -84,7 +63,7 @@ namespace RhythmGameUtilities
 
             var timeSignatureChanges = InternalUtilities.CaptureArrayFromInternalMethod<TimeSignature>(ptrArray, size);
 
-            ChartInternal.FreeTimeSignatureChanges(ptrArray);
+            InternalUtilities.FreeTimeSignatureChanges(ptrArray);
 
             return timeSignatureChanges;
         }
@@ -95,7 +74,7 @@ namespace RhythmGameUtilities
 
             var notes = InternalUtilities.CaptureArrayFromInternalMethod<Note>(ptrArray, size);
 
-            ChartInternal.FreeNotes(ptrArray);
+            InternalUtilities.FreeNotes(ptrArray);
 
             return notes;
         }
