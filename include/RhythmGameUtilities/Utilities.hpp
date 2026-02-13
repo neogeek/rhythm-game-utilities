@@ -3,7 +3,6 @@
 #include <climits>
 #include <cmath>
 #include <map>
-#include <optional>
 #include <vector>
 
 #include "Structs/BeatBar.hpp"
@@ -168,11 +167,15 @@ inline auto CalculateBeatBars(const std::vector<Tempo> &tempoChanges,
     return beatBars;
 }
 
-inline auto FindPositionNearGivenTick(const std::vector<Note> &notes, int tick,
-                                      int delta = 50) -> std::optional<Note>
+inline auto FindPositionsNearGivenTick(const std::vector<Note> &notes, int tick,
+                                       int delta = 50) -> std::vector<Note>
 {
+    std::vector<Note> foundPositions;
+
+    auto length = static_cast<int>(notes.size());
+
     auto left = 0;
-    auto right = static_cast<int>(notes.size()) - 1;
+    auto right = length - 1;
 
     while (left <= right)
     {
@@ -190,11 +193,23 @@ inline auto FindPositionNearGivenTick(const std::vector<Note> &notes, int tick,
         }
         else
         {
-            return notes[mid];
+            while (left >= 0 && notes[left].Position + delta >= tick)
+            {
+                foundPositions.emplace_back(notes[left]);
+                left -= 1;
+            }
+
+            while (right < length && notes[right].Position - delta <= tick)
+            {
+                foundPositions.emplace_back(notes[right]);
+                right += 1;
+            }
+
+            break;
         }
     }
 
-    return std::nullopt;
+    return foundPositions;
 }
 
 /**

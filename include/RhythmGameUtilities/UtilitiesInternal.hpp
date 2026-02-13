@@ -66,6 +66,34 @@ extern "C"
         return beatBars;
     }
 
+    PACKAGE_API auto FindPositionsNearGivenTickInternal(Note *notes,
+                                                        int noteSize, int tick,
+                                                        int delta, int *outSize)
+        -> Note *
+    {
+        std::vector<Note> notesVector;
+
+        for (auto i = 0; i < noteSize; i += 1)
+        {
+            notesVector.push_back(notes[i]);
+        }
+
+        auto internalPositions =
+            FindPositionsNearGivenTick(notesVector, tick, delta);
+
+        *outSize = internalPositions.size();
+
+        auto *foundPositions =
+            (Note *)malloc(internalPositions.size() * sizeof(Note));
+
+        for (auto i = 0; i < internalPositions.size(); i += 1)
+        {
+            foundPositions[i] = internalPositions[i];
+        }
+
+        return foundPositions;
+    }
+
     PACKAGE_API auto ConvertTickToPositionInternal(int tick, int resolution)
         -> float
     {
