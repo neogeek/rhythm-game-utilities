@@ -2,9 +2,9 @@
 
 #include <cstdlib>
 
-#include "../Structs/Note.hpp"
-#include "../Structs/Tempo.hpp"
-#include "../Structs/TimeSignature.hpp"
+#include "./Note.hpp"
+#include "./Tempo.hpp"
+#include "./TimeSignature.hpp"
 
 #ifdef _WIN32
 #define PACKAGE_API __declspec(dllexport)
