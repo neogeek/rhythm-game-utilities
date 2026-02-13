@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 
+#include "./BeatBar.hpp"
 #include "./Note.hpp"
 #include "./Tempo.hpp"
 #include "./TimeSignature.hpp"
@@ -17,6 +18,8 @@ namespace RhythmGameUtilities
 
 extern "C"
 {
+    PACKAGE_API void FreeBeatBars(BeatBar *beatBars) { free(beatBars); }
+
     PACKAGE_API void FreeTempoChanges(Tempo *tempoChanges)
     {
         free(tempoChanges);
