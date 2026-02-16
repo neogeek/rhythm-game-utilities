@@ -36,6 +36,7 @@ _Prototype game built using these utilities._
   1. [Audio](#audio)
      1. [ConvertSamplesToWaveform](#audioconvertsamplestowaveform)
   1. [Common](#common)
+     1. [InverseLerpUnclamped](#commoninverselerpunclamped)
      1. [InverseLerp](#commoninverselerp)
      1. [Lerp](#commonlerp)
   1. [Parsers](#parsers)
@@ -226,6 +227,51 @@ func _ready() -> void:
 	var value = rhythm_game_utilities.inverse_lerp(0, 10, 5)
 
 	print(value) # 0.5
+```
+
+#### `Common.InverseLerpUnclamped`
+
+> Languages: `C#` `C++` `GDScript`
+
+##### C#
+
+```csharp
+using System;
+using RhythmGameUtilities;
+
+var value = Common.InverseLerpUnclamped(0, 10, 11);
+
+Console.WriteLine(value); // 1.1
+```
+
+##### C++
+
+```cpp
+#include <iostream>
+
+#include "RhythmGameUtilities/Common.hpp"
+
+using namespace RhythmGameUtilities;
+
+int main()
+{
+    auto value = InverseLerpUnclamped(0, 10, 11);
+
+    std::cout << value << std::endl; // 1.1
+
+    return 0;
+}
+```
+
+##### GDScript
+
+```gdscript
+extends Node
+
+func _ready() -> void:
+	var value = rhythm_game_utilities.inverse_lerp_unclamped(0, 10, 11)
+
+	print(value) # 1.1
 ```
 
 #### `Common.Lerp`

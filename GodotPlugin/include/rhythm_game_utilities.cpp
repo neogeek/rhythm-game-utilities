@@ -19,6 +19,11 @@ void rhythm_game_utilities::_bind_methods()
 
     // Common
 
+    ClassDB::bind_static_method(
+        "rhythm_game_utilities",
+        D_METHOD("inverse_lerp_unclamped", "a", "b", "v"),
+        &rhythm_game_utilities::inverse_lerp_unclamped);
+
     ClassDB::bind_static_method("rhythm_game_utilities",
                                 D_METHOD("inverse_lerp", "a", "b", "v"),
                                 &rhythm_game_utilities::inverse_lerp);
@@ -112,6 +117,12 @@ void rhythm_game_utilities::_bind_methods()
 }
 
 // Common
+
+auto rhythm_game_utilities::inverse_lerp_unclamped(float a, float b, float v)
+    -> float
+{
+    return RhythmGameUtilities::InverseLerpUnclamped(a, b, v);
+}
 
 auto rhythm_game_utilities::inverse_lerp(float a, float b, float v) -> float
 {

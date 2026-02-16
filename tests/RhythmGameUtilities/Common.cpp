@@ -6,6 +6,15 @@
 
 using namespace RhythmGameUtilities;
 
+void testInverseLerpUnclamped()
+{
+    auto value = InverseLerpUnclamped(0, 10, 11);
+
+    assert(abs(1.1 - value) < 0.01);
+
+    std::cout << ".";
+}
+
 void testInverseLerp()
 {
     auto value = InverseLerp(0, 10, 5);
@@ -66,6 +75,7 @@ void testFindMatchGroups()
 
 auto main() -> int
 {
+    testInverseLerpUnclamped();
     testInverseLerp();
     testLerp();
     testTrim();

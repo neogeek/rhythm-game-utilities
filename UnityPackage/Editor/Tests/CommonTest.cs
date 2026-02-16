@@ -7,6 +7,20 @@ namespace RhythmGameUtilities.Tests
     {
 
         [Test]
+        public void TestInverseUnclampedLerp()
+        {
+            var value = Common.InverseLerpUnclamped(0, 10, 11);
+
+            Assert.That(value, Is.EqualTo(1.1f));
+        }
+
+        [Test]
+        public void TestInverseLerpUnclampedContinued()
+        {
+            Assert.That(Common.InverseLerpUnclamped(0, 10, -1), Is.EqualTo(-0.1f));
+        }
+
+        [Test]
         public void TestInverseLerp()
         {
             var value = Common.InverseLerp(0, 10, 5);
