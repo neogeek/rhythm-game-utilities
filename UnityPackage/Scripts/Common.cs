@@ -18,6 +18,13 @@ namespace RhythmGameUtilities
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
+        public static extern float InverseLerpUnclamped(float a, float b, float v);
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        [DllImport("__Internal")]
+#else
+        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern float InverseLerp(float a, float b, float v);
 
     }
@@ -34,6 +41,18 @@ namespace RhythmGameUtilities
         public static float Lerp(float a, float b, float t)
         {
             return CommonInternal.Lerp(a, b, t);
+        }
+
+        /// <summary>
+        ///     Calculates the fraction, based on a value between two values
+        ///     without clamping between 0 and 1.
+        /// </summary>
+        /// <param name="a">The start value.</param>
+        /// <param name="b">The end value.</param>
+        /// <param name="v">The value in the middle.</param>
+        public static float InverseLerpUnclamped(float a, float b, float v)
+        {
+            return CommonInternal.InverseLerpUnclamped(a, b, v);
         }
 
         /// <summary>

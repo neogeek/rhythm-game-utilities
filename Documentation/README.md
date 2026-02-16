@@ -36,6 +36,7 @@ _Prototype game built using these utilities._
   1. [Audio](#audio)
      1. [ConvertSamplesToWaveform](#audioconvertsamplestowaveform)
   1. [Common](#common)
+     1. [InverseLerpUnclamped](#commoninverselerpunclamped)
      1. [InverseLerp](#commoninverselerp)
      1. [Lerp](#commonlerp)
   1. [Parsers](#parsers)

@@ -39,6 +39,21 @@ extern "C"
     }
 
     /**
+     * Calculates the fraction, based on a value between two values without
+     * clamping between 0 and 1.
+     *
+     * @param a The start value.
+     * @param b The end value.
+     * @param v The value in the middle.
+     * @public
+     */
+
+    PACKAGE_API auto InverseLerpUnclamped(float a, float b, float v) -> float
+    {
+        return (v - a) / (b - a);
+    }
+
+    /**
      * Calculates the fraction, based on a value between two values.
      *
      * @param a The start value.
@@ -49,7 +64,7 @@ extern "C"
 
     PACKAGE_API auto InverseLerp(float a, float b, float v) -> float
     {
-        return std::clamp((v - a) / (b - a), 0.0F, 1.0F);
+        return std::clamp(InverseLerpUnclamped(a, b, v), 0.0F, 1.0F);
     }
 }
 

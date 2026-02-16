@@ -28,6 +28,8 @@ class rhythm_game_utilities : public Object
 
     // Common
 
+    static auto inverse_lerp_unclamped(float a, float b, float v) -> float;
+
     static auto inverse_lerp(float a, float b, float v) -> float;
 
     static auto lerp(float a, float b, float t) -> float;
