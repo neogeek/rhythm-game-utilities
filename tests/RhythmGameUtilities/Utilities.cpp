@@ -98,11 +98,11 @@ void testFindPositionsNearGivenTick()
                                {2304, 0, 0}, {2496, 0, 0}, {2688, 0, 0},
                                {3072, 0, 0}, {3264, 0, 0}};
 
-    auto matchedNotes = FindPositionsNearGivenTick(notes, 750);
+    auto foundPositions = FindPositionsNearGivenTick(notes, 750);
 
-    assert(1 == size(matchedNotes));
+    assert(1 == size(foundPositions));
 
-    assert(768 == matchedNotes[0].Position);
+    assert(768 == foundPositions[0].Position);
 
     assert(0 == size(FindPositionsNearGivenTick(notes, 100)));
     assert(768 == FindPositionsNearGivenTick(notes, 750)[0].Position);

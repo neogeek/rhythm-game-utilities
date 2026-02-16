@@ -103,14 +103,14 @@ namespace RhythmGameUtilities.Tests
                 new() { Position = 3072 }, new() { Position = 3264 }
             };
 
-            var note = Utilities.FindPositionsNearGivenTick(notes, 750);
+            var foundPositions = Utilities.FindPositionsNearGivenTick(notes, 750);
 
-            if (note != null)
+            if (foundPositions != null)
             {
-                Console.Write(note[0].Position); // 768
+                Console.Write(foundPositions[0].Position); // 768
             }
 
-            Assert.That(note, Is.Not.Null);
+            Assert.That(foundPositions, Is.Not.Null);
         }
 
         [Test]
