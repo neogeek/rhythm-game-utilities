@@ -1,4 +1,3 @@
-using System;
 using NUnit.Framework;
 
 namespace RhythmGameUtilities.Tests
@@ -25,8 +24,6 @@ namespace RhythmGameUtilities.Tests
 
             var value = Utilities.CalculateAccuracyRatio(note.Position, currentPosition, positionDelta);
 
-            Console.WriteLine(value); // 0.64
-
             Assert.That(value, Is.EqualTo(0.64).Within(0.01));
         }
 
@@ -51,8 +48,6 @@ namespace RhythmGameUtilities.Tests
 
             var beatBars = Utilities.CalculateBeatBars(tempoChanges);
 
-            Console.WriteLine(beatBars.Length); // 440
-
             Assert.That(beatBars.Length, Is.EqualTo(440));
         }
 
@@ -74,8 +69,6 @@ namespace RhythmGameUtilities.Tests
 
             var ticks = Utilities.ConvertSecondsToTicks(seconds, resolution, tempoChanges, timeSignatureChanges);
 
-            Console.WriteLine(ticks); // 1408
-
             Assert.That(ticks, Is.EqualTo(1408));
         }
 
@@ -86,8 +79,6 @@ namespace RhythmGameUtilities.Tests
             const int resolution = 192;
 
             var position = Utilities.ConvertTickToPosition(tick, resolution);
-
-            Console.WriteLine(position); // 5.5
 
             Assert.That(position, Is.EqualTo(5.5f));
         }
@@ -105,12 +96,9 @@ namespace RhythmGameUtilities.Tests
 
             var foundPositions = Utilities.FindPositionsNearGivenTick(notes, 750);
 
-            if (foundPositions != null)
-            {
-                Console.Write(foundPositions[0].Position); // 768
-            }
+            Assert.That(foundPositions, Is.Not.Empty);
 
-            Assert.That(foundPositions, Is.Not.Null);
+            Assert.That(foundPositions[0].Position, Is.EqualTo(768));
         }
 
         [Test]
@@ -139,8 +127,6 @@ namespace RhythmGameUtilities.Tests
 
             var isOnTheBeat = Utilities.IsOnTheBeat(bpm, currentTime, delta);
 
-            Console.WriteLine(isOnTheBeat ? "Is on the beat!" : "Is not on the beat!"); // "Is on the beat!"
-
             Assert.That(isOnTheBeat, Is.True);
         }
 
@@ -156,8 +142,6 @@ namespace RhythmGameUtilities.Tests
         public void TestRoundUpToTheNearestMultiplier()
         {
             var value = Utilities.RoundUpToTheNearestMultiplier(12, 10);
-
-            Console.WriteLine(value); // 20
 
             Assert.That(value, Is.EqualTo(20));
         }

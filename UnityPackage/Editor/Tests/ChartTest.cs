@@ -20,8 +20,6 @@ namespace RhythmGameUtilities.Tests
         {
             var tempoChanges = Chart.ReadTempoChangesFromChartData(Mocks.SONG_CHART);
 
-            Console.WriteLine(tempoChanges.Length);
-
             Assert.That(tempoChanges.Length, Is.EqualTo(7));
         }
 
