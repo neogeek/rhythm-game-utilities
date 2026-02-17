@@ -16,6 +16,7 @@ concurrency:
 jobs:
   canary-build-linux:
     runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
 
     steps:
       - name: Check out repository
@@ -29,6 +30,7 @@ jobs:
           g++ -std=c++17 -shared -fPIC -o build/libRhythmGameUtilities.so include/RhythmGameUtilities/RhythmGameUtilities.cpp
   canary-build-macos:
     runs-on: macos-latest
+    if: github.event.pull_request.draft == false
 
     steps:
       - name: Check out repository
@@ -45,6 +47,7 @@ jobs:
           lipo -info build/libRhythmGameUtilities.dylib
   canary-build-windows:
     runs-on: windows-latest
+    if: github.event.pull_request.draft == false
 
     steps:
       - name: Check out repository
