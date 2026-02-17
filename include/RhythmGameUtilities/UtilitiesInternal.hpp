@@ -102,32 +102,6 @@ extern "C"
 
         return foundPositions;
     }
-
-    PACKAGE_API auto ConvertTickToPositionInternal(int tick, int resolution)
-        -> float
-    {
-        return ConvertTickToPosition(tick, resolution);
-    }
-
-    PACKAGE_API auto IsOnTheBeatInternal(int bpm, float currentTime,
-                                         float delta = 0.05F) -> bool
-    {
-        return IsOnTheBeat(bpm, currentTime, delta);
-    }
-
-    PACKAGE_API auto RoundUpToTheNearestMultiplierInternal(int value,
-                                                           int multiplier)
-        -> int
-    {
-        return RoundUpToTheNearestMultiplier(value, multiplier);
-    }
-
-    PACKAGE_API auto CalculateAccuracyRatioInternal(int position,
-                                                    int currentPosition,
-                                                    int delta = 50) -> float
-    {
-        return CalculateAccuracyRatio(position, currentPosition, delta);
-    }
 }
 
 } // namespace RhythmGameUtilities

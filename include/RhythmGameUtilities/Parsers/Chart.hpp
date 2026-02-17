@@ -25,6 +25,12 @@
 
 #include "../Common.hpp"
 
+#ifdef _WIN32
+#define PACKAGE_API __declspec(dllexport)
+#else
+#define PACKAGE_API
+#endif
+
 namespace RhythmGameUtilities
 {
 
@@ -100,27 +106,31 @@ inline auto ParseSectionsFromChart(const char *contents)
     return sections;
 }
 
-inline auto ReadResolutionFromChartData(const char *contents) -> uint16_t
+extern "C"
 {
-    auto sections = ParseSectionsFromChart(contents);
-
-    auto section = sections.at(ToString(NamedSection::Song));
-
-    auto data = std::map<std::string, std::string>();
-
-    for (const auto &line : section)
+    PACKAGE_API auto ReadResolutionFromChartData(const char *contents)
+        -> uint16_t
     {
-        std::string key = line.first;
-        std::transform(key.begin(), key.end(), key.begin(),
-                       [](unsigned char c) { return std::tolower(c); });
+        auto sections = ParseSectionsFromChart(contents);
 
-        if (key == "resolution")
+        auto section = sections.at(ToString(NamedSection::Song));
+
+        auto data = std::map<std::string, std::string>();
+
+        for (const auto &line : section)
         {
-            return std::stoi(line.second.front());
-        }
-    }
+            std::string key = line.first;
+            std::transform(key.begin(), key.end(), key.begin(),
+                           [](unsigned char c) { return std::tolower(c); });
 
-    return 0;
+            if (key == "resolution")
+            {
+                return std::stoi(line.second.front());
+            }
+        }
+
+        return 0;
+    }
 }
 
 inline auto ReadTempoChangesFromChartData(const char *contents)

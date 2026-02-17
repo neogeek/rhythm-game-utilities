@@ -21,22 +21,31 @@
 
 #include "Common.hpp"
 
+#ifdef _WIN32
+#define PACKAGE_API __declspec(dllexport)
+#else
+#define PACKAGE_API
+#endif
+
 namespace RhythmGameUtilities
 {
 
 const float SECONDS_PER_MINUTE = 60.0F;
 
-/**
- * Calculate ticks per second.
- *
- * @param bpm The base BPM for a song.
- * @param resolution The resolution of the song.
- * @public
- */
-
-inline auto CalculateTicksPerSecond(int bpm, int resolution) -> float
+extern "C"
 {
-    return resolution * bpm / SECONDS_PER_MINUTE;
+    /**
+     * Calculate ticks per second.
+     *
+     * @param bpm The base BPM for a song.
+     * @param resolution The resolution of the song.
+     * @public
+     */
+
+    PACKAGE_API auto CalculateTicksPerSecond(int bpm, int resolution) -> float
+    {
+        return resolution * bpm / SECONDS_PER_MINUTE;
+    }
 }
 
 /**
@@ -221,67 +230,80 @@ inline auto FindPositionsNearGivenTick(const std::vector<Note> &notes, int tick,
     return foundPositions;
 }
 
-/**
- * Convert a tick to a 2D/3D position.
- *
- * @param tick The tick.
- * @param resolution The resolution of the song.
- * @public
- */
-
-inline auto ConvertTickToPosition(int tick, int resolution) -> float
+extern "C"
 {
-    return tick / static_cast<float>(resolution);
+    /**
+     * Convert a tick to a 2D/3D position.
+     *
+     * @param tick The tick.
+     * @param resolution The resolution of the song.
+     * @public
+     */
+
+    PACKAGE_API auto ConvertTickToPosition(int tick, int resolution) -> float
+    {
+        return tick / static_cast<float>(resolution);
+    }
+}
+extern "C"
+{
+    /**
+     * Checks to see if the current time of a game or audio file is on the beat.
+     *
+     * @param bpm The base BPM for a song.
+     * @param currentTime A timestamp to compare to the BPM.
+     * @param delta The plus/minus delta to test the current time against.
+     * @public
+     */
+
+    PACKAGE_API auto IsOnTheBeat(int bpm, float currentTime,
+                                 float delta = 0.05F) -> bool
+    {
+        const float beatsElapsed = currentTime * bpm / SECONDS_PER_MINUTE;
+
+        return std::abs(beatsElapsed - std::round(beatsElapsed)) < delta;
+    }
 }
 
-/**
- * Checks to see if the current time of a game or audio file is on the beat.
- *
- * @param bpm The base BPM for a song.
- * @param currentTime A timestamp to compare to the BPM.
- * @param delta The plus/minus delta to test the current time against.
- * @public
- */
-
-inline auto IsOnTheBeat(int bpm, float currentTime, float delta = 0.05F) -> bool
+extern "C"
 {
-    const float beatsElapsed = currentTime * bpm / SECONDS_PER_MINUTE;
+    /**
+     * Rounds a value up the nearest multiplier.
+     *
+     * @param value The value to round.
+     * @param multiplier The multiplier to round using.
+     * @public
+     */
 
-    return std::abs(beatsElapsed - std::round(beatsElapsed)) < delta;
+    PACKAGE_API auto RoundUpToTheNearestMultiplier(int value, int multiplier)
+        -> int
+    {
+        return static_cast<int>(
+            std::ceil(static_cast<float>(value) / multiplier) * multiplier);
+    }
 }
 
-/**
- * Rounds a value up the nearest multiplier.
- *
- * @param value The value to round.
- * @param multiplier The multiplier to round using.
- * @public
- */
-
-inline auto RoundUpToTheNearestMultiplier(int value, int multiplier) -> int
+extern "C"
 {
-    return static_cast<int>(std::ceil(static_cast<float>(value) / multiplier) *
-                            multiplier);
-}
+    /**
+     * Calculated the accuracy ratio of the current position against a static
+     * position.
+     *
+     * @param position The position to test against.
+     * @param currentPosition The current position.
+     * @param delta The plus/minus delta to test the current position against.
+     * @public
+     */
 
-/**
- * Calculated the accuracy ratio of the current position against a static
- * position.
- *
- * @param position The position to test against.
- * @param currentPosition The current position.
- * @param delta The plus/minus delta to test the current position against.
- * @public
- */
+    PACKAGE_API auto CalculateAccuracyRatio(int position, int currentPosition,
+                                            int delta = 50) -> float
+    {
+        auto diff = position - currentPosition;
 
-inline auto CalculateAccuracyRatio(int position, int currentPosition,
-                                   int delta = 50) -> float
-{
-    auto diff = position - currentPosition;
+        auto ratio = InverseLerp(delta, 0, std::abs(diff));
 
-    auto ratio = InverseLerp(delta, 0, std::abs(diff));
-
-    return ratio;
+        return ratio;
+    }
 }
 
 } // namespace RhythmGameUtilities
