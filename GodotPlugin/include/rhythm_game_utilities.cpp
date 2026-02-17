@@ -12,10 +12,22 @@ void rhythm_game_utilities::_bind_methods()
 {
     // Enums
 
+    BIND_ENUM_CONSTANT(Invalid);
+    BIND_ENUM_CONSTANT(Poor);
+    BIND_ENUM_CONSTANT(Fair);
+    BIND_ENUM_CONSTANT(Good);
+    BIND_ENUM_CONSTANT(Great);
+    BIND_ENUM_CONSTANT(Perfect);
+
     BIND_ENUM_CONSTANT(Easy);
     BIND_ENUM_CONSTANT(Medium);
     BIND_ENUM_CONSTANT(Hard);
     BIND_ENUM_CONSTANT(Expert);
+
+    BIND_ENUM_CONSTANT(Early);
+    BIND_ENUM_CONSTANT(Hit);
+    BIND_ENUM_CONSTANT(Late);
+    BIND_ENUM_CONSTANT(Miss);
 
     // Common
 
@@ -82,6 +94,16 @@ void rhythm_game_utilities::_bind_methods()
         D_METHOD("calculate_accuracy_ratio", "position", "current_position",
                  "delta"),
         &rhythm_game_utilities::calculate_accuracy_ratio);
+
+    ClassDB::bind_static_method(
+        "rhythm_game_utilities",
+        D_METHOD("calculate_accuracy", "position", "current_position", "delta"),
+        &rhythm_game_utilities::calculate_accuracy);
+
+    ClassDB::bind_static_method(
+        "rhythm_game_utilities",
+        D_METHOD("calculate_timing", "position", "current_position", "delta"),
+        &rhythm_game_utilities::calculate_timing);
 
     ClassDB::bind_static_method("rhythm_game_utilities",
                                 D_METHOD("calculate_beat_bars", "tempo_changes",
@@ -346,6 +368,21 @@ auto rhythm_game_utilities::calculate_accuracy_ratio(int position,
 {
     return RhythmGameUtilities::CalculateAccuracyRatio(position,
                                                        current_position, delta);
+}
+
+auto rhythm_game_utilities::calculate_accuracy(int position,
+                                               int current_position, int delta)
+    -> Accuracy
+{
+    return (Accuracy)RhythmGameUtilities::CalculateAccuracy(
+        position, current_position, delta);
+}
+
+auto rhythm_game_utilities::calculate_timing(int position, int current_position,
+                                             int delta) -> Timing
+{
+    return (Timing)RhythmGameUtilities::CalculateTiming(
+        position, current_position, delta);
 }
 
 auto rhythm_game_utilities::calculate_beat_bars(Array tempo_changes,

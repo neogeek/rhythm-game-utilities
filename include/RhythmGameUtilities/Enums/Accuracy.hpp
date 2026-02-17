@@ -16,16 +16,22 @@ namespace RhythmGameUtilities
 {
 
 using Accuracy = enum : uint8_t {
+    // Invalid Accuracy
     Invalid,
 
+    // Poor Accuracy
     Poor,
 
+    // Fair Accuracy
     Fair,
 
+    // Good Accuracy
     Good,
 
+    // Great Accuracy
     Great,
 
+    // Perfect Accuracy
     Perfect
 };
 

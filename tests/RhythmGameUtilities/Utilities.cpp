@@ -3,12 +3,56 @@
 #include <iostream>
 #include <tuple>
 
+#include "RhythmGameUtilities/Enums/Accuracy.hpp"
+#include "RhythmGameUtilities/Enums/Timing.hpp"
 #include "RhythmGameUtilities/Structs/Tempo.hpp"
 #include "RhythmGameUtilities/Structs/TimeSignature.hpp"
 
 #include "RhythmGameUtilities/Utilities.hpp"
 
 using namespace RhythmGameUtilities;
+
+void testCalculateAccuracy()
+{
+    const int positionDelta = 50;
+
+    auto *note = new Note{750};
+
+    assert(CalculateAccuracy(note->Position, 695, positionDelta) ==
+           Accuracy::Invalid);
+
+    assert(CalculateAccuracy(note->Position, 700, positionDelta) ==
+           Accuracy::Poor);
+
+    assert(CalculateAccuracy(note->Position, 710, positionDelta) ==
+           Accuracy::Fair);
+
+    assert(CalculateAccuracy(note->Position, 725, positionDelta) ==
+           Accuracy::Good);
+
+    assert(CalculateAccuracy(note->Position, 735, positionDelta) ==
+           Accuracy::Great);
+
+    assert(CalculateAccuracy(note->Position, 750, positionDelta) ==
+           Accuracy::Perfect);
+
+    assert(CalculateAccuracy(note->Position, 765, positionDelta) ==
+           Accuracy::Great);
+
+    assert(CalculateAccuracy(note->Position, 775, positionDelta) ==
+           Accuracy::Good);
+
+    assert(CalculateAccuracy(note->Position, 790, positionDelta) ==
+           Accuracy::Fair);
+
+    assert(CalculateAccuracy(note->Position, 800, positionDelta) ==
+           Accuracy::Poor);
+
+    assert(CalculateAccuracy(note->Position, 805, positionDelta) ==
+           Accuracy::Invalid);
+
+    std::cout << ".";
+}
 
 void testCalculateAccuracyRatio()
 {
@@ -26,7 +70,21 @@ void testCalculateAccuracyRatio()
     auto value =
         CalculateAccuracyRatio(note->Position, currentPosition, positionDelta);
 
-    assert(abs(0.64 - value) < 0.01);
+    assert(abs(0.36 - abs(value)) < 0.01);
+
+    std::cout << ".";
+}
+
+void testCalculateTiming()
+{
+    const int positionDelta = 50;
+
+    auto *note = new Note{750};
+
+    assert(CalculateTiming(note->Position, 725, positionDelta) ==
+           Timing::Early);
+    assert(CalculateTiming(note->Position, 750, positionDelta) == Timing::Hit);
+    assert(CalculateTiming(note->Position, 775, positionDelta) == Timing::Late);
 
     std::cout << ".";
 }
@@ -160,7 +218,9 @@ void testGenerateAdjacentKeyPairs()
 
 auto main() -> int
 {
+    testCalculateAccuracy();
     testCalculateAccuracyRatio();
+    testCalculateTiming();
     testCalculateBeatBars();
     testConvertSecondsToTicks();
     testConvertTickToPosition();

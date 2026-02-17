@@ -49,6 +49,20 @@ namespace RhythmGameUtilities
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
+        public static extern int CalculateAccuracy(int position, int currentPosition, int delta);
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        [DllImport("__Internal")]
+#else
+        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
+#endif
+        public static extern int CalculateTiming(int position, int currentPosition, int delta);
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+        [DllImport("__Internal")]
+#else
+        [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
+#endif
         public static extern IntPtr CalculateBeatBarsInternal(Tempo[] tempoChanges, int tempoChangesSize,
             int resolution,
             int ts,
@@ -154,6 +168,16 @@ namespace RhythmGameUtilities
         public static float CalculateAccuracyRatio(int position, int currentPosition, int delta = 50)
         {
             return UtilitiesInternal.CalculateAccuracyRatio(position, currentPosition, delta);
+        }
+
+        public static Accuracy CalculateAccuracy(int position, int currentPosition, int delta = 50)
+        {
+            return (Accuracy)UtilitiesInternal.CalculateAccuracy(position, currentPosition, delta);
+        }
+
+        public static Timing CalculateTiming(int position, int currentPosition, int delta = 50)
+        {
+            return (Timing)UtilitiesInternal.CalculateTiming(position, currentPosition, delta);
         }
 
     }

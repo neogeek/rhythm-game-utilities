@@ -14,6 +14,9 @@
 #include <map>
 #include <vector>
 
+#include "Enums/Accuracy.hpp"
+#include "Enums/Timing.hpp"
+
 #include "Structs/BeatBar.hpp"
 #include "Structs/Note.hpp"
 #include "Structs/Tempo.hpp"
@@ -300,9 +303,73 @@ extern "C"
     {
         auto diff = position - currentPosition;
 
-        auto ratio = InverseLerp(delta, 0, std::abs(diff));
+        auto ratio = InverseLerpUnclamped(0, delta, diff);
 
         return ratio;
+    }
+}
+
+extern "C"
+{
+    PACKAGE_API auto CalculateAccuracy(int position, int currentPosition,
+                                       int delta = 50) -> Accuracy
+    {
+        auto ratio = CalculateAccuracyRatio(position, currentPosition, delta);
+
+        auto absoluteRatio = std::abs(ratio);
+
+        if (absoluteRatio <= 0.2f)
+        {
+            return Accuracy::Perfect;
+        }
+
+        if (absoluteRatio <= 0.35f)
+        {
+            return Accuracy::Great;
+        }
+
+        if (absoluteRatio <= 0.75f)
+        {
+            return Accuracy::Good;
+        }
+
+        if (absoluteRatio <= 0.85f)
+        {
+            return Accuracy::Fair;
+        }
+
+        if (absoluteRatio <= 1)
+        {
+            return Accuracy::Poor;
+        }
+
+        return Accuracy::Invalid;
+    }
+}
+
+extern "C"
+{
+    PACKAGE_API auto CalculateTiming(int position, int currentPosition,
+                                     int delta = 50) -> Timing
+    {
+        auto ratio = CalculateAccuracyRatio(position, currentPosition, delta);
+
+        if (std::abs(ratio) >= 1)
+        {
+            return Timing::Miss;
+        }
+
+        if (ratio >= 0.5f)
+        {
+            return Timing::Early;
+        }
+
+        if (ratio <= -0.5f)
+        {
+            return Timing::Late;
+        }
+
+        return Timing::Hit;
     }
 }
 

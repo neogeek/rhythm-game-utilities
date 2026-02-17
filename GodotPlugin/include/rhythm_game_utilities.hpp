@@ -6,6 +6,10 @@
 #include <godot_cpp/variant/dictionary.hpp>
 #include <godot_cpp/variant/string.hpp>
 
+#include "RhythmGameUtilities/Enums/Accuracy.hpp"
+#include "RhythmGameUtilities/Enums/Difficulty.hpp"
+#include "RhythmGameUtilities/Enums/Timing.hpp"
+
 using namespace godot;
 
 class rhythm_game_utilities : public Object
@@ -18,12 +22,30 @@ class rhythm_game_utilities : public Object
   public:
     // Enums
 
+    enum Accuracy
+    {
+        Invalid = RhythmGameUtilities::Accuracy::Invalid,
+        Poor = RhythmGameUtilities::Accuracy::Poor,
+        Fair = RhythmGameUtilities::Accuracy::Fair,
+        Good = RhythmGameUtilities::Accuracy::Good,
+        Great = RhythmGameUtilities::Accuracy::Great,
+        Perfect = RhythmGameUtilities::Accuracy::Perfect
+    };
+
     enum Difficulty
     {
-        Easy,
-        Medium,
-        Hard,
-        Expert
+        Easy = RhythmGameUtilities::Difficulty::Easy,
+        Medium = RhythmGameUtilities::Difficulty::Medium,
+        Hard = RhythmGameUtilities::Difficulty::Hard,
+        Expert = RhythmGameUtilities::Difficulty::Expert
+    };
+
+    enum Timing
+    {
+        Miss = RhythmGameUtilities::Timing::Miss,
+        Hit = RhythmGameUtilities::Timing::Hit,
+        Early = RhythmGameUtilities::Timing::Early,
+        Late = RhythmGameUtilities::Timing::Late
     };
 
     // Common
@@ -64,6 +86,12 @@ class rhythm_game_utilities : public Object
     static auto calculate_accuracy_ratio(int position, int current_position,
                                          int delta = 50) -> float;
 
+    static auto calculate_accuracy(int position, int current_position,
+                                   int delta = 50) -> Accuracy;
+
+    static auto calculate_timing(int position, int current_position,
+                                 int delta = 50) -> Timing;
+
     static auto calculate_beat_bars(Array tempo_changes, int resolution, int ts,
                                     bool include_half_notes) -> Array;
 
@@ -83,4 +111,6 @@ class rhythm_game_utilities : public Object
         -> int;
 };
 
+VARIANT_ENUM_CAST(rhythm_game_utilities::Accuracy);
 VARIANT_ENUM_CAST(rhythm_game_utilities::Difficulty);
+VARIANT_ENUM_CAST(rhythm_game_utilities::Timing);

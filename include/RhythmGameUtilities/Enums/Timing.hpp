@@ -16,27 +16,31 @@ namespace RhythmGameUtilities
 {
 
 using Timing = enum : uint8_t {
-    Early,
+    // Miss Timing
+    Miss,
 
+    // Hit Timing
     Hit,
 
-    Late,
+    // Early Timing
+    Early,
 
-    Miss
+    // Late Timing
+    Late
 };
 
 inline auto ToString(Timing timing) -> std::string
 {
     switch (timing)
     {
-    case Early:
-        return "Early";
-    case Hit:
-        return "Hit";
-    case Late:
-        return "Late";
     case Miss:
         return "Miss";
+    case Hit:
+        return "Hit";
+    case Early:
+        return "Early";
+    case Late:
+        return "Late";
     default:
         return "Unknown Timing";
     }
