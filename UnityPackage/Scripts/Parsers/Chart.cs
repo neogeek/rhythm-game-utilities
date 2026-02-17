@@ -12,7 +12,7 @@ namespace RhythmGameUtilities
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
-        public static extern int ReadResolutionFromChartDataInternal(string contents, out int _);
+        public static extern int ReadResolutionFromChartData(string contents, out int _);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
         [DllImport("__Internal")]
@@ -42,7 +42,7 @@ namespace RhythmGameUtilities
 
         public static int ReadResolutionFromChartData(string contents)
         {
-            return ChartInternal.ReadResolutionFromChartDataInternal(contents, out var _);
+            return ChartInternal.ReadResolutionFromChartData(contents, out var _);
         }
 
         public static Tempo[] ReadTempoChangesFromChartData(string contents)

@@ -26,12 +26,6 @@ namespace RhythmGameUtilities
 
 extern "C"
 {
-    PACKAGE_API auto ReadResolutionFromChartDataInternal(const char *contents)
-        -> uint16_t
-    {
-        return ReadResolutionFromChartData(contents);
-    }
-
     PACKAGE_API auto ReadTempoChangesFromChartDataInternal(const char *contents,
                                                            int *outSize)
         -> Tempo *
