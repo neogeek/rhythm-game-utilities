@@ -91,23 +91,23 @@ void testCalculateTicksPerSecond()
     std::cout << ".";
 }
 
-void testFindPositionsNearGivenTick()
+void testFindNotesNearGivenTick()
 {
     std::vector<Note> notes = {{768, 0, 0},  {960, 0, 0},  {1152, 0, 0},
                                {1536, 0, 0}, {1728, 0, 0}, {1920, 0, 0},
                                {2304, 0, 0}, {2496, 0, 0}, {2688, 0, 0},
                                {3072, 0, 0}, {3264, 0, 0}};
 
-    auto foundPositions = FindPositionsNearGivenTick(notes, 750);
+    auto foundNotes = FindNotesNearGivenTick(notes, 750);
 
-    assert(1 == size(foundPositions));
+    assert(1 == size(foundNotes));
 
-    assert(768 == foundPositions[0].Position);
+    assert(768 == foundNotes[0].Position);
 
-    assert(0 == size(FindPositionsNearGivenTick(notes, 100)));
-    assert(768 == FindPositionsNearGivenTick(notes, 750)[0].Position);
-    assert(1536 == FindPositionsNearGivenTick(notes, 1500)[0].Position);
-    assert(0 == size(FindPositionsNearGivenTick(notes, 3200)));
+    assert(0 == size(FindNotesNearGivenTick(notes, 100)));
+    assert(768 == FindNotesNearGivenTick(notes, 750)[0].Position);
+    assert(1536 == FindNotesNearGivenTick(notes, 1500)[0].Position);
+    assert(0 == size(FindNotesNearGivenTick(notes, 3200)));
 
     std::cout << ".";
 }
@@ -165,7 +165,7 @@ auto main() -> int
     testConvertSecondsToTicks();
     testConvertTickToPosition();
     testCalculateTicksPerSecond();
-    testFindPositionsNearGivenTick();
+    testFindNotesNearGivenTick();
     testIsOnTheBeat();
     testIsOnTheBeatContinued();
     testRoundUpToTheNearestMultiplier();

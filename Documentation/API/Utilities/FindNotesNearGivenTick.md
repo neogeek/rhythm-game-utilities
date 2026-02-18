@@ -1,4 +1,4 @@
-#### `Utilities.FindPositionsNearGivenTick`
+#### `Utilities.FindNotesNearGivenTick`
 
 > Languages: `C#` `C++` `GDScript`
 
@@ -13,11 +13,11 @@ var notes = new Note[]
     new() { Position = 3072 }, new() { Position = 3264 }
 };
 
-var foundPositions = Utilities.FindPositionsNearGivenTick(notes, 750);
+var foundNotes = Utilities.FindNotesNearGivenTick(notes, 750);
 
-if (foundPositions?.Length > 0)
+if (foundNotes?.Length > 0)
 {
-    Console.Write(foundPositions[0].Position); // 768
+    Console.Write(foundNotes[0].Position); // 768
 }
 ```
 
@@ -37,11 +37,11 @@ int main()
                                {2304, 0, 0}, {2496, 0, 0}, {2688, 0, 0},
                                {3072, 0, 0}, {3264, 0, 0}};
 
-    auto foundPositions = FindPositionsNearGivenTick(notes, 750);
+    auto foundNotes = FindNotesNearGivenTick(notes, 750);
 
-    if (size(foundPositions) > 0)
+    if (size(foundNotes) > 0)
     {
-        std::cout << foundPositions[0]->Position << std::endl; // 768
+        std::cout << foundNotes[0]->Position << std::endl; // 768
     }
 
     return 0;
@@ -63,7 +63,7 @@ func _ready() -> void:
 		{"position": 3072}, {"position": 3264}
 	]
 
-	var found_positions = rhythm_game_utilities.find_positions_near_given_tick(notes, 750, delta);
+	var found_notes = rhythm_game_utilities.find_notes_near_given_tick(notes, 750, delta);
 
-	print(found_positions[0]["position"]) # 768
+	print(found_notes[0]["position"]) # 768
 ```

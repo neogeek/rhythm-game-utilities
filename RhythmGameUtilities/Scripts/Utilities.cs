@@ -59,7 +59,7 @@ namespace RhythmGameUtilities
 #else
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
-        public static extern IntPtr FindPositionsNearGivenTickInternal(Note[] notes, int notesSize,
+        public static extern IntPtr FindNotesNearGivenTickInternal(Note[] notes, int notesSize,
             int tick,
             int delta,
             out int size);
@@ -132,17 +132,17 @@ namespace RhythmGameUtilities
             return beatBars;
         }
 
-        public static Note[] FindPositionsNearGivenTick(Note[] notes, int tick, int delta = 50)
+        public static Note[] FindNotesNearGivenTick(Note[] notes, int tick, int delta = 50)
         {
-            var ptrArray = UtilitiesInternal.FindPositionsNearGivenTickInternal(notes, notes.Length, tick,
+            var ptrArray = UtilitiesInternal.FindNotesNearGivenTickInternal(notes, notes.Length, tick,
                 delta,
                 out var size);
 
-            var foundPositions = InternalUtilities.CaptureArrayFromInternalMethod<Note>(ptrArray, size);
+            var foundNotes = InternalUtilities.CaptureArrayFromInternalMethod<Note>(ptrArray, size);
 
             InternalUtilities.FreeNotes(ptrArray);
 
-            return foundPositions;
+            return foundNotes;
         }
 
         /// <summary>

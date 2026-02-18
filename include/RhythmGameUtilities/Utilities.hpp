@@ -185,10 +185,10 @@ inline auto CalculateBeatBars(const std::vector<Tempo> &tempoChanges,
     return beatBars;
 }
 
-inline auto FindPositionsNearGivenTick(const std::vector<Note> &notes, int tick,
-                                       int delta = 50) -> std::vector<Note>
+inline auto FindNotesNearGivenTick(const std::vector<Note> &notes, int tick,
+                                   int delta = 50) -> std::vector<Note>
 {
-    std::vector<Note> foundPositions;
+    std::vector<Note> foundNotes;
 
     auto length = static_cast<int>(notes.size());
 
@@ -213,13 +213,13 @@ inline auto FindPositionsNearGivenTick(const std::vector<Note> &notes, int tick,
         {
             while (left >= 0 && notes[left].Position + delta >= tick)
             {
-                foundPositions.emplace_back(notes[left]);
+                foundNotes.emplace_back(notes[left]);
                 left -= 1;
             }
 
             while (right < length && notes[right].Position - delta <= tick)
             {
-                foundPositions.emplace_back(notes[right]);
+                foundNotes.emplace_back(notes[right]);
                 right += 1;
             }
 
@@ -227,7 +227,7 @@ inline auto FindPositionsNearGivenTick(const std::vector<Note> &notes, int tick,
         }
     }
 
-    return foundPositions;
+    return foundNotes;
 }
 
 extern "C"

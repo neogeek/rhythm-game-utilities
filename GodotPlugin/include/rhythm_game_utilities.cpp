@@ -102,8 +102,8 @@ void rhythm_game_utilities::_bind_methods()
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
-        D_METHOD("find_positions_near_given_tick", "notes", "tick", "delta"),
-        &rhythm_game_utilities::find_positions_near_given_tick);
+        D_METHOD("find_notes_near_given_tick", "notes", "tick", "delta"),
+        &rhythm_game_utilities::find_notes_near_given_tick);
 
     ClassDB::bind_static_method(
         "rhythm_game_utilities",
@@ -442,9 +442,8 @@ auto rhythm_game_utilities::convert_tick_to_position(int tick, int resolution)
     return RhythmGameUtilities::ConvertTickToPosition(tick, resolution);
 }
 
-auto rhythm_game_utilities::find_positions_near_given_tick(Array notes,
-                                                           int tick, int delta)
-    -> Array
+auto rhythm_game_utilities::find_notes_near_given_tick(Array notes, int tick,
+                                                       int delta) -> Array
 {
     std::vector<RhythmGameUtilities::Note> notes_internal;
     notes_internal.reserve(notes.size());
@@ -465,9 +464,8 @@ auto rhythm_game_utilities::find_positions_near_given_tick(Array notes,
         notes_internal.push_back(note_internal);
     }
 
-    auto matched_notes_internal =
-        RhythmGameUtilities::FindPositionsNearGivenTick(notes_internal, tick,
-                                                        delta);
+    auto matched_notes_internal = RhythmGameUtilities::FindNotesNearGivenTick(
+        notes_internal, tick, delta);
 
     Array matched_notes_dictionary_array;
 

@@ -53,7 +53,7 @@ _Prototype game built using these utilities._
      1. [CalculateBeatBars](#utilitiescalculatebeatbars)
      1. [ConvertSecondsToTicks](#utilitiesconvertsecondstoticks)
      1. [ConvertTickToPosition](#utilitiesconvertticktoposition)
-     1. [FindPositionsNearGivenTick](#utilitiesfindpositionsneargiventick)
+     1. [FindNotesNearGivenTick](#utilitiesfindnotesneargiventick)
      1. [IsOnTheBeat](#utilitiesisonthebeat)
      1. [RoundUpToTheNearestMultiplier](#utilitiesrounduptothenearestmultiplier)
 

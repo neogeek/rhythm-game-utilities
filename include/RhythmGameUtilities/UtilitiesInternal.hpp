@@ -75,10 +75,9 @@ extern "C"
         return beatBars;
     }
 
-    PACKAGE_API auto FindPositionsNearGivenTickInternal(Note *notes,
-                                                        int noteSize, int tick,
-                                                        int delta, int *outSize)
-        -> Note *
+    PACKAGE_API auto FindNotesNearGivenTickInternal(Note *notes, int noteSize,
+                                                    int tick, int delta,
+                                                    int *outSize) -> Note *
     {
         std::vector<Note> notesVector;
 
@@ -87,20 +86,20 @@ extern "C"
             notesVector.push_back(notes[i]);
         }
 
-        auto internalPositions =
-            FindPositionsNearGivenTick(notesVector, tick, delta);
+        auto internalFoundNotes =
+            FindNotesNearGivenTick(notesVector, tick, delta);
 
-        *outSize = internalPositions.size();
+        *outSize = internalFoundNotes.size();
 
-        auto *foundPositions =
-            (Note *)malloc(internalPositions.size() * sizeof(Note));
+        auto *foundNotes =
+            (Note *)malloc(internalFoundNotes.size() * sizeof(Note));
 
-        for (auto i = 0; i < internalPositions.size(); i += 1)
+        for (auto i = 0; i < internalFoundNotes.size(); i += 1)
         {
-            foundPositions[i] = internalPositions[i];
+            foundNotes[i] = internalFoundNotes[i];
         }
 
-        return foundPositions;
+        return foundNotes;
     }
 }
 
