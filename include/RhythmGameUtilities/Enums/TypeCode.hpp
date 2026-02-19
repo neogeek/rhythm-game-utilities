@@ -16,16 +16,16 @@ namespace RhythmGameUtilities
 {
 
 using TypeCode = enum : uint8_t {
-    /// BPM Marker
+    // BPM Marker
     BPM_Marker,
 
-    /// Time Signature Marker
+    // Time Signature Marker
     TimeSignatureMarker,
 
-    /// Note Marker
+    // Note Marker
     NoteMarker,
 
-    /// Event Marker
+    // Event Marker
     EventMarker
 };
 

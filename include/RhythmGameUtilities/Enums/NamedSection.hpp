@@ -16,13 +16,13 @@ namespace RhythmGameUtilities
 {
 
 using NamedSection = enum : uint8_t {
-    /// Song information
+    // Song information
     Song,
 
-    /// Track information used for syncing with music and notes like BPM
+    // Track information used for syncing with music and notes like BPM
     SyncTrack,
 
-    /// Track events
+    // Track events
     Events
 };
 
