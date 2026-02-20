@@ -31,16 +31,16 @@ extern "C"
 
     PACKAGE_API void FreeTempoChanges(Tempo *tempoChanges)
     {
-        free(tempoChanges);
+        std::free(tempoChanges);
     }
 
     PACKAGE_API void
     FreeTimeSignatureChanges(TimeSignature *timeSignatureChanges)
     {
-        free(timeSignatureChanges);
+        std::free(timeSignatureChanges);
     }
 
-    PACKAGE_API void FreeNotes(Note *notes) { free(notes); }
+    PACKAGE_API void FreeNotes(Note *notes) { std::free(notes); }
 }
 
 } // namespace RhythmGameUtilities

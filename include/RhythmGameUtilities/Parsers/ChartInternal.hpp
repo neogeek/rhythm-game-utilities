@@ -35,7 +35,7 @@ extern "C"
         *outSize = internalTempoChanges.size();
 
         auto *tempoChanges =
-            (Tempo *)malloc(internalTempoChanges.size() * sizeof(Tempo));
+            (Tempo *)std::malloc(internalTempoChanges.size() * sizeof(Tempo));
 
         for (auto i = 0; i < internalTempoChanges.size(); i += 1)
         {
@@ -53,7 +53,7 @@ extern "C"
 
         *outSize = internalTimeSignatureChanges.size();
 
-        auto *timeSignatureChanges = (TimeSignature *)malloc(
+        auto *timeSignatureChanges = (TimeSignature *)std::malloc(
             internalTimeSignatureChanges.size() * sizeof(TimeSignature));
 
         for (auto i = 0; i < internalTimeSignatureChanges.size(); i += 1)
@@ -72,7 +72,7 @@ extern "C"
 
         *outSize = internalNotes.size();
 
-        auto *notes = (Note *)malloc(internalNotes.size() * sizeof(Note));
+        auto *notes = (Note *)std::malloc(internalNotes.size() * sizeof(Note));
 
         for (auto i = 0; i < internalNotes.size(); i += 1)
         {

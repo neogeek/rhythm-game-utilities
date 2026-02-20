@@ -37,14 +37,15 @@ extern "C"
     PACKAGE_API auto ConvertSamplesToWaveform(const float *samples, int size,
                                               int width, int height) -> int **
     {
-        auto *waveform = static_cast<int **>(malloc(width * sizeof(int *)));
+        auto *waveform =
+            static_cast<int **>(std::malloc(width * sizeof(int *)));
 
-        auto step = floor(size / width);
+        auto step = std::floor(size / width);
         auto amp = height / 2;
 
         for (auto x = 0; x < width; x += 1)
         {
-            waveform[x] = static_cast<int *>(malloc(height * sizeof(int)));
+            waveform[x] = static_cast<int *>(std::malloc(height * sizeof(int)));
 
             auto min = 1.0F;
             auto max = -1.0F;
@@ -85,10 +86,10 @@ extern "C"
         {
             for (auto x = 0; x < width; x += 1)
             {
-                free(waveform[x]);
+                std::free(waveform[x]);
             }
 
-            free(waveform);
+            std::free(waveform);
         }
     }
 }
