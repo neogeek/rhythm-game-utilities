@@ -3,14 +3,14 @@
 
 ![Rhythm Game Utilities](https://github.com/neogeek/rhythm-game-utilities/blob/main/cover.svg?raw=true)
 
-[![Tests](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/test.workflow.yml/badge.svg)](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/test.workflow.yml)
-[![Build](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/build.workflow.yml/badge.svg)](https://github.com/neogeek/rhythm-game-utilities/actions/workflows/build.workflow.yml)
+[![Tests](https://github.com/rhythm-game-utilities/rhythm-game-utilities/actions/workflows/test.workflow.yml/badge.svg)](https://github.com/rhythm-game-utilities/rhythm-game-utilities/actions/workflows/test.workflow.yml)
+[![Build](https://github.com/rhythm-game-utilities/rhythm-game-utilities/actions/workflows/build.workflow.yml/badge.svg)](https://github.com/rhythm-game-utilities/rhythm-game-utilities/actions/workflows/build.workflow.yml)
 [![Nuget](https://img.shields.io/nuget/v/com.neogeek.rhythm-game-utilities)](https://www.nuget.org/packages/com.neogeek.rhythm-game-utilities/)
 [![Join the chat at https://discord.gg/nNtFsfd](https://img.shields.io/badge/discord-join%20chat-7289DA.svg)](https://discord.gg/nNtFsfd)
 
 This library is a collection of utilities for creating rhythm games like Tap Tap Revenge, Guitar Hero, and Rock Band. It is meant to be used within any game engine that supports loading C++ libraries, such as Unity, Unreal, Godot, SDL and MonoGame.
 
-![Prototype game built using these utilities.](https://github.com/neogeek/rhythm-game-utilities/blob/main/screenshot.png?raw=true)
+![Prototype game built using these utilities.](https://github.com/rhythm-game-utilities/rhythm-game-utilities/blob/main/screenshot.png?raw=true)
 _Prototype game built using these utilities._
 
 ## Features
@@ -23,7 +23,7 @@ _Prototype game built using these utilities._
 
 ## Social
 
-- Star [this repo on GitHub](https://github.com/neogeek/rhythm-game-utilities) for updates
+- Star [this repo on GitHub](https://github.com/rhythm-game-utilities/rhythm-game-utilities) for updates
 - Follow me on [Bluesky](https://bsky.app/profile/scottdoxey.com)
 - Join the [Discord](https://discord.gg/nNtFsfd)
 - Follow me on [GitHub](https://github.com/neogeek/)
@@ -94,7 +94,7 @@ This library aims to offer support for multiple platforms through a single codeb
 
 1. Add package via git URL
    ```
-   https://github.com/neogeek/rhythm-game-utilities.git?path=/UnityPackage
+   https://github.com/rhythm-game-utilities/rhythm-game-utilities.git?path=/UnityPackage
    ```
 1. Import the sample project (optional)
    - Check the materials to make sure they work in the version of Unity and render pipeline you selected.
@@ -1572,8 +1572,8 @@ Be sure to review the [Contributing Guidelines](./CONTRIBUTING.md) before loggin
 
 This project aims to help you build your rhythm game as fast as possible without needing to learn the complexities of a new library. Instead, you can utilize comprehensive examples and simple code recipes If you have feature requests or bugs, please create an issue and tag them with the appropriate tag. If an issue already exists, vote for it with 👍.
 
-- [Feature Requests](https://github.com/neogeek/rhythm-game-utilities/labels/enhancement)
-- [Bugs](https://github.com/neogeek/rhythm-game-utilities/labels/bug)
+- [Feature Requests](https://github.com/rhythm-game-utilities/rhythm-game-utilities/labels/enhancement)
+- [Bugs](https://github.com/rhythm-game-utilities/rhythm-game-utilities/labels/bug)
 
 ## Other Projects
 

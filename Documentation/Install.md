@@ -4,7 +4,7 @@
 
 1. Add package via git URL
    ```
-   https://github.com/neogeek/rhythm-game-utilities.git?path=/UnityPackage
+   https://github.com/rhythm-game-utilities/rhythm-game-utilities.git?path=/UnityPackage
    ```
 1. Import the sample project (optional)
    - Check the materials to make sure they work in the version of Unity and render pipeline you selected.
