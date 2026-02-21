@@ -1509,7 +1509,7 @@ There isn't a custom wrapper or plugin for Unreal, as the C++ library works as i
 
 ### Godot Plugin
 
-Coming soon.
+The Godot plugin is automatically generated in <https://github.com/rhythm-game-utilities/godot-plugin> based on the latest in this repo. Eventually the plugin will also be available via the [Godot Asset Store](https://store-beta.godotengine.org/).
 
 ### SDL Library
 
