@@ -195,6 +195,14 @@ inline auto FindNotesNearGivenTick(const std::vector<Note> &notes, int tick,
 
     auto length = static_cast<int>(notes.size());
 
+    if (length == 0)
+    {
+        return foundNotes;
+    }
+
+    auto lowBounds = tick - delta;
+    auto highBounds = tick + delta;
+
     auto left = 0;
     auto right = length - 1;
 
@@ -204,26 +212,32 @@ inline auto FindNotesNearGivenTick(const std::vector<Note> &notes, int tick,
 
         auto currentPosition = notes[mid].Position;
 
-        if (currentPosition + delta < tick)
+        if (currentPosition < lowBounds)
         {
             left = mid + 1;
         }
-        else if (currentPosition - delta > tick)
+        else if (currentPosition > highBounds)
         {
             right = mid - 1;
         }
         else
         {
-            while (left >= 0 && notes[left].Position + delta >= tick)
+            auto low = mid;
+            auto high = mid;
+
+            while (low > left && notes[low - 1].Position >= lowBounds)
             {
-                foundNotes.emplace_back(notes[left]);
-                left -= 1;
+                low -= 1;
             }
 
-            while (right < length && notes[right].Position - delta <= tick)
+            while (high < right && notes[high + 1].Position <= highBounds)
             {
-                foundNotes.emplace_back(notes[right]);
-                right += 1;
+                high += 1;
+            }
+
+            for (auto i = low; i <= high; i += 1)
+            {
+                foundNotes.emplace_back(notes[i]);
             }
 
             break;
