@@ -113,17 +113,21 @@ namespace RhythmGameUtilities.Tests
         {
             var notes = new Note[]
             {
-                new() { Position = 768 }, new() { Position = 960 }, new() { Position = 1152 },
-                new() { Position = 1536 }, new() { Position = 1728 }, new() { Position = 1920 },
-                new() { Position = 2304 }, new() { Position = 2496 }, new() { Position = 2688 },
-                new() { Position = 3072 }, new() { Position = 3264 }
+                new() { Position = 110 }, new() { Position = 120 }, new() { Position = 130 },
+                new() { Position = 140 }, new() { Position = 150 }, new() { Position = 160 },
+                new() { Position = 170 }, new() { Position = 180 }, new() { Position = 190 },
+                new() { Position = 200 }
             };
 
-            var foundNotes = Utilities.FindNotesNearGivenTick(notes, 750);
+            var foundNotes = Utilities.FindNotesNearGivenTick(notes, 160, 20);
 
-            Assert.That(foundNotes, Is.Not.Empty);
+            Assert.That(foundNotes.Length, Is.EqualTo(5));
 
-            Assert.That(foundNotes[0].Position, Is.EqualTo(768));
+            Assert.That(foundNotes[0].Position, Is.EqualTo(140));
+            Assert.That(foundNotes[1].Position, Is.EqualTo(150));
+            Assert.That(foundNotes[2].Position, Is.EqualTo(160));
+            Assert.That(foundNotes[3].Position, Is.EqualTo(170));
+            Assert.That(foundNotes[4].Position, Is.EqualTo(180));
         }
 
         [Test]
@@ -131,16 +135,16 @@ namespace RhythmGameUtilities.Tests
         {
             var notes = new Note[]
             {
-                new() { Position = 768 }, new() { Position = 960 }, new() { Position = 1152 },
-                new() { Position = 1536 }, new() { Position = 1728 }, new() { Position = 1920 },
-                new() { Position = 2304 }, new() { Position = 2496 }, new() { Position = 2688 },
-                new() { Position = 3072 }, new() { Position = 3264 }
+                new() { Position = 110 }, new() { Position = 120 }, new() { Position = 130 },
+                new() { Position = 140 }, new() { Position = 150 }, new() { Position = 160 },
+                new() { Position = 170 }, new() { Position = 180 }, new() { Position = 190 },
+                new() { Position = 200 }
             };
 
-            Assert.That(Utilities.FindNotesNearGivenTick(notes, 100), Is.Empty);
-            Assert.That(Utilities.FindNotesNearGivenTick(notes, 750), Is.Not.Empty);
-            Assert.That(Utilities.FindNotesNearGivenTick(notes, 1500), Is.Not.Empty);
-            Assert.That(Utilities.FindNotesNearGivenTick(notes, 3200), Is.Empty);
+            Assert.That(Utilities.FindNotesNearGivenTick(notes, 50, 20), Is.Empty);
+            Assert.That(Utilities.FindNotesNearGivenTick(notes, 130, 20)[0].Position, Is.EqualTo(110));
+            Assert.That(Utilities.FindNotesNearGivenTick(notes, 190, 20)[0].Position, Is.EqualTo(170));
+            Assert.That(Utilities.FindNotesNearGivenTick(notes, 300, 20), Is.Empty);
         }
 
         [Test]
