@@ -1,4 +1,5 @@
-// Rhythm Game Utilities - https://github.com/neogeek/rhythm-game-utilities
+// Rhythm Game Utilities -
+// https://github.com/rhythm-game-utilities/rhythm-game-utilities
 //
 // ░█▀▄░█░█░█░█░▀█▀░█░█░█▄█░░░█▀▀░█▀█░█▄█░█▀▀░░░█░█░▀█▀░▀█▀░█░░░▀█▀░▀█▀░▀█▀░█▀▀░█▀▀
 // ░█▀▄░█▀█░░█░░░█░░█▀█░█░█░░░█░█░█▀█░█░█░█▀▀░░░█░█░░█░░░█░░█░░░░█░░░█░░░█░░█▀▀░▀▀█

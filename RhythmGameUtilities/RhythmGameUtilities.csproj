@@ -10,8 +10,8 @@
         <Authors>neogeek</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageProjectUrl>https://github.com/neogeek/rhythm-game-utilities/</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/neogeek/rhythm-game-utilities/</RepositoryUrl>
+        <PackageProjectUrl>https://github.com/rhythm-game-utilities/rhythm-game-utilities/</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/rhythm-game-utilities/rhythm-game-utilities/</RepositoryUrl>
         <PackageTags>unity;unreal;godot;sdl</PackageTags>
     </PropertyGroup>
 

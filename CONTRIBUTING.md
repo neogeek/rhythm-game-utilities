@@ -4,7 +4,7 @@
 
 If you have found a bug in `rhythm-game-utilities` please consider the following when submitting an issue:
 
-- **Search existing [GitHub Issues](https://github.com/neogeek/rhythm-game-utilities/issues)** - The bug you are experiencing might have already been reported or even fixed in an unreleased version of `rhythm-game-utilities` so be sure to review both [open](https://github.com/neogeek/rhythm-game-utilities/issues?state=open) and [closed](https://github.com/neogeek/rhythm-game-utilities/issues?state=closed) issues.
+- **Search existing [GitHub Issues](https://github.com/rhythm-game-utilities/rhythm-game-utilities/issues)** - The bug you are experiencing might have already been reported or even fixed in an unreleased version of `rhythm-game-utilities` so be sure to review both [open](https://github.com/rhythm-game-utilities/rhythm-game-utilities/issues?state=open) and [closed](https://github.com/rhythm-game-utilities/rhythm-game-utilities/issues?state=closed) issues.
 - **Create a reproducible test case** - To make it easier for maintainers to validate the issue please include a [gist](https://gist.github.com/) containing files used to reproduce the issue.
 - **Include relevant information** - Include clear steps to reproduce the issue.
 

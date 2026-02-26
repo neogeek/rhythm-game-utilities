@@ -4,9 +4,9 @@
   "version": "1.0.0",
   "unity": "2022.3",
   "description": "A collection of utilities for creating rhythm games in Unity.",
-  "documentationUrl": "https://github.com/neogeek/rhythm-game-utilities",
-  "changelogUrl": "https://github.com/neogeek/rhythm-game-utilities/blob/main/CHANGELOG.md",
-  "licensesUrl": "https://github.com/neogeek/rhythm-game-utilities/blob/main/LICENSE",
+  "documentationUrl": "https://github.com/rhythm-game-utilities/rhythm-game-utilities",
+  "changelogUrl": "https://github.com/rhythm-game-utilities/rhythm-game-utilities/blob/main/CHANGELOG.md",
+  "licensesUrl": "https://github.com/rhythm-game-utilities/rhythm-game-utilities/blob/main/LICENSE",
   "license": "MIT",
   "dependencies": {
     "com.unity.nuget.newtonsoft-json": "3.2.2"
@@ -32,9 +32,9 @@
     "email": "hello@scottdoxey.com",
     "homepage": "http://scottdoxey.com/"
   },
-  "homepage": "https://github.com/neogeek/rhythm-game-utilities",
+  "homepage": "https://github.com/rhythm-game-utilities/rhythm-game-utilities",
   "repository": {
     "type": "git",
-    "url": "git@github.com:neogeek/rhythm-game-utilities.git"
+    "url": "git@github.com:rhythm-game-utilities/rhythm-game-utilities.git"
   }
 }

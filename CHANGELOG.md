@@ -1,6 +1,6 @@
 # Changelog
 
-## [HEAD](https://github.com/neogeek/rhythm-game-utilities/tree/HEAD) - (2026-01-31)
+## [HEAD](https://github.com/rhythm-game-utilities/rhythm-game-utilities/tree/HEAD) - (2026-01-31)
 
 - Initial release! 🎉
 
