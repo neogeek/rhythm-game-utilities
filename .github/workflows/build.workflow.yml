@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.0
         with:
           fetch-depth: 0
 
@@ -29,7 +29,7 @@ jobs:
           g++ -std=c++17 -shared -fPIC -o build/libRhythmGameUtilities.so include/RhythmGameUtilities/RhythmGameUtilities.cpp
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7
         with:
           name: build-linux-files
           path: build/
@@ -40,7 +40,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.0
         with:
           fetch-depth: 0
 
@@ -53,7 +53,7 @@ jobs:
           lipo -info build/libRhythmGameUtilities.dylib
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7
         with:
           name: build-macos-files
           path: build/
@@ -64,7 +64,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.0
         with:
           fetch-depth: 0
 
@@ -78,7 +78,7 @@ jobs:
           del build\RhythmGameUtilities.obj
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7
         with:
           name: build-windows-files
           path: build/
@@ -89,7 +89,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.0
         with:
           fetch-depth: 0
 
@@ -131,7 +131,7 @@ jobs:
           emar rcs build/libRhythmGameUtilities.a build/RhythmGameUtilities.o
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@v7
         with:
           name: build-webgl-files
           path: build/
@@ -146,12 +146,12 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.0
         with:
           fetch-depth: 0
 
       - name: Download all build artifacts
-        uses: actions/download-artifact@v5.0.0
+        uses: actions/download-artifact@v8
         with:
           path: artifacts/
 
