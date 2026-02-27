@@ -42,3 +42,13 @@ func _ready() -> void:
 
 	print(value) # 0.5
 ```
+
+##### Lua
+
+```gdscript
+local rhythmgameutilities = require("rhythmgameutilities")
+
+local value = rhythmgameutilities.inverse_lerp(0, 10, 5);
+
+print(value) -- 0.5
+```

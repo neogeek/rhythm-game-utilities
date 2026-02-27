@@ -1,0 +1,3 @@
+-std=c++17
+-I../include/
+-I/opt/homebrew/Cellar/lua/5.4.8/include
