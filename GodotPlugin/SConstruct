@@ -22,13 +22,10 @@ else:
         source=sources,
     )
 
-gdextension_copy = env.Command(
+gdextension_copy = env.InstallAs(
     target="{}/RhythmGameUtilities.gdextension".format(folder),
     source="RhythmGameUtilities.gdextension",
-    action=Copy("$TARGET", "$SOURCE"),
 )
-
-env.Depends(gdextension_copy, library)
 
 CacheDir(".scons_cache/")
 
