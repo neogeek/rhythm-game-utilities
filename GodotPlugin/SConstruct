@@ -8,12 +8,42 @@ sources = Glob("include/*.cpp")
 
 folder = "build/addons/RhythmGameUtilities"
 
+
+def update_plist(target, source, env):
+    target_path = str(target[0])
+    source_path = str(source[0])
+
+    with open(source_path, "r") as f:
+        content = f.read()
+
+    content = content.replace(
+        "<string>CFBundleExecutableString</string>",
+        "<string>libRhythmGameUtilities.{}.{}</string>".format(
+            env["platform"], env["target"]
+        ),
+    )
+
+    with open(target_path, "w") as f:
+        f.write(content)
+
+    return None
+
+
 if env["platform"] == "macos":
     file_name = "libRhythmGameUtilities.{}.{}".format(env["platform"], env["target"])
 
     library = env.SharedLibrary(
         "{}/{}.framework/{}".format(folder, file_name, file_name), source=sources
     )
+
+    plist_copy = env.Command(
+        target="{}/{}.framework/Resources/Info.plist".format(folder, file_name),
+        source="Info.plist",
+        action=update_plist,
+    )
+
+    Default(plist_copy)
+
 else:
     library = env.SharedLibrary(
         "{}/libRhythmGameUtilities{}{}".format(
