@@ -12,20 +12,20 @@ if env["platform"] == "macos":
     file_name = "libRhythmGameUtilities.{}.{}".format(env["platform"], env["target"])
 
     library = env.SharedLibrary(
-        "{}/{}.framework/{}".format(folder, file_name, file_name),
-        source=sources
+        "{}/{}.framework/{}".format(folder, file_name, file_name), source=sources
     )
 else:
     library = env.SharedLibrary(
-        "{}/libRhythmGameUtilities{}{}"
-            .format(folder, env["suffix"], env["SHLIBSUFFIX"]),
+        "{}/libRhythmGameUtilities{}{}".format(
+            folder, env["suffix"], env["SHLIBSUFFIX"]
+        ),
         source=sources,
     )
 
 gdextension_copy = env.Command(
     target="{}/RhythmGameUtilities.gdextension".format(folder),
     source="RhythmGameUtilities.gdextension",
-    action=Copy("$TARGET", "$SOURCE")
+    action=Copy("$TARGET", "$SOURCE"),
 )
 
 env.Depends(gdextension_copy, library)
