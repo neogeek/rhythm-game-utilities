@@ -174,7 +174,6 @@ inline auto CalculateBeatBars(const std::vector<Tempo> &tempoChanges,
 
         for (auto tick = startTick; tick < endTick; tick += resolution)
         {
-
             auto bpm = tempoChangePositions[startTick];
 
             beatBars.push_back({tick, bpm});
