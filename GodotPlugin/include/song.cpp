@@ -116,8 +116,8 @@ void Song::load_song_from_chart(const String &contents, const int &difficulty)
     notes =
         rhythm_game_utilities::read_notes_from_chart_data(contents, difficulty);
 
-    beat_bars = rhythm_game_utilities::calculate_beat_bars(tempo_changes,
-                                                           resolution, 4, true);
+    beat_bars = rhythm_game_utilities::calculate_beat_bars(
+        tempo_changes, time_signature_changes, resolution, true);
 }
 
 // load_song_from_midi
@@ -134,6 +134,6 @@ void Song::load_song_from_midi(const Variant &data)
 
     notes = rhythm_game_utilities::read_notes_from_midi_data(data);
 
-    beat_bars = rhythm_game_utilities::calculate_beat_bars(tempo_changes,
-                                                           resolution, 4, true);
+    beat_bars = rhythm_game_utilities::calculate_beat_bars(
+        tempo_changes, time_signature_changes, resolution, true);
 }

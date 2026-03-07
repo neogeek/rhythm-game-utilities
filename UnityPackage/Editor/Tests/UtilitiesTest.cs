@@ -71,7 +71,9 @@ namespace RhythmGameUtilities.Tests
                 new() { Position = 42240, BPM = 111980 }
             };
 
-            var beatBars = Utilities.CalculateBeatBars(tempoChanges);
+            var timeSignatureChanges = new TimeSignature[] { new() { Position = 0, Numerator = 4 } };
+
+            var beatBars = Utilities.CalculateBeatBars(tempoChanges, timeSignatureChanges);
 
             Assert.That(beatBars.Length, Is.EqualTo(440));
         }

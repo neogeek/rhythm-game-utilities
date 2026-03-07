@@ -64,8 +64,8 @@ namespace RhythmGameUtilities
         [DllImport("libRhythmGameUtilities", CallingConvention = CallingConvention.Cdecl)]
 #endif
         public static extern IntPtr CalculateBeatBarsInternal(Tempo[] tempoChanges, int tempoChangesSize,
+            TimeSignature[] timeSignatureChanges, int timeSignatureChangesSize,
             int resolution,
-            int ts,
             bool includeHalfNotes, out int size);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
@@ -131,12 +131,12 @@ namespace RhythmGameUtilities
             return UtilitiesInternal.RoundUpToTheNearestMultiplier(value, multiplier);
         }
 
-        public static BeatBar[] CalculateBeatBars(Tempo[] tempoChanges, int resolution = 192, int ts = 4,
+        public static BeatBar[] CalculateBeatBars(Tempo[] tempoChanges, TimeSignature[] timeSignatureChanges,
+            int resolution = 192,
             bool includeHalfNotes = true)
         {
-            var ptrArray = UtilitiesInternal.CalculateBeatBarsInternal(tempoChanges, tempoChanges.Length, resolution,
-                ts,
-                includeHalfNotes,
+            var ptrArray = UtilitiesInternal.CalculateBeatBarsInternal(tempoChanges, tempoChanges.Length,
+                timeSignatureChanges, timeSignatureChanges.Length, resolution, includeHalfNotes,
                 out var size);
 
             var beatBars = InternalUtilities.CaptureArrayFromInternalMethod<BeatBar>(ptrArray, size);

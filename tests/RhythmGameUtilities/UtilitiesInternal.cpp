@@ -15,10 +15,13 @@ void testCalculateBeatBarsInternal()
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
+    std::vector<TimeSignature> timeSignatureChanges = {{0, 4}};
+
     int outSize;
 
     auto *beatBars = CalculateBeatBarsInternal(
-        &tempoChanges[0], tempoChanges.size(), 192, 4, true, &outSize);
+        &tempoChanges[0], tempoChanges.size(), &timeSignatureChanges[0],
+        timeSignatureChanges.size(), 192, true, &outSize);
 
     assert(outSize == 440);
 

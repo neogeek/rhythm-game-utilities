@@ -47,11 +47,11 @@ extern "C"
                                      timeSignatureChangesVector);
     }
 
-    PACKAGE_API auto CalculateBeatBarsInternal(Tempo *tempoChanges,
-                                               int tempoChangesSize,
-                                               int resolution, int ts,
-                                               bool includeHalfNotes,
-                                               int *outSize) -> BeatBar *
+    PACKAGE_API auto
+    CalculateBeatBarsInternal(Tempo *tempoChanges, int tempoChangesSize,
+                              TimeSignature *timeSignatureChanges,
+                              int timeSignatureChangesSize, int resolution,
+                              bool includeHalfNotes, int *outSize) -> BeatBar *
     {
         std::vector<Tempo> tempoChangesVector;
 
@@ -60,8 +60,16 @@ extern "C"
             tempoChangesVector.push_back(tempoChanges[i]);
         }
 
-        auto internalBeatBars = CalculateBeatBars(
-            tempoChangesVector, resolution, ts, includeHalfNotes);
+        std::vector<TimeSignature> timeSignatureChangesVector;
+
+        for (auto i = 0; i < timeSignatureChangesSize; i += 1)
+        {
+            timeSignatureChangesVector.push_back(timeSignatureChanges[i]);
+        }
+
+        auto internalBeatBars =
+            CalculateBeatBars(tempoChangesVector, timeSignatureChangesVector,
+                              resolution, includeHalfNotes);
 
         *outSize = internalBeatBars.size();
 

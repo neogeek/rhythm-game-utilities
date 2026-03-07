@@ -107,7 +107,7 @@ void rhythm_game_utilities::_bind_methods()
 
     ClassDB::bind_static_method("rhythm_game_utilities",
                                 D_METHOD("calculate_beat_bars", "tempo_changes",
-                                         "resolution", "ts",
+                                         "time_signature_changes", "resolution",
                                          "include_half_notes"),
                                 &rhythm_game_utilities::calculate_beat_bars);
 
@@ -386,7 +386,8 @@ auto rhythm_game_utilities::calculate_timing(int position, int current_position,
 }
 
 auto rhythm_game_utilities::calculate_beat_bars(Array tempo_changes,
-                                                int resolution, int ts,
+                                                Array time_signature_changes,
+                                                int resolution,
                                                 bool include_half_notes)
     -> Array
 {
@@ -408,8 +409,30 @@ auto rhythm_game_utilities::calculate_beat_bars(Array tempo_changes,
         tempo_changes_internal.push_back(tempo_change_internal);
     }
 
+    std::vector<RhythmGameUtilities::TimeSignature>
+        time_signature_changes_internal;
+    time_signature_changes_internal.reserve(time_signature_changes.size());
+
+    for (auto i = 0; i < time_signature_changes.size(); i += 1)
+    {
+        RhythmGameUtilities::TimeSignature time_signature_change_internal;
+
+        if (time_signature_changes[i].get_type() == Variant::DICTIONARY)
+        {
+            Dictionary variant = time_signature_changes[i];
+
+            time_signature_change_internal.Position = variant["position"];
+            time_signature_change_internal.Numerator = variant["numerator"];
+            time_signature_change_internal.Denominator = variant["denominator"];
+        }
+
+        time_signature_changes_internal.push_back(
+            time_signature_change_internal);
+    }
+
     auto beat_bars_internal = RhythmGameUtilities::CalculateBeatBars(
-        tempo_changes_internal, resolution, ts, include_half_notes);
+        tempo_changes_internal, time_signature_changes_internal, resolution,
+        include_half_notes);
 
     Array beat_bars_dictionary_array;
 

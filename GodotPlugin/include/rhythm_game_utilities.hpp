@@ -92,8 +92,10 @@ class rhythm_game_utilities : public Object
     static auto calculate_timing(int position, int current_position,
                                  int delta = 50) -> Timing;
 
-    static auto calculate_beat_bars(Array tempo_changes, int resolution, int ts,
-                                    bool include_half_notes) -> Array;
+    static auto calculate_beat_bars(Array tempo_changes,
+                                    Array time_signature_changes,
+                                    int resolution, bool include_half_notes)
+        -> Array;
 
     static auto convert_seconds_to_ticks(float seconds, int resolution,
                                          Array tempo_changes,

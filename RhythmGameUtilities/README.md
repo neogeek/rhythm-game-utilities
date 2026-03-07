@@ -968,7 +968,9 @@ var tempoChanges = new Tempo[]
     new() { Position = 42240, BPM = 111980 }
 };
 
-var beatBars = Utilities.CalculateBeatBars(tempoChanges);
+var timeSignatureChanges = new TimeSignature[] { new() { Position = 0, Numerator = 4 } };
+
+var beatBars = Utilities.CalculateBeatBars(tempoChanges, timeSignatureChanges);
 
 Console.WriteLine(beatBars.Length); // 440
 ```
@@ -985,14 +987,15 @@ using namespace RhythmGameUtilities;
 int main()
 {
     const int resolution = 192;
-    const int timeSignature = 4;
 
     std::vector<Tempo> tempoChanges = {
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
+    std::vector<TimeSignature> timeSignatureChanges = {{0, 4}};
+
     auto beatBars =
-        CalculateBeatBars(tempoChanges, resolution, timeSignature, true);
+        CalculateBeatBars(tempoChanges, timeSignatureChanges, resolution, true);
 
     std::cout << size(beatBars) << std::endl; // 440
 
@@ -1007,19 +1010,22 @@ extends Node
 
 func _ready() -> void:
 	var resolution = 192
-	var time_signature = 4
 
 	var tempo_changes = [
-		{"position": 0, "bpm": 8800 },
-		{"position": 3840, "bpm": 112000 },
-		{"position": 9984, "bpm": 89600 },
-		{"position": 22272, "bpm": 112000 },
-		{"position": 33792, "bpm": 111500 },
-		{"position": 34560, "bpm": 112000 },
-		{"position": 42240, "bpm": 111980 }
+		{"position": 0, "bpm": 8800},
+		{"position": 3840, "bpm": 112000},
+		{"position": 9984, "bpm": 89600},
+		{"position": 22272, "bpm": 112000},
+		{"position": 33792, "bpm": 111500},
+		{"position": 34560, "bpm": 112000},
+		{"position": 42240, "bpm": 111980}
 	]
 
-	var beat_bars = rhythm_game_utilities.calculate_beat_bars(tempo_changes, resolution, time_signature, true)
+	var time_signature_changes = [
+		{"position": 0, "numerator": 4}
+	]
+
+	var beat_bars = rhythm_game_utilities.calculate_beat_bars(tempo_changes, time_signature_changes, resolution, true)
 
 	print(beat_bars)
 ```

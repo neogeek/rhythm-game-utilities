@@ -152,9 +152,10 @@ inline auto GenerateAdjacentKeyPairs(const std::map<int, int> &keyValuePairs)
     return adjacentKeyPairs;
 }
 
-inline auto CalculateBeatBars(const std::vector<Tempo> &tempoChanges,
-                              int resolution, int ts, bool includeHalfNotes)
-    -> std::vector<BeatBar>
+inline auto
+CalculateBeatBars(const std::vector<Tempo> &tempoChanges,
+                  const std::vector<TimeSignature> &timeSignatureChanges,
+                  int resolution, bool includeHalfNotes) -> std::vector<BeatBar>
 {
     std::vector<BeatBar> beatBars;
 
