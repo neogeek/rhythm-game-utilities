@@ -72,7 +72,7 @@ namespace RhythmGameUtilities
                 {
                     new() { Position = position, BPM = tempoChanges.LastOrDefault().BPM }
                 })
-                .ToArray(), timeSignatureChanges, resolution, includeHalfNotes : includeHalfNotes);
+                .ToArray(), timeSignatureChanges, resolution, includeHalfNotes);
         }
 
     }
