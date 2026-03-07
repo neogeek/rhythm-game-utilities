@@ -62,7 +62,7 @@ namespace RhythmGameUtilities
             };
         }
 
-        public void RecalculateBeatBarsWithSongLength(float songLength)
+        public void RecalculateBeatBarsWithSongLength(float songLength, bool includeHalfNotes = true)
         {
             var lastTick = Utilities.ConvertSecondsToTicks(songLength, resolution, tempoChanges, timeSignatureChanges);
 
@@ -72,7 +72,7 @@ namespace RhythmGameUtilities
                 {
                     new() { Position = position, BPM = tempoChanges.LastOrDefault().BPM }
                 })
-                .ToArray(), timeSignatureChanges, includeHalfNotes : true);
+                .ToArray(), timeSignatureChanges, resolution, includeHalfNotes : includeHalfNotes);
         }
 
     }
