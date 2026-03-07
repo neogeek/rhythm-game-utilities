@@ -92,14 +92,15 @@ void testCalculateTiming()
 void testCalculateBeatBars()
 {
     const int resolution = 192;
-    const int timeSignature = 4;
 
     std::vector<Tempo> tempoChanges = {
         {0, 88000},      {3840, 112000},  {9984, 89600},  {22272, 112000},
         {33792, 111500}, {34560, 112000}, {42240, 111980}};
 
+    std::vector<TimeSignature> timeSignatureChanges = {{0, 4}};
+
     auto beatBars =
-        CalculateBeatBars(tempoChanges, resolution, timeSignature, true);
+        CalculateBeatBars(tempoChanges, timeSignatureChanges, resolution, true);
 
     assert(beatBars.size() == 440);
 

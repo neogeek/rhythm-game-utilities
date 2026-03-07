@@ -34,13 +34,15 @@ namespace RhythmGameUtilities
         {
             var tempoChanges = Chart.ReadTempoChangesFromChartData(contents);
 
+            var timeSignatureChanges = Chart.ReadTimeSignatureChangesFromChartData(contents);
+
             return new Song
             {
                 resolution = Chart.ReadResolutionFromChartData(contents),
                 tempoChanges = tempoChanges,
-                timeSignatureChanges = Chart.ReadTimeSignatureChangesFromChartData(contents),
+                timeSignatureChanges = timeSignatureChanges,
                 notes = Chart.ReadNotesFromChartData(contents, difficulty),
-                beatBars = Utilities.CalculateBeatBars(tempoChanges, includeHalfNotes : true)
+                beatBars = Utilities.CalculateBeatBars(tempoChanges, timeSignatureChanges, includeHalfNotes : true)
             };
         }
 
@@ -48,13 +50,15 @@ namespace RhythmGameUtilities
         {
             var tempoChanges = Midi.ReadTempoChangesFromMidiData(data);
 
+            var timeSignatureChanges = Midi.ReadTimeSignatureChangesFromMidiData(data);
+
             return new Song
             {
                 resolution = Midi.ReadResolutionFromMidiData(data),
                 tempoChanges = tempoChanges,
-                timeSignatureChanges = Midi.ReadTimeSignatureChangesFromMidiData(data),
+                timeSignatureChanges = timeSignatureChanges,
                 notes = Midi.ReadNotesFromMidiData(data),
-                beatBars = Utilities.CalculateBeatBars(tempoChanges, includeHalfNotes : true)
+                beatBars = Utilities.CalculateBeatBars(tempoChanges, timeSignatureChanges, includeHalfNotes : true)
             };
         }
 
@@ -68,7 +72,7 @@ namespace RhythmGameUtilities
                 {
                     new() { Position = position, BPM = tempoChanges.LastOrDefault().BPM }
                 })
-                .ToArray(), includeHalfNotes : true);
+                .ToArray(), timeSignatureChanges, includeHalfNotes : true);
         }
 
     }
