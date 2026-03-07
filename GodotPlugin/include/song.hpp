@@ -39,4 +39,7 @@ class Song : public Object
     void load_song_from_chart(const String &contents, const int &difficulty);
 
     void load_song_from_midi(const Variant &data);
+
+    void recalculate_beat_bars_with_song_length(const float &song_length,
+                                                bool include_half_notes);
 };

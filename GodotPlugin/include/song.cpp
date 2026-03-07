@@ -61,6 +61,12 @@ void Song::_bind_methods()
 
     ClassDB::bind_method(D_METHOD("load_song_from_midi", "data"),
                          &Song::load_song_from_midi);
+
+    // recalculate_beat_bars_with_song_length
+
+    ClassDB::bind_method(D_METHOD("recalculate_beat_bars_with_song_length",
+                                  "song_length", "include_half_notes"),
+                         &Song::recalculate_beat_bars_with_song_length);
 }
 
 // resolution
@@ -136,4 +142,37 @@ void Song::load_song_from_midi(const Variant &data)
 
     beat_bars = rhythm_game_utilities::calculate_beat_bars(
         tempo_changes, time_signature_changes, resolution, true);
+}
+
+// recalculate_beat_bars_with_song_length
+
+void Song::recalculate_beat_bars_with_song_length(const float &song_length,
+                                                  bool include_half_notes)
+{
+    auto last_tick = rhythm_game_utilities::convert_seconds_to_ticks(
+        song_length, resolution, tempo_changes, time_signature_changes);
+
+    auto position = rhythm_game_utilities::round_up_to_the_nearest_multiplier(
+        last_tick, resolution);
+
+    Dictionary tempo_change_dictionary;
+
+    tempo_change_dictionary["position"] = position;
+
+    if (!tempo_changes.is_empty())
+    {
+        godot::Dictionary last_tempo_change_dictionary =
+            tempo_changes[tempo_changes.size() - 1];
+
+        tempo_change_dictionary["bpm"] = last_tempo_change_dictionary["bpm"];
+    }
+    else
+    {
+        tempo_change_dictionary["bpm"] = 120;
+    }
+
+    tempo_changes.push_back(tempo_change_dictionary);
+
+    beat_bars = rhythm_game_utilities::calculate_beat_bars(
+        tempo_changes, time_signature_changes, resolution, include_half_notes);
 }
