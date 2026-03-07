@@ -63,21 +63,21 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var seconds = 2
-	var resolution = 192
-	var position_delta = 50
+	var seconds: int = 2
+	var resolution: int = 192
+	var position_delta: int = 50
 
-	var tempo_changes = [
-		{"position": 0, "bpm": 120000 }
+	var tempo_changes: Array = [
+		{"position": 0, "bpm": 120000}
 	]
 
-	var time_signature_changes = [
-		{"position": 0, "numerator": 4, "denominator": 2 }
+	var time_signature_changes: Array = [
+		{"position": 0, "numerator": 4, "denominator": 2}
 	]
 
-	var current_position = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, tempo_changes, time_signature_changes)
+	var current_position: int = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, tempo_changes, time_signature_changes)
 
-	var timing = rhythm_game_utilities.calculate_timing(750, current_position, position_delta)
+	var timing: int = rhythm_game_utilities.calculate_timing(750, current_position, position_delta)
 
 	match timing:
 		rhythm_game_utilities.Miss:

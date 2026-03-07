@@ -44,10 +44,10 @@ auto main() -> int
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.chart", FileAccess.READ)
-	var contents = file.get_as_text()
+	var file: FileAccess = FileAccess.open("res://song.chart", FileAccess.READ)
+	var contents: String = file.get_as_text()
 
-	var resolution = rhythm_game_utilities.read_resolution_from_chart_data(contents)
+	var resolution: int = rhythm_game_utilities.read_resolution_from_chart_data(contents)
 
 	print(resolution)
 ```

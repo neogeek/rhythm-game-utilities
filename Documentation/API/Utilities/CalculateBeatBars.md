@@ -54,9 +54,9 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var resolution = 192
+	var resolution: int = 192
 
-	var tempo_changes = [
+	var tempo_changes: Array = [
 		{"position": 0, "bpm": 8800},
 		{"position": 3840, "bpm": 112000},
 		{"position": 9984, "bpm": 89600},
@@ -66,11 +66,11 @@ func _ready() -> void:
 		{"position": 42240, "bpm": 111980}
 	]
 
-	var time_signature_changes = [
+	var time_signature_changes: Array = [
 		{"position": 0, "numerator": 4}
 	]
 
-	var beat_bars = rhythm_game_utilities.calculate_beat_bars(tempo_changes, time_signature_changes, resolution, true)
+	var beat_bars: Array = rhythm_game_utilities.calculate_beat_bars(tempo_changes, time_signature_changes, resolution, true)
 
 	print(beat_bars)
 ```

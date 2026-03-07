@@ -47,13 +47,13 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var bpm = 120
-	var current_time = 10
-	var delta = 0.05
+	var bpm: int = 120
+	var current_time: int = 10
+	var delta: float = 0.05
 
-	var isOnTheBeat = rhythm_game_utilities.is_on_the_beat(bpm, current_time, delta)
+	var is_on_the_beat: bool = rhythm_game_utilities.is_on_the_beat(bpm, current_time, delta)
 
-	if isOnTheBeat: # "Is on the beat!"
+	if is_on_the_beat: # "Is on the beat!"
 		print("Is on the beat!")
 	else:
 		print("Is not on the beat!")

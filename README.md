@@ -226,7 +226,7 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var value = rhythm_game_utilities.inverse_lerp(0, 10, 5)
+	var value: float = rhythm_game_utilities.inverse_lerp(0, 10, 5)
 
 	print(value) # 0.5
 ```
@@ -271,7 +271,7 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var value = rhythm_game_utilities.inverse_lerp_unclamped(0, 10, 11)
+	var value: float = rhythm_game_utilities.inverse_lerp_unclamped(0, 10, 11)
 
 	print(value) # 1.1
 ```
@@ -316,7 +316,7 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var value = rhythm_game_utilities.lerp(0, 10, 0.5)
+	var value: float = rhythm_game_utilities.lerp(0, 10, 0.5)
 
 	print(value) # 5
 ```
@@ -379,10 +379,10 @@ auto main() -> int
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.chart", FileAccess.READ)
-	var contents = file.get_as_text()
+	var file: FileAccess = FileAccess.open("res://song.chart", FileAccess.READ)
+	var contents: String = file.get_as_text()
 
-	var notes = rhythm_game_utilities.read_notes_from_chart_data(contents, rhythm_game_utilities.Expert)
+	var notes: Array = rhythm_game_utilities.read_notes_from_chart_data(contents, rhythm_game_utilities.Expert)
 
 	print(notes)
 ```
@@ -433,10 +433,10 @@ auto main() -> int
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.chart", FileAccess.READ)
-	var contents = file.get_as_text()
+	var file: FileAccess = FileAccess.open("res://song.chart", FileAccess.READ)
+	var contents: String = file.get_as_text()
 
-	var resolution = rhythm_game_utilities.read_resolution_from_chart_data(contents)
+	var resolution: int = rhythm_game_utilities.read_resolution_from_chart_data(contents)
 
 	print(resolution)
 ```
@@ -487,10 +487,10 @@ auto main() -> int
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.chart", FileAccess.READ)
-	var contents = file.get_as_text()
+	var file: FileAccess = FileAccess.open("res://song.chart", FileAccess.READ)
+	var contents: String = file.get_as_text()
 
-	var tempo_changes = rhythm_game_utilities.read_tempo_changes_from_chart_data(contents)
+	var tempo_changes: Array = rhythm_game_utilities.read_tempo_changes_from_chart_data(contents)
 
 	print(tempo_changes)
 ```
@@ -541,10 +541,10 @@ auto main() -> int
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.chart", FileAccess.READ)
-	var contents = file.get_as_text()
+	var file: FileAccess = FileAccess.open("res://song.chart", FileAccess.READ)
+	var contents: String = file.get_as_text()
 
-	var time_signature_changes = rhythm_game_utilities.read_time_signature_changes_from_chart_data(contents)
+	var time_signature_changes: Array = rhythm_game_utilities.read_time_signature_changes_from_chart_data(contents)
 
 	print(time_signature_changes)
 ```
@@ -603,10 +603,10 @@ auto main() -> int
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.mid", FileAccess.READ)
-	var bytes = file.get_buffer(file.get_length())
+	var file: FileAccess = FileAccess.open("res://song.mid", FileAccess.READ)
+	var bytes: PackedByteArray = file.get_buffer(file.get_length())
 
-	var notes = rhythm_game_utilities.read_notes_from_midi_data(bytes)
+	var notes: Array = rhythm_game_utilities.read_notes_from_midi_data(bytes)
 
 	print(notes)
 ```
@@ -657,10 +657,10 @@ auto main() -> int
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.mid", FileAccess.READ)
-	var bytes = file.get_buffer(file.get_length())
+	var file: FileAccess = FileAccess.open("res://song.mid", FileAccess.READ)
+	var bytes: PackedByteArray = file.get_buffer(file.get_length())
 
-	var resolution = rhythm_game_utilities.read_resolution_from_midi_data(bytes)
+	var resolution: int = rhythm_game_utilities.read_resolution_from_midi_data(bytes)
 
 	print(resolution)
 ```
@@ -711,10 +711,10 @@ auto main() -> int
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.mid", FileAccess.READ)
-	var bytes = file.get_buffer(file.get_length())
+	var file: FileAccess = FileAccess.open("res://song.mid", FileAccess.READ)
+	var bytes: PackedByteArray = file.get_buffer(file.get_length())
 
-	var tempo_changes = rhythm_game_utilities.read_tempo_changes_from_midi_data(bytes)
+	var tempo_changes: Array = rhythm_game_utilities.read_tempo_changes_from_midi_data(bytes)
 
 	print(tempo_changes)
 ```
@@ -765,10 +765,10 @@ auto main() -> int
 extends Node
 
 func _ready() -> void:
-	var file = FileAccess.open("res://song.mid", FileAccess.READ)
-	var bytes = file.get_buffer(file.get_length())
+	var file: FileAccess = FileAccess.open("res://song.mid", FileAccess.READ)
+	var bytes: PackedByteArray = file.get_buffer(file.get_length())
 
-	var time_signature_changes = rhythm_game_utilities.read_time_signature_changes_from_midi_data(bytes)
+	var time_signature_changes: Array = rhythm_game_utilities.read_time_signature_changes_from_midi_data(bytes)
 
 	print(time_signature_changes)
 ```
@@ -840,21 +840,21 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var seconds = 2
-	var resolution = 192
-	var position_delta = 50
+	var seconds: int = 2
+	var resolution: int = 192
+	var position_delta: int = 50
 
-	var tempo_changes = [
-		{"position": 0, "bpm": 120000 }
+	var tempo_changes: Array = [
+		{"position": 0, "bpm": 120000}
 	]
 
-	var time_signature_changes = [
-		{"position": 0, "numerator": 4, "denominator": 2 }
+	var time_signature_changes: Array = [
+		{"position": 0, "numerator": 4, "denominator": 2}
 	]
 
-	var current_position = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, tempo_changes, time_signature_changes)
+	var current_position: int = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, tempo_changes, time_signature_changes)
 
-	var accuracy = rhythm_game_utilities.calculate_accuracy(750, current_position, position_delta)
+	var accuracy: int = rhythm_game_utilities.calculate_accuracy(750, current_position, position_delta)
 
 	match accuracy:
 		rhythm_game_utilities.Poor:
@@ -934,21 +934,21 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var seconds = 2
-	var resolution = 192
-	var position_delta = 50
+	var seconds: int = 2
+	var resolution: int = 192
+	var position_delta: int = 50
 
-	var tempo_changes = [
+	var tempo_changes: Array = [
 		{"position": 0, "bpm": 120000 }
 	]
 
-	var time_signature_changes = [
+	var time_signature_changes: Array = [
 		{"position": 0, "numerator": 4, "denominator": 2 }
 	]
 
-	var current_position = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, tempo_changes, time_signature_changes)
+	var current_position: int = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, tempo_changes, time_signature_changes)
 
-	var value = rhythm_game_utilities.calculate_accuracy_ratio(750, current_position, position_delta)
+	var value: float = rhythm_game_utilities.calculate_accuracy_ratio(750, current_position, position_delta)
 
 	print(round(value * 100) / 100.0) # 0.64
 ```
@@ -1009,9 +1009,9 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var resolution = 192
+	var resolution: int = 192
 
-	var tempo_changes = [
+	var tempo_changes: Array = [
 		{"position": 0, "bpm": 8800},
 		{"position": 3840, "bpm": 112000},
 		{"position": 9984, "bpm": 89600},
@@ -1021,11 +1021,11 @@ func _ready() -> void:
 		{"position": 42240, "bpm": 111980}
 	]
 
-	var time_signature_changes = [
+	var time_signature_changes: Array = [
 		{"position": 0, "numerator": 4}
 	]
 
-	var beat_bars = rhythm_game_utilities.calculate_beat_bars(tempo_changes, time_signature_changes, resolution, true)
+	var beat_bars: Array = rhythm_game_utilities.calculate_beat_bars(tempo_changes, time_signature_changes, resolution, true)
 
 	print(beat_bars)
 ```
@@ -1095,21 +1095,21 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var seconds = 2
-	var resolution = 192
-	var position_delta = 50
+	var seconds: int = 2
+	var resolution: int = 192
+	var position_delta: int = 50
 
-	var tempo_changes = [
-		{"position": 0, "bpm": 120000 }
+	var tempo_changes: Array = [
+		{"position": 0, "bpm": 120000}
 	]
 
-	var time_signature_changes = [
-		{"position": 0, "numerator": 4, "denominator": 2 }
+	var time_signature_changes: Array = [
+		{"position": 0, "numerator": 4, "denominator": 2}
 	]
 
-	var current_position = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, tempo_changes, time_signature_changes)
+	var current_position: int = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, tempo_changes, time_signature_changes)
 
-	var timing = rhythm_game_utilities.calculate_timing(750, current_position, position_delta)
+	var timing: int = rhythm_game_utilities.calculate_timing(750, current_position, position_delta)
 
 	match timing:
 		rhythm_game_utilities.Miss:
@@ -1185,24 +1185,24 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var seconds = 5
-	var resolution = 192
+	var seconds: int = 5
+	var resolution: int = 192
 
-	var tempo_changes = [
-		{"position": 0, "bpm": 88000 },
-		{"position": 3840, "bpm": 112000 },
-		{"position": 9984, "bpm": 89600 },
-		{"position": 22272, "bpm": 112000 },
-		{"position": 33792, "bpm": 111500 },
-		{"position": 34560, "bpm": 112000 },
-		{"position": 42240, "bpm": 111980 }
+	var tempo_changes: Array = [
+		{"position": 0, "bpm": 88000},
+		{"position": 3840, "bpm": 112000},
+		{"position": 9984, "bpm": 89600},
+		{"position": 22272, "bpm": 112000},
+		{"position": 33792, "bpm": 111500},
+		{"position": 34560, "bpm": 112000},
+		{"position": 42240, "bpm": 111980}
 	]
 
-	var time_signature_changes = [
-		{"position": 0, "numerator": 4, "denominator": 2 }
+	var time_signature_changes: Array = [
+		{"position": 0, "numerator": 4, "denominator": 2}
 	]
 
-	var current_position = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, tempo_changes, time_signature_changes)
+	var current_position: int = rhythm_game_utilities.convert_seconds_to_ticks(seconds, resolution, tempo_changes, time_signature_changes)
 
 	print(current_position) # 1408
 ```
@@ -1253,10 +1253,10 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var tick = 1056
-	var resolution = 192
+	var tick: int = 1056
+	var resolution: int = 192
 
-	var position = rhythm_game_utilities.convert_tick_to_position(tick, resolution)
+	var position: float = rhythm_game_utilities.convert_tick_to_position(tick, resolution)
 
 	print(position) # 5.5
 ```
@@ -1317,16 +1317,16 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var delta = 50
+	var delta: int = 50
 
-	var notes = [
+	var notes: Array = [
 		{"position": 768}, {"position": 960}, {"position": 1152},
 		{"position": 1536}, {"position": 1728}, {"position": 1920},
 		{"position": 2304}, {"position": 2496}, {"position": 2688},
 		{"position": 3072}, {"position": 3264}
 	]
 
-	var found_notes = rhythm_game_utilities.find_notes_near_given_tick(notes, 750, delta);
+	var found_notes: Array = rhythm_game_utilities.find_notes_near_given_tick(notes, 750, delta);
 
 	print(found_notes[0]["position"]) # 768
 ```
@@ -1380,13 +1380,13 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var bpm = 120
-	var current_time = 10
-	var delta = 0.05
+	var bpm: int = 120
+	var current_time: int = 10
+	var delta: float = 0.05
 
-	var isOnTheBeat = rhythm_game_utilities.is_on_the_beat(bpm, current_time, delta)
+	var is_on_the_beat: bool = rhythm_game_utilities.is_on_the_beat(bpm, current_time, delta)
 
-	if isOnTheBeat: # "Is on the beat!"
+	if is_on_the_beat: # "Is on the beat!"
 		print("Is on the beat!")
 	else:
 		print("Is not on the beat!")
@@ -1432,7 +1432,7 @@ int main()
 extends Node
 
 func _ready() -> void:
-	var value = rhythm_game_utilities.round_up_to_the_nearest_multiplier(12, 10)
+	var value: int = rhythm_game_utilities.round_up_to_the_nearest_multiplier(12, 10)
 
 	print(value) # 20
 ```
