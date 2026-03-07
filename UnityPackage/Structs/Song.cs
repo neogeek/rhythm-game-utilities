@@ -62,13 +62,11 @@ namespace RhythmGameUtilities
         {
             var lastTick = Utilities.ConvertSecondsToTicks(songLength, resolution, tempoChanges, timeSignatureChanges);
 
+            var position = Utilities.RoundUpToTheNearestMultiplier(lastTick, resolution);
+
             beatBars = Utilities.CalculateBeatBars(tempoChanges.Concat(new Tempo[]
                 {
-                    new()
-                    {
-                        Position = Utilities.RoundUpToTheNearestMultiplier(lastTick, resolution),
-                        BPM = tempoChanges.Last().BPM
-                    }
+                    new() { Position = position, BPM = tempoChanges.LastOrDefault().BPM }
                 })
                 .ToArray(), includeHalfNotes : true);
         }
