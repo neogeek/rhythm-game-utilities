@@ -51,9 +51,13 @@ void Song::_bind_methods()
     ADD_PROPERTY(PropertyInfo(Variant::ARRAY, "beat_bars"), "set_beat_bars",
                  "get_beat_bars");
 
+    // load_song_from_chart
+
     ClassDB::bind_method(
         D_METHOD("load_song_from_chart", "contents", "difficulty"),
         &Song::load_song_from_chart);
+
+    // load_song_from_midi
 
     ClassDB::bind_method(D_METHOD("load_song_from_midi", "data"),
                          &Song::load_song_from_midi);
