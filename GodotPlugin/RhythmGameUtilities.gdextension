@@ -6,8 +6,10 @@ reloadable = true
 
 [libraries]
 
-macos.debug = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.macos.template_debug.framework/libRhythmGameUtilities.macos.template_debug"
-macos.release = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.macos.template_release.framework/libRhythmGameUtilities.macos.template_release"
+macos.debug = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.macos.template_debug.framework"
+macos.release = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.macos.template_release.framework"
+linux.debug.x86_64 = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.linux.template_debug.x86_64.so"
+linux.release.x86_64 = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.linux.template_release.x86_64.so"
 windows.debug.x86_32 = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.windows.template_debug.x86_32.dll"
 windows.release.x86_32 = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.windows.template_release.x86_32.dll"
 windows.debug.x86_64 = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.windows.template_debug.x86_64.dll"
