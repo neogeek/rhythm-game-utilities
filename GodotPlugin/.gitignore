@@ -4,4 +4,5 @@ addons/
 
 .sconsign.dblite
 
+include/*.o
 include/*.os

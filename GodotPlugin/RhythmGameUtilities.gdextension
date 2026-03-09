@@ -14,3 +14,5 @@ windows.debug.x86_32 = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.
 windows.release.x86_32 = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.windows.template_release.x86_32.dll"
 windows.debug.x86_64 = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.windows.template_debug.x86_64.dll"
 windows.release.x86_64 = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.windows.template_release.x86_64.dll"
+web.debug.wasm32 = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.web.template_debug.wasm32.wasm"
+web.release.wasm32 = "res://addons/RhythmGameUtilities/libRhythmGameUtilities.web.template_release.wasm32.wasm"
