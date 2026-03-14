@@ -33,33 +33,37 @@ namespace RhythmGameUtilities
 
         public static Song FromChartData(string contents, Difficulty difficulty)
         {
+            var resolution = Chart.ReadResolutionFromChartData(contents);
+
             var tempoChanges = Chart.ReadTempoChangesFromChartData(contents);
 
             var timeSignatureChanges = Chart.ReadTimeSignatureChangesFromChartData(contents);
 
             return new Song
             {
-                resolution = Chart.ReadResolutionFromChartData(contents),
+                resolution = resolution,
                 tempoChanges = tempoChanges,
                 timeSignatureChanges = timeSignatureChanges,
                 notes = Chart.ReadNotesFromChartData(contents, difficulty),
-                beatBars = Utilities.CalculateBeatBars(tempoChanges, timeSignatureChanges, includeHalfNotes : true)
+                beatBars = Utilities.CalculateBeatBars(tempoChanges, timeSignatureChanges, resolution, true)
             };
         }
 
         public static Song FromMidiData(byte[] data)
         {
+            var resolution = Midi.ReadResolutionFromMidiData(data);
+
             var tempoChanges = Midi.ReadTempoChangesFromMidiData(data);
 
             var timeSignatureChanges = Midi.ReadTimeSignatureChangesFromMidiData(data);
 
             return new Song
             {
-                resolution = Midi.ReadResolutionFromMidiData(data),
+                resolution = resolution,
                 tempoChanges = tempoChanges,
                 timeSignatureChanges = timeSignatureChanges,
                 notes = Midi.ReadNotesFromMidiData(data),
-                beatBars = Utilities.CalculateBeatBars(tempoChanges, timeSignatureChanges, includeHalfNotes : true)
+                beatBars = Utilities.CalculateBeatBars(tempoChanges, timeSignatureChanges, resolution, true)
             };
         }
 
