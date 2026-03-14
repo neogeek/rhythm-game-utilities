@@ -16,7 +16,8 @@
 namespace RhythmGameUtilities
 {
 
-using TypeCode = enum : uint8_t {
+enum class TypeCode : uint8_t
+{
     // BPM Marker
     BPM_Marker,
 
@@ -34,13 +35,13 @@ inline auto ToString(TypeCode typeCode) -> std::string
 {
     switch (typeCode)
     {
-    case BPM_Marker:
+    case TypeCode::BPM_Marker:
         return "B";
-    case TimeSignatureMarker:
+    case TypeCode::TimeSignatureMarker:
         return "TS";
-    case NoteMarker:
+    case TypeCode::NoteMarker:
         return "N";
-    case EventMarker:
+    case TypeCode::EventMarker:
         return "E";
     default:
         return "Unknown TypeCode";

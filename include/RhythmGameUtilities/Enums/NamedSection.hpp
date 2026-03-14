@@ -16,7 +16,8 @@
 namespace RhythmGameUtilities
 {
 
-using NamedSection = enum : uint8_t {
+enum class NamedSection : uint8_t
+{
     // Song information
     Song,
 
@@ -31,11 +32,11 @@ inline auto ToString(NamedSection namedSection) -> std::string
 {
     switch (namedSection)
     {
-    case Song:
+    case NamedSection::Song:
         return "Song";
-    case SyncTrack:
+    case NamedSection::SyncTrack:
         return "SyncTrack";
-    case Events:
+    case NamedSection::Events:
         return "Events";
     default:
         return "Unknown NamedSection";
