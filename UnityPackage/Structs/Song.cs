@@ -22,12 +22,13 @@ namespace RhythmGameUtilities
         }
 
         public Song(int resolution, Tempo[] tempoChanges, TimeSignature[] timeSignatureChanges,
-            Note[] notes)
+            Note[] notes, BeatBar[] beatBars)
         {
             this.resolution = resolution;
             this.tempoChanges = tempoChanges;
             this.timeSignatureChanges = timeSignatureChanges;
             this.notes = notes;
+            this.beatBars = beatBars;
         }
 
         public static Song FromChartData(string contents, Difficulty difficulty)
